@@ -1,7 +1,7 @@
 import React from 'react';
-import { School } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import LanguageToggle from './LanguageToggle';
+import logoUpnvj from '../assets/images/logoupnvj.png';
 
 const Header: React.FC = () => {
   const { t } = useLanguage();
@@ -11,8 +11,12 @@ const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-              <School className="w-8 h-8 text-white" />
+            <div className="w-12 h-12 flex items-center justify-center">
+              <img 
+                src={logoUpnvj} 
+                alt="UPNVJ Logo" 
+                className="w-12 h-12 object-contain"
+              />
             </div>
             <div>
               <h1 className="text-xl font-bold text-gray-900">{t('universityShort')}</h1>
