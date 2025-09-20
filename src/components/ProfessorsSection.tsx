@@ -38,7 +38,7 @@ const ProfessorsSection: React.FC = () => {
           </h3>
           <p className="text-gray-600 mt-1">
             {selectedFacultyData 
-              ? `${selectedFacultyData.count} dosen di fakultas ini`
+              ? `${selectedFacultyData.count} ${t('professorsInFaculty')}`
               : t('professorsSubtitle')
             }
           </p>
@@ -56,13 +56,14 @@ const ProfessorsSection: React.FC = () => {
         <div>
           <div className="flex items-center mb-4">
             <BarChart3 className="w-5 h-5 mr-2 text-blue-600" />
-            <span className="text-sm font-medium text-gray-700">Distribusi Dosen per Fakultas</span>
+            <span className="text-sm font-medium text-gray-700">{t('professorDistribution')}</span>
           </div>
           <FacultyBarChart
             data={facultyData}
             title=""
             onBarClick={handleBarClick}
             selectedFaculty={selectedFaculty || undefined}
+            clickBarText={t('clickBarForDetail')}
           />
         </div>
       ) : (
@@ -73,7 +74,7 @@ const ProfessorsSection: React.FC = () => {
             className="flex items-center text-blue-600 hover:text-blue-800 mb-4 text-sm font-medium transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-1" />
-            Kembali ke Chart
+            {t('backToChart')}
           </button>
 
           <div className="space-y-4">
@@ -121,7 +122,7 @@ const ProfessorsSection: React.FC = () => {
               onClick={() => setShowAll(!showAll)}
               className="w-full mt-4 flex items-center justify-center space-x-2 py-2 px-4 border border-blue-300 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
             >
-              <span>{showAll ? 'Show Less' : t('viewAll')}</span>
+              <span>{showAll ? t('showLess') : t('viewAll')}</span>
               <ChevronRight className={`w-4 h-4 transition-transform ${showAll ? 'rotate-90' : ''}`} />
             </button>
           )}

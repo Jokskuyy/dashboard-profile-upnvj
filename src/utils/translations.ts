@@ -43,6 +43,21 @@ export const translations = {
     postgraduate: 'S3',
     faculty: 'Fakultas',
     
+    // Faculty Chart
+    facultyDistribution: 'Distribusi per Fakultas',
+    professorDistribution: 'Distribusi Dosen per Fakultas',
+    studentDistribution: 'Distribusi Mahasiswa per Fakultas',
+    backToChart: 'Kembali ke Chart',
+    clickBarForDetail: 'Klik pada bar untuk melihat detail fakultas',
+    professorsInFaculty: 'dosen di fakultas ini',
+    studentsInFaculty: 'mahasiswa di fakultas ini',
+    studentBreakdown: 'Rincian Mahasiswa',
+    bachelor: 'S1 (Sarjana)',
+    master: 'S2 (Magister)',
+    doctoral: 'S3 (Doktor)',
+    total: 'Total',
+    showLess: 'Tampilkan Lebih Sedikit',
+    
     // Campus Map
     campusMapTitle: 'Denah Kampus',
     campusMapSubtitle: 'Jelajahi kampus UPNVJ dalam 3D',
@@ -103,6 +118,21 @@ export const translations = {
     graduate: 'Graduate',
     postgraduate: 'Postgraduate',
     faculty: 'Faculty',
+    
+    // Faculty Chart
+    facultyDistribution: 'Distribution by Faculty',
+    professorDistribution: 'Professor Distribution by Faculty',
+    studentDistribution: 'Student Distribution by Faculty',
+    backToChart: 'Back to Chart',
+    clickBarForDetail: 'Click on bar to view faculty details',
+    professorsInFaculty: 'professors in this faculty',
+    studentsInFaculty: 'students in this faculty',
+    studentBreakdown: 'Student Breakdown',
+    bachelor: 'Bachelor\'s Degree',
+    master: 'Master\'s Degree',
+    doctoral: 'Doctoral Degree',
+    total: 'Total',
+    showLess: 'Show Less',
     
     // Campus Map
     campusMapTitle: 'Campus Map',

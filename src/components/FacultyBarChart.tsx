@@ -13,13 +13,15 @@ interface FacultyBarChartProps {
   title: string;
   onBarClick: (facultyData: FacultyData) => void;
   selectedFaculty?: string;
+  clickBarText?: string;
 }
 
 const FacultyBarChart: React.FC<FacultyBarChartProps> = ({ 
   data, 
   title, 
   onBarClick, 
-  selectedFaculty 
+  selectedFaculty,
+  clickBarText = 'Klik pada bar untuk melihat detail fakultas'
 }) => {
   const maxCount = Math.max(...data.map(d => d.count));
   const chartHeight = 280;
@@ -154,7 +156,7 @@ const FacultyBarChart: React.FC<FacultyBarChartProps> = ({
         {/* Legend */}
         <div className="mt-6 pt-2 border-t border-gray-200">
           <div className="text-xs text-gray-500 text-center">
-            Klik pada bar untuk melihat detail fakultas
+            {clickBarText}
           </div>
         </div>
       </div>

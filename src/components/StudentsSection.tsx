@@ -32,7 +32,7 @@ const StudentsSection: React.FC = () => {
           </h3>
           <p className="text-gray-600 mt-1">
             {selectedFacultyData 
-              ? `${selectedFacultyData.count?.toLocaleString()} mahasiswa di fakultas ini`
+              ? `${selectedFacultyData.count?.toLocaleString()} ${t('studentsInFaculty')}`
               : t('studentsSubtitle')
             }
           </p>
@@ -53,13 +53,14 @@ const StudentsSection: React.FC = () => {
         <div>
           <div className="flex items-center mb-4">
             <BarChart3 className="w-5 h-5 mr-2 text-green-600" />
-            <span className="text-sm font-medium text-gray-700">Distribusi Mahasiswa per Fakultas</span>
+            <span className="text-sm font-medium text-gray-700">{t('studentDistribution')}</span>
           </div>
           <FacultyBarChart
             data={facultyData}
             title=""
             onBarClick={handleBarClick}
             selectedFaculty={selectedFaculty || undefined}
+            clickBarText={t('clickBarForDetail')}
           />
         </div>
       ) : (
@@ -70,7 +71,7 @@ const StudentsSection: React.FC = () => {
             className="flex items-center text-green-600 hover:text-green-800 mb-4 text-sm font-medium transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-1" />
-            Kembali ke Chart
+            {t('backToChart')}
           </button>
 
           {/* Summary Cards for Selected Faculty */}
@@ -130,23 +131,23 @@ const StudentsSection: React.FC = () => {
 
           {/* Detailed breakdown */}
           <div className="bg-gray-50 rounded-lg p-4">
-            <h4 className="font-semibold text-gray-800 mb-3">Rincian Mahasiswa {selectedFacultyData?.shortName}</h4>
+            <h4 className="font-semibold text-gray-800 mb-3">{t('studentBreakdown')} {selectedFacultyData?.shortName}</h4>
             <div className="space-y-2">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">S1 (Sarjana)</span>
+                <span className="text-sm text-gray-600">{t('bachelor')}</span>
                 <span className="font-medium">{selectedFacultyData?.undergraduate?.toLocaleString()}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">S2 (Magister)</span>
+                <span className="text-sm text-gray-600">{t('master')}</span>
                 <span className="font-medium">{selectedFacultyData?.graduate?.toLocaleString()}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">S3 (Doktor)</span>
+                <span className="text-sm text-gray-600">{t('doctoral')}</span>
                 <span className="font-medium">{selectedFacultyData?.postgraduate?.toLocaleString()}</span>
               </div>
               <hr className="my-2" />
               <div className="flex justify-between items-center font-semibold">
-                <span>Total</span>
+                <span>{t('total')}</span>
                 <span style={{ color: selectedFacultyData?.color }}>
                   {selectedFacultyData?.count?.toLocaleString()}
                 </span>
