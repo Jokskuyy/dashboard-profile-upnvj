@@ -1,5 +1,5 @@
 // Language types
-export type Language = 'id' | 'en';
+export type Language = "id" | "en";
 
 // KPI data types
 export interface Professor {
@@ -18,7 +18,7 @@ export interface Accreditation {
   level: string;
   accreditor: string;
   validUntil: string;
-  status: 'active' | 'expired' | 'pending';
+  status: "active" | "expired" | "pending";
 }
 
 export interface StudentData {
@@ -27,6 +27,26 @@ export interface StudentData {
   undergraduate: number;
   graduate: number;
   postgraduate: number;
+}
+
+// Assets/Facilities types
+export interface AssetDetail {
+  id: string;
+  name: string;
+  room: string;
+  building: string;
+  capacity?: number;
+  equipment?: string[];
+  description?: string;
+}
+
+export interface AssetCategory {
+  id: string;
+  name: string;
+  count: number;
+  icon: string;
+  color: string;
+  details: AssetDetail[];
 }
 
 // API response types for future MySQL integration
