@@ -57,6 +57,20 @@ export const translations = {
     doctoral: "S3 (Doktor)",
     total: "Total",
     showLess: "Tampilkan Lebih Sedikit",
+    
+    // Program Study
+    programDistribution: "Distribusi per Program Studi",
+    clickBarForProgramDetail: "Klik pada bar untuk melihat detail program studi",
+    studentsInProgram: "mahasiswa di program ini",
+    backToFacultyChart: "Kembali ke Chart Fakultas",
+    programStudyTitle: "Program Studi",
+    
+    // Department/Research Group
+    departmentDistribution: "Distribusi per Bidang Keahlian",
+    clickBarForDepartmentDetail: "Klik pada bar untuk melihat detail bidang keahlian",
+    professorsInDepartment: "dosen di bidang ini",
+    backToProfessorChart: "Kembali ke Chart Dosen",
+    departmentTitle: "Bidang Keahlian",
 
     // Campus Map
     campusMapTitle: "Denah Kampus",
@@ -155,6 +169,20 @@ export const translations = {
     doctoral: "Doctoral Degree",
     total: "Total",
     showLess: "Show Less",
+    
+    // Program Study
+    programDistribution: "Distribution by Study Program",
+    clickBarForProgramDetail: "Click on bar to view program details",
+    studentsInProgram: "students in this program",
+    backToFacultyChart: "Back to Faculty Chart",
+    programStudyTitle: "Study Programs",
+    
+    // Department/Research Group
+    departmentDistribution: "Distribution by Research Area",
+    clickBarForDepartmentDetail: "Click on bar to view department details",
+    professorsInDepartment: "professors in this area",
+    backToProfessorChart: "Back to Professor Chart",
+    departmentTitle: "Research Areas",
 
     // Campus Map
     campusMapTitle: "Campus Map",

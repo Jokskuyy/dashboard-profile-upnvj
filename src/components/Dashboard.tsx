@@ -22,82 +22,109 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-blue-900 via-blue-700 to-indigo-800 rounded-2xl shadow-2xl mb-12">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}
-        ></div>
+      {/* Professional Hero Section */}
+      <div className="relative overflow-hidden rounded-3xl mb-12">
+        {/* Main Hero Container */}
+        <div className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
+          {/* Background Elements */}
+          <div className="absolute inset-0">
+            {/* Geometric Pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <svg className="w-full h-full" viewBox="0 0 1000 600" fill="none">
+                <defs>
+                  <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                    <path d="M 50 0 L 0 0 0 50" fill="none" stroke="white" strokeWidth="1"/>
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+                <circle cx="200" cy="150" r="80" fill="white" opacity="0.05"/>
+                <circle cx="800" cy="350" r="60" fill="white" opacity="0.05"/>
+                <polygon points="700,100 750,150 700,200 650,150" fill="white" opacity="0.05"/>
+                <polygon points="150,400 200,450 150,500 100,450" fill="white" opacity="0.05"/>
+              </svg>
+            </div>
+            
+            {/* Gradient Overlays */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-blue-500/20 via-transparent to-transparent rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-indigo-500/20 via-transparent to-transparent rounded-full blur-3xl"></div>
+          </div>
 
-        {/* Content */}
-        <div className="relative z-10 px-8 py-16 lg:px-12 lg:py-20">
-          <div className="max-w-6xl mx-auto">
-            {/* Header Content */}
-            <div className="text-center mb-12">
-              {/* University Logo */}
-              <div className="mb-8 flex justify-center">
-                <div className="w-24 h-24 lg:w-32 lg:h-32 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/20 shadow-lg">
-                  <img
-                    src="/logoupnvj.png"
-                    alt="UPNVJ Logo"
-                    className="w-16 h-16 lg:w-20 lg:h-20 object-contain filter brightness-0 invert"
-                  />
+          {/* Hero Content */}
+          <div className="relative z-10 px-8 py-20 lg:px-16 lg:py-28">
+            <div className="max-w-6xl mx-auto">
+              {/* University Branding */}
+              <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 mb-16">
+                {/* Left Side - Logo and Branding */}
+                <div className="flex-shrink-0 text-center lg:text-left">
+                  <div className="inline-flex items-center justify-center w-32 h-32 lg:w-40 lg:h-40 bg-white/10 backdrop-blur-lg rounded-3xl border border-white/20 shadow-2xl mb-6">
+                    <img
+                      src="/logoupnvj.png"
+                      alt="UPNVJ Logo"
+                      className="w-20 h-20 lg:w-24 lg:h-24 object-contain filter brightness-0 invert"
+                    />
+                  </div>
+                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+                    <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+                      <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
+                        {t("universityShort")}
+                      </span>
+                    </h1>
+                    <div className="h-1 w-24 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full mx-auto lg:mx-0 mb-4"></div>
+                    <p className="text-blue-100 text-sm font-medium tracking-wider">
+                      EST. 1996 • JAKARTA
+                    </p>
+                  </div>
+                </div>
+
+                {/* Right Side - University Info */}
+                <div className="flex-1 text-center lg:text-left">
+                  <h2 className="text-2xl lg:text-4xl font-bold text-white mb-6 leading-relaxed">
+                    {t("universityName")}
+                  </h2>
+                  
+                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 mb-8">
+                    <p className="text-xl text-white/90 mb-6 leading-relaxed">
+                      {t("internationalProfile")}
+                    </p>
+                    <p className="text-lg text-white/80 leading-relaxed">
+                      {t("heroDescription")}
+                    </p>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <button className="group relative px-8 py-4 bg-white text-blue-900 font-semibold rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                      <span className="relative z-10">{t("explorePrograms")}</span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </button>
+                    <button className="group relative px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-2xl backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
+                      <span className="relative z-10">{t("virtualTour")}</span>
+                      <div className="absolute inset-0 bg-white/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </button>
+                  </div>
                 </div>
               </div>
 
-              {/* Title */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                <span className="bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
-                  {t("universityShort")}
-                </span>
-              </h1>
-
-              {/* Subtitle */}
-              <h2 className="text-xl md:text-2xl lg:text-3xl font-medium text-white/90 mb-4 max-w-4xl mx-auto leading-relaxed">
-                {t("universityName")}
-              </h2>
-
-              {/* Description */}
-              <p className="text-lg md:text-xl text-white/80 mb-8 max-w-2xl mx-auto">
-                {t("internationalProfile")} • {t("heroDescription")}
-              </p>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-                <button className="px-8 py-3 bg-white text-blue-900 font-semibold rounded-full hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                  {t("explorePrograms")}
-                </button>
-                <button className="px-8 py-3 border-2 border-white/30 text-white font-semibold rounded-full hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
-                  {t("virtualTour")}
-                </button>
-              </div>
-            </div>
-
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-8">
-              {/* Professors Stats */}
-              <div className="group relative">
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 bg-blue-400/20 rounded-xl flex items-center justify-center group-hover:bg-blue-400/30 transition-colors duration-300">
-                      <Users className="w-6 h-6 text-blue-200" />
-                    </div>
-                    <div className="text-right">
-                      <div className="text-3xl lg:text-4xl font-bold text-white mb-1">
-                        {stats.totalProfessors}
-                      </div>
-                      <div className="text-blue-200 text-sm font-medium">
-                        {t("professors")}
+              {/* Statistics Grid */}
+              <div className="bg-white/5 backdrop-blur-lg rounded-3xl p-8 border border-white/10">
+                <div className="grid grid-cols-2 lg:grid-cols-5 gap-6">
+                  {/* Professors Stats */}
+                  <div className="group">
+                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 hover:scale-105 transition-all duration-300">
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-14 h-14 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-blue-500/30 transition-colors duration-300">
+                          <Users className="w-7 h-7 text-blue-300" />
+                        </div>
+                        <div className="text-3xl font-bold text-white mb-1">
+                          {stats.totalProfessors}
+                        </div>
+                        <div className="text-blue-200 text-sm font-medium">
+                          {t("professors")}
+                        </div>
+                        <div className="w-full h-1 bg-gradient-to-r from-blue-500 to-blue-300 rounded-full mt-3 opacity-60"></div>
                       </div>
                     </div>
                   </div>
-                  <div className="h-1 bg-gradient-to-r from-blue-400 to-blue-300 rounded-full"></div>
-                </div>
-              </div>
 
               {/* Students Stats */}
               <div className="group relative">

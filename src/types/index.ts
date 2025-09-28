@@ -7,6 +7,7 @@ export interface Professor {
   name: string;
   title: string;
   faculty: string;
+  department?: string; // Added department field
   expertise: string[];
   email: string;
   image?: string;
@@ -27,6 +28,26 @@ export interface StudentData {
   undergraduate: number;
   graduate: number;
   postgraduate: number;
+}
+
+// Program Study types
+export interface ProgramData {
+  id: string;
+  name: string;
+  level: 'D3' | 'S1' | 'S2' | 'S3';
+  faculty: string;
+  students: number;
+  color?: string;
+}
+
+// Department/Research Group types for professors
+export interface DepartmentData {
+  id: string;
+  name: string;
+  faculty: string;
+  professors: number;
+  color?: string;
+  description?: string;
 }
 
 // Assets/Facilities types
