@@ -1,29 +1,39 @@
-import React, { useState } from 'react';
-import { GraduationCap, Users, BarChart3, ArrowLeft, BookOpen } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
-import { getTotalStats, getStudentsByFaculty, getProgramsByFacultyId } from '../utils/staticData';
-import FacultyBarChart from './FacultyBarChart';
-import ProgramBarChart from './ProgramBarChart';
-import type { ProgramData } from '../types';
+import React, { useState } from "react";
+import {
+  GraduationCap,
+  Users,
+  BarChart3,
+  ArrowLeft,
+  BookOpen,
+} from "lucide-react";
+import { useLanguage } from "../contexts/LanguageContext";
+import {
+  getTotalStats,
+  getStudentsByFaculty,
+  getProgramsByFacultyId,
+} from "../utils/staticData";
+import FacultyBarChart from "./FacultyBarChart";
+import ProgramBarChart from "./ProgramBarChart";
+import type { ProgramData } from "../types";
 
 const StudentsSection: React.FC = () => {
   const { t } = useLanguage();
   const [selectedFaculty, setSelectedFaculty] = useState<string | null>(null);
   const [selectedProgram, setSelectedProgram] = useState<string | null>(null);
-  
+
   const totalStats = getTotalStats();
   const facultyData = getStudentsByFaculty();
-  
-  const selectedFacultyData = selectedFaculty 
-    ? facultyData.find(f => f.id === selectedFaculty)
+
+  const selectedFacultyData = selectedFaculty
+    ? facultyData.find((f) => f.id === selectedFaculty)
     : null;
-    
-  const programsData = selectedFaculty 
+
+  const programsData = selectedFaculty
     ? getProgramsByFacultyId(selectedFaculty)
     : [];
-    
-  const selectedProgramData = selectedProgram 
-    ? programsData.find(p => p.id === selectedProgram)
+
+  const selectedProgramData = selectedProgram
+    ? programsData.find((p) => p.id === selectedProgram)
     : null;
 
   const handleBarClick = (faculty: any) => {
@@ -49,32 +59,33 @@ const StudentsSection: React.FC = () => {
         <div>
           <h3 className="text-xl font-bold text-gray-900 flex items-center">
             <GraduationCap className="w-6 h-6 mr-2 text-green-600" />
-            {selectedProgramData 
+            {selectedProgramData
               ? selectedProgramData.name
-              : selectedFacultyData 
-                ? selectedFacultyData.name
-                : t('studentsTitle')
-            }
+              : selectedFacultyData
+              ? selectedFacultyData.name
+              : t("studentsTitle")}
           </h3>
           <p className="text-gray-600 mt-1">
-            {selectedProgramData 
-              ? `${selectedProgramData.students?.toLocaleString()} ${t('studentsInProgram')}`
-              : selectedFacultyData 
-                ? `${selectedFacultyData.count?.toLocaleString()} ${t('studentsInFaculty')}`
-                : t('studentsSubtitle')
-            }
+            {selectedProgramData
+              ? `${selectedProgramData.students?.toLocaleString()} ${t(
+                  "studentsInProgram"
+                )}`
+              : selectedFacultyData
+              ? `${selectedFacultyData.count?.toLocaleString()} ${t(
+                  "studentsInFaculty"
+                )}`
+              : t("studentsSubtitle")}
           </p>
         </div>
         <div className="text-right">
           <p className="text-2xl font-bold text-green-600">
-            {selectedProgramData 
+            {selectedProgramData
               ? selectedProgramData.students?.toLocaleString()
-              : selectedFacultyData 
-                ? selectedFacultyData.count?.toLocaleString() 
-                : totalStats.totalStudents.toLocaleString()
-            }
+              : selectedFacultyData
+              ? selectedFacultyData.count?.toLocaleString()
+              : totalStats.totalStudents.toLocaleString()}
           </p>
-          <p className="text-sm text-gray-500">{t('totalStudents')}</p>
+          <p className="text-sm text-gray-500">{t("totalStudents")}</p>
         </div>
       </div>
 
@@ -83,14 +94,16 @@ const StudentsSection: React.FC = () => {
         <div>
           <div className="flex items-center mb-4">
             <BarChart3 className="w-5 h-5 mr-2 text-green-600" />
-            <span className="text-sm font-medium text-gray-700">{t('studentDistribution')}</span>
+            <span className="text-sm font-medium text-gray-700">
+              {t("studentDistribution")}
+            </span>
           </div>
           <FacultyBarChart
             data={facultyData}
             title=""
             onBarClick={handleBarClick}
             selectedFaculty={selectedFaculty || undefined}
-            clickBarText={t('clickBarForDetail')}
+            clickBarText={t("clickBarForDetail")}
           />
         </div>
       ) : !selectedProgram ? (
@@ -101,19 +114,21 @@ const StudentsSection: React.FC = () => {
             className="flex items-center text-green-600 hover:text-green-800 mb-4 text-sm font-medium transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-1" />
-            {t('backToChart')}
+            {t("backToChart")}
           </button>
-          
+
           <div className="flex items-center mb-4">
             <BookOpen className="w-5 h-5 mr-2 text-green-600" />
-            <span className="text-sm font-medium text-gray-700">{t('programDistribution')}</span>
+            <span className="text-sm font-medium text-gray-700">
+              {t("programDistribution")}
+            </span>
           </div>
           <ProgramBarChart
             data={programsData}
             title=""
             onBarClick={handleProgramClick}
             selectedProgram={selectedProgram || undefined}
-            clickBarText={t('clickBarForProgramDetail')}
+            clickBarText={t("clickBarForProgramDetail")}
           />
         </div>
       ) : (
@@ -124,7 +139,7 @@ const StudentsSection: React.FC = () => {
             className="flex items-center text-green-600 hover:text-green-800 mb-4 text-sm font-medium transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-1" />
-            {t('backToFacultyChart')}
+            {t("backToFacultyChart")}
           </button>
 
           {/* Program Detail Cards */}
@@ -134,59 +149,74 @@ const StudentsSection: React.FC = () => {
               {selectedProgramData?.name}
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div 
+              <div
                 className="border rounded-lg p-4 bg-white"
-                style={{ 
-                  borderColor: `${selectedProgramData?.color}40`
+                style={{
+                  borderColor: `${selectedProgramData?.color}40`,
                 }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <div 
+                    <div
                       className="w-3 h-3 rounded-full mr-2"
                       style={{ backgroundColor: selectedProgramData?.color }}
                     />
                     <span className="text-sm font-medium text-gray-700">
-                      {t('level')}
+                      {t("level")}
                     </span>
                   </div>
-                  <span className="text-sm font-semibold" style={{ color: selectedProgramData?.color }}>
+                  <span
+                    className="text-sm font-semibold"
+                    style={{ color: selectedProgramData?.color }}
+                  >
                     {selectedProgramData?.level}
                   </span>
                 </div>
               </div>
-              <div 
+              <div
                 className="border rounded-lg p-4 bg-white"
-                style={{ 
-                  borderColor: `${selectedProgramData?.color}40`
+                style={{
+                  borderColor: `${selectedProgramData?.color}40`,
                 }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <Users className="w-4 h-4 mr-2" style={{ color: selectedProgramData?.color }} />
+                    <Users
+                      className="w-4 h-4 mr-2"
+                      style={{ color: selectedProgramData?.color }}
+                    />
                     <span className="text-sm font-medium text-gray-700">
-                      {t('students')}
+                      {t("students")}
                     </span>
                   </div>
-                  <span className="text-lg font-bold" style={{ color: selectedProgramData?.color }}>
+                  <span
+                    className="text-lg font-bold"
+                    style={{ color: selectedProgramData?.color }}
+                  >
                     {selectedProgramData?.students?.toLocaleString()}
                   </span>
                 </div>
               </div>
-              <div 
+              <div
                 className="border rounded-lg p-4 bg-white"
-                style={{ 
-                  borderColor: `${selectedProgramData?.color}40`
+                style={{
+                  borderColor: `${selectedProgramData?.color}40`,
                 }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <GraduationCap className="w-4 h-4 mr-2" style={{ color: selectedProgramData?.color }} />
+                    <GraduationCap
+                      className="w-4 h-4 mr-2"
+                      style={{ color: selectedProgramData?.color }}
+                    />
                     <span className="text-sm font-medium text-gray-700">
-                      {t('faculty')}
+                      {t("faculty")}
                     </span>
                   </div>
-                  <span className="text-sm font-semibold" style={{ color: selectedProgramData?.color }}>
+                  <span
+                    className="text-sm font-semibold"
+                    style={{ color: selectedProgramData?.color }}
+                  >
                     {selectedFacultyData?.shortName}
                   </span>
                 </div>

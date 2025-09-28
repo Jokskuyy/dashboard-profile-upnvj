@@ -32,18 +32,36 @@ const Dashboard: React.FC = () => {
             <div className="absolute inset-0 opacity-10">
               <svg className="w-full h-full" viewBox="0 0 1000 600" fill="none">
                 <defs>
-                  <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-                    <path d="M 50 0 L 0 0 0 50" fill="none" stroke="white" strokeWidth="1"/>
+                  <pattern
+                    id="grid"
+                    width="50"
+                    height="50"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <path
+                      d="M 50 0 L 0 0 0 50"
+                      fill="none"
+                      stroke="white"
+                      strokeWidth="1"
+                    />
                   </pattern>
                 </defs>
                 <rect width="100%" height="100%" fill="url(#grid)" />
-                <circle cx="200" cy="150" r="80" fill="white" opacity="0.05"/>
-                <circle cx="800" cy="350" r="60" fill="white" opacity="0.05"/>
-                <polygon points="700,100 750,150 700,200 650,150" fill="white" opacity="0.05"/>
-                <polygon points="150,400 200,450 150,500 100,450" fill="white" opacity="0.05"/>
+                <circle cx="200" cy="150" r="80" fill="white" opacity="0.05" />
+                <circle cx="800" cy="350" r="60" fill="white" opacity="0.05" />
+                <polygon
+                  points="700,100 750,150 700,200 650,150"
+                  fill="white"
+                  opacity="0.05"
+                />
+                <polygon
+                  points="150,400 200,450 150,500 100,450"
+                  fill="white"
+                  opacity="0.05"
+                />
               </svg>
             </div>
-            
+
             {/* Gradient Overlays */}
             <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-blue-500/20 via-transparent to-transparent rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-indigo-500/20 via-transparent to-transparent rounded-full blur-3xl"></div>
@@ -81,7 +99,7 @@ const Dashboard: React.FC = () => {
                   <h2 className="text-2xl lg:text-4xl font-bold text-white mb-6 leading-relaxed">
                     {t("universityName")}
                   </h2>
-                  
+
                   <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 mb-8">
                     <p className="text-xl text-white/90 mb-6 leading-relaxed">
                       {t("internationalProfile")}
@@ -94,7 +112,9 @@ const Dashboard: React.FC = () => {
                   {/* Action Buttons */}
                   <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                     <button className="group relative px-8 py-4 bg-white text-blue-900 font-semibold rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
-                      <span className="relative z-10">{t("explorePrograms")}</span>
+                      <span className="relative z-10">
+                        {t("explorePrograms")}
+                      </span>
                       <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </button>
                     <button className="group relative px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-2xl backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
@@ -202,7 +222,8 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>      {/* KPI Overview */}
+      </div>{" "}
+      {/* KPI Overview */}
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("kpi")}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -243,18 +264,15 @@ const Dashboard: React.FC = () => {
           />
         </div>
       </div>
-
       {/* Detailed Sections */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         <ProfessorsSection />
         <AccreditationSection />
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <StudentsSection />
         <CampusMapSection />
       </div>
-
       {/* Assets Section */}
       <div className="mt-8">
         <AssetsSection />

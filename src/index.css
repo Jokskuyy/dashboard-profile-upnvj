@@ -2,17 +2,17 @@
 
 /* Custom CSS variables and base styles */
 :root {
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  
+
   /* Light theme colors */
   --color-primary: #2563eb;
   --color-secondary: #64748b;
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-error: #ef4444;
-  
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -51,7 +51,8 @@ body {
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -60,11 +61,13 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
   }
   50% {
-    box-shadow: 0 0 40px rgba(59, 130, 246, 0.5), 0 0 60px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.5),
+      0 0 60px rgba(59, 130, 246, 0.3);
   }
 }
 
@@ -96,14 +99,29 @@ body {
   animation-fill-mode: both;
 }
 
-.hero-stat-card:nth-child(1) { animation-delay: 0.1s; }
-.hero-stat-card:nth-child(2) { animation-delay: 0.2s; }
-.hero-stat-card:nth-child(3) { animation-delay: 0.3s; }
-.hero-stat-card:nth-child(4) { animation-delay: 0.4s; }
-.hero-stat-card:nth-child(5) { animation-delay: 0.5s; }
+.hero-stat-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.hero-stat-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.hero-stat-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.hero-stat-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.hero-stat-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
 
 .shimmer-effect {
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
 }
@@ -131,5 +149,6 @@ body {
 
 .card-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
