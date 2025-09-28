@@ -50,6 +50,72 @@ body {
   }
 }
 
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.5), 0 0 60px rgba(59, 130, 246, 0.3);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hero specific animations */
+.hero-logo {
+  animation: float 3s ease-in-out infinite, pulse-glow 2s ease-in-out infinite;
+}
+
+.hero-stat-card {
+  animation: fadeIn 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.hero-stat-card:nth-child(1) { animation-delay: 0.1s; }
+.hero-stat-card:nth-child(2) { animation-delay: 0.2s; }
+.hero-stat-card:nth-child(3) { animation-delay: 0.3s; }
+.hero-stat-card:nth-child(4) { animation-delay: 0.4s; }
+.hero-stat-card:nth-child(5) { animation-delay: 0.5s; }
+
+.shimmer-effect {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.geometric-float {
+  animation: float 4s ease-in-out infinite alternate;
+}
+
+.rotate-slow {
+  animation: rotate-slow 20s linear infinite;
+}
+
 /* Custom utility classes */
 .animate-fade-in {
   animation: fadeIn 0.6s ease-out;

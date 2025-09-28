@@ -56,14 +56,14 @@ const Dashboard: React.FC = () => {
               <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 mb-16">
                 {/* Left Side - Logo and Branding */}
                 <div className="flex-shrink-0 text-center lg:text-left">
-                  <div className="inline-flex items-center justify-center w-32 h-32 lg:w-40 lg:h-40 bg-white/10 backdrop-blur-lg rounded-3xl border border-white/20 shadow-2xl mb-6">
+                  <div className="hero-logo inline-flex items-center justify-center w-32 h-32 lg:w-40 lg:h-40 bg-white/10 backdrop-blur-lg rounded-3xl border border-white/20 shadow-2xl mb-6">
                     <img
                       src="/logoupnvj.png"
                       alt="UPNVJ Logo"
                       className="w-20 h-20 lg:w-24 lg:h-24 object-contain filter brightness-0 invert"
                     />
                   </div>
-                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shimmer-effect">
                     <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
                       <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
                         {t("universityShort")}
@@ -109,10 +109,10 @@ const Dashboard: React.FC = () => {
               <div className="bg-white/5 backdrop-blur-lg rounded-3xl p-8 border border-white/10">
                 <div className="grid grid-cols-2 lg:grid-cols-5 gap-6">
                   {/* Professors Stats */}
-                  <div className="group">
+                  <div className="group hero-stat-card">
                     <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 hover:scale-105 transition-all duration-300">
                       <div className="flex flex-col items-center text-center">
-                        <div className="w-14 h-14 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-blue-500/30 transition-colors duration-300">
+                        <div className="w-14 h-14 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-blue-500/30 transition-colors duration-300 geometric-float">
                           <Users className="w-7 h-7 text-blue-300" />
                         </div>
                         <div className="text-3xl font-bold text-white mb-1">
@@ -126,95 +126,83 @@ const Dashboard: React.FC = () => {
                     </div>
                   </div>
 
-              {/* Students Stats */}
-              <div className="group relative">
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 bg-green-400/20 rounded-xl flex items-center justify-center group-hover:bg-green-400/30 transition-colors duration-300">
-                      <GraduationCap className="w-6 h-6 text-green-200" />
-                    </div>
-                    <div className="text-right">
-                      <div className="text-3xl lg:text-4xl font-bold text-white mb-1">
-                        {(stats.totalStudents / 1000).toFixed(1)}K
-                      </div>
-                      <div className="text-green-200 text-sm font-medium">
-                        {t("students")}
+                  {/* Students Stats */}
+                  <div className="group hero-stat-card">
+                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 hover:scale-105 transition-all duration-300">
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-14 h-14 bg-green-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-green-500/30 transition-colors duration-300 geometric-float">
+                          <GraduationCap className="w-7 h-7 text-green-300" />
+                        </div>
+                        <div className="text-3xl font-bold text-white mb-1">
+                          {(stats.totalStudents / 1000).toFixed(1)}K
+                        </div>
+                        <div className="text-green-200 text-sm font-medium">
+                          {t("students")}
+                        </div>
+                        <div className="w-full h-1 bg-gradient-to-r from-green-500 to-green-300 rounded-full mt-3 opacity-60"></div>
                       </div>
                     </div>
                   </div>
-                  <div className="h-1 bg-gradient-to-r from-green-400 to-green-300 rounded-full"></div>
-                </div>
-              </div>
 
-              {/* Accreditation Stats */}
-              <div className="group relative">
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 bg-purple-400/20 rounded-xl flex items-center justify-center group-hover:bg-purple-400/30 transition-colors duration-300">
-                      <Award className="w-6 h-6 text-purple-200" />
-                    </div>
-                    <div className="text-right">
-                      <div className="text-3xl lg:text-4xl font-bold text-white mb-1">
-                        {stats.activeAccreditations}
-                      </div>
-                      <div className="text-purple-200 text-sm font-medium">
-                        {t("accreditation")}
+                  {/* Accreditation Stats */}
+                  <div className="group hero-stat-card">
+                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 hover:scale-105 transition-all duration-300">
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-purple-500/30 transition-colors duration-300 geometric-float">
+                          <Award className="w-7 h-7 text-purple-300" />
+                        </div>
+                        <div className="text-3xl font-bold text-white mb-1">
+                          {stats.activeAccreditations}
+                        </div>
+                        <div className="text-purple-200 text-sm font-medium">
+                          {t("accreditation")}
+                        </div>
+                        <div className="w-full h-1 bg-gradient-to-r from-purple-500 to-purple-300 rounded-full mt-3 opacity-60"></div>
                       </div>
                     </div>
                   </div>
-                  <div className="h-1 bg-gradient-to-r from-purple-400 to-purple-300 rounded-full"></div>
-                </div>
-              </div>
 
-              {/* Assets Stats */}
-              <div className="group relative">
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 bg-red-400/20 rounded-xl flex items-center justify-center group-hover:bg-red-400/30 transition-colors duration-300">
-                      <Package className="w-6 h-6 text-red-200" />
-                    </div>
-                    <div className="text-right">
-                      <div className="text-3xl lg:text-4xl font-bold text-white mb-1">
-                        {stats.totalAssets}
-                      </div>
-                      <div className="text-red-200 text-sm font-medium">
-                        {t("totalAssets")}
+                  {/* Assets Stats */}
+                  <div className="group hero-stat-card">
+                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 hover:scale-105 transition-all duration-300">
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-14 h-14 bg-red-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-red-500/30 transition-colors duration-300 geometric-float">
+                          <Package className="w-7 h-7 text-red-300" />
+                        </div>
+                        <div className="text-3xl font-bold text-white mb-1">
+                          {stats.totalAssets}
+                        </div>
+                        <div className="text-red-200 text-sm font-medium">
+                          {t("totalAssets")}
+                        </div>
+                        <div className="w-full h-1 bg-gradient-to-r from-red-500 to-red-300 rounded-full mt-3 opacity-60"></div>
                       </div>
                     </div>
                   </div>
-                  <div className="h-1 bg-gradient-to-r from-red-400 to-red-300 rounded-full"></div>
-                </div>
-              </div>
 
-              {/* Faculties Stats */}
-              <div className="group relative">
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-12 h-12 bg-orange-400/20 rounded-xl flex items-center justify-center group-hover:bg-orange-400/30 transition-colors duration-300">
-                      <Building2 className="w-6 h-6 text-orange-200" />
-                    </div>
-                    <div className="text-right">
-                      <div className="text-3xl lg:text-4xl font-bold text-white mb-1">
-                        {stats.totalFaculties}
-                      </div>
-                      <div className="text-orange-200 text-sm font-medium">
-                        Faculties
+                  {/* Faculties Stats */}
+                  <div className="group hero-stat-card">
+                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 hover:scale-105 transition-all duration-300">
+                      <div className="flex flex-col items-center text-center">
+                        <div className="w-14 h-14 bg-orange-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-orange-500/30 transition-colors duration-300 geometric-float">
+                          <Building2 className="w-7 h-7 text-orange-300" />
+                        </div>
+                        <div className="text-3xl font-bold text-white mb-1">
+                          {stats.totalFaculties}
+                        </div>
+                        <div className="text-orange-200 text-sm font-medium">
+                          Faculties
+                        </div>
+                        <div className="w-full h-1 bg-gradient-to-r from-orange-500 to-orange-300 rounded-full mt-3 opacity-60"></div>
                       </div>
                     </div>
                   </div>
-                  <div className="h-1 bg-gradient-to-r from-orange-400 to-orange-300 rounded-full"></div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Decorative Elements */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/5 to-transparent rounded-full blur-xl"></div>
-        <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-400/20 to-transparent rounded-full blur-lg"></div>
-      </div>
-
-      {/* KPI Overview */}
+      </div>      {/* KPI Overview */}
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("kpi")}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
