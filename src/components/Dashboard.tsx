@@ -6,6 +6,10 @@ import {
   MapPin,
   Building2,
   Package,
+  Sparkles,
+  TrendingUp,
+  Globe,
+  Star,
 } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { getTotalStats } from "../utils/staticData";
@@ -21,261 +25,208 @@ const Dashboard: React.FC = () => {
   const stats = getTotalStats();
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Professional Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl mb-12">
-        {/* Main Hero Container */}
-        <div className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
-          {/* Background Elements */}
-          <div className="absolute inset-0">
-            {/* Geometric Pattern */}
-            <div className="absolute inset-0 opacity-10">
-              <svg className="w-full h-full" viewBox="0 0 1000 600" fill="none">
-                <defs>
-                  <pattern
-                    id="grid"
-                    width="50"
-                    height="50"
-                    patternUnits="userSpaceOnUse"
-                  >
-                    <path
-                      d="M 50 0 L 0 0 0 50"
-                      fill="none"
-                      stroke="white"
-                      strokeWidth="1"
-                    />
-                  </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#grid)" />
-                <circle cx="200" cy="150" r="80" fill="white" opacity="0.05" />
-                <circle cx="800" cy="350" r="60" fill="white" opacity="0.05" />
-                <polygon
-                  points="700,100 750,150 700,200 650,150"
-                  fill="white"
-                  opacity="0.05"
-                />
-                <polygon
-                  points="150,400 200,450 150,500 100,450"
-                  fill="white"
-                  opacity="0.05"
-                />
-              </svg>
-            </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      {/* Dynamic Background Elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-green-400/20 to-blue-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-indigo-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
+      </div>
 
-            {/* Gradient Overlays */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-blue-500/20 via-transparent to-transparent rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-indigo-500/20 via-transparent to-transparent rounded-full blur-3xl"></div>
+      <div className="relative z-10">
+        {/* Hero Section with Organic Layout */}
+        <section id="home" className="relative overflow-hidden pt-8 lg:pt-12">
+          <div className="absolute inset-0">
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-blue-800 to-slate-900"></div>
+            <div className="absolute inset-0 opacity-10">
+              <div className="w-full h-full" style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              }}></div>
+            </div>
           </div>
 
-          {/* Hero Content */}
-          <div className="relative z-10 px-8 py-20 lg:px-16 lg:py-28">
-            <div className="max-w-6xl mx-auto">
-              {/* University Branding */}
-              <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 mb-16">
-                {/* Left Side - Logo and Branding */}
-                <div className="flex-shrink-0 text-center lg:text-left">
-                  <div className="hero-logo inline-flex items-center justify-center w-32 h-32 lg:w-40 lg:h-40 bg-white/10 backdrop-blur-lg rounded-3xl border border-white/20 shadow-2xl mb-6">
-                    <img
-                      src="/logoupnvj.png"
-                      alt="UPNVJ Logo"
-                      className="w-20 h-20 lg:w-24 lg:h-24 object-contain filter brightness-0 invert"
-                    />
+          <div className="relative px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+            <div className="max-w-7xl mx-auto">
+              {/* Floating Hero Cards Layout */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                {/* Main Hero Content - Asymmetric */}
+                <div className="lg:col-span-7 space-y-8">
+                  {/* University Badge */}
+                  <div className="inline-flex items-center bg-white/10 backdrop-blur-lg rounded-full px-6 py-3 border border-white/20">
+                    <Star className="w-5 h-5 text-yellow-400 mr-2" />
+                    <span className="text-white font-medium">Excellence in Education Since 1996</span>
                   </div>
-                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shimmer-effect">
-                    <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-                      <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
-                        {t("universityShort")}
+
+                  {/* Main Title with Dynamic Typography */}
+                  <div className="space-y-6">
+                    <h1 className="text-5xl lg:text-7xl font-bold">
+                      <span className="block text-white leading-tight">
+                        UPN Veteran
+                      </span>
+                      <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent leading-tight">
+                        Jakarta
                       </span>
                     </h1>
-                    <div className="h-1 w-24 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full mx-auto lg:mx-0 mb-4"></div>
-                    <p className="text-blue-100 text-sm font-medium tracking-wider">
-                      EST. 1996 • JAKARTA
-                    </p>
-                  </div>
-                </div>
-
-                {/* Right Side - University Info */}
-                <div className="flex-1 text-center lg:text-left">
-                  <h2 className="text-2xl lg:text-4xl font-bold text-white mb-6 leading-relaxed">
-                    {t("universityName")}
-                  </h2>
-
-                  <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 mb-8">
-                    <p className="text-xl text-white/90 mb-6 leading-relaxed">
-                      {t("internationalProfile")}
-                    </p>
-                    <p className="text-lg text-white/80 leading-relaxed">
-                      {t("heroDescription")}
-                    </p>
+                    
+                    <div className="flex items-center space-x-4">
+                      <div className="h-1 w-16 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"></div>
+                      <p className="text-xl text-blue-100 font-light">
+                        Where Innovation Meets Excellence
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Action Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                    <button className="group relative px-8 py-4 bg-white text-blue-900 font-semibold rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
-                      <span className="relative z-10">
-                        {t("explorePrograms")}
+                  {/* Dynamic Action Buttons */}
+                  <div className="flex flex-col sm:flex-row gap-4 mb-16 lg:mb-24">
+                    <button className="group relative overflow-hidden bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                      <span className="relative z-10 flex items-center">
+                        <Sparkles className="w-5 h-5 mr-2" />
+                        Explore Programs
                       </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </button>
-                    <button className="group relative px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-2xl backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                      <span className="relative z-10">{t("virtualTour")}</span>
-                      <div className="absolute inset-0 bg-white/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    <button className="group border-2 border-white/30 text-white px-8 py-4 rounded-2xl font-semibold backdrop-blur-sm hover:bg-white/10 transition-all duration-300 flex items-center">
+                      <Globe className="w-5 h-5 mr-2" />
+                      Virtual Tour
                     </button>
                   </div>
                 </div>
-              </div>
 
-              {/* Statistics Grid */}
-              <div className="bg-white/5 backdrop-blur-lg rounded-3xl p-8 border border-white/10">
-                <div className="grid grid-cols-2 lg:grid-cols-5 gap-6">
-                  {/* Professors Stats */}
-                  <div className="group hero-stat-card">
-                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 hover:scale-105 transition-all duration-300">
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-14 h-14 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-blue-500/30 transition-colors duration-300 geometric-float">
-                          <Users className="w-7 h-7 text-blue-300" />
-                        </div>
-                        <div className="text-3xl font-bold text-white mb-1">
-                          {stats.totalProfessors}
-                        </div>
-                        <div className="text-blue-200 text-sm font-medium">
-                          {t("professors")}
-                        </div>
-                        <div className="w-full h-1 bg-gradient-to-r from-blue-500 to-blue-300 rounded-full mt-3 opacity-60"></div>
-                      </div>
+                {/* Floating Logo Card */}
+                <div className="lg:col-span-5 flex justify-center lg:justify-end">
+                  <div className="relative">
+                    {/* Animated Ring */}
+                    <div className="absolute inset-0 rounded-full border-4 border-blue-400/30 animate-spin" style={{ animationDuration: '20s' }}></div>
+                    <div className="absolute inset-2 rounded-full border-2 border-purple-400/30 animate-spin" style={{ animationDuration: '15s', animationDirection: 'reverse' }}></div>
+                    
+                    {/* Logo Container */}
+                    <div className="relative bg-white/10 backdrop-blur-2xl rounded-full p-12 border border-white/20 shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:scale-110">
+                      <img
+                        src="/logoupnvj.png"
+                        alt="UPNVJ Logo"
+                        className="w-32 h-32 lg:w-40 lg:h-40 object-contain filter brightness-0 invert"
+                      />
                     </div>
-                  </div>
-
-                  {/* Students Stats */}
-                  <div className="group hero-stat-card">
-                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 hover:scale-105 transition-all duration-300">
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-14 h-14 bg-green-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-green-500/30 transition-colors duration-300 geometric-float">
-                          <GraduationCap className="w-7 h-7 text-green-300" />
-                        </div>
-                        <div className="text-3xl font-bold text-white mb-1">
-                          {(stats.totalStudents / 1000).toFixed(1)}K
-                        </div>
-                        <div className="text-green-200 text-sm font-medium">
-                          {t("students")}
-                        </div>
-                        <div className="w-full h-1 bg-gradient-to-r from-green-500 to-green-300 rounded-full mt-3 opacity-60"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Accreditation Stats */}
-                  <div className="group hero-stat-card">
-                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 hover:scale-105 transition-all duration-300">
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-purple-500/30 transition-colors duration-300 geometric-float">
-                          <Award className="w-7 h-7 text-purple-300" />
-                        </div>
-                        <div className="text-3xl font-bold text-white mb-1">
-                          {stats.activeAccreditations}
-                        </div>
-                        <div className="text-purple-200 text-sm font-medium">
-                          {t("accreditation")}
-                        </div>
-                        <div className="w-full h-1 bg-gradient-to-r from-purple-500 to-purple-300 rounded-full mt-3 opacity-60"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Assets Stats */}
-                  <div className="group hero-stat-card">
-                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 hover:scale-105 transition-all duration-300">
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-14 h-14 bg-red-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-red-500/30 transition-colors duration-300 geometric-float">
-                          <Package className="w-7 h-7 text-red-300" />
-                        </div>
-                        <div className="text-3xl font-bold text-white mb-1">
-                          {stats.totalAssets}
-                        </div>
-                        <div className="text-red-200 text-sm font-medium">
-                          {t("totalAssets")}
-                        </div>
-                        <div className="w-full h-1 bg-gradient-to-r from-red-500 to-red-300 rounded-full mt-3 opacity-60"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Faculties Stats */}
-                  <div className="group hero-stat-card">
-                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/15 hover:scale-105 transition-all duration-300">
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-14 h-14 bg-orange-500/20 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-orange-500/30 transition-colors duration-300 geometric-float">
-                          <Building2 className="w-7 h-7 text-orange-300" />
-                        </div>
-                        <div className="text-3xl font-bold text-white mb-1">
-                          {stats.totalFaculties}
-                        </div>
-                        <div className="text-orange-200 text-sm font-medium">
-                          Faculties
-                        </div>
-                        <div className="w-full h-1 bg-gradient-to-r from-orange-500 to-orange-300 rounded-full mt-3 opacity-60"></div>
-                      </div>
-                    </div>
+                    
+                    {/* Floating Particles */}
+                    <div className="absolute -top-4 -right-4 w-4 h-4 bg-blue-400 rounded-full animate-bounce"></div>
+                    <div className="absolute -bottom-4 -left-4 w-3 h-3 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
+                    <div className="absolute top-1/2 -left-8 w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '2s' }}></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>{" "}
-      {/* KPI Overview */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("kpi")}</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-          <KPICard
-            title={t("professors")}
-            value={stats.totalProfessors}
-            subtitle="Qualified educators"
-            icon={Users}
-            color="blue"
-          />
-          <KPICard
-            title={t("students")}
-            value={stats.totalStudents.toLocaleString()}
-            subtitle="Active enrollment"
-            icon={GraduationCap}
-            color="green"
-          />
-          <KPICard
-            title={t("accreditation")}
-            value={stats.activeAccreditations}
-            subtitle="Active programs"
-            icon={Award}
-            color="purple"
-          />
-          <KPICard
-            title={t("totalAssets")}
-            value={stats.totalAssets}
-            subtitle="Campus facilities"
-            icon={Package}
-            color="red"
-          />
-          <KPICard
-            title={t("campusMap")}
-            value="3D"
-            subtitle="Interactive map"
-            icon={MapPin}
-            color="orange"
-          />
-        </div>
-      </div>
-      {/* Detailed Sections */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        <ProfessorsSection />
-        <AccreditationSection />
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <StudentsSection />
-        <CampusMapSection />
-      </div>
-      {/* Assets Section */}
-      <div className="mt-8">
-        <AssetsSection />
+        </section>
+
+        {/* Modern Stats Section with Organic Grid */}
+        <section className="relative px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+          <div className="max-w-7xl mx-auto">
+            {/* Floating Stats Container */}
+            <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-6 lg:p-8 -mt-20 lg:-mt-28 relative z-20">
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-800 mb-2">University at a Glance</h2>
+                <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto"></div>
+              </div>
+
+              {/* Asymmetric Stats Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                {/* Professor Stats - Large Card */}
+                <div className="md:col-span-1 lg:row-span-1">
+                  <div className="group relative overflow-hidden bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10"></div>
+                    <Users className="w-8 h-8 mb-4 relative z-10" />
+                    <div className="text-3xl font-bold mb-1">{stats.totalProfessors}</div>
+                    <div className="text-blue-100 text-sm">Expert Professors</div>
+                  </div>
+                </div>
+
+                {/* Students Stats */}
+                <div className="md:col-span-1 lg:row-span-1">
+                  <div className="group relative overflow-hidden bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                    <div className="absolute bottom-0 left-0 w-16 h-16 bg-white/10 rounded-full -ml-8 -mb-8"></div>
+                    <GraduationCap className="w-8 h-8 mb-4 relative z-10" />
+                    <div className="text-3xl font-bold mb-1">{(stats.totalStudents / 1000).toFixed(1)}K</div>
+                    <div className="text-green-100 text-sm">Active Students</div>
+                  </div>
+                </div>
+
+                {/* Accreditation Stats */}
+                <div className="md:col-span-1 lg:row-span-1">
+                  <div className="group relative overflow-hidden bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                    <div className="absolute top-0 left-0 w-12 h-12 bg-white/10 rounded-full -ml-6 -mt-6"></div>
+                    <Award className="w-8 h-8 mb-4 relative z-10" />
+                    <div className="text-3xl font-bold mb-1">{stats.activeAccreditations}</div>
+                    <div className="text-purple-100 text-sm">Accreditations</div>
+                  </div>
+                </div>
+
+                {/* Assets Stats */}
+                <div className="md:col-span-1 lg:row-span-1">
+                  <div className="group relative overflow-hidden bg-gradient-to-br from-red-500 to-pink-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                    <div className="absolute bottom-0 right-0 w-14 h-14 bg-white/10 rounded-full -mr-7 -mb-7"></div>
+                    <Package className="w-8 h-8 mb-4 relative z-10" />
+                    <div className="text-3xl font-bold mb-1">{stats.totalAssets}</div>
+                    <div className="text-red-100 text-sm">Campus Assets</div>
+                  </div>
+                </div>
+
+                {/* Faculties Stats */}
+                <div className="md:col-span-1 lg:row-span-1">
+                  <div className="group relative overflow-hidden bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                    <div className="absolute top-1/2 left-0 w-10 h-10 bg-white/10 rounded-full -ml-5 -mt-5"></div>
+                    <Building2 className="w-8 h-8 mb-4 relative z-10" />
+                    <div className="text-3xl font-bold mb-1">{stats.totalFaculties}</div>
+                    <div className="text-orange-100 text-sm">Faculties</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Main Content with Modern Layout */}
+        <section id="content" className="px-4 sm:px-6 lg:px-8 py-20 lg:py-24">
+          <div className="max-w-7xl mx-auto">
+            {/* Masonry-style Content Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              
+              {/* Left Column - Primary Content */}
+              <div className="lg:col-span-8 space-y-8">
+                {/* Students Section - Full Width */}
+                <div id="students" className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-white/20 overflow-hidden">
+                  <StudentsSection />
+                </div>
+
+                {/* Assets Section - Full Width */}
+                <div id="assets" className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-white/20 overflow-hidden">
+                  <AssetsSection />
+                </div>
+              </div>
+
+              {/* Right Column - Secondary Content */}
+              <div className="lg:col-span-4 space-y-8">
+                {/* Professors Section */}
+                <div id="professors" className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-white/20 overflow-hidden transform hover:scale-105 transition-all duration-300">
+                  <ProfessorsSection />
+                </div>
+
+                {/* Accreditation Section */}
+                <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl border border-white/20 overflow-hidden transform hover:scale-105 transition-all duration-300">
+                  <AccreditationSection />
+                </div>
+              </div>
+            </div>
+
+            {/* Campus Map Section - Special Layout */}
+            <div className="mt-12">
+              <div id="campus-map" className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden">
+                <CampusMapSection />
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
