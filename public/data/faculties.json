@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ft",
+    "name": "Fakultas Teknik",
+    "shortName": "FT",
+    "color": "#3B82F6"
+  },
+  {
+    "id": "feb",
+    "name": "Fakultas Ekonomi dan Bisnis",
+    "shortName": "FEB",
+    "color": "#10B981"
+  },
+  {
+    "id": "fik",
+    "name": "Fakultas Ilmu Komputer",
+    "shortName": "FIK",
+    "color": "#8B5CF6"
+  },
+  {
+    "id": "fh",
+    "name": "Fakultas Hukum",
+    "shortName": "FH",
+    "color": "#F59E0B"
+  },
+  {
+    "id": "fisip",
+    "name": "Fakultas Ilmu Sosial dan Politik",
+    "shortName": "FISIP",
+    "color": "#EF4444"
+  },
+  {
+    "id": "fikes",
+    "name": "Fakultas Ilmu Kesehatan",
+    "shortName": "FIKES",
+    "color": "#06B6D4"
+  }
+]
