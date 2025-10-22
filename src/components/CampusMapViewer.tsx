@@ -188,28 +188,28 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
                 <button
                   onClick={handleGoHome}
                   className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-                  title="Go to Home View"
+                  title={t("home")}
                 >
                   <Home className="w-4 h-4 text-white" />
                 </button>
                 <button
                   onClick={handleZoomIn}
                   className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-                  title="Zoom In"
+                  title={t("zoomIn")}
                 >
                   <ZoomIn className="w-4 h-4 text-white" />
                 </button>
                 <button
                   onClick={handleZoomOut}
                   className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-                  title="Zoom Out"
+                  title={t("zoomOut")}
                 >
                   <ZoomOut className="w-4 h-4 text-white" />
                 </button>
                 <button
                   onClick={handleResetView}
                   className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-                  title="Reset View"
+                  title={t("resetView")}
                 >
                   <RotateCcw className="w-4 h-4 text-white" />
                 </button>
@@ -220,7 +220,9 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
               <button
                 onClick={onToggleFullscreen}
                 className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-                title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+                title={
+                  isFullscreen ? t("exitFullscreen") : t("enterFullscreen")
+                }
               >
                 {isFullscreen ? (
                   <Minimize2 className="w-4 h-4 text-white" />

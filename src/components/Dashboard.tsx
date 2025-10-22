@@ -150,50 +150,50 @@ const Dashboard: React.FC = () => {
         {/* KPI Overview */}
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("kpi")}</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-          <KPICard
-            title={t("professors")}
-            value={stats.totalProfessors}
-            subtitle="Qualified educators"
-            icon={Users}
-            color="blue"
-          />
-          <KPICard
-            title={t("students")}
-            value={stats.totalStudents.toLocaleString()}
-            subtitle="Active enrollment"
-            icon={GraduationCap}
-            color="green"
-          />
-          <KPICard
-            title={t("accreditation")}
-            value={stats.activeAccreditations}
-            subtitle="Active programs"
-            icon={Award}
-            color="purple"
-          />
-          <KPICard
-            title={t("totalAssets")}
-            value={stats.totalAssets}
-            subtitle="Campus facilities"
-            icon={Package}
-            color="red"
-          />
-          <KPICard
-            title={t("campusMap")}
-            value="3D"
-            subtitle="Interactive map"
-            icon={MapPin}
-            color="orange"
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+            <KPICard
+              title={t("professors")}
+              value={stats.totalProfessors}
+              subtitle={t("qualifiedEducators")}
+              icon={Users}
+              color="blue"
+            />
+            <KPICard
+              title={t("students")}
+              value={stats.totalStudents.toLocaleString()}
+              subtitle={t("activeEnrollment")}
+              icon={GraduationCap}
+              color="green"
+            />
+            <KPICard
+              title={t("accreditation")}
+              value={stats.activeAccreditations}
+              subtitle={t("activePrograms")}
+              icon={Award}
+              color="purple"
+            />
+            <KPICard
+              title={t("totalAssets")}
+              value={stats.totalAssets}
+              subtitle={t("campusFacilities")}
+              icon={Package}
+              color="red"
+            />
+            <KPICard
+              title={t("campusMap")}
+              value="3D"
+              subtitle={t("interactiveMap")}
+              icon={MapPin}
+              color="orange"
+            />
+          </div>
         </div>
-      </div>
-      {/* Detailed Sections */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        <ProfessorsSection />
-        <AccreditationSection />
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Detailed Sections */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <ProfessorsSection />
+          <AccreditationSection />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <StudentsSection />
           <CampusMapSection />
         </div>

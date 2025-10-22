@@ -55,7 +55,7 @@ const Footer: React.FC = () => {
                   {t("universityShort")}
                 </h3>
                 <p className="text-yellow-200 text-sm">
-                  Excellence in Education Since 1996
+                  {t("footer.excellenceSince1996")}
                 </p>
               </div>
             </div>
@@ -65,9 +65,7 @@ const Footer: React.FC = () => {
             </p>
 
             <p className="text-white/70 mb-8 leading-relaxed">
-              Committed to fostering innovation, academic excellence, and
-              character development to prepare future leaders who will
-              contribute to national and international progress.
+              {t("universityMission")}
             </p>
 
             {/* Social Media Links */}
@@ -93,7 +91,7 @@ const Footer: React.FC = () => {
           <div className="lg:col-span-4">
             <h3 className="text-xl font-semibold text-white mb-6 flex items-center">
               <Phone className="w-5 h-5 mr-2" />
-              Contact Information
+              {t("footer.contactInformation")}
             </h3>
             <div className="space-y-6">
               <div className="flex items-start space-x-4 group">
@@ -101,7 +99,9 @@ const Footer: React.FC = () => {
                   <MapPin className="w-5 h-5 text-yellow-300" />
                 </div>
                 <div>
-                  <p className="text-white font-medium mb-1">Campus Address</p>
+                  <p className="text-white font-medium mb-1">
+                    {t("footer.campusAddress")}
+                  </p>
                   <p className="text-white/70 text-sm leading-relaxed">
                     {t("footer.address")}
                   </p>
@@ -113,7 +113,9 @@ const Footer: React.FC = () => {
                   <Phone className="w-5 h-5 text-yellow-300" />
                 </div>
                 <div>
-                  <p className="text-white font-medium mb-1">Phone</p>
+                  <p className="text-white font-medium mb-1">
+                    {t("footer.phoneLabel")}
+                  </p>
                   <p className="text-white/70 text-sm">{t("footer.phone")}</p>
                 </div>
               </div>
@@ -123,7 +125,7 @@ const Footer: React.FC = () => {
                   <Mail className="w-5 h-5 text-yellow-300" />
                 </div>
                 <div>
-                  <p className="text-white font-medium mb-1">Email</p>
+                  <p className="text-white font-medium mb-1">{t("email")}</p>
                   <p className="text-white/70 text-sm">{t("footer.email")}</p>
                 </div>
               </div>
@@ -133,7 +135,9 @@ const Footer: React.FC = () => {
                   <Globe className="w-5 h-5 text-yellow-300" />
                 </div>
                 <div>
-                  <p className="text-white font-medium mb-1">Website</p>
+                  <p className="text-white font-medium mb-1">
+                    {t("footer.website")}
+                  </p>
                   <a
                     href="https://upnvj.ac.id"
                     className="text-white/70 text-sm hover:text-white transition-colors flex items-center"
@@ -149,18 +153,18 @@ const Footer: React.FC = () => {
           {/* Quick Links */}
           <div className="lg:col-span-3">
             <h3 className="text-xl font-semibold text-white mb-6">
-              Quick Links
+              {t("footer.quickLinks")}
             </h3>
             <div className="space-y-3">
               {[
-                "Academic Programs",
-                "Research Centers",
-                "International Relations",
-                "Student Services",
-                "Library Services",
-                "Career Center",
-                "Campus Facilities",
-                "Alumni Network",
+                t("footer.academicPrograms"),
+                t("footer.researchCenters"),
+                t("footer.internationalRelations"),
+                t("footer.studentServices"),
+                t("footer.libraryServices"),
+                t("footer.careerCenter"),
+                t("totalAssets"),
+                t("footer.alumniNetwork"),
               ].map((link, index) => (
                 <a
                   key={index}
@@ -181,21 +185,21 @@ const Footer: React.FC = () => {
             <div className="text-center lg:text-left">
               <p className="text-white/70 text-sm">{t("footer.copyright")}</p>
               <p className="text-white/50 text-xs mt-1">
-                Developed with ❤️ for UPNVJ Community
+                {t("footer.developedWith")} ❤️ {t("footer.forCommunity")}
               </p>
             </div>
 
             <div className="flex items-center space-x-6 text-xs text-white/50">
               <a href="#" className="hover:text-white/70 transition-colors">
-                Privacy Policy
+                {t("footer.privacyPolicy")}
               </a>
               <span>•</span>
               <a href="#" className="hover:text-white/70 transition-colors">
-                Terms of Service
+                {t("footer.termsOfService")}
               </a>
               <span>•</span>
               <a href="#" className="hover:text-white/70 transition-colors">
-                Sitemap
+                {t("footer.sitemap")}
               </a>
             </div>
           </div>

@@ -60,7 +60,7 @@ const Header: React.FC = () => {
                     isScrolled ? "text-xs" : "text-sm"
                   }`}
                 >
-                  Excellence in Education
+                  {t("heroDescription").split(" • ")[0]}
                 </p>
               </div>
             </div>
@@ -68,11 +68,11 @@ const Header: React.FC = () => {
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-1">
               {[
-                { id: "home", label: "Home", icon: Home },
-                { id: "professors", label: "Faculty", icon: Users },
-                { id: "students", label: "Students", icon: Award },
-                { id: "assets", label: "Facilities", icon: Package },
-                { id: "campus-map", label: "Campus", icon: MapPin },
+                { id: "home", label: t("home"), icon: Home },
+                { id: "professors", label: t("professors"), icon: Users },
+                { id: "students", label: t("students"), icon: Award },
+                { id: "assets", label: t("totalAssets"), icon: Package },
+                { id: "campus-map", label: t("campusMap"), icon: MapPin },
               ].map((item) => (
                 <button
                   key={item.id}
@@ -129,11 +129,11 @@ const Header: React.FC = () => {
           <div className="p-6 pt-20">
             <nav className="space-y-2">
               {[
-                { id: "home", label: "Home", icon: Home },
-                { id: "professors", label: "Faculty & Staff", icon: Users },
-                { id: "students", label: "Student Life", icon: Award },
-                { id: "assets", label: "Campus Facilities", icon: Package },
-                { id: "campus-map", label: "Virtual Campus", icon: MapPin },
+                { id: "home", label: t("home"), icon: Home },
+                { id: "professors", label: t("facultyStaff"), icon: Users },
+                { id: "students", label: t("studentLife"), icon: Award },
+                { id: "assets", label: t("totalAssets"), icon: Package },
+                { id: "campus-map", label: t("virtualCampus"), icon: MapPin },
               ].map((item, index) => (
                 <button
                   key={item.id}
@@ -159,7 +159,7 @@ const Header: React.FC = () => {
                   {t("universityShort")}
                 </h3>
                 <p className="text-sm text-yellow-200">
-                  Excellence in Education Since 1996
+                  {t("footer.excellenceSince1996")}
                 </p>
               </div>
             </div>

@@ -6,6 +6,10 @@ export const translations = {
     dashboard: "Dashboard",
     language: "Bahasa",
     profile: "Profil Kampus",
+    home: "Beranda",
+    facultyStaff: "Dosen & Staff",
+    studentLife: "Kehidupan Mahasiswa",
+    virtualCampus: "Kampus Virtual",
 
     // KPI Section
     kpi: "Indikator Kinerja Utama",
@@ -13,6 +17,13 @@ export const translations = {
     accreditation: "Akreditasi",
     students: "Mahasiswa",
     campusMap: "Denah Kampus",
+
+    // KPI Subtitles
+    qualifiedEducators: "Tenaga pengajar berkualitas",
+    activeEnrollment: "Mahasiswa aktif",
+    activePrograms: "Program aktif",
+    campusFacilities: "Fasilitas kampus",
+    interactiveMap: "Peta interaktif",
 
     // Professors
     professorsTitle: "Daftar Dosen",
@@ -81,6 +92,11 @@ export const translations = {
       "Eksplorasi kampus UPN Veteran Jakarta dalam tampilan 3D interaktif",
     campusMapUnavailable: "Peta Kampus Tidak Tersedia",
     openMap: "Buka Denah",
+    zoomIn: "Perbesar",
+    zoomOut: "Perkecil",
+    resetView: "Reset Tampilan",
+    enterFullscreen: "Layar Penuh",
+    exitFullscreen: "Keluar Layar Penuh",
 
     // Assets & Facilities
     assetsTitle: "Fasilitas & Aset",
@@ -107,6 +123,7 @@ export const translations = {
     heroDescription: "Keunggulan dalam Pendidikan • Inovasi dalam Penelitian",
     explorePrograms: "Jelajahi Program",
     virtualTour: "Tur Virtual",
+    universityMission: "Berkomitmen untuk memupuk inovasi, keunggulan akademik, dan pengembangan karakter untuk mempersiapkan pemimpin masa depan yang akan berkontribusi pada kemajuan nasional dan internasional.",
 
     // Footer
     footer: {
@@ -115,6 +132,24 @@ export const translations = {
       email: "Email: info@upnvj.ac.id",
       copyright:
         "© 2024 Universitas Pembangunan Nasional Veteran Jakarta. Semua hak dilindungi.",
+      contactInformation: "Informasi Kontak",
+      quickLinks: "Tautan Cepat",
+      campusAddress: "Alamat Kampus",
+      phoneLabel: "Telepon",
+      website: "Website",
+      privacyPolicy: "Kebijakan Privasi",
+      termsOfService: "Ketentuan Layanan",
+      sitemap: "Peta Situs",
+      developedWith: "Dikembangkan dengan",
+      forCommunity: "untuk Komunitas UPNVJ",
+      academicPrograms: "Program Akademik",
+      researchCenters: "Pusat Penelitian",
+      internationalRelations: "Hubungan Internasional",
+      studentServices: "Layanan Mahasiswa",
+      libraryServices: "Layanan Perpustakaan",
+      careerCenter: "Pusat Karir",
+      alumniNetwork: "Jaringan Alumni",
+      excellenceSince1996: "Keunggulan dalam Pendidikan Sejak 1996",
     },
   },
 
@@ -123,6 +158,10 @@ export const translations = {
     dashboard: "Dashboard",
     language: "Language",
     profile: "University Profile",
+    home: "Home",
+    facultyStaff: "Faculty & Staff",
+    studentLife: "Student Life",
+    virtualCampus: "Virtual Campus",
 
     // KPI Section
     kpi: "Key Performance Indicators",
@@ -130,6 +169,13 @@ export const translations = {
     accreditation: "Accreditation",
     students: "Students",
     campusMap: "Campus Map",
+
+    // KPI Subtitles
+    qualifiedEducators: "Qualified educators",
+    activeEnrollment: "Active enrollment",
+    activePrograms: "Active programs",
+    campusFacilities: "Campus facilities",
+    interactiveMap: "Interactive map",
 
     // Professors
     professorsTitle: "Faculty Members",
@@ -196,6 +242,11 @@ export const translations = {
       "Explore UPN Veteran Jakarta campus in 3D interactive view",
     campusMapUnavailable: "Campus Map Unavailable",
     openMap: "Open Map",
+    zoomIn: "Zoom In",
+    zoomOut: "Zoom Out",
+    resetView: "Reset View",
+    enterFullscreen: "Enter Fullscreen",
+    exitFullscreen: "Exit Fullscreen",
 
     // Assets & Facilities
     assetsTitle: "Facilities & Assets",
@@ -222,6 +273,7 @@ export const translations = {
     heroDescription: "Excellence in Education • Innovation in Research",
     explorePrograms: "Explore Programs",
     virtualTour: "Virtual Tour",
+    universityMission: "Committed to fostering innovation, academic excellence, and character development to prepare future leaders who will contribute to national and international progress.",
 
     // Footer
     footer: {
@@ -230,6 +282,24 @@ export const translations = {
       email: "Email: info@upnvj.ac.id",
       copyright:
         "© 2024 Pembangunan Nasional Veteran Jakarta University. All rights reserved.",
+      contactInformation: "Contact Information",
+      quickLinks: "Quick Links",
+      campusAddress: "Campus Address",
+      phoneLabel: "Phone",
+      website: "Website",
+      privacyPolicy: "Privacy Policy",
+      termsOfService: "Terms of Service",
+      sitemap: "Sitemap",
+      developedWith: "Developed with",
+      forCommunity: "for UPNVJ Community",
+      academicPrograms: "Academic Programs",
+      researchCenters: "Research Centers",
+      internationalRelations: "International Relations",
+      studentServices: "Student Services",
+      libraryServices: "Library Services",
+      careerCenter: "Career Center",
+      alumniNetwork: "Alumni Network",
+      excellenceSince1996: "Excellence in Education Since 1996",
     },
   },
 };
