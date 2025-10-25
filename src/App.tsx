@@ -4,12 +4,14 @@ import Header from "./components/Header";
 import Dashboard from "./components/Dashboard";
 import AdminDashboard from "./components/AdminDashboard";
 import Footer from "./components/Footer";
+import Analytics from "./components/Analytics";
 import "./App.css";
 
 function App() {
   return (
     <LanguageProvider>
       <Router>
+        <Analytics />
         <Routes>
           {/* Public Dashboard Route */}
           <Route

@@ -16,6 +16,8 @@ import AccreditationSection from "./AccreditationSection";
 import StudentsSection from "./StudentsSection";
 import CampusMapSection from "./CampusMapSection";
 import AssetsSection from "./AssetsSection";
+import TrafficOverview from "./TrafficOverview";
+import { trackClick, trackCarousel } from "./Analytics";
 
 const Dashboard: React.FC = () => {
   const { t } = useLanguage();
@@ -39,13 +41,15 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+    const newSlide = (currentSlide + 1) % heroImages.length;
+    setCurrentSlide(newSlide);
+    trackCarousel("next", newSlide);
   };
 
   const prevSlide = () => {
-    setCurrentSlide(
-      (prev) => (prev - 1 + heroImages.length) % heroImages.length
-    );
+    const newSlide = (currentSlide - 1 + heroImages.length) % heroImages.length;
+    setCurrentSlide(newSlide);
+    trackCarousel("prev", newSlide);
   };
 
   return (
@@ -104,10 +108,16 @@ const Dashboard: React.FC = () => {
 
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-4">
-                <button className="px-8 py-4 bg-white text-[#2C5F2D] font-bold rounded-xl shadow-xl hover:shadow-2xl hover:bg-yellow-50 transition-all duration-300 transform hover:scale-105">
+                <button
+                  onClick={() => trackClick("explore-programs-hero")}
+                  className="px-8 py-4 bg-white text-[#2C5F2D] font-bold rounded-xl shadow-xl hover:shadow-2xl hover:bg-yellow-50 transition-all duration-300 transform hover:scale-105"
+                >
                   {t("explorePrograms")}
                 </button>
-                <button className="px-8 py-4 border-2 border-white text-white font-bold rounded-xl backdrop-blur-sm hover:bg-white/20 transition-all duration-300">
+                <button
+                  onClick={() => trackClick("virtual-tour-hero")}
+                  className="px-8 py-4 border-2 border-white text-white font-bold rounded-xl backdrop-blur-sm hover:bg-white/20 transition-all duration-300"
+                >
                   {t("virtualTour")}
                 </button>
               </div>
@@ -130,11 +140,14 @@ const Dashboard: React.FC = () => {
         </button>
 
         {/* Slide Indicators */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex space-x-3">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex space-x-3">
           {heroImages.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentSlide(index)}
+              onClick={() => {
+                setCurrentSlide(index);
+                trackCarousel("indicator", index);
+              }}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 index === currentSlide
                   ? "bg-white w-8"
@@ -147,6 +160,9 @@ const Dashboard: React.FC = () => {
 
       {/* Content Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Traffic Overview */}
+        <TrafficOverview />
+
         {/* KPI Overview */}
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("kpi")}</h2>
