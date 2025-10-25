@@ -123,7 +123,8 @@ export const translations = {
     heroDescription: "Keunggulan dalam Pendidikan • Inovasi dalam Penelitian",
     explorePrograms: "Jelajahi Program",
     virtualTour: "Tur Virtual",
-    universityMission: "Berkomitmen untuk memupuk inovasi, keunggulan akademik, dan pengembangan karakter untuk mempersiapkan pemimpin masa depan yang akan berkontribusi pada kemajuan nasional dan internasional.",
+    universityMission:
+      "Berkomitmen untuk memupuk inovasi, keunggulan akademik, dan pengembangan karakter untuk mempersiapkan pemimpin masa depan yang akan berkontribusi pada kemajuan nasional dan internasional.",
 
     // Footer
     footer: {
@@ -140,8 +141,8 @@ export const translations = {
       privacyPolicy: "Kebijakan Privasi",
       termsOfService: "Ketentuan Layanan",
       sitemap: "Peta Situs",
-      developedWith: "Dikembangkan dengan",
-      forCommunity: "untuk Komunitas UPNVJ",
+      developedWith: "Dikembangkan oleh mahasiswa",
+      forCommunity: "untuk UPNVJ",
       academicPrograms: "Program Akademik",
       researchCenters: "Pusat Penelitian",
       internationalRelations: "Hubungan Internasional",
@@ -149,7 +150,7 @@ export const translations = {
       libraryServices: "Layanan Perpustakaan",
       careerCenter: "Pusat Karir",
       alumniNetwork: "Jaringan Alumni",
-      excellenceSince1996: "Keunggulan dalam Pendidikan Sejak 1996",
+      excellenceSince1996: "Keunggulan dalam Pendidikan Sejak 1967",
     },
   },
 
@@ -273,7 +274,8 @@ export const translations = {
     heroDescription: "Excellence in Education • Innovation in Research",
     explorePrograms: "Explore Programs",
     virtualTour: "Virtual Tour",
-    universityMission: "Committed to fostering innovation, academic excellence, and character development to prepare future leaders who will contribute to national and international progress.",
+    universityMission:
+      "Committed to fostering innovation, academic excellence, and character development to prepare future leaders who will contribute to national and international progress.",
 
     // Footer
     footer: {
@@ -290,8 +292,8 @@ export const translations = {
       privacyPolicy: "Privacy Policy",
       termsOfService: "Terms of Service",
       sitemap: "Sitemap",
-      developedWith: "Developed with",
-      forCommunity: "for UPNVJ Community",
+      developedWith: "Developed by student",
+      forCommunity: "for UPNVJ",
       academicPrograms: "Academic Programs",
       researchCenters: "Research Centers",
       internationalRelations: "International Relations",
@@ -299,7 +301,7 @@ export const translations = {
       libraryServices: "Library Services",
       careerCenter: "Career Center",
       alumniNetwork: "Alumni Network",
-      excellenceSince1996: "Excellence in Education Since 1996",
+      excellenceSince1996: "Excellence in Education Since 1967",
     },
   },
 };

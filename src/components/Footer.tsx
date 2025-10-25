@@ -185,7 +185,7 @@ const Footer: React.FC = () => {
             <div className="text-center lg:text-left">
               <p className="text-white/70 text-sm">{t("footer.copyright")}</p>
               <p className="text-white/50 text-xs mt-1">
-                {t("footer.developedWith")} ❤️ {t("footer.forCommunity")}
+                {t("footer.developedWith")} {t("footer.forCommunity")}
               </p>
             </div>
 
