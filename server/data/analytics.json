@@ -1,0 +1,94 @@
+{
+  "visitors": [
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761405934690,
+      "page": "/",
+      "referrer": ""
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761405934700,
+      "page": "/",
+      "referrer": ""
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761405954616,
+      "page": "/",
+      "referrer": ""
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761405954622,
+      "page": "/",
+      "referrer": ""
+    }
+  ],
+  "pageviews": [
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761405934690,
+      "page": "/"
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761405934700,
+      "page": "/"
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761405954616,
+      "page": "/"
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761405954622,
+      "page": "/"
+    }
+  ],
+  "events": [
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "eventName": "language_change",
+      "eventData": {
+        "from": "id",
+        "to": "en"
+      },
+      "timestamp": 1761406007618
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "eventName": "language_change",
+      "eventData": {
+        "from": "en",
+        "to": "id"
+      },
+      "timestamp": 1761406009008
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "eventName": "language_change",
+      "eventData": {
+        "from": "id",
+        "to": "en"
+      },
+      "timestamp": 1761406009740
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "eventName": "language_change",
+      "eventData": {
+        "from": "en",
+        "to": "id"
+      },
+      "timestamp": 1761406011190
+    }
+  ],
+  "stats": {
+    "totalVisitors": 1,
+    "totalPageviews": 4,
+    "todayVisitors": 0,
+    "todayPageviews": 0
+  }
+}

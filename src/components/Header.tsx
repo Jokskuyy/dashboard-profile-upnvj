@@ -87,6 +87,27 @@ const Header: React.FC = () => {
 
             {/* Right Section */}
             <div className="flex items-center space-x-4">
+              {/* Admin Login Link */}
+              <a
+                href="/login"
+                className="hidden sm:flex items-center space-x-2 px-4 py-2 rounded-xl font-medium text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+                  />
+                </svg>
+                <span className="text-sm">Admin</span>
+              </a>
+
               {/* Language Toggle */}
               <div className="transition-all duration-300">
                 <LanguageToggle />

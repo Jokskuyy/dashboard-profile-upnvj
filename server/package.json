@@ -1,0 +1,21 @@
+{
+  "name": "upnvj-dashboard-api",
+  "version": "1.0.0",
+  "description": "Backend API server for UPNVJ Dashboard - Analytics & Authentication",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node src/index.js"
+  },
+  "keywords": ["upnvj", "dashboard", "analytics", "api"],
+  "author": "UPNVJ",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "cookie-parser": "^1.4.6"
+  }
+}
