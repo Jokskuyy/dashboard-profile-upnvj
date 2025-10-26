@@ -10,8 +10,8 @@ import {
   Youtube,
   ExternalLink,
 } from "lucide-react";
-import { useLanguage } from "../contexts/LanguageContext";
-import logoUpnvj from "../assets/images/logoupnvj.png";
+import { useLanguage } from "../../contexts/LanguageContext";
+import logoUpnvj from "../../assets/images/logoupnvj.png";
 
 const Footer: React.FC = () => {
   const { t } = useLanguage();

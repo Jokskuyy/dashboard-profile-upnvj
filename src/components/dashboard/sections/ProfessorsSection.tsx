@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Users, BarChart3, ArrowLeft, BookOpen } from "lucide-react";
-import { useLanguage } from "../contexts/LanguageContext";
+import { useLanguage } from "../../../contexts/LanguageContext";
 import {
   professorsData,
   getProfessorsByFaculty,
   getDepartmentsByFacultyId,
-} from "../utils/staticData";
-import FacultyBarChart from "./FacultyBarChart";
-import DepartmentBarChart from "./DepartmentBarChart";
-import type { DepartmentData } from '../../types';
+} from "../../../utils/staticData";
+import FacultyBarChart from "../../charts/FacultyBarChart";
+import DepartmentBarChart from "../../charts/DepartmentBarChart";
+import type { DepartmentData } from '../../../types';
 
 const ProfessorsSection: React.FC = () => {
   const { t } = useLanguage();

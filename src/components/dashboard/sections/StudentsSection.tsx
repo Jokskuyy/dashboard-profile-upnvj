@@ -6,15 +6,15 @@ import {
   ArrowLeft,
   BookOpen,
 } from "lucide-react";
-import { useLanguage } from "../contexts/LanguageContext";
+import { useLanguage } from "../../../contexts/LanguageContext";
 import {
   getTotalStats,
   getStudentsByFaculty,
   getProgramsByFacultyId,
-} from "../utils/staticData";
-import FacultyBarChart from "./FacultyBarChart";
-import ProgramBarChart from "./ProgramBarChart";
-import type { ProgramData } from '../../types';
+} from "../../../utils/staticData";
+import FacultyBarChart from "../../charts/FacultyBarChart";
+import ProgramBarChart from "../../charts/ProgramBarChart";
+import type { ProgramData } from '../../../types';
 
 const StudentsSection: React.FC = () => {
   const { t } = useLanguage();

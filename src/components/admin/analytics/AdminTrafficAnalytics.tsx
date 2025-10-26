@@ -9,7 +9,7 @@ import {
   ArrowDown,
   RefreshCw,
 } from "lucide-react";
-import { getAnalytics } from '../services/analytics/trackingService';
+import { getAnalytics } from '../../../services/analytics/trackingService';
 
 interface TrafficData {
   date: string;

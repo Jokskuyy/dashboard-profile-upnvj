@@ -1,7 +1,7 @@
 import React from 'react';
 import { Award, CheckCircle, Clock, AlertCircle } from 'lucide-react';
-import { useLanguage } from '../contexts/LanguageContext';
-import { accreditationData } from '../utils/staticData';
+import { useLanguage } from '../../../contexts/LanguageContext';
+import { accreditationData } from '../../../utils/staticData';
 
 const AccreditationSection: React.FC = () => {
   const { t } = useLanguage();

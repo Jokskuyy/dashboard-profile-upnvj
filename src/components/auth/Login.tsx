@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import { useLanguage } from "../contexts/LanguageContext";
-import logoUpnvj from "../assets/images/logoupnvj.png";
+import { useAuth } from "../../contexts/AuthContext";
+import { useLanguage } from "../../contexts/LanguageContext";
+import logoUpnvj from "../../assets/images/logoupnvj.png";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
