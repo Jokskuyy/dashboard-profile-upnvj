@@ -127,6 +127,33 @@
         "to": "id"
       },
       "timestamp": 1761406011190
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "eventName": "carousel_interaction",
+      "eventData": {
+        "action": "next",
+        "slideIndex": 2
+      },
+      "timestamp": 1761445681567
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "eventName": "carousel_interaction",
+      "eventData": {
+        "action": "next",
+        "slideIndex": 0
+      },
+      "timestamp": 1761445682493
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "eventName": "carousel_interaction",
+      "eventData": {
+        "action": "prev",
+        "slideIndex": 2
+      },
+      "timestamp": 1761445683988
     }
   ],
   "stats": {
