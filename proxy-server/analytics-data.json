@@ -23,6 +23,30 @@
       "timestamp": 1761405954622,
       "page": "/",
       "referrer": ""
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761444949779,
+      "page": "/",
+      "referrer": ""
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761444949805,
+      "page": "/",
+      "referrer": ""
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761445230514,
+      "page": "/",
+      "referrer": ""
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761445230531,
+      "page": "/",
+      "referrer": ""
     }
   ],
   "pageviews": [
@@ -44,6 +68,26 @@
     {
       "visitorId": "v_1761405934651_wi3p919r7",
       "timestamp": 1761405954622,
+      "page": "/"
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761444949779,
+      "page": "/"
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761444949805,
+      "page": "/"
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761445230514,
+      "page": "/"
+    },
+    {
+      "visitorId": "v_1761405934651_wi3p919r7",
+      "timestamp": 1761445230531,
       "page": "/"
     }
   ],
@@ -87,7 +131,7 @@
   ],
   "stats": {
     "totalVisitors": 1,
-    "totalPageviews": 4,
+    "totalPageviews": 8,
     "todayVisitors": 0,
     "todayPageviews": 0
   }

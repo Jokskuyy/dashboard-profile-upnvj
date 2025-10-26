@@ -92,9 +92,34 @@ const calculateBounceRate = (data, days) => {
   return ((singlePageVisits / Object.keys(visitorSessions).length) * 100).toFixed(1);
 };
 
-// Calculate average duration
-const calculateAvgDuration = () => {
-  return Math.floor(Math.random() * 100) + 150;
+// Get daily stats for chart (last 7 days)
+const getDailyStats = (data, days = 7) => {
+  const dailyData = [];
+  const now = new Date();
+  
+  for (let i = days - 1; i >= 0; i--) {
+    const date = new Date(now);
+    date.setDate(date.getDate() - i);
+    date.setHours(0, 0, 0, 0);
+    
+    const startOfDay = date.getTime();
+    const endOfDay = startOfDay + (24 * 60 * 60 * 1000);
+    
+    const dayVisitors = data.visitors.filter(v => 
+      v.timestamp >= startOfDay && v.timestamp < endOfDay
+    );
+    const dayPageviews = data.pageviews.filter(p => 
+      p.timestamp >= startOfDay && p.timestamp < endOfDay
+    );
+    
+    dailyData.push({
+      date: date.toISOString().split('T')[0],
+      visitors: new Set(dayVisitors.map(v => v.visitorId)).size,
+      pageviews: dayPageviews.length
+    });
+  }
+  
+  return dailyData;
 };
 
 // Health check
@@ -194,7 +219,7 @@ app.get('/api/stats', (req, res) => {
       visitors: getUniqueVisitors(data, days),
       pageviews: getPageviews(data, days),
       bounceRate: parseFloat(calculateBounceRate(data, days)),
-      avgDuration: calculateAvgDuration(),
+      dailyStats: getDailyStats(data, days),
       period: `Last ${days} days`,
       timestamp: new Date().toISOString()
     };
