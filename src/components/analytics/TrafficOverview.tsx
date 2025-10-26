@@ -10,7 +10,6 @@ interface DailyData {
 interface TrafficStats {
   visitors: number;
   pageviews: number;
-  bounceRate: number;
   dailyStats: DailyData[];
 }
 
@@ -19,7 +18,6 @@ const TrafficOverview: React.FC = () => {
   const [stats, setStats] = useState<TrafficStats>({
     visitors: 0,
     pageviews: 0,
-    bounceRate: 0,
     dailyStats: []
   });
   const [loading, setLoading] = useState(true);
@@ -39,7 +37,6 @@ const TrafficOverview: React.FC = () => {
             setStats({
               visitors: data.visitors,
               pageviews: data.pageviews,
-              bounceRate: data.bounceRate,
               dailyStats: data.dailyStats || []
             });
             setLoading(false);
@@ -56,7 +53,6 @@ const TrafficOverview: React.FC = () => {
           setStats({
             visitors: 0,
             pageviews: 0,
-            bounceRate: 0,
             dailyStats: []
           });
           setLoading(false);
@@ -76,7 +72,6 @@ const TrafficOverview: React.FC = () => {
       title: 'Statistik Traffic Website',
       visitors: 'Pengunjung',
       pageviews: 'Tampilan Halaman',
-      bounceRate: 'Bounce Rate',
       last7days: 'Data 7 hari terakhir',
       loading: 'Memuat data...',
       note: 'Data analytics diperbarui otomatis setiap 30 detik',
@@ -88,7 +83,6 @@ const TrafficOverview: React.FC = () => {
       title: 'Website Traffic Statistics',
       visitors: 'Visitors',
       pageviews: 'Page Views',
-      bounceRate: 'Bounce Rate',
       last7days: 'Last 7 days data',
       loading: 'Loading data...',
       note: 'Analytics data automatically refreshed every 30 seconds',
@@ -129,7 +123,7 @@ const TrafficOverview: React.FC = () => {
       ) : (
         <>
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {/* Visitors */}
             <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200">
               <div className="flex items-center justify-between mb-2">
@@ -151,17 +145,6 @@ const TrafficOverview: React.FC = () => {
                 </svg>
               </div>
               <p className="text-3xl font-bold text-green-900">{stats.pageviews.toLocaleString()}</p>
-            </div>
-
-            {/* Bounce Rate */}
-            <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-lg p-6 border border-yellow-200">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="text-sm font-medium text-yellow-700">{t.bounceRate}</h3>
-                <svg className="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                </svg>
-              </div>
-              <p className="text-3xl font-bold text-yellow-900">{stats.bounceRate.toFixed(1)}%</p>
             </div>
           </div>
 

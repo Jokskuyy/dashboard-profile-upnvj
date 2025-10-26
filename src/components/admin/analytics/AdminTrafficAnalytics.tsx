@@ -28,7 +28,6 @@ interface AnalyticsData {
   deviceStats: DeviceStats;
   totalVisitors: number;
   totalPageViews: number;
-  bounceRate: number;
 }
 
 export default function AdminTrafficAnalytics() {
@@ -55,7 +54,6 @@ export default function AdminTrafficAnalytics() {
           },
           totalVisitors: data.totalVisitors || 0,
           totalPageViews: data.totalPageViews || 0,
-          bounceRate: data.bounceRate || 0,
         });
       }
     } catch (error) {
@@ -98,7 +96,6 @@ export default function AdminTrafficAnalytics() {
   const deviceStats = analyticsData.deviceStats;
   const totalVisitors = analyticsData.totalVisitors;
   const totalPageViews = analyticsData.totalPageViews;
-  const bounceRate = analyticsData.bounceRate;
 
   const maxVisitors = Math.max(...trafficData.map((d) => d.visitors), 1);
   const maxPageViews = Math.max(...trafficData.map((d) => d.pageViews), 1);
@@ -159,7 +156,7 @@ export default function AdminTrafficAnalytics() {
       </div>
 
       {/* Key Metrics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -195,19 +192,6 @@ export default function AdminTrafficAnalytics() {
             <p className="text-3xl font-bold text-gray-900">
               {totalPageViews.toLocaleString()}
             </p>
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-            <TrendingUp className="w-6 h-6 text-orange-600" />
-          </div>
-          <div>
-            <p className="text-sm text-gray-600 mb-1">Bounce Rate</p>
-            <p className="text-3xl font-bold text-gray-900">
-              {bounceRate.toFixed(1)}%
-            </p>
-            <p className="text-xs text-gray-500 mt-1">Single page sessions</p>
           </div>
         </div>
       </div>

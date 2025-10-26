@@ -713,6 +713,102 @@
       "screenWidth": 794,
       "screenHeight": 1197,
       "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475123463,
+      "page": "/admin",
+      "referrer": "http://localhost:5173/admin",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "screenWidth": 2560,
+      "screenHeight": 1440,
+      "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475123468,
+      "page": "/admin",
+      "referrer": "http://localhost:5173/admin",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "screenWidth": 2560,
+      "screenHeight": 1440,
+      "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475123473,
+      "page": "/admin",
+      "referrer": "http://localhost:5173/admin",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "screenWidth": 2560,
+      "screenHeight": 1440,
+      "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475123476,
+      "page": "/admin",
+      "referrer": "http://localhost:5173/admin",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "screenWidth": 2560,
+      "screenHeight": 1440,
+      "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475669070,
+      "page": "/admin",
+      "referrer": "http://localhost:5173/admin",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "screenWidth": 2560,
+      "screenHeight": 1440,
+      "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475669092,
+      "page": "/admin",
+      "referrer": "http://localhost:5173/admin",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "screenWidth": 2560,
+      "screenHeight": 1440,
+      "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475669256,
+      "page": "/admin",
+      "referrer": "http://localhost:5173/admin",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "screenWidth": 2560,
+      "screenHeight": 1440,
+      "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475669274,
+      "page": "/admin",
+      "referrer": "http://localhost:5173/admin",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "screenWidth": 2560,
+      "screenHeight": 1440,
+      "language": "en-US"
     }
   ],
   "pageviews": [
@@ -1194,6 +1290,54 @@
       "sessionId": "session_1761472451760_x5afq22z5",
       "timestamp": 1761474427299,
       "page": "/"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475123463,
+      "page": "/admin"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475123468,
+      "page": "/admin"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475123473,
+      "page": "/admin"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475123476,
+      "page": "/admin"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475669070,
+      "page": "/admin"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475669092,
+      "page": "/admin"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475669256,
+      "page": "/admin"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761467126085_cthgv38qe",
+      "timestamp": 1761475669274,
+      "page": "/admin"
     }
   ],
   "events": [
@@ -1281,7 +1425,7 @@
   ],
   "stats": {
     "totalVisitors": 2,
-    "totalPageviews": 90,
+    "totalPageviews": 98,
     "todayVisitors": 0,
     "todayPageviews": 0
   },
