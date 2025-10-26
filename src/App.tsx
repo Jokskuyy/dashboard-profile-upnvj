@@ -1,13 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { AuthProvider } from "./contexts/AuthContext";
-import Header from "./components/Header";
-import Dashboard from "./components/Dashboard";
-import AdminDashboard from "./components/AdminDashboard";
-import Login from "./components/Login";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Footer from "./components/Footer";
-import Analytics from "./components/Analytics";
+import { Header, Footer, ProtectedRoute } from "./components/common";
+import Dashboard from "./components/dashboard/Dashboard";
+import AdminDashboard from "./components/admin/AdminDashboard";
+import Login from "./components/auth/Login";
+import Analytics from "./components/analytics/Analytics";
 import "./App.css";
 
 function App() {

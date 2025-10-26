@@ -8,17 +8,13 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { useLanguage } from "../contexts/LanguageContext";
-import { fetchDashboardData, getTotalStats } from "../services/dataService";
-import type { DashboardData } from "../services/dataService";
+import { useLanguage } from "../../contexts/LanguageContext";
+import { fetchDashboardData, getTotalStats } from '../../services/api/dataService';
+import type { DashboardData } from '../../services/api/dataService';
 import KPICard from "./KPICard";
-import ProfessorsSection from "./ProfessorsSection";
-import AccreditationSection from "./AccreditationSection";
-import StudentsSection from "./StudentsSection";
-import CampusMapSection from "./CampusMapSection";
-import AssetsSection from "./AssetsSection";
-import TrafficOverview from "./TrafficOverview";
-import { trackClick, trackCarousel } from "./Analytics";
+import { ProfessorsSection, AccreditationSection, StudentsSection, CampusMapSection, AssetsSection } from "./sections";
+import TrafficOverview from "../analytics/TrafficOverview";
+import { trackClick, trackCarousel } from '../analytics/Analytics';
 
 const Dashboard: React.FC = () => {
   const { t } = useLanguage();

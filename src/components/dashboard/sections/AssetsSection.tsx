@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { getAllAssets } from "../utils/staticData";
-import type { AssetCategory } from "../types";
+import type { AssetCategory } from '../../types';
 
 const AssetsSection: React.FC = () => {
   const { t } = useLanguage();

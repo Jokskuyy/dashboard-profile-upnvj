@@ -1,65 +1,63 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import type { DepartmentData } from "../../types";
-import type { FacultyInfo } from "../../services/dataService";
+import type { ProgramData } from '../../../types';
+import type { FacultyInfo } from '../../../services/api/dataService';
 
-interface DepartmentModalProps {
+interface ProgramModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (
-    department: Omit<DepartmentData, "id"> | DepartmentData
-  ) => Promise<void>;
-  department?: DepartmentData;
+  onSave: (program: Omit<ProgramData, "id"> | ProgramData) => Promise<void>;
+  program?: ProgramData;
   faculties: FacultyInfo[];
 }
 
-export default function DepartmentModal({
+export default function ProgramModal({
   isOpen,
   onClose,
   onSave,
-  department,
+  program,
   faculties,
-}: DepartmentModalProps) {
+}: ProgramModalProps) {
   const [formData, setFormData] = useState({
     name: "",
     faculty: "",
-    description: "",
-    professors: 0,
+    level: "S1" as "S1" | "D3" | "S2" | "S3",
+    students: 0,
   });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (department) {
+    if (program) {
       setFormData({
-        name: department.name,
-        faculty: department.faculty,
-        description: department.description || "",
-        professors: department.professors,
+        name: program.name,
+        faculty: program.faculty,
+        level: program.level,
+        students: program.students,
       });
     } else {
       setFormData({
         name: "",
         faculty: faculties[0]?.name || "",
-        description: "",
-        professors: 0,
+        level: "S1",
+        students: 0,
       });
     }
-  }, [department, faculties, isOpen]);
+  }, [program, faculties, isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      if (department) {
-        await onSave({ ...formData, id: department.id });
+      if (program) {
+        await onSave({ ...formData, id: program.id });
       } else {
         await onSave(formData);
       }
       onClose();
     } catch (error) {
-      console.error("Error saving department:", error);
-      alert("Gagal menyimpan data departemen");
+      console.error("Error saving program:", error);
+      alert("Gagal menyimpan data program studi");
     } finally {
       setLoading(false);
     }
@@ -73,7 +71,7 @@ export default function DepartmentModal({
         {/* Header */}
         <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-2xl">
           <h2 className="text-2xl font-bold text-gray-900">
-            {department ? "Edit Departemen" : "Tambah Departemen"}
+            {program ? "Edit Program Studi" : "Tambah Program Studi"}
           </h2>
           <button
             onClick={onClose}
@@ -87,7 +85,7 @@ export default function DepartmentModal({
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Nama Departemen *
+              Nama Program Studi *
             </label>
             <input
               type="text"
@@ -97,62 +95,69 @@ export default function DepartmentModal({
                 setFormData({ ...formData, name: e.target.value })
               }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Departemen Teknik Informatika"
+              placeholder="Teknik Informatika"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Fakultas *
-            </label>
-            <select
-              required
-              value={formData.faculty}
-              onChange={(e) =>
-                setFormData({ ...formData, faculty: e.target.value })
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              {faculties.map((fac) => (
-                <option key={fac.id} value={fac.name}>
-                  {fac.name}
-                </option>
-              ))}
-            </select>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Fakultas *
+              </label>
+              <select
+                required
+                value={formData.faculty}
+                onChange={(e) =>
+                  setFormData({ ...formData, faculty: e.target.value })
+                }
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                {faculties.map((fac) => (
+                  <option key={fac.id} value={fac.name}>
+                    {fac.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Jenjang *
+              </label>
+              <select
+                required
+                value={formData.level}
+                onChange={(e) =>
+                  setFormData({ ...formData, level: e.target.value as any })
+                }
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="D3">D3</option>
+                <option value="S1">S1</option>
+                <option value="S2">S2</option>
+                <option value="S3">S3</option>
+                <option value="Profesi">Profesi</option>
+              </select>
+            </div>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Deskripsi
-            </label>
-            <textarea
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Deskripsi singkat departemen..."
-              rows={3}
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Jumlah Dosen *
+              Jumlah Mahasiswa *
             </label>
             <input
               type="number"
               required
               min="0"
-              value={formData.professors}
+              value={formData.students}
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  professors: parseInt(e.target.value) || 0,
+                  students: parseInt(e.target.value) || 0,
                 })
               }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Total dosen di departemen"
+              placeholder="Total mahasiswa aktif"
             />
           </div>
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { X, Plus, Trash2 } from "lucide-react";
-import type { AssetDetail } from "../../types";
+import type { AssetDetail } from '../../../types';
 
 interface AssetDetailModalProps {
   isOpen: boolean;

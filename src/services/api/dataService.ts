@@ -5,7 +5,7 @@ import type {
   AssetCategory,
   ProgramData,
   DepartmentData,
-} from "../types";
+} from '../../types';
 
 export interface FacultyInfo {
   id: string;

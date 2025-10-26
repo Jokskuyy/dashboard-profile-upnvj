@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
-import { trackLanguageChange } from "./Analytics";
+import { trackLanguageChange } from '../analytics/Analytics';
 
 const LanguageToggle: React.FC = () => {
   const { language, setLanguage } = useLanguage();

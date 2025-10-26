@@ -14,7 +14,7 @@ import {
 } from "../utils/staticData";
 import FacultyBarChart from "./FacultyBarChart";
 import ProgramBarChart from "./ProgramBarChart";
-import type { ProgramData } from "../types";
+import type { ProgramData } from '../../types';
 
 const StudentsSection: React.FC = () => {
   const { t } = useLanguage();

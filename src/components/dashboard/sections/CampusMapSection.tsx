@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MapPin, ExternalLink, Building, Navigation } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
-import CampusMapViewer from "./CampusMapViewer";
+import CampusMapViewer from './campus-map/CampusMapViewer';
 
 const CampusMapSection: React.FC = () => {
   const { t } = useLanguage();

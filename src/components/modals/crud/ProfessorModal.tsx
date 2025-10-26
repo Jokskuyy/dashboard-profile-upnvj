@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import type { Professor } from "../../types";
-import type { FacultyInfo } from "../../services/dataService";
+import type { Professor } from '../../../types';
+import type { FacultyInfo } from '../../../services/api/dataService';
 
 interface ProfessorModalProps {
   isOpen: boolean;

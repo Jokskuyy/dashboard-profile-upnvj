@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import type { AssetCategory } from "../../types";
+import type { AssetCategory } from '../../../types';
 
 interface AssetModalProps {
   isOpen: boolean;

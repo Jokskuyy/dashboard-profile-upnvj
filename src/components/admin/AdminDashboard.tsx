@@ -44,7 +44,7 @@ import {
   deleteAssetDetail,
   type DashboardData,
   type FacultyInfo,
-} from "../services/dataService";
+} from '../../services/api/dataService';
 import type {
   Professor,
   Accreditation,
@@ -53,17 +53,17 @@ import type {
   AssetDetail,
   ProgramData,
   DepartmentData,
-} from "../types";
-import ProfessorModal from "./modals/ProfessorModal";
-import AccreditationModal from "./modals/AccreditationModal";
-import StudentModal from "./modals/StudentModal";
-import ProgramModal from "./modals/ProgramModal";
-import DepartmentModal from "./modals/DepartmentModal";
-import AssetModal from "./modals/AssetModal";
-import AssetDetailModal from "./modals/AssetDetailModal";
-import DeleteConfirmModal from "./modals/DeleteConfirmModal";
-import Toast, { type ToastType } from "./Toast";
-import AdminTrafficAnalytics from "./AdminTrafficAnalytics";
+} from "../../types";
+import ProfessorModal from '../modals/crud/ProfessorModal';
+import AccreditationModal from '../modals/crud/AccreditationModal';
+import StudentModal from '../modals/crud/StudentModal';
+import ProgramModal from '../modals/crud/ProgramModal';
+import DepartmentModal from '../modals/crud/DepartmentModal';
+import AssetModal from '../modals/crud/AssetModal';
+import AssetDetailModal from '../modals/crud/AssetDetailModal';
+import DeleteConfirmModal from '../modals/shared/DeleteConfirmModal';
+import Toast, { type ToastType } from "../common/Toast";
+import AdminTrafficAnalytics from './analytics/AdminTrafficAnalytics';
 
 type TabType =
   | "professors"

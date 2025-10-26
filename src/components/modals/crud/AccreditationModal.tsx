@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import type { Accreditation } from "../../types";
+import type { Accreditation } from '../../../types';
 
 interface AccreditationModalProps {
   isOpen: boolean;

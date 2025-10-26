@@ -1,5 +1,5 @@
 import React from "react";
-import type { DepartmentData } from "../types";
+import type { DepartmentData } from "../../types";
 
 interface DepartmentBarChartProps {
   data: DepartmentData[];

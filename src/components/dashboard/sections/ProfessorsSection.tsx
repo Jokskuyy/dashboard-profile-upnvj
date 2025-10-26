@@ -8,7 +8,7 @@ import {
 } from "../utils/staticData";
 import FacultyBarChart from "./FacultyBarChart";
 import DepartmentBarChart from "./DepartmentBarChart";
-import type { DepartmentData } from "../types";
+import type { DepartmentData } from '../../types';
 
 const ProfessorsSection: React.FC = () => {
   const { t } = useLanguage();

@@ -1,5 +1,5 @@
 import React from "react";
-import type { ProgramData } from "../types";
+import type { ProgramData } from "../../types";
 
 interface ProgramBarChartProps {
   data: ProgramData[];

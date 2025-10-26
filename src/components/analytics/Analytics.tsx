@@ -4,7 +4,7 @@ import {
   trackPageView,
   trackEvent,
   initTracking,
-} from "../services/trackingService";
+} from '../../services/analytics/trackingService';
 
 // Helper functions for tracking specific events
 export const trackClick = (elementName: string) => {
