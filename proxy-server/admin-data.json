@@ -1,0 +1,34 @@
+{
+  "admins": [
+    {
+      "id": "admin_001",
+      "username": "admin",
+      "password": "$2a$10$VrGoGnvujQbOd8w5B2bnGuVqarDshLRBgoLs4kSoVoaEZR9Ihc9g.",
+      "fullName": "Administrator UPNVJ",
+      "email": "admin@upnvj.ac.id",
+      "role": "super_admin",
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "lastLogin": "2025-10-26T06:25:06.821Z"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "session_1761459830704_n4vi3a7eo",
+      "adminId": "admin_001",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluXzAwMSIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NjE0NTk4MzAsImV4cCI6MTc2MTU0NjIzMH0.zXrcbtWZVbPFkfWGHmRV5cUyGWk8wbxojRBpJZf4vMM",
+      "createdAt": "2025-10-26T06:23:50.704Z",
+      "expiresAt": "2025-10-27T06:23:50.704Z",
+      "ipAddress": null,
+      "userAgent": null
+    },
+    {
+      "id": "session_1761459906821_88nw9bp6v",
+      "adminId": "admin_001",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluXzAwMSIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NjE0NTk5MDYsImV4cCI6MTc2MTU0NjMwNn0.Cgn18GmryErgLNTD5lJcoJGon47LU7XqCAfj5FIl6GY",
+      "createdAt": "2025-10-26T06:25:06.821Z",
+      "expiresAt": "2025-10-27T06:25:06.821Z",
+      "ipAddress": null,
+      "userAgent": null
+    }
+  ]
+}

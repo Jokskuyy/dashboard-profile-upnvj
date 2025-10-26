@@ -9,7 +9,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
-import { getTotalStats } from "../utils/staticData";
+import { fetchDashboardData, getTotalStats } from "../services/dataService";
+import type { DashboardData } from "../services/dataService";
 import KPICard from "./KPICard";
 import ProfessorsSection from "./ProfessorsSection";
 import AccreditationSection from "./AccreditationSection";
@@ -21,7 +22,25 @@ import { trackClick, trackCarousel } from "./Analytics";
 
 const Dashboard: React.FC = () => {
   const { t } = useLanguage();
-  const stats = getTotalStats();
+  const [data, setData] = useState<DashboardData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Load dashboard data
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const dashboardData = await fetchDashboardData();
+        setData(dashboardData);
+      } catch (error) {
+        console.error("Error loading dashboard data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadData();
+  }, []);
+
+  const stats = data ? getTotalStats(data) : null;
 
   // Carousel state
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -56,6 +75,7 @@ const Dashboard: React.FC = () => {
     <div>
       {/* Simple Hero Section with Carousel - 75% Screen */}
       <div className="relative overflow-hidden h-[75vh]">
+        {/* Image Carousel */}
         {/* Image Carousel */}
         {heroImages.map((image, index) => (
           <div
@@ -163,60 +183,76 @@ const Dashboard: React.FC = () => {
         {/* Traffic Overview */}
         <TrafficOverview />
 
-        {/* KPI Overview */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("kpi")}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-            <KPICard
-              title={t("professors")}
-              value={stats.totalProfessors}
-              subtitle={t("qualifiedEducators")}
-              icon={Users}
-              color="blue"
-            />
-            <KPICard
-              title={t("students")}
-              value={stats.totalStudents.toLocaleString()}
-              subtitle={t("activeEnrollment")}
-              icon={GraduationCap}
-              color="green"
-            />
-            <KPICard
-              title={t("accreditation")}
-              value={stats.activeAccreditations}
-              subtitle={t("activePrograms")}
-              icon={Award}
-              color="purple"
-            />
-            <KPICard
-              title={t("totalAssets")}
-              value={stats.totalAssets}
-              subtitle={t("campusFacilities")}
-              icon={Package}
-              color="red"
-            />
-            <KPICard
-              title={t("campusMap")}
-              value="3D"
-              subtitle={t("interactiveMap")}
-              icon={MapPin}
-              color="orange"
-            />
+        {/* Loading state */}
+        {loading && (
+          <div className="text-center py-12">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#2C5F2D]"></div>
+            <p className="mt-4 text-gray-600">
+              {t("loading") || "Memuat data..."}
+            </p>
           </div>
-        </div>
-        {/* Detailed Sections */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <ProfessorsSection />
-          <AccreditationSection />
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <StudentsSection />
-          <CampusMapSection />
-        </div>
-        {/* Assets Section */}
-        <div className="mt-8">
-          <AssetsSection />
-        </div>
+        )}
+
+        {/* KPI Overview - Only show when data is loaded */}
+        {!loading && stats && (
+          <>
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                {t("kpi")}
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <KPICard
+                  title={t("professors")}
+                  value={stats.totalProfessors}
+                  subtitle={t("qualifiedEducators")}
+                  icon={Users}
+                  color="blue"
+                />
+                <KPICard
+                  title={t("students")}
+                  value={stats.totalStudents.toLocaleString()}
+                  subtitle={t("activeEnrollment")}
+                  icon={GraduationCap}
+                  color="green"
+                />
+                <KPICard
+                  title={t("accreditation")}
+                  value={stats.activeAccreditations}
+                  subtitle={t("activePrograms")}
+                  icon={Award}
+                  color="purple"
+                />
+                <KPICard
+                  title={t("totalAssets")}
+                  value={stats.totalAssets}
+                  subtitle={t("campusFacilities")}
+                  icon={Package}
+                  color="red"
+                />
+                <KPICard
+                  title={t("campusMap")}
+                  value="3D"
+                  subtitle={t("interactiveMap")}
+                  icon={MapPin}
+                  color="orange"
+                />
+              </div>
+            </div>
+            {/* Detailed Sections */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+              <ProfessorsSection />
+              <AccreditationSection />
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <StudentsSection />
+              <CampusMapSection />
+            </div>
+            {/* Assets Section */}
+            <div className="mt-8">
+              <AssetsSection />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
