@@ -13,6 +13,7 @@ import {
   X,
   RefreshCw,
   Download,
+  TrendingUp,
 } from "lucide-react";
 import {
   fetchDashboardData,
@@ -20,6 +21,27 @@ import {
   saveDashboardData,
   clearCache,
   getTotalStats,
+  createProfessor,
+  updateProfessor,
+  deleteProfessor,
+  createAccreditation,
+  updateAccreditation,
+  deleteAccreditation,
+  createStudentData,
+  updateStudentData,
+  deleteStudentData,
+  createProgram,
+  updateProgram,
+  deleteProgram,
+  createDepartment,
+  updateDepartment,
+  deleteDepartment,
+  createAssetCategory,
+  updateAssetCategory,
+  deleteAssetCategory,
+  addAssetDetail,
+  updateAssetDetail,
+  deleteAssetDetail,
   type DashboardData,
   type FacultyInfo,
 } from "../services/dataService";
@@ -28,9 +50,20 @@ import type {
   Accreditation,
   StudentData,
   AssetCategory,
+  AssetDetail,
   ProgramData,
   DepartmentData,
 } from "../types";
+import ProfessorModal from "./modals/ProfessorModal";
+import AccreditationModal from "./modals/AccreditationModal";
+import StudentModal from "./modals/StudentModal";
+import ProgramModal from "./modals/ProgramModal";
+import DepartmentModal from "./modals/DepartmentModal";
+import AssetModal from "./modals/AssetModal";
+import AssetDetailModal from "./modals/AssetDetailModal";
+import DeleteConfirmModal from "./modals/DeleteConfirmModal";
+import Toast, { type ToastType } from "./Toast";
+import AdminTrafficAnalytics from "./AdminTrafficAnalytics";
 
 type TabType =
   | "professors"
@@ -38,7 +71,8 @@ type TabType =
   | "students"
   | "assets"
   | "programs"
-  | "departments";
+  | "departments"
+  | "analytics";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<TabType>("professors");
@@ -47,6 +81,64 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Modal states
+  const [professorModal, setProfessorModal] = useState<{
+    isOpen: boolean;
+    professor?: Professor;
+  }>({ isOpen: false });
+
+  const [accreditationModal, setAccreditationModal] = useState<{
+    isOpen: boolean;
+    accreditation?: Accreditation;
+  }>({ isOpen: false });
+
+  const [studentModal, setStudentModal] = useState<{
+    isOpen: boolean;
+    student?: StudentData;
+  }>({ isOpen: false });
+
+  const [programModal, setProgramModal] = useState<{
+    isOpen: boolean;
+    program?: ProgramData;
+  }>({ isOpen: false });
+
+  const [departmentModal, setDepartmentModal] = useState<{
+    isOpen: boolean;
+    department?: DepartmentData;
+  }>({ isOpen: false });
+
+  const [assetModal, setAssetModal] = useState<{
+    isOpen: boolean;
+    asset?: AssetCategory;
+  }>({ isOpen: false });
+
+  const [assetDetailModal, setAssetDetailModal] = useState<{
+    isOpen: boolean;
+    detail?: AssetDetail;
+    categoryId?: string;
+    categoryName?: string;
+  }>({ isOpen: false });
+
+  const [deleteModal, setDeleteModal] = useState<{
+    isOpen: boolean;
+    type?: string;
+    id?: string;
+    facultyId?: string;
+    categoryId?: string;
+    name?: string;
+  }>({ isOpen: false });
+
+  // Toast state
+  const [toast, setToast] = useState<{
+    show: boolean;
+    message: string;
+    type: ToastType;
+  }>({ show: false, message: "", type: "info" });
+
+  const showToast = (message: string, type: ToastType) => {
+    setToast({ show: true, message, type });
+  };
 
   // Load data on mount
   useEffect(() => {
@@ -68,6 +160,191 @@ export default function AdminDashboard() {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Professor CRUD handlers
+  const handleSaveProfessor = async (
+    professor: Omit<Professor, "id"> | Professor
+  ) => {
+    try {
+      if ("id" in professor) {
+        // Update existing
+        await updateProfessor(professor.id, professor);
+        showToast("Data dosen berhasil diupdate", "success");
+      } else {
+        // Create new
+        await createProfessor(professor);
+        showToast("Dosen baru berhasil ditambahkan", "success");
+      }
+      await loadData(); // Reload data
+    } catch (error) {
+      console.error("Error saving professor:", error);
+      showToast("Gagal menyimpan data dosen", "error");
+      throw error;
+    }
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteModal.type) return;
+
+    try {
+      if (deleteModal.type === "professor" && deleteModal.id) {
+        await deleteProfessor(deleteModal.id);
+        showToast("Dosen berhasil dihapus", "success");
+      } else if (deleteModal.type === "accreditation" && deleteModal.id) {
+        await deleteAccreditation(deleteModal.id);
+        showToast("Akreditasi berhasil dihapus", "success");
+      } else if (deleteModal.type === "student" && deleteModal.facultyId) {
+        await deleteStudentData(deleteModal.facultyId);
+        showToast("Data mahasiswa berhasil dihapus", "success");
+      } else if (deleteModal.type === "program" && deleteModal.id) {
+        await deleteProgram(deleteModal.id);
+        showToast("Program studi berhasil dihapus", "success");
+      } else if (deleteModal.type === "department" && deleteModal.id) {
+        await deleteDepartment(deleteModal.id);
+        showToast("Departemen berhasil dihapus", "success");
+      } else if (deleteModal.type === "asset" && deleteModal.id) {
+        await deleteAssetCategory(deleteModal.id);
+        showToast("Kategori aset berhasil dihapus", "success");
+      } else if (
+        deleteModal.type === "assetDetail" &&
+        deleteModal.categoryId &&
+        deleteModal.id
+      ) {
+        await deleteAssetDetail(deleteModal.categoryId, deleteModal.id);
+        showToast("Item aset berhasil dihapus", "success");
+      }
+
+      await loadData(); // Reload data
+    } catch (error) {
+      console.error("Error deleting:", error);
+      showToast("Gagal menghapus data", "error");
+    }
+  };
+
+  // Accreditation CRUD handlers
+  const handleSaveAccreditation = async (
+    accreditation: Omit<Accreditation, "id"> | Accreditation
+  ) => {
+    try {
+      if ("id" in accreditation) {
+        await updateAccreditation(accreditation.id, accreditation);
+        showToast("Data akreditasi berhasil diupdate", "success");
+      } else {
+        await createAccreditation(accreditation);
+        showToast("Akreditasi baru berhasil ditambahkan", "success");
+      }
+      await loadData();
+    } catch (error) {
+      console.error("Error saving accreditation:", error);
+      showToast("Gagal menyimpan data akreditasi", "error");
+      throw error;
+    }
+  };
+
+  // Student CRUD handlers
+  const handleSaveStudent = async (student: StudentData) => {
+    try {
+      // Check if student data for this faculty already exists
+      const existing = data?.students.find(
+        (s) => s.faculty === student.faculty
+      );
+
+      if (existing) {
+        // Update existing - use faculty as identifier
+        await updateStudentData(student.faculty, student);
+        showToast("Data mahasiswa berhasil diupdate", "success");
+      } else {
+        // Create new
+        await createStudentData(student);
+        showToast("Data mahasiswa berhasil ditambahkan", "success");
+      }
+      await loadData();
+    } catch (error) {
+      console.error("Error saving student data:", error);
+      showToast("Gagal menyimpan data mahasiswa", "error");
+      throw error;
+    }
+  };
+
+  // Program CRUD handlers
+  const handleSaveProgram = async (
+    program: Omit<ProgramData, "id"> | ProgramData
+  ) => {
+    try {
+      if ("id" in program) {
+        await updateProgram(program.id, program);
+        showToast("Data program studi berhasil diupdate", "success");
+      } else {
+        await createProgram(program);
+        showToast("Program studi baru berhasil ditambahkan", "success");
+      }
+      await loadData();
+    } catch (error) {
+      console.error("Error saving program:", error);
+      showToast("Gagal menyimpan data program studi", "error");
+      throw error;
+    }
+  };
+
+  // Department CRUD handlers
+  const handleSaveDepartment = async (
+    department: Omit<DepartmentData, "id"> | DepartmentData
+  ) => {
+    try {
+      if ("id" in department) {
+        await updateDepartment(department.id, department);
+        showToast("Data departemen berhasil diupdate", "success");
+      } else {
+        await createDepartment(department);
+        showToast("Departemen baru berhasil ditambahkan", "success");
+      }
+      await loadData();
+    } catch (error) {
+      console.error("Error saving department:", error);
+      showToast("Gagal menyimpan data departemen", "error");
+      throw error;
+    }
+  };
+
+  const handleSaveAsset = async (
+    asset: Omit<AssetCategory, "id"> | AssetCategory
+  ) => {
+    try {
+      if ("id" in asset) {
+        await updateAssetCategory(asset.id, asset);
+        showToast("Kategori aset berhasil diupdate", "success");
+      } else {
+        await createAssetCategory(asset);
+        showToast("Kategori aset baru berhasil ditambahkan", "success");
+      }
+      await loadData();
+    } catch (error) {
+      console.error("Error saving asset category:", error);
+      showToast("Gagal menyimpan kategori aset", "error");
+      throw error;
+    }
+  };
+
+  const handleSaveAssetDetail = async (
+    detail: Omit<AssetDetail, "id"> | AssetDetail
+  ) => {
+    if (!assetDetailModal.categoryId) return;
+
+    try {
+      if ("id" in detail) {
+        await updateAssetDetail(assetDetailModal.categoryId, detail.id, detail);
+        showToast("Item aset berhasil diupdate", "success");
+      } else {
+        await addAssetDetail(assetDetailModal.categoryId, detail);
+        showToast("Item aset baru berhasil ditambahkan", "success");
+      }
+      await loadData();
+    } catch (error) {
+      console.error("Error saving asset detail:", error);
+      showToast("Gagal menyimpan item aset", "error");
+      throw error;
     }
   };
 
@@ -140,6 +417,11 @@ export default function AdminDashboard() {
       icon: Building2,
       count: data?.departments.length,
     },
+    {
+      id: "analytics",
+      label: "Analytics",
+      icon: TrendingUp,
+    },
   ];
 
   if (loading) {
@@ -177,15 +459,88 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+      {/* Toast Notification */}
+      {toast.show && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast({ ...toast, show: false })}
+        />
+      )}
+
+      {/* Modals */}
+      <ProfessorModal
+        isOpen={professorModal.isOpen}
+        onClose={() => setProfessorModal({ isOpen: false })}
+        onSave={handleSaveProfessor}
+        professor={professorModal.professor}
+        faculties={faculties}
+      />
+
+      <AccreditationModal
+        isOpen={accreditationModal.isOpen}
+        onClose={() => setAccreditationModal({ isOpen: false })}
+        onSave={handleSaveAccreditation}
+        accreditation={accreditationModal.accreditation}
+      />
+
+      <StudentModal
+        isOpen={studentModal.isOpen}
+        onClose={() => setStudentModal({ isOpen: false })}
+        onSave={handleSaveStudent}
+        student={studentModal.student}
+        faculties={faculties}
+      />
+
+      <ProgramModal
+        isOpen={programModal.isOpen}
+        onClose={() => setProgramModal({ isOpen: false })}
+        onSave={handleSaveProgram}
+        program={programModal.program}
+        faculties={faculties}
+      />
+
+      <DepartmentModal
+        isOpen={departmentModal.isOpen}
+        onClose={() => setDepartmentModal({ isOpen: false })}
+        onSave={handleSaveDepartment}
+        department={departmentModal.department}
+        faculties={faculties}
+      />
+
+      <AssetModal
+        isOpen={assetModal.isOpen}
+        onClose={() => setAssetModal({ isOpen: false })}
+        onSave={handleSaveAsset}
+        asset={assetModal.asset}
+      />
+
+      <AssetDetailModal
+        isOpen={assetDetailModal.isOpen}
+        onClose={() => setAssetDetailModal({ isOpen: false })}
+        onSave={handleSaveAssetDetail}
+        detail={assetDetailModal.detail}
+        categoryName={assetDetailModal.categoryName || ""}
+      />
+
+      <DeleteConfirmModal
+        isOpen={deleteModal.isOpen}
+        onClose={() => setDeleteModal({ isOpen: false })}
+        onConfirm={handleDeleteConfirm}
+        title="Konfirmasi Hapus"
+        message="Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan."
+        itemName={deleteModal.name}
+      />
+
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+      <div className="bg-[#2C5F2D] shadow-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">
+              <h1 className="text-2xl font-bold text-white drop-shadow-lg">
                 Admin Dashboard
               </h1>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-yellow-200 mt-1">
                 Terakhir diupdate:{" "}
                 {data?.lastUpdated
                   ? new Date(data.lastUpdated).toLocaleString("id-ID")
@@ -195,14 +550,14 @@ export default function AdminDashboard() {
             <div className="flex gap-3">
               <button
                 onClick={handleExportData}
-                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors flex items-center gap-2"
+                className="px-4 py-2 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-colors flex items-center gap-2"
               >
                 <Download className="w-4 h-4" />
                 Export
               </button>
               <button
                 onClick={loadData}
-                className="px-4 py-2 bg-blue-100 text-blue-700 rounded-xl hover:bg-blue-200 transition-colors flex items-center gap-2"
+                className="px-4 py-2 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-colors flex items-center gap-2"
               >
                 <RefreshCw className="w-4 h-4" />
                 Refresh
@@ -210,7 +565,7 @@ export default function AdminDashboard() {
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="px-6 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-xl hover:from-blue-700 hover:to-green-700 transition-all flex items-center gap-2 disabled:opacity-50"
+                className="px-6 py-2 bg-yellow-500 text-gray-900 font-semibold rounded-xl hover:bg-yellow-400 transition-all flex items-center gap-2 disabled:opacity-50"
               >
                 <Save className="w-4 h-4" />
                 {saving ? "Menyimpan..." : "Simpan Perubahan"}
@@ -335,26 +690,126 @@ export default function AdminDashboard() {
               <ProfessorsTable
                 professors={data.professors}
                 faculties={faculties}
+                onAdd={() => setProfessorModal({ isOpen: true })}
+                onEdit={(professor) =>
+                  setProfessorModal({ isOpen: true, professor })
+                }
+                onDelete={(professor) =>
+                  setDeleteModal({
+                    isOpen: true,
+                    type: "professor",
+                    id: professor.id,
+                    name: professor.name,
+                  })
+                }
               />
             )}
             {activeTab === "accreditations" && data && (
-              <AccreditationsTable accreditations={data.accreditations} />
+              <AccreditationsTable
+                accreditations={data.accreditations}
+                onAdd={() => setAccreditationModal({ isOpen: true })}
+                onEdit={(accreditation) =>
+                  setAccreditationModal({ isOpen: true, accreditation })
+                }
+                onDelete={(accreditation) =>
+                  setDeleteModal({
+                    isOpen: true,
+                    type: "accreditation",
+                    id: accreditation.id,
+                    name: `${accreditation.program} - ${accreditation.level}`,
+                  })
+                }
+              />
             )}
             {activeTab === "students" && data && (
-              <StudentsTable students={data.students} />
+              <StudentsTable
+                students={data.students}
+                onAdd={() => setStudentModal({ isOpen: true })}
+                onEdit={(student) => setStudentModal({ isOpen: true, student })}
+                onDelete={(student) =>
+                  setDeleteModal({
+                    isOpen: true,
+                    type: "student",
+                    facultyId: student.faculty,
+                    name: student.faculty,
+                  })
+                }
+              />
             )}
             {activeTab === "assets" && data && (
-              <AssetsTable assets={data.assets} />
+              <AssetsTable
+                assets={data.assets}
+                onAdd={() => setAssetModal({ isOpen: true })}
+                onEdit={(asset) => setAssetModal({ isOpen: true, asset })}
+                onDelete={(asset) =>
+                  setDeleteModal({
+                    isOpen: true,
+                    type: "asset",
+                    id: asset.id,
+                    name: asset.name,
+                  })
+                }
+                onAddDetail={(categoryId, categoryName) =>
+                  setAssetDetailModal({
+                    isOpen: true,
+                    categoryId,
+                    categoryName,
+                  })
+                }
+                onEditDetail={(categoryId, categoryName, detail) =>
+                  setAssetDetailModal({
+                    isOpen: true,
+                    detail,
+                    categoryId,
+                    categoryName,
+                  })
+                }
+                onDeleteDetail={(categoryId, _categoryName, detail) =>
+                  setDeleteModal({
+                    isOpen: true,
+                    type: "assetDetail",
+                    id: detail.id,
+                    categoryId,
+                    name: detail.name,
+                  })
+                }
+              />
             )}
             {activeTab === "programs" && data && (
-              <ProgramsTable programs={data.programs} faculties={faculties} />
+              <ProgramsTable
+                programs={data.programs}
+                faculties={faculties}
+                onAdd={() => setProgramModal({ isOpen: true })}
+                onEdit={(program) => setProgramModal({ isOpen: true, program })}
+                onDelete={(program) =>
+                  setDeleteModal({
+                    isOpen: true,
+                    type: "program",
+                    id: program.id,
+                    name: program.name,
+                  })
+                }
+              />
             )}
             {activeTab === "departments" && data && (
               <DepartmentsTable
                 departments={data.departments}
                 faculties={faculties}
+                onAdd={() => setDepartmentModal({ isOpen: true })}
+                onEdit={(department) =>
+                  setDepartmentModal({ isOpen: true, department })
+                }
+                onDelete={(department) =>
+                  setDeleteModal({
+                    isOpen: true,
+                    type: "department",
+                    id: department.id,
+                    name: department.name,
+                  })
+                }
               />
             )}
+            {activeTab === "analytics" && <AdminTrafficAnalytics />}
           </div>
         </div>
       </div>
@@ -368,9 +823,15 @@ export default function AdminDashboard() {
 // Placeholder table components - akan diimplementasi detail
 function ProfessorsTable({
   professors,
+  onAdd,
+  onEdit,
+  onDelete,
 }: {
   professors: Professor[];
   faculties: FacultyInfo[];
+  onAdd: () => void;
+  onEdit: (professor: Professor) => void;
+  onDelete: (professor: Professor) => void;
 }) {
   return (
     <div>
@@ -378,7 +839,10 @@ function ProfessorsTable({
         <h3 className="text-lg font-semibold text-gray-900">
           Daftar Dosen ({professors.length})
         </h3>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
+        <button
+          onClick={onAdd}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+        >
           <Plus className="w-4 h-4" />
           Tambah Dosen
         </button>
@@ -418,10 +882,16 @@ function ProfessorsTable({
                   {prof.email}
                 </td>
                 <td className="px-4 py-3 text-sm text-right">
-                  <button className="p-1 text-blue-600 hover:bg-blue-50 rounded">
+                  <button
+                    onClick={() => onEdit(prof)}
+                    className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                  >
                     <Edit2 className="w-4 h-4" />
                   </button>
-                  <button className="p-1 text-red-600 hover:bg-red-50 rounded ml-2">
+                  <button
+                    onClick={() => onDelete(prof)}
+                    className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"
+                  >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </td>
@@ -441,8 +911,14 @@ function ProfessorsTable({
 
 function AccreditationsTable({
   accreditations,
+  onAdd,
+  onEdit,
+  onDelete,
 }: {
   accreditations: Accreditation[];
+  onAdd: () => void;
+  onEdit: (accreditation: Accreditation) => void;
+  onDelete: (accreditation: Accreditation) => void;
 }) {
   const getStatusBadge = (status: string) => {
     const styles = {
@@ -459,7 +935,10 @@ function AccreditationsTable({
         <h3 className="text-lg font-semibold text-gray-900">
           Daftar Akreditasi ({accreditations.length})
         </h3>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
+        <button
+          onClick={onAdd}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+        >
           <Plus className="w-4 h-4" />
           Tambah Akreditasi
         </button>
@@ -515,10 +994,16 @@ function AccreditationsTable({
                   </span>
                 </td>
                 <td className="px-4 py-3 text-sm text-right">
-                  <button className="p-1 text-blue-600 hover:bg-blue-50 rounded">
+                  <button
+                    onClick={() => onEdit(acc)}
+                    className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                  >
                     <Edit2 className="w-4 h-4" />
                   </button>
-                  <button className="p-1 text-red-600 hover:bg-red-50 rounded ml-2">
+                  <button
+                    onClick={() => onDelete(acc)}
+                    className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"
+                  >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </td>
@@ -531,7 +1016,17 @@ function AccreditationsTable({
   );
 }
 
-function StudentsTable({ students }: { students: StudentData[] }) {
+function StudentsTable({
+  students,
+  onAdd,
+  onEdit,
+  onDelete,
+}: {
+  students: StudentData[];
+  onAdd: () => void;
+  onEdit: (student: StudentData) => void;
+  onDelete: (student: StudentData) => void;
+}) {
   const totalStudents = students.reduce((sum, s) => sum + s.totalStudents, 0);
 
   return (
@@ -541,7 +1036,10 @@ function StudentsTable({ students }: { students: StudentData[] }) {
           Data Mahasiswa ({students.length} Fakultas) - Total:{" "}
           {totalStudents.toLocaleString()} mahasiswa
         </h3>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
+        <button
+          onClick={onAdd}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+        >
           <Plus className="w-4 h-4" />
           Tambah Data
         </button>
@@ -589,10 +1087,16 @@ function StudentsTable({ students }: { students: StudentData[] }) {
                   {student.totalStudents.toLocaleString()}
                 </td>
                 <td className="px-4 py-3 text-sm text-right">
-                  <button className="p-1 text-blue-600 hover:bg-blue-50 rounded">
+                  <button
+                    onClick={() => onEdit(student)}
+                    className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                  >
                     <Edit2 className="w-4 h-4" />
                   </button>
-                  <button className="p-1 text-red-600 hover:bg-red-50 rounded ml-2">
+                  <button
+                    onClick={() => onDelete(student)}
+                    className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"
+                  >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </td>
@@ -631,14 +1135,41 @@ function StudentsTable({ students }: { students: StudentData[] }) {
   );
 }
 
-function AssetsTable({ assets }: { assets: AssetCategory[] }) {
+function AssetsTable({
+  assets,
+  onAdd,
+  onEdit,
+  onDelete,
+  onAddDetail,
+  onEditDetail,
+  onDeleteDetail,
+}: {
+  assets: AssetCategory[];
+  onAdd: () => void;
+  onEdit: (asset: AssetCategory) => void;
+  onDelete: (asset: AssetCategory) => void;
+  onAddDetail: (categoryId: string, categoryName: string) => void;
+  onEditDetail: (
+    categoryId: string,
+    categoryName: string,
+    detail: AssetDetail
+  ) => void;
+  onDeleteDetail: (
+    categoryId: string,
+    categoryName: string,
+    detail: AssetDetail
+  ) => void;
+}) {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900">
           Daftar Aset ({assets.length} Kategori)
         </h3>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
+        <button
+          onClick={onAdd}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+        >
           <Plus className="w-4 h-4" />
           Tambah Kategori
         </button>
@@ -664,10 +1195,23 @@ function AssetsTable({ assets }: { assets: AssetCategory[] }) {
                 </div>
               </div>
               <div className="flex gap-2">
-                <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
+                <button
+                  onClick={() => onAddDetail(category.id, category.name)}
+                  className="px-3 py-1.5 text-sm bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors flex items-center gap-1"
+                >
+                  <Plus className="w-3 h-3" />
+                  Item
+                </button>
+                <button
+                  onClick={() => onEdit(category)}
+                  className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+                >
                   <Edit2 className="w-4 h-4" />
                 </button>
-                <button className="p-2 text-red-600 hover:bg-red-50 rounded-lg">
+                <button
+                  onClick={() => onDelete(category)}
+                  className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                >
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
@@ -680,6 +1224,7 @@ function AssetsTable({ assets }: { assets: AssetCategory[] }) {
                     <th className="text-left py-2">Ruangan</th>
                     <th className="text-left py-2">Gedung</th>
                     <th className="text-right py-2">Kapasitas</th>
+                    <th className="text-right py-2">Aksi</th>
                   </tr>
                 </thead>
                 <tbody className="text-sm">
@@ -690,6 +1235,24 @@ function AssetsTable({ assets }: { assets: AssetCategory[] }) {
                       <td className="py-2 text-gray-600">{detail.building}</td>
                       <td className="py-2 text-gray-600 text-right">
                         {detail.capacity ? `${detail.capacity} orang` : "-"}
+                      </td>
+                      <td className="py-2 text-right">
+                        <button
+                          onClick={() =>
+                            onEditDetail(category.id, category.name, detail)
+                          }
+                          className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                        >
+                          <Edit2 className="w-3 h-3" />
+                        </button>
+                        <button
+                          onClick={() =>
+                            onDeleteDetail(category.id, category.name, detail)
+                          }
+                          className="p-1 text-red-600 hover:bg-red-50 rounded ml-1"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -710,9 +1273,15 @@ function AssetsTable({ assets }: { assets: AssetCategory[] }) {
 
 function ProgramsTable({
   programs,
+  onAdd,
+  onEdit,
+  onDelete,
 }: {
   programs: ProgramData[];
   faculties: FacultyInfo[];
+  onAdd: () => void;
+  onEdit: (program: ProgramData) => void;
+  onDelete: (program: ProgramData) => void;
 }) {
   const totalStudents = programs.reduce((sum, p) => sum + p.students, 0);
 
@@ -723,7 +1292,10 @@ function ProgramsTable({
           Program Studi ({programs.length}) - Total:{" "}
           {totalStudents.toLocaleString()} mahasiswa
         </h3>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
+        <button
+          onClick={onAdd}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+        >
           <Plus className="w-4 h-4" />
           Tambah Program
         </button>
@@ -767,10 +1339,16 @@ function ProgramsTable({
                   {program.students.toLocaleString()}
                 </td>
                 <td className="px-4 py-3 text-sm text-right">
-                  <button className="p-1 text-blue-600 hover:bg-blue-50 rounded">
+                  <button
+                    onClick={() => onEdit(program)}
+                    className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                  >
                     <Edit2 className="w-4 h-4" />
                   </button>
-                  <button className="p-1 text-red-600 hover:bg-red-50 rounded ml-2">
+                  <button
+                    onClick={() => onDelete(program)}
+                    className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"
+                  >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </td>
@@ -790,9 +1368,15 @@ function ProgramsTable({
 
 function DepartmentsTable({
   departments,
+  onAdd,
+  onEdit,
+  onDelete,
 }: {
   departments: DepartmentData[];
   faculties: FacultyInfo[];
+  onAdd: () => void;
+  onEdit: (department: DepartmentData) => void;
+  onDelete: (department: DepartmentData) => void;
 }) {
   const totalProfessors = departments.reduce((sum, d) => sum + d.professors, 0);
 
@@ -802,7 +1386,10 @@ function DepartmentsTable({
         <h3 className="text-lg font-semibold text-gray-900">
           Departemen ({departments.length}) - Total: {totalProfessors} dosen
         </h3>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
+        <button
+          onClick={onAdd}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+        >
           <Plus className="w-4 h-4" />
           Tambah Departemen
         </button>
@@ -844,10 +1431,16 @@ function DepartmentsTable({
                   {dept.professors}
                 </td>
                 <td className="px-4 py-3 text-sm text-right">
-                  <button className="p-1 text-blue-600 hover:bg-blue-50 rounded">
+                  <button
+                    onClick={() => onEdit(dept)}
+                    className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                  >
                     <Edit2 className="w-4 h-4" />
                   </button>
-                  <button className="p-1 text-red-600 hover:bg-red-50 rounded ml-2">
+                  <button
+                    onClick={() => onDelete(dept)}
+                    className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"
+                  >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </td>

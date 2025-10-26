@@ -25,6 +25,7 @@ export interface DashboardData {
 }
 
 const API_BASE_URL = "/data";
+const BACKEND_API_URL = "http://localhost:3001/api";
 const DATA_FILE = "dashboard-data.json";
 const FACULTIES_FILE = "faculties.json";
 
@@ -101,20 +102,19 @@ export const saveDashboardData = async (
     dataCache = data;
     data.lastUpdated = new Date().toISOString();
 
-    // Save to localStorage as fallback
-    localStorage.setItem("dashboard-data", JSON.stringify(data));
+    // Save via backend API
+    const response = await fetch(`${BACKEND_API_URL}/dashboard/data`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(data),
+    });
 
-    // In production, this would be a POST/PUT request to backend
-    // const response = await fetch(`${API_BASE_URL}/${DATA_FILE}`, {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(data)
-    // });
-    // return response.ok;
+    if (!response.ok) {
+      throw new Error("Failed to save data");
+    }
 
-    console.log(
-      "Data saved to localStorage (backend integration needed for production)"
-    );
+    console.log("Data saved successfully via backend");
     return true;
   } catch (error) {
     console.error("Error saving dashboard data:", error);
@@ -223,4 +223,272 @@ export const getDepartmentsByFacultyId = (
   const faculty = faculties.find((f) => f.id === facultyId);
   if (!faculty) return [];
   return departments.filter((dept) => dept.faculty === faculty.name);
+};
+
+// ============================================
+// CRUD OPERATIONS
+// ============================================
+
+// Generic API request helper
+const apiRequest = async <T>(
+  endpoint: string,
+  method: string = "GET",
+  body?: any
+): Promise<T> => {
+  const options: RequestInit = {
+    method,
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  };
+
+  if (body) {
+    options.body = JSON.stringify(body);
+  }
+
+  const response = await fetch(`${BACKEND_API_URL}${endpoint}`, options);
+
+  if (!response.ok) {
+    const error = await response
+      .json()
+      .catch(() => ({ message: "Unknown error" }));
+    throw new Error(error.message || `HTTP ${response.status}`);
+  }
+
+  return response.json();
+};
+
+// ===== PROFESSORS CRUD =====
+
+export const createProfessor = async (
+  professor: Omit<Professor, "id">
+): Promise<Professor> => {
+  clearCache();
+  const result = await apiRequest<{ success: boolean; data: Professor }>(
+    "/professors",
+    "POST",
+    professor
+  );
+  return result.data;
+};
+
+export const updateProfessor = async (
+  id: string,
+  professor: Partial<Professor>
+): Promise<Professor> => {
+  clearCache();
+  const result = await apiRequest<{ success: boolean; data: Professor }>(
+    `/professors/${id}`,
+    "PUT",
+    professor
+  );
+  return result.data;
+};
+
+export const deleteProfessor = async (id: string): Promise<void> => {
+  clearCache();
+  await apiRequest(`/professors/${id}`, "DELETE");
+};
+
+// ===== ACCREDITATIONS CRUD =====
+
+export const createAccreditation = async (
+  accreditation: Omit<Accreditation, "id">
+): Promise<Accreditation> => {
+  clearCache();
+  const result = await apiRequest<{ success: boolean; data: Accreditation }>(
+    "/accreditations",
+    "POST",
+    accreditation
+  );
+  return result.data;
+};
+
+export const updateAccreditation = async (
+  id: string,
+  accreditation: Partial<Accreditation>
+): Promise<Accreditation> => {
+  clearCache();
+  const result = await apiRequest<{ success: boolean; data: Accreditation }>(
+    `/accreditations/${id}`,
+    "PUT",
+    accreditation
+  );
+  return result.data;
+};
+
+export const deleteAccreditation = async (id: string): Promise<void> => {
+  clearCache();
+  await apiRequest(`/accreditations/${id}`, "DELETE");
+};
+
+// ===== STUDENTS CRUD =====
+
+export const createStudentData = async (
+  student: Omit<StudentData, "facultyId">
+): Promise<StudentData> => {
+  clearCache();
+  const result = await apiRequest<{ success: boolean; data: StudentData }>(
+    "/students",
+    "POST",
+    student
+  );
+  return result.data;
+};
+
+export const updateStudentData = async (
+  facultyId: string,
+  student: Partial<StudentData>
+): Promise<StudentData> => {
+  clearCache();
+  const result = await apiRequest<{ success: boolean; data: StudentData }>(
+    `/students/${facultyId}`,
+    "PUT",
+    student
+  );
+  return result.data;
+};
+
+export const deleteStudentData = async (facultyId: string): Promise<void> => {
+  clearCache();
+  await apiRequest(`/students/${facultyId}`, "DELETE");
+};
+
+// ===== PROGRAMS CRUD =====
+
+export const createProgram = async (
+  program: Omit<ProgramData, "id">
+): Promise<ProgramData> => {
+  clearCache();
+  const result = await apiRequest<{ success: boolean; data: ProgramData }>(
+    "/programs",
+    "POST",
+    program
+  );
+  return result.data;
+};
+
+export const updateProgram = async (
+  id: string,
+  program: Partial<ProgramData>
+): Promise<ProgramData> => {
+  clearCache();
+  const result = await apiRequest<{ success: boolean; data: ProgramData }>(
+    `/programs/${id}`,
+    "PUT",
+    program
+  );
+  return result.data;
+};
+
+export const deleteProgram = async (id: string): Promise<void> => {
+  clearCache();
+  await apiRequest(`/programs/${id}`, "DELETE");
+};
+
+// ===== DEPARTMENTS CRUD =====
+
+export const createDepartment = async (
+  department: Omit<DepartmentData, "id">
+): Promise<DepartmentData> => {
+  clearCache();
+  const result = await apiRequest<{ success: boolean; data: DepartmentData }>(
+    "/departments",
+    "POST",
+    department
+  );
+  return result.data;
+};
+
+export const updateDepartment = async (
+  id: string,
+  department: Partial<DepartmentData>
+): Promise<DepartmentData> => {
+  clearCache();
+  const result = await apiRequest<{ success: boolean; data: DepartmentData }>(
+    `/departments/${id}`,
+    "PUT",
+    department
+  );
+  return result.data;
+};
+
+export const deleteDepartment = async (id: string): Promise<void> => {
+  clearCache();
+  await apiRequest(`/departments/${id}`, "DELETE");
+};
+
+// ===== ASSETS CRUD =====
+
+export const createAssetCategory = async (
+  category: Omit<AssetCategory, "id">
+): Promise<AssetCategory> => {
+  clearCache();
+  const result = await apiRequest<{ success: boolean; data: AssetCategory }>(
+    "/assets",
+    "POST",
+    category
+  );
+  return result.data;
+};
+
+export const updateAssetCategory = async (
+  id: string,
+  category: Partial<AssetCategory>
+): Promise<AssetCategory> => {
+  clearCache();
+  const result = await apiRequest<{ success: boolean; data: AssetCategory }>(
+    `/assets/${id}`,
+    "PUT",
+    category
+  );
+  return result.data;
+};
+
+export const deleteAssetCategory = async (id: string): Promise<void> => {
+  clearCache();
+  await apiRequest(`/assets/${id}`, "DELETE");
+};
+
+// Asset details within a category
+export interface AssetDetail {
+  id: string;
+  name: string;
+  room: string;
+  building: string;
+  capacity?: number;
+}
+
+export const addAssetDetail = async (
+  categoryId: string,
+  detail: Omit<AssetDetail, "id">
+): Promise<AssetDetail> => {
+  clearCache();
+  const result = await apiRequest<{ success: boolean; data: AssetDetail }>(
+    `/assets/${categoryId}/details`,
+    "POST",
+    detail
+  );
+  return result.data;
+};
+
+export const updateAssetDetail = async (
+  categoryId: string,
+  detailId: string,
+  detail: Partial<AssetDetail>
+): Promise<AssetDetail> => {
+  clearCache();
+  const result = await apiRequest<{ success: boolean; data: AssetDetail }>(
+    `/assets/${categoryId}/details/${detailId}`,
+    "PUT",
+    detail
+  );
+  return result.data;
+};
+
+export const deleteAssetDetail = async (
+  categoryId: string,
+  detailId: string
+): Promise<void> => {
+  clearCache();
+  await apiRequest(`/assets/${categoryId}/details/${detailId}`, "DELETE");
 };

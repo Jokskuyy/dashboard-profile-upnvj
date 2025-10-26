@@ -8,7 +8,7 @@
       "email": "admin@upnvj.ac.id",
       "role": "super_admin",
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "lastLogin": "2025-10-26T06:25:06.821Z"
+      "lastLogin": "2025-10-26T09:19:02.863Z"
     }
   ],
   "sessions": [
@@ -27,6 +27,15 @@
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluXzAwMSIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NjE0NTk5MDYsImV4cCI6MTc2MTU0NjMwNn0.Cgn18GmryErgLNTD5lJcoJGon47LU7XqCAfj5FIl6GY",
       "createdAt": "2025-10-26T06:25:06.821Z",
       "expiresAt": "2025-10-27T06:25:06.821Z",
+      "ipAddress": null,
+      "userAgent": null
+    },
+    {
+      "id": "session_1761470342863_gm2yw5tgs",
+      "adminId": "admin_001",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluXzAwMSIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NjE0NzAzNDIsImV4cCI6MTc2MTU1Njc0Mn0.iBQQSlRw_f_BVxdCNIDMcOeyU_QHlc7Be2GolHXfQUw",
+      "createdAt": "2025-10-26T09:19:02.863Z",
+      "expiresAt": "2025-10-27T09:19:02.863Z",
       "ipAddress": null,
       "userAgent": null
     }

@@ -1,12 +1,16 @@
 {
-  "lastUpdated": "2025-10-06T22:29:39.661975",
+  "lastUpdated": "2025-10-26T07:43:43.500Z",
   "professors": [
     {
       "id": "1",
       "name": "Prof. Dr. Ir. Ahmad Dahlan, M.T.",
       "title": "Professor",
       "faculty": "Fakultas Teknik",
-      "expertise": ["Teknik Sipil", "Manajemen Konstruksi", "Teknologi Beton"],
+      "expertise": [
+        "Teknik Sipil",
+        "Manajemen Konstruksi",
+        "Teknologi Beton"
+      ],
       "email": "ahmad.dahlan@upnvj.ac.id"
     },
     {
@@ -14,7 +18,11 @@
       "name": "Dr. Eng. Bambang Suryadi, S.T., M.T.",
       "title": "Associate Professor",
       "faculty": "Fakultas Teknik",
-      "expertise": ["Teknik Mesin", "Termodinamika", "Energi Terbarukan"],
+      "expertise": [
+        "Teknik Mesin",
+        "Termodinamika",
+        "Energi Terbarukan"
+      ],
       "email": "bambang.suryadi@upnvj.ac.id"
     },
     {
@@ -22,7 +30,11 @@
       "name": "Dr. Ir. Candra Wijaya, M.T.",
       "title": "Associate Professor",
       "faculty": "Fakultas Teknik",
-      "expertise": ["Teknik Elektro", "Sistem Kontrol", "Robotika"],
+      "expertise": [
+        "Teknik Elektro",
+        "Sistem Kontrol",
+        "Robotika"
+      ],
       "email": "candra.wijaya@upnvj.ac.id"
     },
     {
@@ -30,7 +42,11 @@
       "name": "Dr. Dwi Hartono, S.T., M.Eng.",
       "title": "Assistant Professor",
       "faculty": "Fakultas Teknik",
-      "expertise": ["Teknik Industri", "Sistem Produksi", "Lean Manufacturing"],
+      "expertise": [
+        "Teknik Industri",
+        "Sistem Produksi",
+        "Lean Manufacturing"
+      ],
       "email": "dwi.hartono@upnvj.ac.id"
     },
     {
@@ -38,7 +54,11 @@
       "name": "Dr. Eka Permata, S.T., M.T.",
       "title": "Assistant Professor",
       "faculty": "Fakultas Teknik",
-      "expertise": ["Arsitektur", "Desain Sustainable", "Urban Planning"],
+      "expertise": [
+        "Arsitektur",
+        "Desain Sustainable",
+        "Urban Planning"
+      ],
       "email": "eka.permata@upnvj.ac.id"
     },
     {
@@ -46,7 +66,11 @@
       "name": "Fitri Andayani, S.T., M.T.",
       "title": "Lecturer",
       "faculty": "Fakultas Teknik",
-      "expertise": ["Teknik Lingkungan", "Pengolahan Air", "Waste Management"],
+      "expertise": [
+        "Teknik Lingkungan",
+        "Pengolahan Air",
+        "Waste Management"
+      ],
       "email": "fitri.andayani@upnvj.ac.id"
     },
     {
@@ -54,7 +78,11 @@
       "name": "Gunawan Pratama, S.T., M.T.",
       "title": "Lecturer",
       "faculty": "Fakultas Teknik",
-      "expertise": ["Geoteknik", "Struktur Bangunan", "Material Konstruksi"],
+      "expertise": [
+        "Geoteknik",
+        "Struktur Bangunan",
+        "Material Konstruksi"
+      ],
       "email": "gunawan.pratama@upnvj.ac.id"
     },
     {
@@ -62,7 +90,11 @@
       "name": "Hendra Kusuma, S.T., M.T.",
       "title": "Lecturer",
       "faculty": "Fakultas Teknik",
-      "expertise": ["Teknik Sipil", "Hidrolika", "Irigasi"],
+      "expertise": [
+        "Teknik Sipil",
+        "Hidrolika",
+        "Irigasi"
+      ],
       "email": "hendra.kusuma@upnvj.ac.id"
     },
     {
@@ -70,7 +102,11 @@
       "name": "Dr. Siti Aminah, S.E., M.M.",
       "title": "Associate Professor",
       "faculty": "Fakultas Ekonomi dan Bisnis",
-      "expertise": ["Manajemen Keuangan", "Akuntansi", "Ekonomi Bisnis"],
+      "expertise": [
+        "Manajemen Keuangan",
+        "Akuntansi",
+        "Ekonomi Bisnis"
+      ],
       "email": "siti.aminah@upnvj.ac.id"
     },
     {
@@ -78,7 +114,11 @@
       "name": "Prof. Dr. Indra Wijaya, S.E., M.M.",
       "title": "Professor",
       "faculty": "Fakultas Ekonomi dan Bisnis",
-      "expertise": ["Manajemen Strategis", "Kewirausahaan", "Bisnis Digital"],
+      "expertise": [
+        "Manajemen Strategis",
+        "Kewirausahaan",
+        "Bisnis Digital"
+      ],
       "email": "indra.wijaya@upnvj.ac.id"
     },
     {
@@ -86,7 +126,11 @@
       "name": "Dr. Joko Prasetyo, S.E., M.Ak.",
       "title": "Associate Professor",
       "faculty": "Fakultas Ekonomi dan Bisnis",
-      "expertise": ["Akuntansi Manajemen", "Audit", "Perpajakan"],
+      "expertise": [
+        "Akuntansi Manajemen",
+        "Audit",
+        "Perpajakan"
+      ],
       "email": "joko.prasetyo@upnvj.ac.id"
     },
     {
@@ -94,7 +138,11 @@
       "name": "Dr. Kartika Sari, S.E., M.M.",
       "title": "Assistant Professor",
       "faculty": "Fakultas Ekonomi dan Bisnis",
-      "expertise": ["Manajemen SDM", "Organizational Behavior", "Leadership"],
+      "expertise": [
+        "Manajemen SDM",
+        "Organizational Behavior",
+        "Leadership"
+      ],
       "email": "kartika.sari@upnvj.ac.id"
     },
     {
@@ -114,7 +162,11 @@
       "name": "Maya Sari, S.E., M.E.",
       "title": "Lecturer",
       "faculty": "Fakultas Ekonomi dan Bisnis",
-      "expertise": ["Ekonomi Makro", "Ekonomi Pembangunan", "Ekonomi Regional"],
+      "expertise": [
+        "Ekonomi Makro",
+        "Ekonomi Pembangunan",
+        "Ekonomi Regional"
+      ],
       "email": "maya.sari@upnvj.ac.id"
     },
     {
@@ -122,7 +174,11 @@
       "name": "Nur Rahman, S.E., M.M.",
       "title": "Lecturer",
       "faculty": "Fakultas Ekonomi dan Bisnis",
-      "expertise": ["Manajemen Operasi", "Supply Chain", "Logistics"],
+      "expertise": [
+        "Manajemen Operasi",
+        "Supply Chain",
+        "Logistics"
+      ],
       "email": "nur.rahman@upnvj.ac.id"
     },
     {
@@ -142,7 +198,11 @@
       "name": "Dr. Andi Prasetyo, S.Kom., M.Kom.",
       "title": "Associate Professor",
       "faculty": "Fakultas Ilmu Komputer",
-      "expertise": ["Software Engineering", "Web Development", "Mobile Apps"],
+      "expertise": [
+        "Software Engineering",
+        "Web Development",
+        "Mobile Apps"
+      ],
       "email": "andi.prasetyo@upnvj.ac.id"
     },
     {
@@ -150,7 +210,11 @@
       "name": "Citra Dewi, S.Kom., M.Kom.",
       "title": "Assistant Professor",
       "faculty": "Fakultas Ilmu Komputer",
-      "expertise": ["Database Systems", "Big Data", "Data Mining"],
+      "expertise": [
+        "Database Systems",
+        "Big Data",
+        "Data Mining"
+      ],
       "email": "citra.dewi@upnvj.ac.id"
     },
     {
@@ -158,7 +222,11 @@
       "name": "Denny Kurniawan, S.Kom., M.T.",
       "title": "Lecturer",
       "faculty": "Fakultas Ilmu Komputer",
-      "expertise": ["Network Security", "Cybersecurity", "Ethical Hacking"],
+      "expertise": [
+        "Network Security",
+        "Cybersecurity",
+        "Ethical Hacking"
+      ],
       "email": "denny.kurniawan@upnvj.ac.id"
     },
     {
@@ -166,7 +234,11 @@
       "name": "Eko Wahyudi, S.Kom., M.Kom.",
       "title": "Lecturer",
       "faculty": "Fakultas Ilmu Komputer",
-      "expertise": ["Game Development", "Computer Graphics", "UI/UX Design"],
+      "expertise": [
+        "Game Development",
+        "Computer Graphics",
+        "UI/UX Design"
+      ],
       "email": "eko.wahyudi@upnvj.ac.id"
     },
     {
@@ -174,7 +246,11 @@
       "name": "Fajar Nugroho, S.Kom., M.T.",
       "title": "Lecturer",
       "faculty": "Fakultas Ilmu Komputer",
-      "expertise": ["Cloud Computing", "DevOps", "System Administration"],
+      "expertise": [
+        "Cloud Computing",
+        "DevOps",
+        "System Administration"
+      ],
       "email": "fajar.nugroho@upnvj.ac.id"
     },
     {
@@ -182,7 +258,11 @@
       "name": "Dr. Rina Kartika, S.H., M.H.",
       "title": "Associate Professor",
       "faculty": "Fakultas Hukum",
-      "expertise": ["Hukum Internasional", "Hukum Bisnis", "HAM"],
+      "expertise": [
+        "Hukum Internasional",
+        "Hukum Bisnis",
+        "HAM"
+      ],
       "email": "rina.kartika@upnvj.ac.id"
     },
     {
@@ -190,7 +270,11 @@
       "name": "Prof. Dr. Agus Salim, S.H., M.H.",
       "title": "Professor",
       "faculty": "Fakultas Hukum",
-      "expertise": ["Hukum Pidana", "Hukum Acara Pidana", "Kriminologi"],
+      "expertise": [
+        "Hukum Pidana",
+        "Hukum Acara Pidana",
+        "Kriminologi"
+      ],
       "email": "agus.salim@upnvj.ac.id"
     },
     {
@@ -198,7 +282,11 @@
       "name": "Dr. Budi Hartono, S.H., M.H.",
       "title": "Assistant Professor",
       "faculty": "Fakultas Hukum",
-      "expertise": ["Hukum Perdata", "Hukum Kontrak", "Hukum Keluarga"],
+      "expertise": [
+        "Hukum Perdata",
+        "Hukum Kontrak",
+        "Hukum Keluarga"
+      ],
       "email": "budi.hartono@upnvj.ac.id"
     },
     {
@@ -242,7 +330,11 @@
       "name": "Dr. Ayu Lestari, S.IP., M.A.",
       "title": "Assistant Professor",
       "faculty": "Fakultas Ilmu Sosial dan Politik",
-      "expertise": ["Ilmu Politik", "Demokrasi", "Partai Politik"],
+      "expertise": [
+        "Ilmu Politik",
+        "Demokrasi",
+        "Partai Politik"
+      ],
       "email": "ayu.lestari@upnvj.ac.id"
     },
     {
@@ -250,7 +342,11 @@
       "name": "Bima Sakti, S.Sos., M.Si.",
       "title": "Lecturer",
       "faculty": "Fakultas Ilmu Sosial dan Politik",
-      "expertise": ["Sosiologi", "Antropologi", "Masyarakat Urban"],
+      "expertise": [
+        "Sosiologi",
+        "Antropologi",
+        "Masyarakat Urban"
+      ],
       "email": "bima.sakti@upnvj.ac.id"
     },
     {
@@ -258,7 +354,11 @@
       "name": "Citra Andini, S.I.Kom., M.A.",
       "title": "Lecturer",
       "faculty": "Fakultas Ilmu Sosial dan Politik",
-      "expertise": ["Komunikasi Massa", "Media Digital", "Public Relations"],
+      "expertise": [
+        "Komunikasi Massa",
+        "Media Digital",
+        "Public Relations"
+      ],
       "email": "citra.andini@upnvj.ac.id"
     },
     {
@@ -266,7 +366,11 @@
       "name": "Dr. dr. Endang Sari, M.Kes.",
       "title": "Associate Professor",
       "faculty": "Fakultas Ilmu Kesehatan",
-      "expertise": ["Kesehatan Masyarakat", "Epidemiologi", "Biostatistik"],
+      "expertise": [
+        "Kesehatan Masyarakat",
+        "Epidemiologi",
+        "Biostatistik"
+      ],
       "email": "endang.sari@upnvj.ac.id"
     },
     {
@@ -274,7 +378,11 @@
       "name": "Fitria Rahma, S.Kep., M.Kep.",
       "title": "Assistant Professor",
       "faculty": "Fakultas Ilmu Kesehatan",
-      "expertise": ["Keperawatan", "Keperawatan Anak", "Pediatric Care"],
+      "expertise": [
+        "Keperawatan",
+        "Keperawatan Anak",
+        "Pediatric Care"
+      ],
       "email": "fitria.rahma@upnvj.ac.id"
     },
     {
@@ -282,8 +390,32 @@
       "name": "Gita Puspita, S.Gz., M.Gizi.",
       "title": "Lecturer",
       "faculty": "Fakultas Ilmu Kesehatan",
-      "expertise": ["Ilmu Gizi", "Nutrisi Klinis", "Diet Therapy"],
+      "expertise": [
+        "Ilmu Gizi",
+        "Nutrisi Klinis",
+        "Diet Therapy"
+      ],
       "email": "gita.puspita@upnvj.ac.id"
+    },
+    {
+      "id": "prof-1761464589729",
+      "name": "asdasdasdasd",
+      "title": "asdasd",
+      "faculty": "Fakultas Teknik",
+      "expertise": [
+        "asdasd"
+      ],
+      "email": "imannnnugraha@gmail.com"
+    },
+    {
+      "id": "prof-1761464623500",
+      "name": "Fauzan",
+      "title": "Orang Gila",
+      "faculty": "Fakultas Teknik",
+      "expertise": [
+        "Ngopi"
+      ],
+      "email": "imannnnugraha@gmail.com"
     }
   ],
   "accreditations": [
@@ -394,7 +526,12 @@
           "room": "301",
           "building": "Gedung Kihajar Dewantara",
           "capacity": 40,
-          "equipment": ["40 Unit PC", "Proyektor", "AC", "Sound System"],
+          "equipment": [
+            "40 Unit PC",
+            "Proyektor",
+            "AC",
+            "Sound System"
+          ],
           "description": "Laboratorium komputer untuk praktikum programming dan sistem informasi"
         },
         {
@@ -403,7 +540,11 @@
           "room": "302",
           "building": "Gedung Kihajar Dewantara",
           "capacity": 35,
-          "equipment": ["35 Unit PC", "Smart Board", "AC"],
+          "equipment": [
+            "35 Unit PC",
+            "Smart Board",
+            "AC"
+          ],
           "description": "Laboratorium komputer untuk multimedia dan desain grafis"
         },
         {
@@ -453,7 +594,11 @@
           "room": "401",
           "building": "Gedung Ekonomi",
           "capacity": 45,
-          "equipment": ["45 Unit PC", "Software Akuntansi", "Printer"],
+          "equipment": [
+            "45 Unit PC",
+            "Software Akuntansi",
+            "Printer"
+          ],
           "description": "Laboratorium praktikum akuntansi dan sistem informasi akuntansi"
         },
         {
@@ -462,7 +607,11 @@
           "room": "501",
           "building": "Gedung Rektorat",
           "capacity": 60,
-          "equipment": ["Audio System", "Headset", "Booth Individual"],
+          "equipment": [
+            "Audio System",
+            "Headset",
+            "Booth Individual"
+          ],
           "description": "Laboratorium untuk pembelajaran bahasa asing"
         },
         {
@@ -471,7 +620,12 @@
           "room": "301",
           "building": "Gedung Kesehatan",
           "capacity": 30,
-          "equipment": ["Mikroskop", "Centrifuge", "Autoclave", "Incubator"],
+          "equipment": [
+            "Mikroskop",
+            "Centrifuge",
+            "Autoclave",
+            "Incubator"
+          ],
           "description": "Laboratorium untuk praktikum ilmu kesehatan dan kedokteran"
         },
         {
@@ -593,7 +747,10 @@
           "room": "Area Terbuka",
           "building": "Taman Kampus",
           "capacity": 200,
-          "equipment": ["Portable Sound System", "Outdoor Seating"],
+          "equipment": [
+            "Portable Sound System",
+            "Outdoor Seating"
+          ],
           "description": "Area outdoor untuk acara santai dan gathering"
         },
         {
@@ -602,7 +759,11 @@
           "room": "Lantai 3",
           "building": "Gedung Ekonomi",
           "capacity": 150,
-          "equipment": ["Projector", "Audio System", "AC"],
+          "equipment": [
+            "Projector",
+            "Audio System",
+            "AC"
+          ],
           "description": "Aula khusus fakultas untuk acara internal"
         }
       ]
@@ -633,7 +794,11 @@
           "room": "Area Terbuka",
           "building": "Kompleks Olahraga",
           "capacity": 2000,
-          "equipment": ["Rumput Sintetis", "Gawang Standar", "Lampu Sorot"],
+          "equipment": [
+            "Rumput Sintetis",
+            "Gawang Standar",
+            "Lampu Sorot"
+          ],
           "description": "Lapangan sepak bola standar FIFA dengan fasilitas lengkap"
         },
         {
@@ -668,7 +833,11 @@
           "room": "Lantai 2",
           "building": "Gedung Olahraga",
           "capacity": 30,
-          "equipment": ["Cardio Equipment", "Weight Training", "Yoga Area"],
+          "equipment": [
+            "Cardio Equipment",
+            "Weight Training",
+            "Yoga Area"
+          ],
           "description": "Pusat kebugaran dengan peralatan modern"
         },
         {
@@ -676,7 +845,11 @@
           "name": "Lapangan Voli",
           "room": "Court A-B",
           "building": "Kompleks Olahraga",
-          "equipment": ["2 Lapangan Indoor", "Net Regulation", "Scorer Table"],
+          "equipment": [
+            "2 Lapangan Indoor",
+            "Net Regulation",
+            "Scorer Table"
+          ],
           "description": "Lapangan voli indoor dengan fasilitas pertandingan"
         }
       ]
@@ -693,7 +866,11 @@
           "name": "Klinik Kampus",
           "room": "Lantai 1",
           "building": "Gedung Kesehatan",
-          "equipment": ["Medical Equipment", "Pharmacy", "Emergency Room"],
+          "equipment": [
+            "Medical Equipment",
+            "Pharmacy",
+            "Emergency Room"
+          ],
           "description": "Klinik kesehatan untuk civitas akademika"
         },
         {
@@ -716,7 +893,11 @@
           "room": "Lantai 1",
           "building": "Food Court",
           "capacity": 400,
-          "equipment": ["Food Stalls", "Dining Area", "ATM Center"],
+          "equipment": [
+            "Food Stalls",
+            "Dining Area",
+            "ATM Center"
+          ],
           "description": "Kantin pusat dengan berbagai pilihan makanan"
         },
         {
@@ -725,7 +906,11 @@
           "room": "Area Parkir A-D",
           "building": "Kompleks Parkir",
           "capacity": 2000,
-          "equipment": ["Security System", "Lighting", "Drainage System"],
+          "equipment": [
+            "Security System",
+            "Lighting",
+            "Drainage System"
+          ],
           "description": "Area parkir luas untuk kendaraan civitas akademika"
         },
         {
@@ -733,7 +918,11 @@
           "name": "Bank Center",
           "room": "Lantai 1",
           "building": "Gedung Rektorat",
-          "equipment": ["ATM Machines", "Banking Services", "Money Changer"],
+          "equipment": [
+            "ATM Machines",
+            "Banking Services",
+            "Money Changer"
+          ],
           "description": "Pusat layanan perbankan dalam kampus"
         },
         {
@@ -753,7 +942,11 @@
           "name": "Taman Kampus",
           "room": "Area Hijau",
           "building": "Kompleks Taman",
-          "equipment": ["Gazebo", "Jogging Track", "Outdoor Seating"],
+          "equipment": [
+            "Gazebo",
+            "Jogging Track",
+            "Outdoor Seating"
+          ],
           "description": "Area hijau untuk relaksasi dan kegiatan outdoor"
         },
         {
@@ -761,7 +954,11 @@
           "name": "Koperasi Mahasiswa",
           "room": "Lantai 1",
           "building": "Student Center",
-          "equipment": ["Mini Market", "Stationery Shop", "Printing Services"],
+          "equipment": [
+            "Mini Market",
+            "Stationery Shop",
+            "Printing Services"
+          ],
           "description": "Koperasi yang menyediakan kebutuhan mahasiswa"
         }
       ]
