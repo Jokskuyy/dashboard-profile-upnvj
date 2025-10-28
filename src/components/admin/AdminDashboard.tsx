@@ -551,6 +551,7 @@ export default function AdminDashboard() {
               <button
                 onClick={handleExportData}
                 className="px-4 py-2 bg-white/10 text-white rounded-xl hover:bg-white/20 transition-colors flex items-center gap-2"
+                style={{ display: 'none' }}
               >
                 <Download className="w-4 h-4" />
                 Export
@@ -566,6 +567,7 @@ export default function AdminDashboard() {
                 onClick={handleSave}
                 disabled={saving}
                 className="px-6 py-2 bg-yellow-500 text-gray-900 font-semibold rounded-xl hover:bg-yellow-400 transition-all flex items-center gap-2 disabled:opacity-50"
+                style={{ display: 'none' }}
               >
                 <Save className="w-4 h-4" />
                 {saving ? "Menyimpan..." : "Simpan Perubahan"}
@@ -1058,9 +1060,6 @@ function StudentsTable({
                 S2
               </th>
               <th className="px-4 py-3 text-right text-xs font-medium text-gray-600 uppercase">
-                S3
-              </th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-gray-600 uppercase">
                 Total
               </th>
               <th className="px-4 py-3 text-right text-xs font-medium text-gray-600 uppercase">
@@ -1079,9 +1078,6 @@ function StudentsTable({
                 </td>
                 <td className="px-4 py-3 text-sm text-gray-600 text-right">
                   {student.graduate.toLocaleString()}
-                </td>
-                <td className="px-4 py-3 text-sm text-gray-600 text-right">
-                  {student.postgraduate.toLocaleString()}
                 </td>
                 <td className="px-4 py-3 text-sm font-semibold text-gray-900 text-right">
                   {student.totalStudents.toLocaleString()}
@@ -1116,11 +1112,6 @@ function StudentsTable({
               <td className="px-4 py-3 text-sm font-bold text-gray-900 text-right">
                 {students
                   .reduce((sum, s) => sum + s.graduate, 0)
-                  .toLocaleString()}
-              </td>
-              <td className="px-4 py-3 text-sm font-bold text-gray-900 text-right">
-                {students
-                  .reduce((sum, s) => sum + s.postgraduate, 0)
                   .toLocaleString()}
               </td>
               <td className="px-4 py-3 text-sm font-bold text-blue-600 text-right">

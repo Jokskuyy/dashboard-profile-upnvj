@@ -809,6 +809,54 @@
       "screenWidth": 2560,
       "screenHeight": 1440,
       "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761629748604_2ql2u9l5e",
+      "timestamp": 1761629748660,
+      "page": "/",
+      "referrer": "",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "screenWidth": 2560,
+      "screenHeight": 1440,
+      "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761631871352_vsmlwoav1",
+      "timestamp": 1761631871413,
+      "page": "/login",
+      "referrer": "http://localhost:5173/",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "screenWidth": 2560,
+      "screenHeight": 1440,
+      "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761638110667_si5qaitca",
+      "timestamp": 1761638110733,
+      "page": "/admin",
+      "referrer": "http://localhost:5173/",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "screenWidth": 2560,
+      "screenHeight": 1440,
+      "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761643466258_d6x0s6qai",
+      "timestamp": 1761643466274,
+      "page": "/login",
+      "referrer": "http://localhost:5173/",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+      "screenWidth": 2560,
+      "screenHeight": 1440,
+      "language": "en-US"
     }
   ],
   "pageviews": [
@@ -1338,6 +1386,90 @@
       "sessionId": "session_1761467126085_cthgv38qe",
       "timestamp": 1761475669274,
       "page": "/admin"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761629748604_2ql2u9l5e",
+      "timestamp": 1761629748660,
+      "page": "/"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761629748604_2ql2u9l5e",
+      "timestamp": 1761629754855,
+      "page": "/login"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761629748604_2ql2u9l5e",
+      "timestamp": 1761629763783,
+      "page": "/admin"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761629748604_2ql2u9l5e",
+      "timestamp": 1761629766504,
+      "page": "/login"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761629748604_2ql2u9l5e",
+      "timestamp": 1761629767159,
+      "page": "/"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761629748604_2ql2u9l5e",
+      "timestamp": 1761629808216,
+      "page": "/login"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761629748604_2ql2u9l5e",
+      "timestamp": 1761629827531,
+      "page": "/admin"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761631871352_vsmlwoav1",
+      "timestamp": 1761631871413,
+      "page": "/login"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761631871352_vsmlwoav1",
+      "timestamp": 1761631872889,
+      "page": "/"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761631871352_vsmlwoav1",
+      "timestamp": 1761632479442,
+      "page": "/login"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761631871352_vsmlwoav1",
+      "timestamp": 1761632509126,
+      "page": "/admin"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761638110667_si5qaitca",
+      "timestamp": 1761638110733,
+      "page": "/admin"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761643466258_d6x0s6qai",
+      "timestamp": 1761643466274,
+      "page": "/login"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761643466258_d6x0s6qai",
+      "timestamp": 1761643467699,
+      "page": "/"
     }
   ],
   "events": [
@@ -1421,11 +1553,51 @@
         "page": "/admin"
       },
       "timestamp": 1761469587655
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761643466258_d6x0s6qai",
+      "eventName": "language_change",
+      "eventData": {
+        "from": "id",
+        "to": "en"
+      },
+      "timestamp": 1761644246828
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761643466258_d6x0s6qai",
+      "eventName": "language_change",
+      "eventData": {
+        "from": "en",
+        "to": "id"
+      },
+      "timestamp": 1761644249224
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761643466258_d6x0s6qai",
+      "eventName": "language_change",
+      "eventData": {
+        "from": "id",
+        "to": "en"
+      },
+      "timestamp": 1761644249902
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1761643466258_d6x0s6qai",
+      "eventName": "language_change",
+      "eventData": {
+        "from": "en",
+        "to": "id"
+      },
+      "timestamp": 1761644250658
     }
   ],
   "stats": {
     "totalVisitors": 2,
-    "totalPageviews": 98,
+    "totalPageviews": 112,
     "todayVisitors": 0,
     "todayPageviews": 0
   },

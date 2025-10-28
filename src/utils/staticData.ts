@@ -376,45 +376,45 @@ export const accreditationData: Accreditation[] = [
 export const studentData: StudentData[] = [
   {
     faculty: "Fakultas Teknik",
-    totalStudents: 2850,
+    totalStudents: 2800,
     undergraduate: 2450,
     graduate: 350,
-    postgraduate: 50,
+    postgraduate: 0,
   },
   {
     faculty: "Fakultas Ekonomi dan Bisnis",
-    totalStudents: 3200,
+    totalStudents: 3180,
     undergraduate: 2800,
     graduate: 380,
-    postgraduate: 20,
+    postgraduate: 0,
   },
   {
     faculty: "Fakultas Ilmu Komputer",
-    totalStudents: 1950,
+    totalStudents: 1930,
     undergraduate: 1750,
     graduate: 180,
-    postgraduate: 20,
+    postgraduate: 0,
   },
   {
     faculty: "Fakultas Hukum",
-    totalStudents: 1650,
+    totalStudents: 1630,
     undergraduate: 1450,
     graduate: 180,
-    postgraduate: 20,
+    postgraduate: 0,
   },
   {
     faculty: "Fakultas Ilmu Sosial dan Politik",
-    totalStudents: 1400,
+    totalStudents: 1380,
     undergraduate: 1200,
     graduate: 180,
-    postgraduate: 20,
+    postgraduate: 0,
   },
   {
     faculty: "Fakultas Ilmu Kesehatan",
-    totalStudents: 980,
+    totalStudents: 970,
     undergraduate: 850,
     graduate: 120,
-    postgraduate: 10,
+    postgraduate: 0,
   },
 ];
 
@@ -485,14 +485,6 @@ export const programData: ProgramData[] = [
     students: 50,
     color: "#BFDBFE",
   },
-  {
-    id: "ft-s3-teknik",
-    name: "S3 Teknik",
-    level: "S3",
-    faculty: "Fakultas Teknik",
-    students: 50,
-    color: "#DBEAFE",
-  },
 
   // Fakultas Ekonomi dan Bisnis
   {
@@ -542,14 +534,6 @@ export const programData: ProgramData[] = [
     faculty: "Fakultas Ekonomi dan Bisnis",
     students: 160,
     color: "#6EE7B7",
-  },
-  {
-    id: "feb-s3-manajemen",
-    name: "S3 Manajemen",
-    level: "S3",
-    faculty: "Fakultas Ekonomi dan Bisnis",
-    students: 20,
-    color: "#A7F3D0",
   },
 
   // Fakultas Ilmu Komputer
@@ -601,14 +585,6 @@ export const programData: ProgramData[] = [
     students: 60,
     color: "#C4B5FD",
   },
-  {
-    id: "fik-s3-informatika",
-    name: "S3 Informatika",
-    level: "S3",
-    faculty: "Fakultas Ilmu Komputer",
-    students: 20,
-    color: "#DDD6FE",
-  },
 
   // Fakultas Hukum
   {
@@ -626,14 +602,6 @@ export const programData: ProgramData[] = [
     faculty: "Fakultas Hukum",
     students: 180,
     color: "#FBBF24",
-  },
-  {
-    id: "fh-s3-hukum",
-    name: "S3 Ilmu Hukum",
-    level: "S3",
-    faculty: "Fakultas Hukum",
-    students: 20,
-    color: "#FCD34D",
   },
 
   // Fakultas Ilmu Sosial dan Politik
@@ -685,14 +653,6 @@ export const programData: ProgramData[] = [
     students: 60,
     color: "#FCA5A5",
   },
-  {
-    id: "fisip-s3-hubungan-internasional",
-    name: "S3 Hubungan Internasional",
-    level: "S3",
-    faculty: "Fakultas Ilmu Sosial dan Politik",
-    students: 20,
-    color: "#FECACA",
-  },
 
   // Fakultas Ilmu Kesehatan
   {
@@ -734,14 +694,6 @@ export const programData: ProgramData[] = [
     faculty: "Fakultas Ilmu Kesehatan",
     students: 40,
     color: "#67E8F9",
-  },
-  {
-    id: "fikes-s3-kesehatan",
-    name: "S3 Ilmu Kesehatan",
-    level: "S3",
-    faculty: "Fakultas Ilmu Kesehatan",
-    students: 10,
-    color: "#A5F3FC",
   },
 ];
 

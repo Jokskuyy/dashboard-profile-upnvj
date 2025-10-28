@@ -33,7 +33,7 @@ export default function StudentModal({
         faculty: student.faculty,
         undergraduate: student.undergraduate,
         graduate: student.graduate,
-        postgraduate: student.postgraduate,
+        postgraduate: 0,
         totalStudents: student.totalStudents,
       });
     } else {
@@ -50,9 +50,9 @@ export default function StudentModal({
   // Auto calculate total
   useEffect(() => {
     const total =
-      formData.undergraduate + formData.graduate + formData.postgraduate;
-    setFormData((prev) => ({ ...prev, totalStudents: total }));
-  }, [formData.undergraduate, formData.graduate, formData.postgraduate]);
+      formData.undergraduate + formData.graduate;
+    setFormData((prev) => ({ ...prev, totalStudents: total, postgraduate: 0 }));
+  }, [formData.undergraduate, formData.graduate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,26 +146,6 @@ export default function StudentModal({
               }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Jumlah mahasiswa S2"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              S3 *
-            </label>
-            <input
-              type="number"
-              required
-              min="0"
-              value={formData.postgraduate}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  postgraduate: parseInt(e.target.value) || 0,
-                })
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Jumlah mahasiswa S3"
             />
           </div>
 

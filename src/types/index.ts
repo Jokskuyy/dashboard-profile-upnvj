@@ -33,7 +33,7 @@ export interface StudentData {
 export interface ProgramData {
   id: string;
   name: string;
-  level: "D3" | "S1" | "S2" | "S3";
+  level: "D3" | "S1" | "S2";
   faculty: string;
   students: number;
   color?: string;

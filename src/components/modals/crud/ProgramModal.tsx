@@ -21,7 +21,7 @@ export default function ProgramModal({
   const [formData, setFormData] = useState({
     name: "",
     faculty: "",
-    level: "S1" as "S1" | "D3" | "S2" | "S3",
+    level: "S1" as "S1" | "D3" | "S2",
     students: 0,
   });
   const [loading, setLoading] = useState(false);
@@ -31,7 +31,7 @@ export default function ProgramModal({
       setFormData({
         name: program.name,
         faculty: program.faculty,
-        level: program.level,
+        level: program.level as "S1" | "D3" | "S2",
         students: program.students,
       });
     } else {
@@ -135,7 +135,6 @@ export default function ProgramModal({
                 <option value="D3">D3</option>
                 <option value="S1">S1</option>
                 <option value="S2">S2</option>
-                <option value="S3">S3</option>
                 <option value="Profesi">Profesi</option>
               </select>
             </div>
