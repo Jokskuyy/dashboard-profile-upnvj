@@ -8,7 +8,50 @@ File WebGL Anda sudah berhasil diintegrasikan ke dalam dashboard!
 - **Source**: `WebGL/` → **Destination**: `public/unity-builds/downloads/`
 - **Loader**: Sudah ditambahkan di `index.html`
 
-## 🚀 Cara Menggunakan
+## ⚡ Cara Cepat Menjalankan
+
+### 1. Jalankan Development Server
+```bash
+npm run dev
+```
+
+### 2. Buka di Browser
+Akses: **http://localhost:5173/** (atau port yang ditampilkan di terminal)
+
+### 3. Akses Unity WebGL
+1. Scroll ke bawah ke section **"Peta Kampus"** / **"Campus Map"**
+2. Klik tombol merah **"Launch Unity Map"**
+3. Tunggu loading selesai (ada progress bar)
+4. 🎉 Unity WebGL siap digunakan!
+
+## ⚠️ PENTING: GitHub Pages Limitation
+
+### ✅ Unity BERFUNGSI di:
+- **Local Development** (`npm run dev`) ← **USE THIS!**
+- **Vercel** deployment
+- **Netlify** deployment
+- Custom server dengan Brotli support
+
+### ❌ Unity TIDAK BERFUNGSI di:
+- **GitHub Pages** (karena tidak support Brotli Content-Encoding header)
+
+**Solusi:** 
+- Gunakan `npm run dev` untuk testing
+- Deploy ke Vercel/Netlify untuk production
+- Atau decompress file .br (lihat dokumentasi lengkap)
+
+## �️ Kontrol Unity WebGL
+
+| Kontrol | Fungsi |
+|---------|--------|
+| **Drag Mouse (Klik Kiri)** | Putar kamera / Lihat sekeliling |
+| **Scroll Mouse** | Zoom in / Zoom out |
+| **Klik Kanan + Drag** | Pan kamera (geser view) |
+| **Tombol Fullscreen** | Toggle mode layar penuh |
+| **Tombol Reload** | Muat ulang Unity instance |
+| **Tombol Close** | Tutup Unity viewer |
+
+## �🚀 Cara Menggunakan di Code
 
 ### Option 1: Demo Sederhana (Recommended untuk Testing)
 ```tsx
