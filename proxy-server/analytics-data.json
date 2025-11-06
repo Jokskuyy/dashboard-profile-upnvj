@@ -1680,6 +1680,18 @@
       "sessionId": "session_1762427953366_9aakxrxbn",
       "timestamp": 1762428952785,
       "page": "/"
+    },
+    {
+      "visitorId": "visitor_1762427953365_m3r7dee16",
+      "sessionId": "session_1762427953366_9aakxrxbn",
+      "timestamp": 1762429172621,
+      "page": "/"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1762427951898_m53a5uw9v",
+      "timestamp": 1762429172742,
+      "page": "/"
     }
   ],
   "events": [
@@ -2081,7 +2093,7 @@
   ],
   "stats": {
     "totalVisitors": 3,
-    "totalPageviews": 135,
+    "totalPageviews": 137,
     "todayVisitors": 0,
     "todayPageviews": 0
   },
