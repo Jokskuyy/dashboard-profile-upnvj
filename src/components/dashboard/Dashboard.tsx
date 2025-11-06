@@ -40,9 +40,10 @@ const Dashboard: React.FC = () => {
 
   // Carousel state
   const [currentSlide, setCurrentSlide] = useState(0);
+  const basePath = import.meta.env.BASE_URL;
   const heroImages = [
-    "/hero1.jpg",
-    "/hero2.jpg",
+    `${basePath}hero1.jpg`,
+    `${basePath}hero2.jpg`,
     "https://assets.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p3/63/2024/12/07/IMG_20241207_150258-1141876672.jpg",
   ];
 
@@ -97,7 +98,7 @@ const Dashboard: React.FC = () => {
               {/* Logo */}
               <div className="mb-8">
                 <img
-                  src="/logoupnvj.png"
+                  src={`${basePath}logoupnvj.png`}
                   alt="UPNVJ Logo"
                   className="w-24 h-24 object-contain drop-shadow-2xl"
                 />

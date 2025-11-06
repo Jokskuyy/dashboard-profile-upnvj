@@ -24,7 +24,8 @@ export interface DashboardData {
   departments: DepartmentData[];
 }
 
-const API_BASE_URL = "/data";
+// Use import.meta.env.BASE_URL for correct path on GitHub Pages
+const API_BASE_URL = `${import.meta.env.BASE_URL}data`;
 const BACKEND_API_URL = "http://localhost:3001/api";
 const DATA_FILE = "dashboard-data.json";
 const FACULTIES_FILE = "faculties.json";
