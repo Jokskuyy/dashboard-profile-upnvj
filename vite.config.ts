@@ -5,8 +5,8 @@ import react from '@vitejs/plugin-react-swc'
 export default defineConfig({
   plugins: [react()],
   // Base path for GitHub Pages deployment
-  // Change this to '/' if deploying to custom domain
-  base: process.env.GITHUB_PAGES === 'true' ? '/dashboard-profile-upnvj/' : '/',
+  // Use '/' for development, '/dashboard-profile-upnvj/' for production
+  base: '/dashboard-profile-upnvj/',
   server: {
     fs: {
       // Allow serving files from unity-builds
