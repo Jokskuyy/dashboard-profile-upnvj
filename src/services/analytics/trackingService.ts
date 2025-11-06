@@ -3,6 +3,53 @@
 
 const BACKEND_API_URL = "http://localhost:3001";
 
+// Check if backend is available (for GitHub Pages deployment)
+const isBackendAvailable = async (): Promise<boolean> => {
+  // In production (GitHub Pages), backend won't be available
+  if (window.location.hostname.includes('github.io')) {
+    return false;
+  }
+  
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 1000); // 1 second timeout
+    
+    await fetch(`${BACKEND_API_URL}/api/health`, {
+      method: 'GET',
+      signal: controller.signal
+    });
+    
+    clearTimeout(timeoutId);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+// Store analytics locally when backend is not available
+const storeLocalAnalytics = (type: string, data: any) => {
+  try {
+    const storageKey = 'offline_analytics';
+    const stored = localStorage.getItem(storageKey);
+    const analytics = stored ? JSON.parse(stored) : [];
+    
+    analytics.push({
+      type,
+      data,
+      timestamp: Date.now()
+    });
+    
+    // Keep only last 100 events
+    if (analytics.length > 100) {
+      analytics.shift();
+    }
+    
+    localStorage.setItem(storageKey, JSON.stringify(analytics));
+  } catch (error) {
+    // Silent fail if localStorage is full
+  }
+};
+
 // Generate atau ambil visitor ID dari localStorage
 const getVisitorId = (): string => {
   let visitorId = localStorage.getItem("visitorId");
@@ -88,22 +135,35 @@ export const trackPageView = async (page: string) => {
     const sessionId = getSessionId();
     const deviceInfo = getDeviceInfo();
 
-    await fetch(`${BACKEND_API_URL}/api/track/pageview`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        visitorId,
-        sessionId,
-        page,
-        referrer: document.referrer,
-        timestamp: Date.now(),
-        ...deviceInfo,
-      }),
-    });
+    const trackingData = {
+      visitorId,
+      sessionId,
+      page,
+      referrer: document.referrer,
+      timestamp: Date.now(),
+      ...deviceInfo,
+    };
+
+    // Check if backend is available
+    const backendAvailable = await isBackendAvailable();
+    
+    if (backendAvailable) {
+      await fetch(`${BACKEND_API_URL}/api/track/pageview`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(trackingData),
+      });
+    } else {
+      // Store locally when backend is not available
+      storeLocalAnalytics('pageview', trackingData);
+    }
   } catch (error) {
-    console.error("Error tracking page view:", error);
+    // Silent fail - don't spam console in production
+    if (process.env.NODE_ENV === 'development') {
+      console.error("Error tracking page view:", error);
+    }
   }
 };
 
@@ -116,21 +176,34 @@ export const trackEvent = async (
     const visitorId = getVisitorId();
     const sessionId = getSessionId();
 
-    await fetch(`${BACKEND_API_URL}/api/track/event`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        visitorId,
-        sessionId,
-        eventName,
-        eventData,
-        timestamp: Date.now(),
-      }),
-    });
+    const trackingData = {
+      visitorId,
+      sessionId,
+      eventName,
+      eventData,
+      timestamp: Date.now(),
+    };
+
+    // Check if backend is available
+    const backendAvailable = await isBackendAvailable();
+    
+    if (backendAvailable) {
+      await fetch(`${BACKEND_API_URL}/api/track/event`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(trackingData),
+      });
+    } else {
+      // Store locally when backend is not available
+      storeLocalAnalytics('event', trackingData);
+    }
   } catch (error) {
-    console.error("Error tracking event:", error);
+    // Silent fail - don't spam console in production
+    if (process.env.NODE_ENV === 'development') {
+      console.error("Error tracking event:", error);
+    }
   }
 };
 

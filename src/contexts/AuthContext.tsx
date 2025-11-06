@@ -25,6 +25,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const API_URL = "http://localhost:3001/api/auth";
 
+// Check if we're on GitHub Pages (no backend available)
+const isStaticDeployment = () => {
+  return window.location.hostname.includes('github.io');
+};
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -32,11 +37,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isLoading, setIsLoading] = useState(true);
 
   const verifyAuth = async () => {
+    // Skip auth verification on static deployments
+    if (isStaticDeployment()) {
+      setAdmin(null);
+      setIsLoading(false);
+      return;
+    }
+
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout
+
       const response = await fetch(`${API_URL}/verify`, {
         credentials: "include",
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
       const data = await response.json();
 
       if (data.valid) {
@@ -45,7 +62,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setAdmin(null);
       }
     } catch (error) {
-      console.error("Auth verification failed:", error);
+      // Silent fail on static deployments
+      if (!isStaticDeployment() && process.env.NODE_ENV === 'development') {
+        console.error("Auth verification failed:", error);
+      }
       setAdmin(null);
     } finally {
       setIsLoading(false);
@@ -57,6 +77,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const login = async (username: string, password: string) => {
+    // Prevent login attempts on static deployments
+    if (isStaticDeployment()) {
+      return {
+        success: false,
+        message: "Authentication is not available on static deployment. Please use local development environment.",
+      };
+    }
+
     try {
       const response = await fetch(`${API_URL}/login`, {
         method: "POST",
@@ -76,7 +104,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         return { success: false, message: data.message };
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error("Login failed:", error);
+      }
       return {
         success: false,
         message: "Terjadi kesalahan. Silakan coba lagi.",
