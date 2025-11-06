@@ -1710,6 +1710,18 @@
       "sessionId": "session_1762440703399_canuysgwp",
       "timestamp": 1762440703503,
       "page": "/"
+    },
+    {
+      "visitorId": "visitor_1762427953365_m3r7dee16",
+      "sessionId": "session_1762440703399_canuysgwp",
+      "timestamp": 1762442162773,
+      "page": "/"
+    },
+    {
+      "visitorId": "visitor_1762427953365_m3r7dee16",
+      "sessionId": "session_1762440703399_canuysgwp",
+      "timestamp": 1762442173571,
+      "page": "/"
     }
   ],
   "events": [
@@ -2111,7 +2123,7 @@
   ],
   "stats": {
     "totalVisitors": 3,
-    "totalPageviews": 138,
+    "totalPageviews": 140,
     "todayVisitors": 0,
     "todayPageviews": 0
   },
