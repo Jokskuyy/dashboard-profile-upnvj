@@ -12,7 +12,7 @@ function App() {
   return (
     <LanguageProvider>
       <AuthProvider>
-        <Router>
+        <Router basename="/dashboard-profile-upnvj">
           <Analytics />
           <Routes>
             {/* Public Dashboard Route */}
