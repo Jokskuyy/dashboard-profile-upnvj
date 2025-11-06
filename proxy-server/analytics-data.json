@@ -929,6 +929,18 @@
       "screenWidth": 2560,
       "screenHeight": 1440,
       "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1762427953365_m3r7dee16",
+      "sessionId": "session_1762440703399_canuysgwp",
+      "timestamp": 1762440703503,
+      "page": "/",
+      "referrer": "http://localhost:5173/?id=b6116aa4-08d0-4030-a5a4-4be6b99b280e&vscodeBrowserReqId=1762427952676",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.105.1 Chrome/138.0.7204.251 Electron/37.6.0 Safari/537.36",
+      "screenWidth": 1920,
+      "screenHeight": 1080,
+      "language": "en-US"
     }
   ],
   "pageviews": [
@@ -1692,6 +1704,12 @@
       "sessionId": "session_1762427951898_m53a5uw9v",
       "timestamp": 1762429172742,
       "page": "/"
+    },
+    {
+      "visitorId": "visitor_1762427953365_m3r7dee16",
+      "sessionId": "session_1762440703399_canuysgwp",
+      "timestamp": 1762440703503,
+      "page": "/"
     }
   ],
   "events": [
@@ -2093,7 +2111,7 @@
   ],
   "stats": {
     "totalVisitors": 3,
-    "totalPageviews": 137,
+    "totalPageviews": 138,
     "todayVisitors": 0,
     "todayPageviews": 0
   },

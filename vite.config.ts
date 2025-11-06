@@ -2,11 +2,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [react()],
   // Base path for GitHub Pages deployment
-  // Use '/' for development, '/dashboard-profile-upnvj/' for production
-  base: '/dashboard-profile-upnvj/',
+  // Use '/' for development, '/dashboard-profile-upnvj/' for production build
+  base: command === 'serve' ? '/' : '/dashboard-profile-upnvj/',
   server: {
     fs: {
       // Allow serving files from unity-builds
@@ -31,4 +31,4 @@ export default defineConfig({
     },
   },
   assetsInclude: ['**/*.br', '**/*.data', '**/*.wasm'],
-})
+}))

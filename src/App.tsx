@@ -9,10 +9,13 @@ import Analytics from "./components/analytics/Analytics";
 import "./App.css";
 
 function App() {
+  // Use basename only on GitHub Pages, not in development
+  const basename = import.meta.env.BASE_URL;
+  
   return (
     <LanguageProvider>
       <AuthProvider>
-        <Router basename="/dashboard-profile-upnvj">
+        <Router basename={basename}>
           <Analytics />
           <Routes>
             {/* Public Dashboard Route */}
