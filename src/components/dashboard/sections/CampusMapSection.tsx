@@ -8,7 +8,14 @@ const CampusMapSection: React.FC = () => {
   const [showViewer, setShowViewer] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
+  // Check if we're on GitHub Pages - Unity WebGL doesn't work there due to Brotli compression
+  const isGitHubPages = window.location.hostname.includes('github.io');
+
   const handleOpenCampusMap = () => {
+    if (isGitHubPages) {
+      alert('Unity WebGL campus map is not available on GitHub Pages due to Brotli compression limitations. Please view on local development or alternative hosting platform.');
+      return;
+    }
     setShowViewer(true);
   };
 
@@ -86,11 +93,26 @@ const CampusMapSection: React.FC = () => {
 
         <button
           onClick={handleOpenCampusMap}
-          className="inline-flex items-center px-6 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors shadow-lg"
+          disabled={isGitHubPages}
+          className={`inline-flex items-center px-6 py-3 font-semibold rounded-lg transition-colors shadow-lg ${
+            isGitHubPages
+              ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
+              : 'bg-red-600 text-white hover:bg-red-700'
+          }`}
         >
           <ExternalLink className="w-5 h-5 mr-2" />
           {t("launchUnityMap")}
         </button>
+
+        {isGitHubPages && (
+          <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <p className="text-sm text-yellow-800">
+              ⚠️ Unity WebGL is not available on GitHub Pages due to Brotli compression limitations.
+              <br />
+              Please view on local development environment.
+            </p>
+          </div>
+        )}
 
         <div className="mt-4 text-xs text-gray-500">
           {t("unityWebGLBuild")}
