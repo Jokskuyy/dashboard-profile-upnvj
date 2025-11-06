@@ -1722,6 +1722,12 @@
       "sessionId": "session_1762440703399_canuysgwp",
       "timestamp": 1762442173571,
       "page": "/"
+    },
+    {
+      "visitorId": "visitor_1762427953365_m3r7dee16",
+      "sessionId": "session_1762440703399_canuysgwp",
+      "timestamp": 1762442421896,
+      "page": "/"
     }
   ],
   "events": [
@@ -2123,7 +2129,7 @@
   ],
   "stats": {
     "totalVisitors": 3,
-    "totalPageviews": 140,
+    "totalPageviews": 141,
     "todayVisitors": 0,
     "todayPageviews": 0
   },
