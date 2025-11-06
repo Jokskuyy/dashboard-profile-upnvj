@@ -16,6 +16,23 @@ dist-ssr
 .env
 .env.local
 .env.production
+.env*.local
+*.key
+*.pem
+
+# Sensitive data
+/public/data-private/
+/public/data-backup/
+/src/data/sensitive/
+*-sensitive.*
+*-private.*
+*-backup.*
+
+# Security
+*.env
+.env.*
+secrets/
+credentials/
 
 # Editor directories and files
 .vscode/*

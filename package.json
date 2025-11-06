@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "anonymize-data": "node scripts/anonymize-data.js",
+    "check-secrets": "git grep -iE '(api[_-]?key|secret|token|password)' -- '*.ts' '*.tsx' '*.js' '*.json' || echo 'No secrets found'"
   },
   "dependencies": {
     "lucide-react": "^0.544.0",
