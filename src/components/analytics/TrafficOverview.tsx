@@ -23,10 +23,31 @@ const TrafficOverview: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch stats from analytics server
+    // Skip analytics on static deployments (GitHub Pages)
+    const isStaticDeployment = window.location.hostname.includes('github.io');
+    
+    if (isStaticDeployment) {
+      // On GitHub Pages, show zero stats immediately
+      setStats({
+        visitors: 0,
+        pageviews: 0,
+        dailyStats: []
+      });
+      setLoading(false);
+      return;
+    }
+
+    // Fetch stats from analytics server (local development only)
     const fetchStats = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/stats');
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout
+        
+        const response = await fetch('http://localhost:3001/api/stats', {
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
         
         if (response.ok) {
           const data = await response.json();
@@ -46,23 +67,24 @@ const TrafficOverview: React.FC = () => {
         
         throw new Error('Analytics server not responding');
       } catch (error) {
-        console.warn('⚠️ Analytics server offline, using placeholder data');
+        // Silent fail in development
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('⚠️ Analytics server offline, using placeholder data');
+        }
         
         // Placeholder data when server is offline
-        setTimeout(() => {
-          setStats({
-            visitors: 0,
-            pageviews: 0,
-            dailyStats: []
-          });
-          setLoading(false);
-        }, 500);
+        setStats({
+          visitors: 0,
+          pageviews: 0,
+          dailyStats: []
+        });
+        setLoading(false);
       }
     };
 
     fetchStats();
     
-    // Refresh data every 30 seconds
+    // Refresh data every 30 seconds (only in development)
     const interval = setInterval(fetchStats, 30000);
     return () => clearInterval(interval);
   }, []);

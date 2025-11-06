@@ -18,5 +18,17 @@ export default defineConfig({
     assetsInlineLimit: 0,
     // Increase chunk size warning limit for Unity files
     chunkSizeWarningLimit: 2000,
+    rollupOptions: {
+      output: {
+        // Ensure Unity .br files are treated as assets
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name && assetInfo.name.endsWith('.br')) {
+            return 'assets/[name][extname]';
+          }
+          return 'assets/[name]-[hash][extname]';
+        },
+      },
+    },
   },
+  assetsInclude: ['**/*.br', '**/*.data', '**/*.wasm'],
 })
