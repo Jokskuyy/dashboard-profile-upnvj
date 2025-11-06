@@ -4,10 +4,8 @@ import {
   MapPin,
   Maximize2,
   Minimize2,
-  RotateCcw,
-  ZoomIn,
-  ZoomOut,
-  Home,
+  Mouse,
+  MousePointerClick,
 } from "lucide-react";
 
 interface CampusMapViewerProps {
@@ -21,7 +19,8 @@ declare global {
     unityInstance: any;
     createUnityInstance: (
       canvas: HTMLCanvasElement,
-      config: any
+      config: any,
+      onProgress?: (progress: number) => void
     ) => Promise<any>;
   }
 }
@@ -40,53 +39,83 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
 
   // Unity WebGL configuration
   const unityConfig = {
-    dataUrl: "/unity-builds/denah/Build/denah.data",
-    frameworkUrl: "/unity-builds/denah/Build/denah.framework.js",
-    codeUrl: "/unity-builds/denah/Build/denah.wasm",
+    dataUrl: "/unity-builds/downloads/Build/Downloads.data.br",
+    frameworkUrl: "/unity-builds/downloads/Build/Downloads.framework.js.br",
+    codeUrl: "/unity-builds/downloads/Build/Downloads.wasm.br",
     streamingAssetsUrl: "StreamingAssets",
-    companyName: "UPN Veteran Jakarta",
-    productName: "Campus Map",
-    productVersion: "1.0",
-    showBanner: false,
+    companyName: "DefaultCompany",
+    productName: "Proposal",
+    productVersion: "0.1.0",
+    showBanner: unityShowBanner,
     matchWebGLToCanvasSize: true,
   };
 
+  function unityShowBanner(msg: string, type: string) {
+    console.log(`[Unity ${type}]: ${msg}`);
+    if (type === 'error') {
+      setError(msg);
+    }
+  }
+
   useEffect(() => {
     const loadUnityBuild = async () => {
-      if (!canvasRef.current) return;
+      if (!canvasRef.current || !containerRef.current) return;
 
       try {
         setIsLoading(true);
         setError(null);
 
-        // Check if Unity WebGL files exist
-        const response = await fetch(unityConfig.frameworkUrl);
-        if (!response.ok) {
-          throw new Error(
-            "Unity WebGL build files not found. Please build Unity project for WebGL platform."
-          );
-        }
+        // Set canvas dimensions explicitly
+        const canvas = canvasRef.current;
+        const container = containerRef.current;
+        canvas.width = container.clientWidth || 960;
+        canvas.height = container.clientHeight || 600;
 
-        // Load Unity instance
-        if (window.createUnityInstance) {
-          const instance = await window.createUnityInstance(canvasRef.current, {
-            ...unityConfig,
-            onProgress: (progress: number) => {
-              setLoadingProgress(Math.round(progress * 100));
-            },
+        // First, dynamically load the Unity loader script
+        const loaderUrl = "/unity-builds/downloads/Build/Downloads.loader.js";
+        
+        if (!window.createUnityInstance) {
+          console.log("Loading Unity WebGL loader...");
+          
+          await new Promise<void>((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = loaderUrl;
+            script.async = true;
+            script.onload = () => {
+              console.log("Unity loader loaded successfully");
+              setTimeout(() => resolve(), 100);
+            };
+            script.onerror = () => {
+              reject(new Error(`Failed to load Unity loader from ${loaderUrl}`));
+            };
+            document.body.appendChild(script);
           });
-
-          setUnityInstance(instance);
-          window.unityInstance = instance;
-        } else {
-          throw new Error("Unity WebGL loader not found");
         }
+
+        if (!window.createUnityInstance) {
+          throw new Error("Unity WebGL createUnityInstance not available");
+        }
+
+        console.log("Creating Unity instance with config:", unityConfig);
+
+        // Load Unity instance with progress tracking
+        const instance = await window.createUnityInstance(
+          canvas,
+          unityConfig,
+          (progress: number) => {
+            setLoadingProgress(Math.round(progress * 100));
+          }
+        );
+
+        console.log("Unity instance created successfully");
+        setUnityInstance(instance);
+        window.unityInstance = instance;
+        setIsLoading(false);
       } catch (err) {
         console.error("Failed to load Unity WebGL build:", err);
         setError(
           err instanceof Error ? err.message : "Failed to load campus map"
         );
-      } finally {
         setIsLoading(false);
       }
     };
@@ -104,30 +133,6 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       }
     };
   }, []);
-
-  const handleResetView = () => {
-    if (unityInstance) {
-      unityInstance.SendMessage("CameraController", "ResetView");
-    }
-  };
-
-  const handleZoomIn = () => {
-    if (unityInstance) {
-      unityInstance.SendMessage("CameraController", "ZoomIn");
-    }
-  };
-
-  const handleZoomOut = () => {
-    if (unityInstance) {
-      unityInstance.SendMessage("CameraController", "ZoomOut");
-    }
-  };
-
-  const handleGoHome = () => {
-    if (unityInstance) {
-      unityInstance.SendMessage("CameraController", "GoHome");
-    }
-  };
 
   if (error) {
     return (
@@ -147,7 +152,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
             <ol className="text-sm text-blue-700 space-y-1 text-left">
               <li>1. Build Unity project for WebGL platform</li>
               <li>
-                2. Place build files in <code>/public/unity-builds/denah/</code>
+                2. Place build files in <code>/public/unity-builds/downloads/</code>
               </li>
               <li>3. Ensure Unity WebGL loader is included in index.html</li>
             </ol>
@@ -173,50 +178,17 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
             </div>
             <div>
               <h3 className="text-lg font-semibold text-white">
-                {t("campusMap")}
+                {t("campusMapTitle")}
               </h3>
               <p className="text-blue-100 text-sm">
-                Interactive 3D Campus Layout
+                {t("interactive3DCampusLayout")}
               </p>
             </div>
           </div>
 
           {/* Controls */}
-          <div className="flex items-center space-x-2">
-            {!isLoading && !error && (
-              <>
-                <button
-                  onClick={handleGoHome}
-                  className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-                  title={t("home")}
-                >
-                  <Home className="w-4 h-4 text-white" />
-                </button>
-                <button
-                  onClick={handleZoomIn}
-                  className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-                  title={t("zoomIn")}
-                >
-                  <ZoomIn className="w-4 h-4 text-white" />
-                </button>
-                <button
-                  onClick={handleZoomOut}
-                  className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-                  title={t("zoomOut")}
-                >
-                  <ZoomOut className="w-4 h-4 text-white" />
-                </button>
-                <button
-                  onClick={handleResetView}
-                  className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-                  title={t("resetView")}
-                >
-                  <RotateCcw className="w-4 h-4 text-white" />
-                </button>
-              </>
-            )}
-
-            {onToggleFullscreen && (
+          {onToggleFullscreen && (
+            <div className="flex items-center space-x-2">
               <button
                 onClick={onToggleFullscreen}
                 className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
@@ -230,20 +202,22 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
                   <Maximize2 className="w-4 h-4 text-white" />
                 )}
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Unity WebGL Canvas Container */}
       <div
+        id="unity-container"
+        ref={containerRef}
         className={`relative ${isFullscreen ? "h-full" : "h-96 lg:h-[500px]"}`}
       >
         {isLoading && (
-          <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+          <div className="absolute inset-0 bg-gray-100 flex items-center justify-center z-10">
             <div className="text-center">
               <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-gray-600 font-medium">Loading Campus Map...</p>
+              <p className="text-gray-600 font-medium">{t("loadingCampusMap")}</p>
               <div className="w-48 h-2 bg-gray-200 rounded-full mx-auto mt-2">
                 <div
                   className="h-full bg-blue-500 rounded-full transition-all duration-300"
@@ -257,6 +231,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
 
         <canvas
           ref={canvasRef}
+          id="unity-canvas"
           className={`w-full h-full ${
             isLoading ? "opacity-0" : "opacity-100"
           } transition-opacity duration-500`}
@@ -264,6 +239,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
             display: "block",
             background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
           }}
+          tabIndex={-1}
         />
       </div>
 
@@ -271,11 +247,17 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       {!isLoading && !error && (
         <div className="bg-gray-50 p-4 border-t">
           <div className="flex items-center justify-between text-sm text-gray-600">
-            <div className="flex items-center space-x-4">
-              <span>🖱️ Click and drag to move camera</span>
-              <span>🔍 Scroll to zoom in/out</span>
+            <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-2">
+                <MousePointerClick className="w-4 h-4 text-gray-500" />
+                <span>{t("clickAndDragToMove")}</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Mouse className="w-4 h-4 text-gray-500" />
+                <span>{t("scrollToZoom")}</span>
+              </div>
             </div>
-            <div className="text-xs text-gray-500">Unity WebGL Build</div>
+            <div className="text-xs text-gray-500">{t("unityWebGLBuild")}</div>
           </div>
         </div>
       )}

@@ -27,14 +27,13 @@ const CampusMapSection: React.FC = () => {
         {!isFullscreen && (
           <div className="p-4 border-t bg-gray-50 flex justify-between items-center">
             <div className="text-sm text-gray-600">
-              Unity 3D Interactive Campus Map - Use mouse to navigate, scroll to
-              zoom
+              {t("unity3DInteractiveCampusMap")} - {t("useMouseToNavigate")}
             </div>
             <button
               onClick={() => setShowViewer(false)}
               className="px-4 py-2 text-sm bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors"
             >
-              Close Map
+              {t("closeMap")}
             </button>
           </div>
         )}
@@ -60,28 +59,28 @@ const CampusMapSection: React.FC = () => {
         </div>
 
         <h4 className="text-lg font-semibold text-gray-900 mb-2">
-          {t("campusMapTitle")} 3D
+          {t("campusMap3D")}
         </h4>
 
         <p className="text-gray-600 mb-6">
-          Interactive Unity WebGL campus navigation experience
+          {t("interactiveUnityWebGLExperience")}
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
           <div className="bg-white rounded-lg p-4">
             <Navigation className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-            <p className="font-medium text-gray-900">Interactive Navigation</p>
-            <p className="text-gray-600">Navigate through campus in 3D</p>
+            <p className="font-medium text-gray-900">{t("interactiveNavigation")}</p>
+            <p className="text-gray-600">{t("navigateThroughCampus3D")}</p>
           </div>
           <div className="bg-white rounded-lg p-4">
             <Building className="w-6 h-6 text-green-600 mx-auto mb-2" />
-            <p className="font-medium text-gray-900">Building Information</p>
-            <p className="text-gray-600">Detailed facility info</p>
+            <p className="font-medium text-gray-900">{t("buildingInformation")}</p>
+            <p className="text-gray-600">{t("detailedFacilityInfo")}</p>
           </div>
           <div className="bg-white rounded-lg p-4">
             <MapPin className="w-6 h-6 text-purple-600 mx-auto mb-2" />
-            <p className="font-medium text-gray-900">Unity WebGL</p>
-            <p className="text-gray-600">High-quality 3D rendering</p>
+            <p className="font-medium text-gray-900">{t("unityWebGL")}</p>
+            <p className="text-gray-600">{t("highQuality3DRendering")}</p>
           </div>
         </div>
 
@@ -90,11 +89,11 @@ const CampusMapSection: React.FC = () => {
           className="inline-flex items-center px-6 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors shadow-lg"
         >
           <ExternalLink className="w-5 h-5 mr-2" />
-          Launch Unity Map
+          {t("launchUnityMap")}
         </button>
 
         <div className="mt-4 text-xs text-gray-500">
-          Requires Unity WebGL build files in /public/unity-builds/denah/
+          {t("unityWebGLBuild")}
         </div>
       </div>
     </div>

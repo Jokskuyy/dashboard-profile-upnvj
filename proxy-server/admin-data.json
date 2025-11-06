@@ -8,7 +8,7 @@
       "email": "admin@upnvj.ac.id",
       "role": "super_admin",
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "lastLogin": "2025-10-28T06:21:49.065Z"
+      "lastLogin": "2025-10-29T06:38:06.332Z"
     }
   ],
   "sessions": [
@@ -54,6 +54,24 @@
       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluXzAwMSIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NjE2MzI1MDksImV4cCI6MTc2MTcxODkwOX0.3tzt0uONi_RSeieFWaNHMHaZMgYfabX2OTPVrbMDl-Y",
       "createdAt": "2025-10-28T06:21:49.065Z",
       "expiresAt": "2025-10-29T06:21:49.065Z",
+      "ipAddress": null,
+      "userAgent": null
+    },
+    {
+      "id": "session_1761718151245_xyfd6jnfq",
+      "adminId": "admin_001",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluXzAwMSIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NjE3MTgxNTEsImV4cCI6MTc2MTgwNDU1MX0.8woPz4mRsH2cambMPcvyUKeW1b1dt5-FPSKvD-Qumys",
+      "createdAt": "2025-10-29T06:09:11.245Z",
+      "expiresAt": "2025-10-30T06:09:11.245Z",
+      "ipAddress": null,
+      "userAgent": null
+    },
+    {
+      "id": "session_1761719886332_6bdzl5y0a",
+      "adminId": "admin_001",
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluXzAwMSIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3NjE3MTk4ODYsImV4cCI6MTc2MTgwNjI4Nn0.e_OUseiWY-kd-sL7L5CzlHV5YnCq-Avk0lNsljOlI2o",
+      "createdAt": "2025-10-29T06:38:06.332Z",
+      "expiresAt": "2025-10-30T06:38:06.332Z",
       "ipAddress": null,
       "userAgent": null
     }

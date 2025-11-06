@@ -23,7 +23,6 @@ const Login: React.FC = () => {
       loginButton: "Masuk",
       loggingIn: "Memproses...",
       backToHome: "Kembali ke Beranda",
-      defaultCredentials: "Default: admin / admin123",
     },
     en: {
       title: "Admin Login",
@@ -33,7 +32,6 @@ const Login: React.FC = () => {
       loginButton: "Sign In",
       loggingIn: "Processing...",
       backToHome: "Back to Home",
-      defaultCredentials: "Default: admin / admin123",
     },
   };
 
@@ -127,13 +125,6 @@ const Login: React.FC = () => {
                 placeholder="••••••••"
                 disabled={isLoading}
               />
-            </div>
-
-            {/* Dev Info */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-              <p className="text-xs text-blue-700 text-center">
-                🔐 {t.defaultCredentials}
-              </p>
             </div>
 
             {/* Submit Button */}
