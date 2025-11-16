@@ -34,6 +34,11 @@ dist-ssr
 secrets/
 credentials/
 
+# Database files - contains dummy data with sensitive structure
+database/insert-dummy-data.sql
+database/schema.sql
+*.sql
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -44,3 +49,4 @@ credentials/
 *.njsproj
 *.sln
 *.sw?
+proxy-server/analytics-data.json

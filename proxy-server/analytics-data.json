@@ -965,6 +965,42 @@
       "screenWidth": 2560,
       "screenHeight": 1440,
       "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1762764863337_it4871ccz",
+      "timestamp": 1762764863426,
+      "page": "/",
+      "referrer": "",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+      "screenWidth": 2560,
+      "screenHeight": 1440,
+      "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1762786994460_lpdoftdi6",
+      "timestamp": 1762786994561,
+      "page": "/",
+      "referrer": "",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+      "screenWidth": 2560,
+      "screenHeight": 1440,
+      "language": "en-US"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1762791580229_ghh94iq7g",
+      "timestamp": 1762791580366,
+      "page": "/",
+      "referrer": "",
+      "deviceType": "desktop",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",
+      "screenWidth": 2560,
+      "screenHeight": 1440,
+      "language": "en-US"
     }
   ],
   "pageviews": [
@@ -1770,6 +1806,24 @@
       "sessionId": "session_1762447117149_6lnjbdwm7",
       "timestamp": 1762447117190,
       "page": "/"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1762764863337_it4871ccz",
+      "timestamp": 1762764863426,
+      "page": "/"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1762786994460_lpdoftdi6",
+      "timestamp": 1762786994561,
+      "page": "/"
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1762791580229_ghh94iq7g",
+      "timestamp": 1762791580366,
+      "page": "/"
     }
   ],
   "events": [
@@ -2057,6 +2111,7 @@
         "to": "id"
       },
       "timestamp": 1762428975895
+<<<<<<< HEAD
     },
     {
       "visitorId": "visitor_1761467126084_tqwsb31gz",
@@ -2167,11 +2222,33 @@
         "to": "en"
       },
       "timestamp": 1762429035901
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1762786994460_lpdoftdi6",
+      "eventName": "language_change",
+      "eventData": {
+        "from": "en",
+        "to": "id"
+      },
+      "timestamp": 1762787011860
+    },
+    {
+      "visitorId": "visitor_1761467126084_tqwsb31gz",
+      "sessionId": "session_1762786994460_lpdoftdi6",
+      "eventName": "language_change",
+      "eventData": {
+        "from": "en",
+        "to": "id"
+      },
+      "timestamp": 1762787012083
+=======
+>>>>>>> parent of eb8e2f7 (chore: Update analytics data from testing)
     }
   ],
   "stats": {
     "totalVisitors": 3,
-    "totalPageviews": 144,
+    "totalPageviews": 147,
     "todayVisitors": 0,
     "todayPageviews": 0
   },

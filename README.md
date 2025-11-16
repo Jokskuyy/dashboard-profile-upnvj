@@ -1,27 +1,51 @@
-# 🎓 Dashboard Profile UPNVJ
+# 🎓 Dashboard Profile UPNVJ# 🎓 Dashboard Profile UPNVJ
 
-> Dashboard interaktif untuk menampilkan profil dan data institusional Universitas Pembangunan Nasional Veteran Jakarta (UPNVJ)
 
-![React](https://img.shields.io/badge/React-18.x-blue?logo=react)
+
+Dashboard interaktif untuk menampilkan profil dan data institusional Universitas Pembangunan Nasional Veteran Jakarta (UPNVJ)> Dashboard interaktif untuk menampilkan profil dan data institusional Universitas Pembangunan Nasional Veteran Jakarta (UPNVJ)
+
+
+
+## 🛠️ Tech Stack![React](https://img.shields.io/badge/React-18.x-blue?logo=react)
+
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)
-![Tailwind](https://img.shields.io/badge/Tailwind-3.x-blue?logo=tailwindcss)
-![Vite](https://img.shields.io/badge/Vite-5.x-purple?logo=vite)
 
-## 🌟 Fitur Utama
+### Frontend![Tailwind](https://img.shields.io/badge/Tailwind-3.x-blue?logo=tailwindcss)
 
-- 📊 **Interactive Bar Charts** - Visualisasi data fakultas dengan drill-down capability
-- 🌐 **Multilingual Support** - Bahasa Indonesia & English dengan toggle beranimasi
+- **React** 19.1.1![Vite](https://img.shields.io/badge/Vite-5.x-purple?logo=vite)
+
+- **TypeScript** 5.8.3
+
+- **Vite** 7.1.5## 🌟 Fitur Utama
+
+- **TailwindCSS** 4.1.13
+
+- **React Router** 7.1.3- 📊 **Interactive Bar Charts** - Visualisasi data fakultas dengan drill-down capability
+
+- **Lucide React** (Icons)- 🌐 **Multilingual Support** - Bahasa Indonesia & English dengan toggle beranimasi
+
 - 📱 **Responsive Design** - Optimal untuk desktop, tablet, dan mobile
-- 🎨 **Modern UI/UX** - Desain modern dengan smooth animations
-- 🏛️ **Faculty Analytics** - Data dosen dan mahasiswa per fakultas
-- 🔄 **Real-time Language Switch** - Toggle bahasa dengan persistent storage
-- 🔐 **Admin Authentication** - Sistem login JWT dengan bcrypt password hashing
+
+### Backend- 🎨 **Modern UI/UX** - Desain modern dengan smooth animations
+
+- **Express.js** 4.21.2- 🏛️ **Faculty Analytics** - Data dosen dan mahasiswa per fakultas
+
+- **JWT** (Authentication)- 🔄 **Real-time Language Switch** - Toggle bahasa dengan persistent storage
+
+- **bcryptjs** (Password Hashing)- 🔐 **Admin Authentication** - Sistem login JWT dengan bcrypt password hashing
+
 - 📈 **Web Analytics** - Custom self-hosted analytics untuk traffic monitoring
-- ⚡ **Data Synchronization** - Single source of truth antara admin dan public dashboard
 
-## 🚀 Quick Start
+### Development Tools- ⚡ **Data Synchronization** - Single source of truth antara admin dan public dashboard
 
-### Prerequisites
+- **ESLint** 9.18.0
+
+- **TypeScript ESLint**## 🚀 Quick Start
+
+- **PostCSS**
+
+- **Autoprefixer**### Prerequisites
+
 
 - Node.js (v16 atau lebih baru)
 - npm atau yarn
