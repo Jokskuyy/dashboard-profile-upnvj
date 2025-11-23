@@ -107,7 +107,7 @@ const CampusMapSection: React.FC = () => {
         {isGitHubPages && (
           <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
             <p className="text-sm text-yellow-800">
-              ⚠️ Unity WebGL is not available on GitHub Pages due to Brotli compression limitations.
+              WARNING: Unity WebGL is not available on GitHub Pages due to Brotli compression limitations.
               <br />
               Please view on local development environment.
             </p>

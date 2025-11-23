@@ -12,13 +12,13 @@ import {
   Package,
 } from "lucide-react";
 import { useLanguage } from "../../../contexts/LanguageContext";
-import { getAllAssets } from "../../../utils/staticData";
+import { useAssets } from "../../../contexts/DashboardContext";
 import type { AssetCategory } from '../../../types';
 
 const AssetsSection: React.FC = () => {
   const { t } = useLanguage();
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
-  const assetsData = getAllAssets();
+  const assetsData = useAssets();
 
   const getIcon = (iconName: string) => {
     const icons = {

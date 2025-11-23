@@ -1,31 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Users, BarChart3, ArrowLeft, BookOpen } from "lucide-react";
 import { useLanguage } from "../../../contexts/LanguageContext";
-import {
-  professorsData,
-  getProfessorsByFaculty,
-  getDepartmentsByFacultyId,
-} from "../../../utils/staticData";
+import { useProfessors, useDepartments, useDashboard } from "../../../contexts/DashboardContext";
 import FacultyBarChart from "../../charts/FacultyBarChart";
 import DepartmentBarChart from "../../charts/DepartmentBarChart";
 import type { DepartmentData } from '../../../types';
 
 const ProfessorsSection: React.FC = () => {
   const { t } = useLanguage();
+  const { faculties } = useDashboard();
+  const professors = useProfessors();
+  const allDepartments = useDepartments();
   const [selectedFaculty, setSelectedFaculty] = useState<string | null>(null);
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(
     null
   );
 
-  const facultyData = getProfessorsByFaculty();
+  // Group professors by faculty
+  const facultyData = useMemo(() => {
+    return faculties.map((faculty) => {
+      const facultyProfessors = professors.filter(
+        (prof) => prof.faculty === faculty.name
+      );
+      return {
+        id: faculty.id,
+        name: faculty.name,
+        shortName: faculty.shortName,
+        color: faculty.color,
+        count: facultyProfessors.length,
+      };
+    });
+  }, [professors, faculties]);
 
   const selectedFacultyData = selectedFaculty
     ? facultyData.find((f) => f.id === selectedFaculty)
     : null;
 
-  const departmentsData = selectedFaculty
-    ? getDepartmentsByFacultyId(selectedFaculty)
-    : [];
+  const departmentsData = useMemo(() => {
+    if (!selectedFaculty) return [];
+    const faculty = faculties.find((f) => f.id === selectedFaculty);
+    if (!faculty) return [];
+    
+    return allDepartments
+      .filter((dept) => dept.faculty === faculty.name)
+      .map((dept) => ({
+        id: dept.id,
+        name: dept.name,
+        faculty: dept.faculty,
+        description: dept.description,
+        professors: dept.professors,
+        color: faculty.color,
+      }));
+  }, [selectedFaculty, allDepartments, faculties]);
 
   const selectedDepartmentData = selectedDepartment
     ? departmentsData.find((d) => d.id === selectedDepartment)
@@ -76,7 +102,7 @@ const ProfessorsSection: React.FC = () => {
               ? selectedDepartmentData.professors
               : selectedFacultyData
               ? selectedFacultyData.count
-              : professorsData.length}
+              : professors.length}
           </p>
           <p className="text-sm text-gray-500">{t("totalProfessors")}</p>
         </div>

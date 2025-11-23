@@ -71,7 +71,6 @@ type TabType =
   | "students"
   | "assets"
   | "programs"
-  | "departments"
   | "analytics";
 
 export default function AdminDashboard() {
@@ -410,12 +409,6 @@ export default function AdminDashboard() {
       label: "Program Studi",
       icon: BookOpen,
       count: data?.programs.length,
-    },
-    {
-      id: "departments",
-      label: "Departemen",
-      icon: Building2,
-      count: data?.departments.length,
     },
     {
       id: "analytics",
@@ -789,24 +782,6 @@ export default function AdminDashboard() {
                     type: "program",
                     id: program.id,
                     name: program.name,
-                  })
-                }
-              />
-            )}
-            {activeTab === "departments" && data && (
-              <DepartmentsTable
-                departments={data.departments}
-                faculties={faculties}
-                onAdd={() => setDepartmentModal({ isOpen: true })}
-                onEdit={(department) =>
-                  setDepartmentModal({ isOpen: true, department })
-                }
-                onDelete={(department) =>
-                  setDeleteModal({
-                    isOpen: true,
-                    type: "department",
-                    id: department.id,
-                    name: department.name,
                   })
                 }
               />

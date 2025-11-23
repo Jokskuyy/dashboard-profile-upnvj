@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useLanguage } from "../../contexts/LanguageContext";
-import logoUpnvj from "../../assets/images/logoupnvj.png";
+import logoUpnvj from "../../assets/images/logoupnvj.webp";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -42,12 +42,26 @@ const Login: React.FC = () => {
     setError("");
     setIsLoading(true);
 
-    const result = await login(username, password);
+    console.log('📝 Form submitted');
+    console.log('👤 Username:', username);
+    console.log('🔑 Password length:', password.length);
 
-    if (result.success) {
-      navigate("/admin");
-    } else {
-      setError(result.message);
+    try {
+      const result = await login(username, password);
+
+      console.log('Login result:', result);
+
+      if (result.success) {
+        console.log('Login successful, navigating to /admin');
+        navigate("/admin");
+      } else {
+        console.error('Login failed:', result.message);
+        setError(result.message);
+        setIsLoading(false);
+      }
+    } catch (err: any) {
+      console.error('Login exception:', err);
+      setError(err.message || 'Terjadi kesalahan tidak terduga');
       setIsLoading(false);
     }
   };

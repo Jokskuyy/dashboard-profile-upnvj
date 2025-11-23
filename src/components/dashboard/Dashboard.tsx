@@ -9,34 +9,22 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useLanguage } from "../../contexts/LanguageContext";
-import { fetchDashboardData, getTotalStats } from '../../services/api/dataService';
-import type { DashboardData } from '../../services/api/dataService';
+import { useDashboard, useStats } from "../../contexts/DashboardContext";
 import KPICard from "./KPICard";
-import { ProfessorsSection, AccreditationSection, StudentsSection, CampusMapSection, AssetsSection } from "./sections";
+import {
+  ProfessorsSection,
+  AccreditationSection,
+  StudentsSection,
+  CampusMapSection,
+  AssetsSection,
+} from "./sections";
 import TrafficOverview from "../analytics/TrafficOverview";
-import { trackClick, trackCarousel } from '../analytics/Analytics';
+import { trackClick, trackCarousel } from "../analytics/Analytics";
 
 const Dashboard: React.FC = () => {
   const { t } = useLanguage();
-  const [data, setData] = useState<DashboardData | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  // Load dashboard data
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const dashboardData = await fetchDashboardData();
-        setData(dashboardData);
-      } catch (error) {
-        console.error("Error loading dashboard data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadData();
-  }, []);
-
-  const stats = data ? getTotalStats(data) : null;
+  const { loading } = useDashboard();
+  const stats = useStats();
 
   // Carousel state
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -98,7 +86,7 @@ const Dashboard: React.FC = () => {
               {/* Logo */}
               <div className="mb-8">
                 <img
-                  src={`${basePath}logoupnvj.png`}
+                  src={`${basePath}logoupnvj.webp`}
                   alt="UPNVJ Logo"
                   className="w-24 h-24 object-contain drop-shadow-2xl"
                 />

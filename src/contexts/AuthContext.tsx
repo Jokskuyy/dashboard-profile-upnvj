@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { supabase } from "../lib/supabase";
 
 interface Admin {
   id: string;
@@ -23,13 +24,6 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const API_URL = "http://localhost:3001/api/auth";
-
-// Check if we're on GitHub Pages (no backend available)
-const isStaticDeployment = () => {
-  return window.location.hostname.includes('github.io');
-};
-
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -37,35 +31,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isLoading, setIsLoading] = useState(true);
 
   const verifyAuth = async () => {
-    // Skip auth verification on static deployments
-    if (isStaticDeployment()) {
-      setAdmin(null);
-      setIsLoading(false);
-      return;
-    }
-
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second timeout
-
-      const response = await fetch(`${API_URL}/verify`, {
-        credentials: "include",
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-      const data = await response.json();
-
-      if (data.valid) {
-        setAdmin(data.admin);
-      } else {
+      // Check Supabase session
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      
+      if (sessionError || !session) {
         setAdmin(null);
+        setIsLoading(false);
+        return;
       }
+
+      // Extract username from email (format: username@admin.upnvj.ac.id)
+      const email = session.user.email || '';
+      const username = email.split('@')[0];
+
+      // Create admin object from session data
+      setAdmin({
+        id: session.user.id,
+        username: username,
+        fullName: session.user.user_metadata?.full_name || username,
+        email: email,
+        role: session.user.user_metadata?.role || 'admin',
+        lastLogin: session.user.last_sign_in_at || new Date().toISOString(),
+      });
     } catch (error) {
-      // Silent fail on static deployments
-      if (!isStaticDeployment() && process.env.NODE_ENV === 'development') {
-        console.error("Auth verification failed:", error);
-      }
+      console.error("Auth verification failed:", error);
       setAdmin(null);
     } finally {
       setIsLoading(false);
@@ -74,53 +64,81 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     verifyAuth();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) {
+        setAdmin(null);
+      } else {
+        verifyAuth();
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const login = async (username: string, password: string) => {
-    // Prevent login attempts on static deployments
-    if (isStaticDeployment()) {
-      return {
-        success: false,
-        message: "Authentication is not available on static deployment. Please use local development environment.",
-      };
-    }
-
     try {
-      const response = await fetch(`${API_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ username, password }),
+      // Convert username to email format for Supabase Auth
+      const email = `${username}@admin.upnvj.ac.id`;
+      
+      console.log('Attempting login with email:', email);
+      
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
 
-      const data = await response.json();
+      if (error) {
+        console.error('Login error:', error.message);
+        console.error('Full error:', error);
+        
+        // Better error messages
+        if (error.message.includes('Invalid login credentials')) {
+          return {
+            success: false,
+            message: "Username atau password salah. Pastikan email di Supabase: " + email,
+          };
+        }
+        
+        if (error.message.includes('Email not confirmed')) {
+          return {
+            success: false,
+            message: "Email belum dikonfirmasi. Silakan cek inbox Anda.",
+          };
+        }
 
-      if (data.success) {
-        setAdmin(data.admin);
-        return { success: true, message: data.message };
-      } else {
-        return { success: false, message: data.message };
+        return {
+          success: false,
+          message: error.message || "Gagal login",
+        };
       }
-    } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error("Login failed:", error);
+
+      // Set admin data from session
+      if (data.session) {
+        setAdmin({
+          id: data.user.id,
+          username: username,
+          fullName: data.user.user_metadata?.full_name || username,
+          email: email,
+          role: data.user.user_metadata?.role || 'admin',
+          lastLogin: data.user.last_sign_in_at || new Date().toISOString(),
+        });
       }
+
+      return { success: true, message: "Login berhasil" };
+    } catch (error: any) {
+      console.error("Login failed:", error);
       return {
         success: false,
-        message: "Terjadi kesalahan. Silakan coba lagi.",
+        message: error.message || "Terjadi kesalahan. Silakan coba lagi.",
       };
     }
   };
 
   const logout = async () => {
     try {
-      await fetch(`${API_URL}/logout`, {
-        method: "POST",
-        credentials: "include",
-      });
-
+      await supabase.auth.signOut();
       setAdmin(null);
     } catch (error) {
       console.error("Logout failed:", error);

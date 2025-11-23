@@ -11,7 +11,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { useLanguage } from "../../contexts/LanguageContext";
-import logoUpnvj from "../../assets/images/logoupnvj.png";
+import logoUpnvj from "../../assets/images/logoupnvj.webp";
 
 const Footer: React.FC = () => {
   const { t } = useLanguage();

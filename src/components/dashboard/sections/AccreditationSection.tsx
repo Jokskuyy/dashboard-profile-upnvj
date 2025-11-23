@@ -1,10 +1,11 @@
 import React from 'react';
 import { Award, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../../../contexts/LanguageContext';
-import { accreditationData } from '../../../utils/staticData';
+import { useAccreditations } from '../../../contexts/DashboardContext';
 
 const AccreditationSection: React.FC = () => {
   const { t } = useLanguage();
+  const accreditationData = useAccreditations();
 
   const getStatusIcon = (status: string) => {
     switch (status) {

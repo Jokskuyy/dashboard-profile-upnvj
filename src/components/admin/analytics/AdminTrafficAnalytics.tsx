@@ -42,10 +42,18 @@ export default function AdminTrafficAnalytics() {
     setLoading(true);
     try {
       const days = timeRange === "7d" ? 7 : timeRange === "30d" ? 30 : 90;
+      console.log('Loading analytics for', days, 'days...');
+      
       const data = await getAnalytics(days);
+      
+      console.log('Analytics data received:', data);
+      console.log('Success?', data?.success);
+      console.log('Daily stats:', data?.dailyStats);
+      console.log('Total visitors:', data?.totalVisitors);
+      console.log('Total page views:', data?.totalPageViews);
 
       if (data && data.success) {
-        setAnalyticsData({
+        const analyticsResult = {
           dailyStats: data.dailyStats || [],
           deviceStats: data.deviceStats || {
             desktop: 0,
@@ -54,10 +62,17 @@ export default function AdminTrafficAnalytics() {
           },
           totalVisitors: data.totalVisitors || 0,
           totalPageViews: data.totalPageViews || 0,
-        });
+        };
+        
+        console.log('Setting analytics data:', analyticsResult);
+        setAnalyticsData(analyticsResult);
+      } else {
+        console.log('No data or not successful:', data);
+        setAnalyticsData(null);
       }
     } catch (error) {
       console.error("Error loading analytics:", error);
+      setAnalyticsData(null);
     } finally {
       setLoading(false);
     }

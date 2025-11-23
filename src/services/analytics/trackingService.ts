@@ -1,54 +1,7 @@
-// Web Tracking Service
-// Mengumpulkan dan mengirim data analytics ke backend
+// Web Tracking Service with Supabase
+// Mengumpulkan dan mengirim data analytics ke Supabase
 
-const BACKEND_API_URL = "http://localhost:3001";
-
-// Check if backend is available (for GitHub Pages deployment)
-const isBackendAvailable = async (): Promise<boolean> => {
-  // In production (GitHub Pages), backend won't be available
-  if (window.location.hostname.includes('github.io')) {
-    return false;
-  }
-  
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 1000); // 1 second timeout
-    
-    await fetch(`${BACKEND_API_URL}/api/health`, {
-      method: 'GET',
-      signal: controller.signal
-    });
-    
-    clearTimeout(timeoutId);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
-// Store analytics locally when backend is not available
-const storeLocalAnalytics = (type: string, data: any) => {
-  try {
-    const storageKey = 'offline_analytics';
-    const stored = localStorage.getItem(storageKey);
-    const analytics = stored ? JSON.parse(stored) : [];
-    
-    analytics.push({
-      type,
-      data,
-      timestamp: Date.now()
-    });
-    
-    // Keep only last 100 events
-    if (analytics.length > 100) {
-      analytics.shift();
-    }
-    
-    localStorage.setItem(storageKey, JSON.stringify(analytics));
-  } catch (error) {
-    // Silent fail if localStorage is full
-  }
-};
+import { supabase } from "../../lib/supabase";
 
 // Generate atau ambil visitor ID dari localStorage
 const getVisitorId = (): string => {
@@ -63,27 +16,28 @@ const getVisitorId = (): string => {
 };
 
 // Generate session ID (expires after 30 minutes of inactivity)
-const getSessionId = (): string => {
-  const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
-  const now = Date.now();
-
-  let sessionId = sessionStorage.getItem("sessionId");
-  let lastActivity = sessionStorage.getItem("lastActivity");
-
-  if (
-    !sessionId ||
-    !lastActivity ||
-    now - parseInt(lastActivity) > SESSION_TIMEOUT
-  ) {
-    sessionId = `session_${Date.now()}_${Math.random()
-      .toString(36)
-      .substr(2, 9)}`;
-    sessionStorage.setItem("sessionId", sessionId);
-  }
-
-  sessionStorage.setItem("lastActivity", now.toString());
-  return sessionId;
-};
+// Kept for potential future use
+// const getSessionId = (): string => {
+//   const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
+//   const now = Date.now();
+//
+//   let sessionId = sessionStorage.getItem("sessionId");
+//   let lastActivity = sessionStorage.getItem("lastActivity");
+//
+//   if (
+//     !sessionId ||
+//     !lastActivity ||
+//     now - parseInt(lastActivity) > SESSION_TIMEOUT
+//   ) {
+//     sessionId = `session_${Date.now()}_${Math.random()
+//       .toString(36)
+//       .substr(2, 9)}`;
+//     sessionStorage.setItem("sessionId", sessionId);
+//   }
+//
+//   sessionStorage.setItem("lastActivity", now.toString());
+//   return sessionId;
+// };
 
 // Get device information with improved detection
 const getDeviceInfo = () => {
@@ -128,40 +82,39 @@ const getDeviceInfo = () => {
   };
 };
 
+// Hash visitor ID for privacy
+const hashVisitorId = (visitorId: string): string => {
+  try {
+    // Simple hash using Web Crypto API
+    const encoder = new TextEncoder();
+    const data = encoder.encode(visitorId);
+    return Array.from(data).map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 32);
+  } catch {
+    return visitorId.substring(0, 32);
+  }
+};
+
 // Track page view - simplified without duration
 export const trackPageView = async (page: string) => {
   try {
     const visitorId = getVisitorId();
-    const sessionId = getSessionId();
     const deviceInfo = getDeviceInfo();
 
-    const trackingData = {
-      visitorId,
-      sessionId,
-      page,
-      referrer: document.referrer,
-      timestamp: Date.now(),
-      ...deviceInfo,
-    };
-
-    // Check if backend is available
-    const backendAvailable = await isBackendAvailable();
-    
-    if (backendAvailable) {
-      await fetch(`${BACKEND_API_URL}/api/track/pageview`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(trackingData),
+    // Insert into Supabase
+    const { error } = await supabase
+      .from("web_analytics_log")
+      .insert({
+        visitor_hash: hashVisitorId(visitorId),
+        page_path: page,
+        device_type: deviceInfo.deviceType,
       });
-    } else {
-      // Store locally when backend is not available
-      storeLocalAnalytics('pageview', trackingData);
+
+    if (error && process.env.NODE_ENV === "development") {
+      console.error("Error tracking page view:", error);
     }
   } catch (error) {
     // Silent fail - don't spam console in production
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === "development") {
       console.error("Error tracking page view:", error);
     }
   }
@@ -170,58 +123,135 @@ export const trackPageView = async (page: string) => {
 // Track custom event
 export const trackEvent = async (
   eventName: string,
-  eventData?: Record<string, any>
+  _eventData?: Record<string, any>
 ) => {
   try {
     const visitorId = getVisitorId();
-    const sessionId = getSessionId();
+    const deviceInfo = getDeviceInfo();
 
-    const trackingData = {
-      visitorId,
-      sessionId,
-      eventName,
-      eventData,
-      timestamp: Date.now(),
-    };
-
-    // Check if backend is available
-    const backendAvailable = await isBackendAvailable();
-    
-    if (backendAvailable) {
-      await fetch(`${BACKEND_API_URL}/api/track/event`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(trackingData),
+    // Insert into Supabase with event name as page path
+    const { error } = await supabase
+      .from("web_analytics_log")
+      .insert({
+        visitor_hash: hashVisitorId(visitorId),
+        page_path: `event:${eventName}`,
+        device_type: deviceInfo.deviceType,
       });
-    } else {
-      // Store locally when backend is not available
-      storeLocalAnalytics('event', trackingData);
+
+    if (error && process.env.NODE_ENV === "development") {
+      console.error("Error tracking event:", error);
     }
   } catch (error) {
     // Silent fail - don't spam console in production
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === "development") {
       console.error("Error tracking event:", error);
     }
   }
 };
 
-// Get analytics data
+// Get analytics data from Supabase
 export const getAnalytics = async (days: number = 7) => {
   try {
-    const response = await fetch(
-      `${BACKEND_API_URL}/api/analytics?days=${days}`
-    );
+    console.log('Fetching analytics for last', days, 'days...');
+    
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - days);
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch analytics");
+    const { data, error } = await supabase
+      .from("web_analytics_log")
+      .select("*")
+      .gte("visited_at", startDate.toISOString())
+      .order("visited_at", { ascending: false });
+
+    console.log('📦 Raw data from Supabase:', data);
+    console.log('Error:', error);
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      console.log('No analytics data found');
+      return {
+        success: false,
+        totalVisitors: 0,
+        totalPageViews: 0,
+        dailyStats: [],
+        deviceStats: { desktop: 0, mobile: 0, tablet: 0 },
+      };
     }
 
-    return await response.json();
+    // Process analytics data
+    const pageViews = new Map<string, number>();
+    const deviceTypes = new Map<string, number>();
+    const dailyViewsMap = new Map<string, { visitors: Set<string>, pageViews: number }>();
+    const allVisitors = new Set<string>();
+
+    data.forEach((log: any) => {
+      // Count page views
+      const page = log.page_path;
+      pageViews.set(page, (pageViews.get(page) || 0) + 1);
+
+      // Count device types
+      const device = log.device_type || "unknown";
+      deviceTypes.set(device, (deviceTypes.get(device) || 0) + 1);
+
+      // Count unique visitors
+      if (log.visitor_hash) {
+        allVisitors.add(log.visitor_hash);
+      }
+
+      // Count daily views and visitors
+      const date = new Date(log.visited_at).toLocaleDateString("id-ID");
+      if (!dailyViewsMap.has(date)) {
+        dailyViewsMap.set(date, { visitors: new Set(), pageViews: 0 });
+      }
+      const dailyData = dailyViewsMap.get(date)!;
+      dailyData.pageViews++;
+      if (log.visitor_hash) {
+        dailyData.visitors.add(log.visitor_hash);
+      }
+    });
+
+    // Calculate device percentages
+    const totalViews = data.length;
+    const deviceStats = {
+      desktop: Math.round(((deviceTypes.get('desktop') || 0) / totalViews) * 100),
+      mobile: Math.round(((deviceTypes.get('mobile') || 0) / totalViews) * 100),
+      tablet: Math.round(((deviceTypes.get('tablet') || 0) / totalViews) * 100),
+    };
+
+    // Convert daily stats to array
+    const dailyStats = Array.from(dailyViewsMap.entries())
+      .map(([date, data]) => ({
+        date,
+        visitors: data.visitors.size,
+        pageViews: data.pageViews,
+      }))
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+    const result = {
+      success: true,
+      totalVisitors: allVisitors.size,
+      totalPageViews: totalViews,
+      dailyStats,
+      deviceStats,
+      pageViews: Array.from(pageViews.entries()).map(([page, count]) => ({
+        page,
+        count,
+      })),
+    };
+
+    console.log('Processed analytics result:', result);
+
+    return result;
   } catch (error) {
     console.error("Error fetching analytics:", error);
-    return null;
+    return {
+      success: false,
+      totalVisitors: 0,
+      totalPageViews: 0,
+      dailyStats: [],
+      deviceStats: { desktop: 0, mobile: 0, tablet: 0 },
+    };
   }
 };
 

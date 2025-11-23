@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   GraduationCap,
   Users,
@@ -7,30 +7,45 @@ import {
   BookOpen,
 } from "lucide-react";
 import { useLanguage } from "../../../contexts/LanguageContext";
-import {
-  getTotalStats,
-  getStudentsByFaculty,
-  getProgramsByFacultyId,
-} from "../../../utils/staticData";
+import { useStudents, usePrograms, useStats, useDashboard } from "../../../contexts/DashboardContext";
 import FacultyBarChart from "../../charts/FacultyBarChart";
 import ProgramBarChart from "../../charts/ProgramBarChart";
 import type { ProgramData } from '../../../types';
 
 const StudentsSection: React.FC = () => {
   const { t } = useLanguage();
+  const { faculties } = useDashboard();
+  const students = useStudents();
+  const allPrograms = usePrograms();
+  const totalStats = useStats();
   const [selectedFaculty, setSelectedFaculty] = useState<string | null>(null);
   const [selectedProgram, setSelectedProgram] = useState<string | null>(null);
 
-  const totalStats = getTotalStats();
-  const facultyData = getStudentsByFaculty();
+  // Group students by faculty
+  const facultyData = useMemo(() => {
+    return faculties.map((faculty) => {
+      const facultyStudents = students.find((s) => s.faculty === faculty.name);
+      return {
+        id: faculty.id,
+        name: faculty.name,
+        shortName: faculty.shortName,
+        color: faculty.color,
+        count: facultyStudents?.totalStudents || 0,
+      };
+    });
+  }, [students, faculties]);
 
   const selectedFacultyData = selectedFaculty
     ? facultyData.find((f) => f.id === selectedFaculty)
     : null;
 
-  const programsData = selectedFaculty
-    ? getProgramsByFacultyId(selectedFaculty)
-    : [];
+  const programsData = useMemo(() => {
+    if (!selectedFaculty) return [];
+    const faculty = faculties.find((f) => f.id === selectedFaculty);
+    if (!faculty) return [];
+    
+    return allPrograms.filter((prog) => prog.faculty === faculty.name);
+  }, [selectedFaculty, allPrograms, faculties]);
 
   const selectedProgramData = selectedProgram
     ? programsData.find((p) => p.id === selectedProgram)
@@ -83,7 +98,7 @@ const StudentsSection: React.FC = () => {
               ? selectedProgramData.students?.toLocaleString()
               : selectedFacultyData
               ? selectedFacultyData.count?.toLocaleString()
-              : totalStats.totalStudents.toLocaleString()}
+              : totalStats?.totalStudents.toLocaleString()}
           </p>
           <p className="text-sm text-gray-500">{t("totalStudents")}</p>
         </div>

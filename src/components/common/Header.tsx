@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLanguage } from "../../contexts/LanguageContext";
 import LanguageToggle from "./LanguageToggle";
-import logoUpnvj from "../../assets/images/logoupnvj.png";
+import logoUpnvj from "../../assets/images/logoupnvj.webp";
 import { Menu, X, Home, Users, Award, MapPin, Package } from "lucide-react";
 
 const Header: React.FC = () => {

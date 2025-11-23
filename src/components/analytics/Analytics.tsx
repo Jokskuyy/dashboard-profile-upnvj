@@ -53,13 +53,13 @@ const Analytics: React.FC = () => {
   // Initialize tracking on component mount
   useEffect(() => {
     initTracking();
-    console.log("📊 Analytics tracking initialized");
+    console.log("Analytics tracking initialized");
   }, []);
 
   // Track page view on route change
   useEffect(() => {
     trackPageView(location.pathname);
-    console.log("📊 Page view tracked:", location.pathname);
+    console.log("Page view tracked:", location.pathname);
   }, [location]);
 
   return null;
