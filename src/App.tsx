@@ -7,7 +7,6 @@ import Dashboard from "./components/dashboard/Dashboard";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import Login from "./components/auth/Login";
 import Analytics from "./components/analytics/Analytics";
-import SupabaseTest from "./components/SupabaseTest";
 import "./App.css";
 
 function App() {
@@ -34,9 +33,6 @@ function App() {
                   </div>
                 }
               />
-
-            {/* Supabase Test Route */}
-            <Route path="/test-supabase" element={<SupabaseTest />} />
 
             {/* Login Routes */}
             <Route path="/login" element={<Login />} />

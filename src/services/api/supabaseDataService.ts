@@ -85,7 +85,7 @@ export const fetchFaculties = async (): Promise<FacultyInfo[]> => {
 
     if (error) throw error;
 
-    const faculties: FacultyInfo[] = data.map((fak) => {
+    const faculties: FacultyInfo[] = data.map((fak: any) => {
       const mapped = FACULTY_MAPPING[fak.nama_fakultas];
       return mapped || {
         id: fak.id.toString(),

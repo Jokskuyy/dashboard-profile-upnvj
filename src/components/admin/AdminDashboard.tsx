@@ -33,9 +33,6 @@ import {
   createProgram,
   updateProgram,
   deleteProgram,
-  createDepartment,
-  updateDepartment,
-  deleteDepartment,
   createAssetCategory,
   updateAssetCategory,
   deleteAssetCategory,
@@ -52,13 +49,11 @@ import type {
   AssetCategory,
   AssetDetail,
   ProgramData,
-  DepartmentData,
 } from "../../types";
 import ProfessorModal from '../modals/crud/ProfessorModal';
 import AccreditationModal from '../modals/crud/AccreditationModal';
 import StudentModal from '../modals/crud/StudentModal';
 import ProgramModal from '../modals/crud/ProgramModal';
-import DepartmentModal from '../modals/crud/DepartmentModal';
 import AssetModal from '../modals/crud/AssetModal';
 import AssetDetailModal from '../modals/crud/AssetDetailModal';
 import DeleteConfirmModal from '../modals/shared/DeleteConfirmModal';
@@ -100,11 +95,6 @@ export default function AdminDashboard() {
   const [programModal, setProgramModal] = useState<{
     isOpen: boolean;
     program?: ProgramData;
-  }>({ isOpen: false });
-
-  const [departmentModal, setDepartmentModal] = useState<{
-    isOpen: boolean;
-    department?: DepartmentData;
   }>({ isOpen: false });
 
   const [assetModal, setAssetModal] = useState<{
@@ -200,9 +190,6 @@ export default function AdminDashboard() {
       } else if (deleteModal.type === "program" && deleteModal.id) {
         await deleteProgram(deleteModal.id);
         showToast("Program studi berhasil dihapus", "success");
-      } else if (deleteModal.type === "department" && deleteModal.id) {
-        await deleteDepartment(deleteModal.id);
-        showToast("Departemen berhasil dihapus", "success");
       } else if (deleteModal.type === "asset" && deleteModal.id) {
         await deleteAssetCategory(deleteModal.id);
         showToast("Kategori aset berhasil dihapus", "success");
@@ -283,26 +270,6 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error("Error saving program:", error);
       showToast("Gagal menyimpan data program studi", "error");
-      throw error;
-    }
-  };
-
-  // Department CRUD handlers
-  const handleSaveDepartment = async (
-    department: Omit<DepartmentData, "id"> | DepartmentData
-  ) => {
-    try {
-      if ("id" in department) {
-        await updateDepartment(department.id, department);
-        showToast("Data departemen berhasil diupdate", "success");
-      } else {
-        await createDepartment(department);
-        showToast("Departemen baru berhasil ditambahkan", "success");
-      }
-      await loadData();
-    } catch (error) {
-      console.error("Error saving department:", error);
-      showToast("Gagal menyimpan data departemen", "error");
       throw error;
     }
   };
@@ -490,14 +457,6 @@ export default function AdminDashboard() {
         onClose={() => setProgramModal({ isOpen: false })}
         onSave={handleSaveProgram}
         program={programModal.program}
-        faculties={faculties}
-      />
-
-      <DepartmentModal
-        isOpen={departmentModal.isOpen}
-        onClose={() => setDepartmentModal({ isOpen: false })}
-        onSave={handleSaveDepartment}
-        department={departmentModal.department}
         faculties={faculties}
       />
 
@@ -1327,93 +1286,6 @@ function ProgramsTable({
             Showing first 20 of {programs.length} programs
           </div>
         )}
-      </div>
-    </div>
-  );
-}
-
-function DepartmentsTable({
-  departments,
-  onAdd,
-  onEdit,
-  onDelete,
-}: {
-  departments: DepartmentData[];
-  faculties: FacultyInfo[];
-  onAdd: () => void;
-  onEdit: (department: DepartmentData) => void;
-  onDelete: (department: DepartmentData) => void;
-}) {
-  const totalProfessors = departments.reduce((sum, d) => sum + d.professors, 0);
-
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">
-          Departemen ({departments.length}) - Total: {totalProfessors} dosen
-        </h3>
-        <button
-          onClick={onAdd}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
-        >
-          <Plus className="w-4 h-4" />
-          Tambah Departemen
-        </button>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-200">
-            <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">
-                Nama Departemen
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">
-                Fakultas
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase">
-                Deskripsi
-              </th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-gray-600 uppercase">
-                Dosen
-              </th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-gray-600 uppercase">
-                Aksi
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {departments.map((dept) => (
-              <tr key={dept.id} className="hover:bg-gray-50">
-                <td className="px-4 py-3 text-sm font-medium text-gray-900">
-                  {dept.name}
-                </td>
-                <td className="px-4 py-3 text-sm text-gray-600">
-                  {dept.faculty}
-                </td>
-                <td className="px-4 py-3 text-sm text-gray-600 max-w-md truncate">
-                  {dept.description}
-                </td>
-                <td className="px-4 py-3 text-sm text-gray-900 text-right font-medium">
-                  {dept.professors}
-                </td>
-                <td className="px-4 py-3 text-sm text-right">
-                  <button
-                    onClick={() => onEdit(dept)}
-                    className="p-1 text-blue-600 hover:bg-blue-50 rounded"
-                  >
-                    <Edit2 className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => onDelete(dept)}
-                    className="p-1 text-red-600 hover:bg-red-50 rounded ml-2"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </div>
     </div>
   );
