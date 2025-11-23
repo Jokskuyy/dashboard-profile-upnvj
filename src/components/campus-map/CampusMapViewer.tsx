@@ -37,12 +37,12 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [unityInstance, setUnityInstance] = useState<any>(null);
 
-  // Unity WebGL configuration - use BASE_URL for GitHub Pages
+  // Unity WebGL configuration - use uncompressed files for HTTP
   const basePath = import.meta.env.BASE_URL;
   const unityConfig = {
-    dataUrl: `${basePath}unity-builds/downloads/Build/Downloads.data.br`,
-    frameworkUrl: `${basePath}unity-builds/downloads/Build/Downloads.framework.js.br`,
-    codeUrl: `${basePath}unity-builds/downloads/Build/Downloads.wasm.br`,
+    dataUrl: `${basePath}unity-builds/downloads/Build/Downloads.data`,
+    frameworkUrl: `${basePath}unity-builds/downloads/Build/Downloads.framework.js`,
+    codeUrl: `${basePath}unity-builds/downloads/Build/Downloads.wasm`,
     streamingAssetsUrl: "StreamingAssets",
     companyName: "DefaultCompany",
     productName: "Proposal",
