@@ -36,6 +36,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [unityInstance, setUnityInstance] = useState<any>(null);
+  const [webglSupported, setWebglSupported] = useState<boolean>(true);
 
   // Unity WebGL configuration - using decompressed files
   const basePath = import.meta.env.BASE_URL;
@@ -51,6 +52,17 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
     matchWebGLToCanvasSize: true,
   };
 
+  // Check WebGL support
+  const checkWebGLSupport = (): boolean => {
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      return !!gl;
+    } catch (e) {
+      return false;
+    }
+  };
+
   function unityShowBanner(msg: string, type: string) {
     console.log(`[Unity ${type}]: ${msg}`);
     if (type === 'error') {
@@ -59,12 +71,28 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   }
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout | null = null;
+    
     const loadUnityBuild = async () => {
       if (!canvasRef.current || !containerRef.current) return;
+
+      // Check WebGL support first
+      if (!checkWebGLSupport()) {
+        setWebglSupported(false);
+        setError("WebGL is not supported on this device. Please use a modern browser with WebGL enabled.");
+        setIsLoading(false);
+        return;
+      }
 
       try {
         setIsLoading(true);
         setError(null);
+
+        // Add timeout for loading
+        timeoutId = setTimeout(() => {
+          setError("Loading timeout. The file may be too large or your connection is slow. Please try again later.");
+          setIsLoading(false);
+        }, 60000); // 60 second timeout
 
         // Set canvas dimensions explicitly
         const canvas = canvasRef.current;
@@ -109,14 +137,26 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         );
 
         console.log("Unity instance created successfully");
+        if (timeoutId) clearTimeout(timeoutId);
         setUnityInstance(instance);
         window.unityInstance = instance;
         setIsLoading(false);
       } catch (err) {
         console.error("Failed to load Unity WebGL build:", err);
-        setError(
-          err instanceof Error ? err.message : "Failed to load campus map"
-        );
+        if (timeoutId) clearTimeout(timeoutId);
+        
+        let errorMessage = "Failed to load campus map";
+        if (err instanceof Error) {
+          if (err.message.includes('memory')) {
+            errorMessage = "Not enough memory to load the map. Please close other tabs and try again.";
+          } else if (err.message.includes('network') || err.message.includes('Failed to fetch')) {
+            errorMessage = "Network error. Please check your internet connection and try again.";
+          } else {
+            errorMessage = err.message;
+          }
+        }
+        
+        setError(errorMessage);
         setIsLoading(false);
       }
     };
@@ -146,18 +186,42 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
             {t("campusMapUnavailable")}
           </h3>
           <p className="text-gray-600 mb-4">{error}</p>
+          
+          {!webglSupported && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+              <h4 className="font-medium text-yellow-800 mb-2">
+                ⚠️ WebGL Not Supported
+              </h4>
+              <p className="text-sm text-yellow-700">
+                Your browser or device doesn't support WebGL. Try:
+              </p>
+              <ul className="text-sm text-yellow-700 space-y-1 text-left mt-2 ml-4 list-disc">
+                <li>Update your browser to the latest version</li>
+                <li>Enable hardware acceleration in browser settings</li>
+                <li>Use Chrome, Firefox, or Edge browser</li>
+                <li>Check if your GPU drivers are up to date</li>
+              </ul>
+            </div>
+          )}
+          
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
             <h4 className="font-medium text-blue-800 mb-2">
-              Setup Instructions:
+              💡 Troubleshooting Tips:
             </h4>
-            <ol className="text-sm text-blue-700 space-y-1 text-left">
-              <li>1. Build Unity project for WebGL platform</li>
-              <li>
-                2. Place build files in <code>/public/unity-builds/downloads/</code>
-              </li>
-              <li>3. Ensure Unity WebGL loader is included in index.html</li>
-            </ol>
+            <ul className="text-sm text-blue-700 space-y-1 text-left ml-4 list-disc">
+              <li>Ensure you have a stable internet connection (80+ MB download)</li>
+              <li>Close other tabs to free up memory</li>
+              <li>Try using a desktop browser instead of mobile</li>
+              <li>Clear browser cache and reload the page</li>
+            </ul>
           </div>
+          
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            🔄 Retry Loading
+          </button>
         </div>
       </div>
     );
