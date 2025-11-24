@@ -9,6 +9,7 @@ import {
   ArrowDown,
   RefreshCw,
 } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { getAnalytics } from '../../../services/analytics/trackingService';
 
 interface TrafficData {
@@ -115,6 +116,31 @@ export default function AdminTrafficAnalytics() {
   const maxVisitors = Math.max(...trafficData.map((d) => d.visitors), 1);
   const maxPageViews = Math.max(...trafficData.map((d) => d.pageViews), 1);
 
+  // Format data for Recharts
+  const chartData = trafficData.map(day => {
+    // Format date safely
+    const formatDate = (dateStr: string) => {
+      try {
+        if (/^\d{1,2}\s\w{3}$/.test(dateStr)) {
+          return dateStr;
+        }
+        const date = new Date(dateStr);
+        if (isNaN(date.getTime())) {
+          return dateStr;
+        }
+        return date.toLocaleDateString("id-ID", { month: "short", day: "numeric" });
+      } catch {
+        return dateStr;
+      }
+    };
+
+    return {
+      tanggal: formatDate(day.date),
+      pengunjung: day.visitors,
+      webViews: day.pageViews,
+    };
+  });
+
   const calculateTrend = () => {
     if (trafficData.length < 2) return 0;
     const recent = trafficData
@@ -216,75 +242,62 @@ export default function AdminTrafficAnalytics() {
         <h3 className="text-lg font-semibold text-gray-900 mb-6">
           Visitors & Page Views Trend
         </h3>
-        <div className="space-y-6">
-          {/* Visitors Chart */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-700">
-                Daily Visitors
-              </span>
-              <span className="text-sm text-gray-600">
-                Peak: {maxVisitors.toLocaleString()}
-              </span>
-            </div>
-            <div className="h-48 flex items-end gap-1">
-              {trafficData.map((data, index) => (
-                <div
-                  key={index}
-                  className="flex-1 bg-blue-500 rounded-t-lg hover:bg-blue-600 transition-all cursor-pointer relative group"
-                  style={{
-                    height: `${(data.visitors / maxVisitors) * 100}%`,
+        {chartData && chartData.length > 0 ? (
+          <>
+            <ResponsiveContainer width="100%" height={400}>
+              <LineChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                <XAxis 
+                  dataKey="tanggal" 
+                  stroke="#666"
+                  style={{ fontSize: '14px' }}
+                />
+                <YAxis 
+                  stroke="#666"
+                  style={{ fontSize: '14px' }}
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'white', 
+                    border: '1px solid #ddd',
+                    borderRadius: '8px',
+                    padding: '12px'
                   }}
-                  title={`${data.date}: ${data.visitors} visitors`}
-                >
-                  <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                    {data.date}
-                    <br />
-                    {data.visitors} visitors
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-between mt-2 text-xs text-gray-500">
-              <span>{trafficData[0]?.date}</span>
-              <span>{trafficData[trafficData.length - 1]?.date}</span>
-            </div>
-          </div>
+                />
+                <Legend 
+                  wrapperStyle={{ paddingTop: '20px' }}
+                  iconType="line"
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="pengunjung" 
+                  stroke="#3b82f6" 
+                  strokeWidth={3}
+                  dot={{ fill: '#3b82f6', r: 5 }}
+                  activeDot={{ r: 7 }}
+                  name="Pengunjung"
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="webViews" 
+                  stroke="#10b981" 
+                  strokeWidth={3}
+                  dot={{ fill: '#10b981', r: 5 }}
+                  activeDot={{ r: 7 }}
+                  name="Web Views"
+                />
+              </LineChart>
+            </ResponsiveContainer>
 
-          {/* Page Views Chart */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-700">
-                Daily Page Views
-              </span>
-              <span className="text-sm text-gray-600">
-                Peak: {maxPageViews.toLocaleString()}
-              </span>
+            <div className="mt-6 text-center text-sm text-gray-500">
+              <p>Data menampilkan traffic website untuk periode yang dipilih</p>
             </div>
-            <div className="h-48 flex items-end gap-1">
-              {trafficData.map((data, index) => (
-                <div
-                  key={index}
-                  className="flex-1 bg-green-500 rounded-t-lg hover:bg-green-600 transition-all cursor-pointer relative group"
-                  style={{
-                    height: `${(data.pageViews / maxPageViews) * 100}%`,
-                  }}
-                  title={`${data.date}: ${data.pageViews} page views`}
-                >
-                  <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                    {data.date}
-                    <br />
-                    {data.pageViews} views
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-between mt-2 text-xs text-gray-500">
-              <span>{trafficData[0]?.date}</span>
-              <span>{trafficData[trafficData.length - 1]?.date}</span>
-            </div>
+          </>
+        ) : (
+          <div className="text-center text-gray-400 py-12">
+            <p className="text-sm">Tidak ada data untuk ditampilkan</p>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Device Stats */}
