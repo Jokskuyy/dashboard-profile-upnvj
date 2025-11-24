@@ -113,9 +113,6 @@ export default function AdminTrafficAnalytics() {
   const totalVisitors = analyticsData.totalVisitors;
   const totalPageViews = analyticsData.totalPageViews;
 
-  const maxVisitors = Math.max(...trafficData.map((d) => d.visitors), 1);
-  const maxPageViews = Math.max(...trafficData.map((d) => d.pageViews), 1);
-
   // Format data for Recharts
   const chartData = trafficData.map(day => {
     // Format date safely

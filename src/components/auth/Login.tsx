@@ -194,8 +194,9 @@ const Login: React.FC = () => {
 
           {/* Back to Home */}
           <div className="mt-6 text-center">
-            <a
-              href="/"
+            <button
+              type="button"
+              onClick={() => navigate("/")}
               className="text-sm text-gray-600 hover:text-[#2C5F2D] transition-colors inline-flex items-center"
             >
               <svg
@@ -212,7 +213,7 @@ const Login: React.FC = () => {
                 />
               </svg>
               {t.backToHome}
-            </a>
+            </button>
           </div>
         </div>
       </div>

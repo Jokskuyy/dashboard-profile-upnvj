@@ -37,7 +37,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [unityInstance, setUnityInstance] = useState<any>(null);
 
-  // Unity WebGL configuration - use uncompressed files for HTTP
+  // Unity WebGL configuration - using decompressed files
   const basePath = import.meta.env.BASE_URL;
   const unityConfig = {
     dataUrl: `${basePath}unity-builds/downloads/Build/Downloads.data`,
