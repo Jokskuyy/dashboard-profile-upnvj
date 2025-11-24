@@ -302,19 +302,42 @@ const TrafficOverview: React.FC = () => {
                   className="flex justify-between gap-4"
                   style={{ paddingLeft: "56px" }}
                 >
-                  {stats.dailyStats.map((day, index) => (
-                    <div key={index} className="flex-1 text-center">
-                      <div className="text-xs text-gray-600 font-medium">
-                        {new Date(day.date).toLocaleDateString(
+                  {stats.dailyStats.map((day, index) => {
+                    // Format date safely - handle various date formats
+                    const formatDate = (dateStr: string) => {
+                      try {
+                        // If already in "DD MMM" format, return as is
+                        if (/^\d{1,2}\s\w{3}$/.test(dateStr)) {
+                          return dateStr;
+                        }
+                        
+                        // Try parsing ISO date or other formats
+                        const date = new Date(dateStr);
+                        if (isNaN(date.getTime())) {
+                          return dateStr; // Return original if parsing fails
+                        }
+                        
+                        return date.toLocaleDateString(
                           language === "id" ? "id-ID" : "en-US",
                           {
                             month: "short",
                             day: "numeric",
                           }
-                        )}
+                        );
+                      } catch (error) {
+                        console.error("Error formatting date:", dateStr, error);
+                        return dateStr; // Fallback to original string
+                      }
+                    };
+
+                    return (
+                      <div key={index} className="flex-1 text-center">
+                        <div className="text-xs text-gray-600 font-medium">
+                          {formatDate(day.date)}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
 
                 {/* Legend */}
