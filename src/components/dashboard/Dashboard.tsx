@@ -29,6 +29,14 @@ const Dashboard: React.FC = () => {
 
   // Carousel state
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Scroll to section function
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
   const basePath = import.meta.env.BASE_URL;
   const heroImages = [
     `${basePath}hero1.jpg`,
@@ -115,13 +123,19 @@ const Dashboard: React.FC = () => {
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-4">
                 <button
-                  onClick={() => trackClick("explore-programs-hero")}
+                  onClick={() => {
+                    trackClick("explore-programs-hero");
+                    scrollToSection("students-section");
+                  }}
                   className="px-8 py-4 bg-white text-[#2C5F2D] font-bold rounded-xl shadow-xl hover:shadow-2xl hover:bg-yellow-50 transition-all duration-300 transform hover:scale-105"
                 >
                   {t("explorePrograms")}
                 </button>
                 <button
-                  onClick={() => trackClick("virtual-tour-hero")}
+                  onClick={() => {
+                    trackClick("virtual-tour-hero");
+                    scrollToSection("campus-map-section");
+                  }}
                   className="px-8 py-4 border-2 border-white text-white font-bold rounded-xl backdrop-blur-sm hover:bg-white/20 transition-all duration-300"
                 >
                   {t("virtualTour")}
@@ -237,16 +251,24 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
             {/* Detailed Sections */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <div
+              id="professors-section"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"
+            >
               <ProfessorsSection />
               <AccreditationSection />
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div
+              id="students-section"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+            >
               <StudentsSection />
-              <CampusMapSection />
+              <div id="campus-map-section">
+                <CampusMapSection />
+              </div>
             </div>
             {/* Assets Section */}
-            <div className="mt-8">
+            <div id="assets-section" className="mt-8">
               <AssetsSection />
             </div>
           </>

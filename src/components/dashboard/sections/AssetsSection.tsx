@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "../../../contexts/LanguageContext";
 import { useAssets } from "../../../contexts/DashboardContext";
-import type { AssetCategory } from '../../../types';
+import type { AssetCategory } from "../../../types";
 
 const AssetsSection: React.FC = () => {
   const { t } = useLanguage();
@@ -76,7 +76,7 @@ const AssetsSection: React.FC = () => {
       </div>
 
       {/* Assets Categories */}
-      <div className="space-y-4">
+      <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
         {assetsData.map((category: AssetCategory) => {
           const IconComponent = getIcon(category.icon);
           const isExpanded = expandedCategory === category.id;
@@ -238,9 +238,9 @@ const AssetsSection: React.FC = () => {
 
       {/* Summary */}
       <div className="mt-6 pt-4 border-t border-gray-200">
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="flex flex-wrap justify-center gap-4">
           {assetsData.map((category) => (
-            <div key={category.id} className="text-center">
+            <div key={category.id} className="text-center min-w-[120px]">
               <div className="text-lg font-bold text-gray-900">
                 {category.count}
               </div>

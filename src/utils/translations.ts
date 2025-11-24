@@ -103,7 +103,8 @@ export const translations = {
     scrollToZoom: "Scroll untuk zoom in/out",
     unityWebGLBuild: "Unity WebGL Build",
     campusMap3D: "Denah Kampus 3D",
-    interactiveUnityWebGLExperience: "Pengalaman navigasi kampus Unity WebGL interaktif",
+    interactiveUnityWebGLExperience:
+      "Pengalaman navigasi kampus Unity WebGL interaktif",
     interactiveNavigation: "Navigasi Interaktif",
     navigateThroughCampus3D: "Jelajahi kampus dalam 3D",
     buildingInformation: "Informasi Gedung",
@@ -118,6 +119,7 @@ export const translations = {
     // Assets & Facilities
     assetsTitle: "Fasilitas & Aset",
     assetsSubtitle: "Fasilitas dan infrastruktur kampus UPNVJ",
+    assets: "Fasilitas",
     totalAssets: "Total Fasilitas",
     laboratories: "Laboratorium",
     libraries: "Perpustakaan",
@@ -271,7 +273,8 @@ export const translations = {
     scrollToZoom: "Scroll to zoom in/out",
     unityWebGLBuild: "Unity WebGL Build",
     campusMap3D: "Campus Map 3D",
-    interactiveUnityWebGLExperience: "Interactive Unity WebGL campus navigation experience",
+    interactiveUnityWebGLExperience:
+      "Interactive Unity WebGL campus navigation experience",
     interactiveNavigation: "Interactive Navigation",
     navigateThroughCampus3D: "Navigate through campus in 3D",
     buildingInformation: "Building Information",
@@ -286,6 +289,7 @@ export const translations = {
     // Assets & Facilities
     assetsTitle: "Facilities & Assets",
     assetsSubtitle: "UPNVJ campus facilities and infrastructure",
+    assets: "Facilities",
     totalAssets: "Total Facilities",
     laboratories: "Laboratories",
     libraries: "Libraries",

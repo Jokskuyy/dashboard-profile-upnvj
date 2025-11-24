@@ -21,7 +21,7 @@ const Header: React.FC = () => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
       setIsMobileMenuOpen(false);
     }
   };
@@ -70,14 +70,32 @@ const Header: React.FC = () => {
             <nav className="hidden lg:flex items-center space-x-1">
               {[
                 { id: "home", label: t("home"), icon: Home },
-                { id: "professors", label: t("professors"), icon: Users },
-                { id: "students", label: t("students"), icon: Award },
-                { id: "assets", label: t("totalAssets"), icon: Package },
-                { id: "campus-map", label: t("campusMap"), icon: MapPin },
+                {
+                  id: "professors-section",
+                  label: t("professors"),
+                  icon: Users,
+                },
+                { id: "students-section", label: t("students"), icon: Award },
+                {
+                  id: "assets-section",
+                  label: t("totalAssets"),
+                  icon: Package,
+                },
+                {
+                  id: "campus-map-section",
+                  label: t("campusMap"),
+                  icon: MapPin,
+                },
               ].map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => scrollToSection(item.id)}
+                  onClick={() => {
+                    if (item.id === "home") {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    } else {
+                      scrollToSection(item.id);
+                    }
+                  }}
                   className="flex items-center space-x-2 px-4 py-2 rounded-xl font-medium text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300"
                 >
                   <item.icon className="w-4 h-4" />
@@ -152,14 +170,33 @@ const Header: React.FC = () => {
             <nav className="space-y-2">
               {[
                 { id: "home", label: t("home"), icon: Home },
-                { id: "professors", label: t("facultyStaff"), icon: Users },
-                { id: "students", label: t("studentLife"), icon: Award },
-                { id: "assets", label: t("totalAssets"), icon: Package },
-                { id: "campus-map", label: t("virtualCampus"), icon: MapPin },
+                {
+                  id: "professors-section",
+                  label: t("professors"),
+                  icon: Users,
+                },
+                { id: "students-section", label: t("students"), icon: Award },
+                {
+                  id: "assets-section",
+                  label: t("assets"),
+                  icon: Package,
+                },
+                {
+                  id: "campus-map-section",
+                  label: t("campusMap"),
+                  icon: MapPin,
+                },
               ].map((item, index) => (
                 <button
                   key={item.id}
-                  onClick={() => scrollToSection(item.id)}
+                  onClick={() => {
+                    if (item.id === "home") {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                      setIsMobileMenuOpen(false);
+                    } else {
+                      scrollToSection(item.id);
+                    }
+                  }}
                   className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-white hover:bg-white/10 transition-all duration-300 fade-in-up stagger-${
                     index + 1
                   }`}

@@ -88,12 +88,17 @@ export const fetchFaculties = async (): Promise<FacultyInfo[]> => {
 
     const faculties: FacultyInfo[] = data.map((fak: any) => {
       const mapped = FACULTY_MAPPING[fak.nama_fakultas];
-      return mapped || {
-        id: fak.id.toString(),
-        name: fak.nama_fakultas,
-        shortName: fak.nama_fakultas.split(" ").map((w: string) => w[0]).join(""),
-        color: "#6B7280",
-      };
+      return (
+        mapped || {
+          id: fak.id.toString(),
+          name: fak.nama_fakultas,
+          shortName: fak.nama_fakultas
+            .split(" ")
+            .map((w: string) => w[0])
+            .join(""),
+          color: "#6B7280",
+        }
+      );
     });
 
     facultiesCache = faculties;
@@ -111,7 +116,8 @@ const fetchProfessors = async (): Promise<Professor[]> => {
   try {
     const { data, error } = await supabase
       .from("dosen")
-      .select(`
+      .select(
+        `
         *,
         program_studi (
           nama_prodi,
@@ -120,7 +126,8 @@ const fetchProfessors = async (): Promise<Professor[]> => {
             nama_fakultas
           )
         )
-      `)
+      `
+      )
       .order("nama_dosen", { ascending: true });
 
     if (error) throw error;
@@ -147,7 +154,8 @@ const fetchAccreditations = async (): Promise<Accreditation[]> => {
   try {
     const { data, error } = await supabase
       .from("program_studi")
-      .select(`
+      .select(
+        `
         *,
         akreditasi (
           status,
@@ -158,7 +166,8 @@ const fetchAccreditations = async (): Promise<Accreditation[]> => {
         fakultas (
           nama_fakultas
         )
-      `)
+      `
+      )
       .not("id_akreditasi", "is", null)
       .order("nama_prodi", { ascending: true });
 
@@ -166,9 +175,11 @@ const fetchAccreditations = async (): Promise<Accreditation[]> => {
 
     return data.map((prodi: any) => {
       const now = new Date();
-      const expiry = prodi.akreditasi?.tgl_kadaluarsa ? new Date(prodi.akreditasi.tgl_kadaluarsa) : null;
+      const expiry = prodi.akreditasi?.tgl_kadaluarsa
+        ? new Date(prodi.akreditasi.tgl_kadaluarsa)
+        : null;
       let status: "active" | "expired" | "pending" = "pending";
-      
+
       if (expiry) {
         status = expiry > now ? "active" : "expired";
       }
@@ -195,7 +206,8 @@ const fetchStudents = async (): Promise<StudentData[]> => {
   try {
     const { data, error } = await supabase
       .from("mahasiswa")
-      .select(`
+      .select(
+        `
         *,
         program_studi (
           jenjang,
@@ -203,18 +215,22 @@ const fetchStudents = async (): Promise<StudentData[]> => {
             nama_fakultas
           )
         )
-      `)
+      `
+      )
       .eq("status", "Aktif");
 
     if (error) throw error;
 
     // Group by faculty
-    const facultyMap = new Map<string, { s1: number; s2: number; s3: number }>();
+    const facultyMap = new Map<
+      string,
+      { s1: number; s2: number; s3: number }
+    >();
 
     data.forEach((mhs: any) => {
       const faculty = mhs.program_studi?.fakultas?.nama_fakultas;
       const level = mhs.program_studi?.jenjang;
-      
+
       if (!faculty) return;
 
       if (!facultyMap.has(faculty)) {
@@ -251,13 +267,15 @@ const fetchPrograms = async (): Promise<ProgramData[]> => {
   try {
     const { data, error } = await supabase
       .from("program_studi")
-      .select(`
+      .select(
+        `
         *,
         fakultas (
           nama_fakultas
         ),
         mahasiswa (count)
-      `)
+      `
+      )
       .order("nama_prodi", { ascending: true });
 
     if (error) throw error;
@@ -288,13 +306,15 @@ const fetchDepartments = async (): Promise<DepartmentData[]> => {
   try {
     const { data, error } = await supabase
       .from("program_studi")
-      .select(`
+      .select(
+        `
         *,
         fakultas (
           nama_fakultas
         ),
         dosen (count)
-      `)
+      `
+      )
       .order("nama_prodi", { ascending: true });
 
     if (error) throw error;
@@ -325,13 +345,15 @@ const fetchAssets = async (): Promise<AssetCategory[]> => {
   try {
     const { data, error } = await supabase
       .from("fasilitas")
-      .select(`
+      .select(
+        `
         *,
         gedung (
           nama_gedung,
           lokasi
         )
-      `)
+      `
+      )
       .order("tipe_fasilitas", { ascending: true });
 
     if (error) throw error;
@@ -348,21 +370,21 @@ const fetchAssets = async (): Promise<AssetCategory[]> => {
     });
 
     const categoryIcons: Record<string, string> = {
-      "Laboratorium": "LAB",
-      "Perpustakaan": "LIB",
+      Laboratorium: "LAB",
+      Perpustakaan: "LIB",
       "Ruang Kuliah": "CLS",
-      "Aula": "AUD",
-      "Lapangan": "FLD",
-      "Lainnya": "OTH",
+      Aula: "AUD",
+      Lapangan: "FLD",
+      Lainnya: "OTH",
     };
 
     const categoryColors: Record<string, string> = {
-      "Laboratorium": "#3B82F6",
-      "Perpustakaan": "#10B981",
-      "Ruang Kuliah": "#F59E0B",
-      "Aula": "#EF4444",
-      "Lapangan": "#8B5CF6",
-      "Lainnya": "#6B7280",
+      Laboratorium: "blue",
+      Perpustakaan: "green",
+      "Ruang Kuliah": "orange",
+      Aula: "purple",
+      Lapangan: "indigo",
+      Lainnya: "gray",
     };
 
     return Array.from(typeMap.entries()).map(([type, facilities]) => ({
@@ -370,7 +392,7 @@ const fetchAssets = async (): Promise<AssetCategory[]> => {
       name: type,
       count: facilities.length,
       icon: categoryIcons[type] || "OTH",
-      color: categoryColors[type] || "#6B7280",
+      color: facilities[0]?.color || categoryColors[type] || "gray",
       details: facilities.map((f: any) => ({
         id: f.id.toString(),
         name: f.nama_fasilitas,
@@ -395,7 +417,14 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
 
   try {
     const fetchWithRetry = async () => {
-      const [professors, accreditations, students, assets, programs, departments] = await Promise.all([
+      const [
+        professors,
+        accreditations,
+        students,
+        assets,
+        programs,
+        departments,
+      ] = await Promise.all([
         fetchProfessors(),
         fetchAccreditations(),
         fetchStudents(),
@@ -419,7 +448,10 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
       maxRetries: 3,
       initialDelay: 1000,
       onRetry: (attempt, error) => {
-        console.log(`Retrying dashboard data fetch (attempt ${attempt}):`, error.message);
+        console.log(
+          `Retrying dashboard data fetch (attempt ${attempt}):`,
+          error.message
+        );
       },
     });
 
@@ -427,7 +459,7 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
     return data;
   } catch (error) {
     console.error("Error fetching dashboard data after retries:", error);
-    
+
     // Return empty data structure if all retries fail
     return {
       lastUpdated: new Date().toISOString(),
@@ -539,7 +571,7 @@ export const createProfessor = async (
   professor: Omit<Professor, "id">
 ): Promise<Professor> => {
   clearCache();
-  
+
   // Get program_studi id from faculty name
   const { data: prodi, error: prodiError } = await supabase
     .from("program_studi")
@@ -590,14 +622,16 @@ export const updateProfessor = async (
     .from("dosen")
     .update(updateData)
     .eq("id", parseInt(id))
-    .select(`
+    .select(
+      `
       *,
       program_studi (
         fakultas (
           nama_fakultas
         )
       )
-    `)
+    `
+    )
     .single();
 
   if (error) throw error;
@@ -697,7 +731,8 @@ export const updateAccreditation = async (
     program: accreditation.program || data.nama_prodi,
     level: accreditation.level || data.akreditasi?.status || "",
     accreditor: accreditation.accreditor || "BAN-PT",
-    validUntil: accreditation.validUntil || data.akreditasi?.tgl_kadaluarsa || "",
+    validUntil:
+      accreditation.validUntil || data.akreditasi?.tgl_kadaluarsa || "",
     status: accreditation.status || "pending",
   };
 };
@@ -722,7 +757,8 @@ export const createStudentData = async (
   // For simplicity, we return the input data
   return {
     ...student,
-    totalStudents: student.undergraduate + student.graduate + student.postgraduate,
+    totalStudents:
+      student.undergraduate + student.graduate + student.postgraduate,
   };
 };
 
@@ -793,12 +829,14 @@ export const updateProgram = async (
     .from("program_studi")
     .update(updateData)
     .eq("id", parseInt(id))
-    .select(`
+    .select(
+      `
       *,
       fakultas (
         nama_fakultas
       )
-    `)
+    `
+    )
     .single();
 
   if (error) throw error;
@@ -965,17 +1003,19 @@ export const updateAssetDetail = async (
 
   const updateData: any = {};
   if (detail.name) updateData.nama_fasilitas = detail.name;
-  
+
   const { data, error } = await supabase
     .from("fasilitas")
     .update(updateData)
     .eq("id", parseInt(detailId))
-    .select(`
+    .select(
+      `
       *,
       gedung (
         nama_gedung
       )
-    `)
+    `
+    )
     .single();
 
   if (error) throw error;

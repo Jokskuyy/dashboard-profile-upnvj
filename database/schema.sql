@@ -71,6 +71,7 @@ CREATE TABLE fasilitas (
     nama_fasilitas VARCHAR(255) NOT NULL,
     deskripsi_fasilitas TEXT,
     tipe_fasilitas VARCHAR(100), 
+    color VARCHAR(50) DEFAULT 'gray',
     id_gedung INT NOT NULL,
     FOREIGN KEY (id_gedung) REFERENCES gedung(id)
         ON DELETE CASCADE 
