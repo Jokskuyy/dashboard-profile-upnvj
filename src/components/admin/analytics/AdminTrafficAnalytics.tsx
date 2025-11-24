@@ -9,8 +9,17 @@ import {
   ArrowDown,
   RefreshCw,
 } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { getAnalytics } from '../../../services/analytics/trackingService';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import { getAnalytics } from "../../../services/analytics/trackingService";
 
 interface TrafficData {
   date: string;
@@ -43,15 +52,15 @@ export default function AdminTrafficAnalytics() {
     setLoading(true);
     try {
       const days = timeRange === "7d" ? 7 : timeRange === "30d" ? 30 : 90;
-      console.log('Loading analytics for', days, 'days...');
-      
+      console.log("Loading analytics for", days, "days...");
+
       const data = await getAnalytics(days);
-      
-      console.log('Analytics data received:', data);
-      console.log('Success?', data?.success);
-      console.log('Daily stats:', data?.dailyStats);
-      console.log('Total visitors:', data?.totalVisitors);
-      console.log('Total page views:', data?.totalPageViews);
+
+      console.log("Analytics data received:", data);
+      console.log("Success?", data?.success);
+      console.log("Daily stats:", data?.dailyStats);
+      console.log("Total visitors:", data?.totalVisitors);
+      console.log("Total page views:", data?.totalPageViews);
 
       if (data && data.success) {
         const analyticsResult = {
@@ -64,11 +73,11 @@ export default function AdminTrafficAnalytics() {
           totalVisitors: data.totalVisitors || 0,
           totalPageViews: data.totalPageViews || 0,
         };
-        
-        console.log('Setting analytics data:', analyticsResult);
+
+        console.log("Setting analytics data:", analyticsResult);
         setAnalyticsData(analyticsResult);
       } else {
-        console.log('No data or not successful:', data);
+        console.log("No data or not successful:", data);
         setAnalyticsData(null);
       }
     } catch (error) {
@@ -113,8 +122,10 @@ export default function AdminTrafficAnalytics() {
   const totalVisitors = analyticsData.totalVisitors;
   const totalPageViews = analyticsData.totalPageViews;
 
+  
+
   // Format data for Recharts
-  const chartData = trafficData.map(day => {
+  const chartData = trafficData.map((day) => {
     // Format date safely
     const formatDate = (dateStr: string) => {
       try {
@@ -125,7 +136,10 @@ export default function AdminTrafficAnalytics() {
         if (isNaN(date.getTime())) {
           return dateStr;
         }
-        return date.toLocaleDateString("id-ID", { month: "short", day: "numeric" });
+        return date.toLocaleDateString("id-ID", {
+          month: "short",
+          day: "numeric",
+        });
       } catch {
         return dateStr;
       }
@@ -194,7 +208,7 @@ export default function AdminTrafficAnalytics() {
       </div>
 
       {/* Key Metrics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -241,50 +255,46 @@ export default function AdminTrafficAnalytics() {
         </h3>
         {chartData && chartData.length > 0 ? (
           <>
-            <ResponsiveContainer width="100%" height={400}>
-              <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-                <XAxis 
-                  dataKey="tanggal" 
-                  stroke="#666"
-                  style={{ fontSize: '14px' }}
-                />
-                <YAxis 
-                  stroke="#666"
-                  style={{ fontSize: '14px' }}
-                />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'white', 
-                    border: '1px solid #ddd',
-                    borderRadius: '8px',
-                    padding: '12px'
+            <div className="w-full h-56 md:h-[400px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                  <XAxis
+                    dataKey="tanggal"
+                    stroke="#666"
+                    style={{ fontSize: "12px" }}
+                  />
+                  <YAxis stroke="#666" style={{ fontSize: "12px" }} />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "white",
+                    border: "1px solid #ddd",
+                    borderRadius: "8px",
+                    padding: "12px",
                   }}
                 />
-                <Legend 
-                  wrapperStyle={{ paddingTop: '20px' }}
-                  iconType="line"
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="pengunjung" 
-                  stroke="#3b82f6" 
-                  strokeWidth={3}
-                  dot={{ fill: '#3b82f6', r: 5 }}
-                  activeDot={{ r: 7 }}
+                <Legend wrapperStyle={{ paddingTop: "20px" }} iconType="line" />
+                <Line
+                  type="monotone"
+                  dataKey="pengunjung"
+                  stroke="#3b82f6"
+                    strokeWidth={3}
+                    dot={{ fill: "#3b82f6", r: 3 }}
+                    activeDot={{ r: 5 }}
                   name="Pengunjung"
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="webViews" 
-                  stroke="#10b981" 
-                  strokeWidth={3}
-                  dot={{ fill: '#10b981', r: 5 }}
-                  activeDot={{ r: 7 }}
+                <Line
+                  type="monotone"
+                  dataKey="webViews"
+                  stroke="#10b981"
+                    strokeWidth={3}
+                    dot={{ fill: "#10b981", r: 3 }}
+                    activeDot={{ r: 5 }}
                   name="Web Views"
                 />
-              </LineChart>
-            </ResponsiveContainer>
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
 
             <div className="mt-6 text-center text-sm text-gray-500">
               <p>Data menampilkan traffic website untuk periode yang dipilih</p>

@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { getAnalytics } from "../../services/analytics/trackingService";
 
@@ -29,7 +38,7 @@ const TrafficOverview: React.FC = () => {
     const fetchStats = async () => {
       try {
         console.log("Fetching analytics from Supabase...");
-        
+
         const data = await getAnalytics(14); // Last 14 days
 
         if (data && data.success) {
@@ -105,15 +114,17 @@ const TrafficOverview: React.FC = () => {
   // Calculate totals and averages
   const totalVisitors = stats.visitors;
   const totalPageViews = stats.pageviews;
-  const avgVisitors = stats.dailyStats.length > 0 
-    ? Math.round(totalVisitors / stats.dailyStats.length) 
-    : 0;
-  const avgPageViews = stats.dailyStats.length > 0 
-    ? Math.round(totalPageViews / stats.dailyStats.length) 
-    : 0;
+  const avgVisitors =
+    stats.dailyStats.length > 0
+      ? Math.round(totalVisitors / stats.dailyStats.length)
+      : 0;
+  const avgPageViews =
+    stats.dailyStats.length > 0
+      ? Math.round(totalPageViews / stats.dailyStats.length)
+      : 0;
 
   // Format data for Recharts
-  const chartData = stats.dailyStats.map(day => {
+  const chartData = stats.dailyStats.map((day) => {
     // Format date safely
     const formatDate = (dateStr: string) => {
       try {
@@ -124,10 +135,10 @@ const TrafficOverview: React.FC = () => {
         if (isNaN(date.getTime())) {
           return dateStr;
         }
-        return date.toLocaleDateString(
-          language === "id" ? "id-ID" : "en-US",
-          { month: "short", day: "numeric" }
-        );
+        return date.toLocaleDateString(language === "id" ? "id-ID" : "en-US", {
+          month: "short",
+          day: "numeric",
+        });
       } catch {
         return dateStr;
       }
@@ -150,10 +161,10 @@ const TrafficOverview: React.FC = () => {
       </div>
 
       {/* Info Alert */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-6">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-6">
         <div className="flex items-start gap-2">
-          <svg
-            className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0"
+            <svg
+            className="w-5 h-5 text-blue-600 mt-0.5 shrink-0"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -176,38 +187,46 @@ const TrafficOverview: React.FC = () => {
         </div>
       ) : (
         <>
-          {/* Stats Cards - 4 columns */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          {/* Stats Cards - responsive (2 cols on small, 4 on md+) */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             {/* Total Visitors */}
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white">
+            <div className="bg-linear-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white">
               <p className="text-sm opacity-90 mb-1">
                 {language === "id" ? "Total Pengunjung" : "Total Visitors"}
               </p>
-              <p className="text-3xl font-bold">{totalVisitors.toLocaleString()}</p>
+              <p className="text-3xl font-bold">
+                {totalVisitors.toLocaleString()}
+              </p>
             </div>
 
             {/* Total Page Views */}
-            <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-6 text-white">
+            <div className="bg-linear-to-br from-purple-500 to-purple-600 rounded-xl p-6 text-white">
               <p className="text-sm opacity-90 mb-1">
                 {language === "id" ? "Total Web Views" : "Total Web Views"}
               </p>
-              <p className="text-3xl font-bold">{totalPageViews.toLocaleString()}</p>
+              <p className="text-3xl font-bold">
+                {totalPageViews.toLocaleString()}
+              </p>
             </div>
 
             {/* Average Visitors */}
-            <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-6 text-white">
+            <div className="bg-linear-to-br from-green-500 to-green-600 rounded-xl p-6 text-white">
               <p className="text-sm opacity-90 mb-1">
                 {language === "id" ? "Rata-rata Pengunjung" : "Avg Visitors"}
               </p>
-              <p className="text-3xl font-bold">{avgVisitors.toLocaleString()}</p>
+              <p className="text-3xl font-bold">
+                {avgVisitors.toLocaleString()}
+              </p>
             </div>
 
             {/* Average Page Views */}
-            <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-6 text-white">
+            <div className="bg-linear-to-br from-orange-500 to-orange-600 rounded-xl p-6 text-white">
               <p className="text-sm opacity-90 mb-1">
                 {language === "id" ? "Rata-rata Views" : "Avg Views"}
               </p>
-              <p className="text-3xl font-bold">{avgPageViews.toLocaleString()}</p>
+              <p className="text-3xl font-bold">
+                {avgPageViews.toLocaleString()}
+              </p>
             </div>
           </div>
 
@@ -232,55 +251,54 @@ const TrafficOverview: React.FC = () => {
 
             {chartData && chartData.length > 0 ? (
               <>
-                <ResponsiveContainer width="100%" height={400}>
-                  <LineChart data={chartData}>
+                <div className="w-full h-56 md:h-[400px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-                    <XAxis 
-                      dataKey="tanggal" 
+                    <XAxis
+                      dataKey="tanggal"
                       stroke="#666"
-                      style={{ fontSize: '14px' }}
+                      style={{ fontSize: "12px" }}
                     />
-                    <YAxis 
-                      stroke="#666"
-                      style={{ fontSize: '14px' }}
-                    />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'white', 
-                        border: '1px solid #ddd',
-                        borderRadius: '8px',
-                        padding: '12px'
+                    <YAxis stroke="#666" style={{ fontSize: "12px" }} />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "white",
+                        border: "1px solid #ddd",
+                        borderRadius: "8px",
+                        padding: "12px",
                       }}
                     />
-                    <Legend 
-                      wrapperStyle={{ paddingTop: '20px' }}
+                    <Legend
+                      wrapperStyle={{ paddingTop: "20px" }}
                       iconType="line"
                     />
-                    <Line 
-                      type="monotone" 
-                      dataKey="pengunjung" 
-                      stroke="#3b82f6" 
+                    <Line
+                      type="monotone"
+                      dataKey="pengunjung"
+                      stroke="#3b82f6"
                       strokeWidth={3}
-                      dot={{ fill: '#3b82f6', r: 5 }}
-                      activeDot={{ r: 7 }}
+                      dot={{ fill: "#3b82f6", r: 3 }}
+                      activeDot={{ r: 5 }}
                       name={language === "id" ? "Pengunjung" : "Visitors"}
                     />
-                    <Line 
-                      type="monotone" 
-                      dataKey="webViews" 
-                      stroke="#a855f7" 
+                    <Line
+                      type="monotone"
+                      dataKey="webViews"
+                      stroke="#a855f7"
                       strokeWidth={3}
-                      dot={{ fill: '#a855f7', r: 5 }}
-                      activeDot={{ r: 7 }}
+                      dot={{ fill: "#a855f7", r: 3 }}
+                      activeDot={{ r: 5 }}
                       name={language === "id" ? "Web Views" : "Web Views"}
                     />
-                  </LineChart>
-                </ResponsiveContainer>
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
 
                 <div className="mt-6 text-center text-sm text-gray-500">
                   <p>
-                    {language === "id" 
-                      ? "Data menampilkan traffic website selama 14 hari terakhir" 
+                    {language === "id"
+                      ? "Data menampilkan traffic website selama 14 hari terakhir"
                       : "Data shows website traffic for the last 14 days"}
                   </p>
                 </div>

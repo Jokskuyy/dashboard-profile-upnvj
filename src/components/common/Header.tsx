@@ -162,7 +162,7 @@ const Header: React.FC = () => {
 
         {/* Menu Panel */}
         <div
-          className={`absolute top-0 right-0 w-80 h-full bg-[#2C5F2D] shadow-2xl transform transition-transform duration-300 ${
+          className={`absolute top-0 right-0 w-72 sm:w-80 h-full bg-[#2C5F2D] shadow-2xl transform transition-transform duration-300 ${
             isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
