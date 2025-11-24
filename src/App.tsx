@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { DashboardProvider } from "./contexts/DashboardContext";
-import { Header, Footer, ProtectedRoute } from "./components/common";
+import { ToastProvider } from "./contexts/ToastContext";
+import { Header, Footer, ProtectedRoute, ErrorBoundary } from "./components/common";
 import Dashboard from "./components/dashboard/Dashboard";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import Login from "./components/auth/Login";
@@ -14,12 +15,14 @@ function App() {
   const basename = import.meta.env.BASE_URL;
 
   return (
-    <LanguageProvider>
-      <AuthProvider>
-        <DashboardProvider>
-          <Router basename={basename}>
-            <Analytics />
-            <Routes>
+    <ErrorBoundary>
+      <LanguageProvider>
+        <AuthProvider>
+          <DashboardProvider>
+            <ToastProvider>
+              <Router basename={basename}>
+                <Analytics />
+                <Routes>
               {/* Public Dashboard Route */}
               <Route
                 path="/"
@@ -47,11 +50,13 @@ function App() {
                 </ProtectedRoute>
               }
             />
-          </Routes>
-        </Router>
-        </DashboardProvider>
-      </AuthProvider>
-    </LanguageProvider>
+                </Routes>
+              </Router>
+            </ToastProvider>
+          </DashboardProvider>
+        </AuthProvider>
+      </LanguageProvider>
+    </ErrorBoundary>
   );
 }
 

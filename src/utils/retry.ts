@@ -1,0 +1,153 @@
+/**
+ * Retry utility for API calls with exponential backoff
+ */
+
+export interface RetryOptions {
+  maxRetries?: number;
+  initialDelay?: number;
+  maxDelay?: number;
+  backoffMultiplier?: number;
+  onRetry?: (attempt: number, error: Error) => void;
+}
+
+const DEFAULT_OPTIONS: Required<RetryOptions> = {
+  maxRetries: 3,
+  initialDelay: 1000,
+  maxDelay: 10000,
+  backoffMultiplier: 2,
+  onRetry: () => {},
+};
+
+/**
+ * Sleep utility
+ */
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * Calculate delay with exponential backoff and jitter
+ */
+const calculateDelay = (
+  attempt: number,
+  initialDelay: number,
+  maxDelay: number,
+  multiplier: number
+): number => {
+  const exponentialDelay = initialDelay * Math.pow(multiplier, attempt - 1);
+  const delayWithJitter = exponentialDelay * (0.5 + Math.random() * 0.5);
+  return Math.min(delayWithJitter, maxDelay);
+};
+
+/**
+ * Retry a function with exponential backoff
+ * 
+ * @param fn - The async function to retry
+ * @param options - Retry options
+ * @returns The result of the function if successful
+ * @throws The last error if all retries fail
+ * 
+ * @example
+ * const data = await retryWithBackoff(
+ *   async () => await fetchData(),
+ *   { maxRetries: 3, onRetry: (attempt) => console.log(`Retry ${attempt}`) }
+ * );
+ */
+export async function retryWithBackoff<T>(
+  fn: () => Promise<T>,
+  options: RetryOptions = {}
+): Promise<T> {
+  const opts = { ...DEFAULT_OPTIONS, ...options };
+  let lastError: Error;
+
+  for (let attempt = 1; attempt <= opts.maxRetries + 1; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+
+      // Don't retry on the last attempt
+      if (attempt > opts.maxRetries) {
+        break;
+      }
+
+      // Call onRetry callback
+      opts.onRetry(attempt, lastError);
+
+      // Calculate and wait for delay
+      const delay = calculateDelay(
+        attempt,
+        opts.initialDelay,
+        opts.maxDelay,
+        opts.backoffMultiplier
+      );
+      
+      console.log(
+        `Retry attempt ${attempt}/${opts.maxRetries} after ${Math.round(delay)}ms`,
+        lastError.message
+      );
+
+      await sleep(delay);
+    }
+  }
+
+  throw lastError!;
+}
+
+/**
+ * Determine if an error is retryable
+ */
+export function isRetryableError(error: any): boolean {
+  // Network errors
+  if (error instanceof TypeError && error.message.includes("fetch")) {
+    return true;
+  }
+
+  // Timeout errors
+  if (error.message?.includes("timeout")) {
+    return true;
+  }
+
+  // HTTP status codes that are retryable
+  const retryableStatuses = [408, 429, 500, 502, 503, 504];
+  if (error.status && retryableStatuses.includes(error.status)) {
+    return true;
+  }
+
+  // Supabase specific errors
+  if (error.message?.includes("connection")) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Retry function with conditional retry logic
+ */
+export async function retryIf<T>(
+  fn: () => Promise<T>,
+  shouldRetry: (error: Error) => boolean,
+  options: RetryOptions = {}
+): Promise<T> {
+  return retryWithBackoff(async () => {
+    try {
+      return await fn();
+    } catch (error) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      if (!shouldRetry(err)) {
+        throw err;
+      }
+      throw err;
+    }
+  }, options);
+}
+
+/**
+ * Create a retryable version of a function
+ */
+export function withRetry<T extends (...args: any[]) => Promise<any>>(
+  fn: T,
+  options: RetryOptions = {}
+): T {
+  return ((...args: Parameters<T>) =>
+    retryWithBackoff(() => fn(...args), options)) as T;
+}

@@ -1,4 +1,5 @@
 import { supabase } from "../../lib/supabase";
+import { retryWithBackoff } from "../../utils/retry";
 import type {
   Professor,
   Accreditation,
@@ -385,7 +386,7 @@ const fetchAssets = async (): Promise<AssetCategory[]> => {
 };
 
 /**
- * Fetch dashboard data from Supabase
+ * Fetch dashboard data from Supabase with retry mechanism
  */
 export const fetchDashboardData = async (): Promise<DashboardData> => {
   if (dataCache) {
@@ -393,29 +394,41 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
   }
 
   try {
-    const [professors, accreditations, students, assets, programs, departments] = await Promise.all([
-      fetchProfessors(),
-      fetchAccreditations(),
-      fetchStudents(),
-      fetchAssets(),
-      fetchPrograms(),
-      fetchDepartments(),
-    ]);
+    const fetchWithRetry = async () => {
+      const [professors, accreditations, students, assets, programs, departments] = await Promise.all([
+        fetchProfessors(),
+        fetchAccreditations(),
+        fetchStudents(),
+        fetchAssets(),
+        fetchPrograms(),
+        fetchDepartments(),
+      ]);
 
-    const data: DashboardData = {
-      lastUpdated: new Date().toISOString(),
-      professors,
-      accreditations,
-      students,
-      assets,
-      programs,
-      departments,
+      return {
+        lastUpdated: new Date().toISOString(),
+        professors,
+        accreditations,
+        students,
+        assets,
+        programs,
+        departments,
+      };
     };
+
+    const data = await retryWithBackoff(fetchWithRetry, {
+      maxRetries: 3,
+      initialDelay: 1000,
+      onRetry: (attempt, error) => {
+        console.log(`Retrying dashboard data fetch (attempt ${attempt}):`, error.message);
+      },
+    });
 
     dataCache = data;
     return data;
   } catch (error) {
-    console.error("Error fetching dashboard data:", error);
+    console.error("Error fetching dashboard data after retries:", error);
+    
+    // Return empty data structure if all retries fail
     return {
       lastUpdated: new Date().toISOString(),
       professors: [],

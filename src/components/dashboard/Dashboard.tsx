@@ -8,6 +8,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { KPICardSkeleton, SectionSkeleton } from "../common/SkeletonLoader";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useDashboard, useStats } from "../../contexts/DashboardContext";
 import KPICard from "./KPICard";
@@ -168,14 +169,26 @@ const Dashboard: React.FC = () => {
         {/* Traffic Overview */}
         <TrafficOverview />
 
-        {/* Loading state */}
+        {/* Loading state with skeletons */}
         {loading && (
-          <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#2C5F2D]"></div>
-            <p className="mt-4 text-gray-600">
-              {t("loading") || "Memuat data..."}
-            </p>
-          </div>
+          <>
+            <div className="mb-8">
+              <div className="h-7 w-32 bg-gray-200 rounded mb-6 animate-pulse"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <KPICardSkeleton key={i} />
+                ))}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+              <SectionSkeleton items={4} />
+              <SectionSkeleton items={4} />
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <SectionSkeleton items={3} />
+              <SectionSkeleton items={3} />
+            </div>
+          </>
         )}
 
         {/* KPI Overview - Only show when data is loaded */}
