@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useLanguage } from "../../contexts/LanguageContext";
 import LanguageToggle from "./LanguageToggle";
 import logoUpnvj from "../../assets/images/logoupnvj.webp";
@@ -88,8 +89,8 @@ const Header: React.FC = () => {
             {/* Right Section */}
             <div className="flex items-center space-x-4">
               {/* Admin Login Link */}
-              <a
-                href="/login"
+              <Link
+                to="/login"
                 className="hidden sm:flex items-center space-x-2 px-4 py-2 rounded-xl font-medium text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300"
               >
                 <svg
@@ -106,7 +107,7 @@ const Header: React.FC = () => {
                   />
                 </svg>
                 <span className="text-sm">Admin</span>
-              </a>
+              </Link>
 
               {/* Language Toggle */}
               <div className="transition-all duration-300">
