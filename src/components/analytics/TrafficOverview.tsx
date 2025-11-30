@@ -188,43 +188,43 @@ const TrafficOverview: React.FC = () => {
       ) : (
         <>
           {/* Stats Cards - responsive (2 cols on small, 4 on md+) */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
             {/* Total Visitors */}
-            <div className="bg-linear-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white">
-              <p className="text-sm opacity-90 mb-1">
+            <div className="bg-linear-to-br from-blue-500 to-blue-600 rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 text-white">
+              <p className="text-xs sm:text-sm opacity-90 mb-1">
                 {language === "id" ? "Total Pengunjung" : "Total Visitors"}
               </p>
-              <p className="text-3xl font-bold">
+              <p className="text-xl sm:text-2xl md:text-3xl font-bold">
                 {totalVisitors.toLocaleString()}
               </p>
             </div>
 
             {/* Total Page Views */}
-            <div className="bg-linear-to-br from-purple-500 to-purple-600 rounded-xl p-6 text-white">
-              <p className="text-sm opacity-90 mb-1">
+            <div className="bg-linear-to-br from-purple-500 to-purple-600 rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 text-white">
+              <p className="text-xs sm:text-sm opacity-90 mb-1">
                 {language === "id" ? "Total Web Views" : "Total Web Views"}
               </p>
-              <p className="text-3xl font-bold">
+              <p className="text-xl sm:text-2xl md:text-3xl font-bold">
                 {totalPageViews.toLocaleString()}
               </p>
             </div>
 
             {/* Average Visitors */}
-            <div className="bg-linear-to-br from-green-500 to-green-600 rounded-xl p-6 text-white">
-              <p className="text-sm opacity-90 mb-1">
+            <div className="bg-linear-to-br from-green-500 to-green-600 rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 text-white">
+              <p className="text-xs sm:text-sm opacity-90 mb-1">
                 {language === "id" ? "Rata-rata Pengunjung" : "Avg Visitors"}
               </p>
-              <p className="text-3xl font-bold">
+              <p className="text-xl sm:text-2xl md:text-3xl font-bold">
                 {avgVisitors.toLocaleString()}
               </p>
             </div>
 
             {/* Average Page Views */}
-            <div className="bg-linear-to-br from-orange-500 to-orange-600 rounded-xl p-6 text-white">
-              <p className="text-sm opacity-90 mb-1">
+            <div className="bg-linear-to-br from-orange-500 to-orange-600 rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 text-white">
+              <p className="text-xs sm:text-sm opacity-90 mb-1">
                 {language === "id" ? "Rata-rata Views" : "Avg Views"}
               </p>
-              <p className="text-3xl font-bold">
+              <p className="text-xl sm:text-2xl md:text-3xl font-bold">
                 {avgPageViews.toLocaleString()}
               </p>
             </div>

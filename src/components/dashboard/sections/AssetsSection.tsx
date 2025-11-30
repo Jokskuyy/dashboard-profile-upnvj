@@ -61,22 +61,22 @@ const AssetsSection: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 md:p-6">
       {/* Header */}
       <div className="mb-6">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-            <Building2 className="w-5 h-5 text-indigo-600" />
+        <div className="flex items-center gap-2 sm:gap-3 mb-2">
+          <div className="w-7 h-7 sm:w-8 sm:h-8 bg-indigo-100 rounded-lg flex items-center justify-center shrink-0">
+            <Building2 className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
           </div>
-          <h2 className="text-xl font-bold text-gray-900">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 wrap-break-word">
             {t("assetsTitle")}
           </h2>
         </div>
-        <p className="text-gray-600 text-sm">{t("assetsSubtitle")}</p>
+        <p className="text-xs sm:text-sm text-gray-600">{t("assetsSubtitle")}</p>
       </div>
 
       {/* Assets Categories */}
-      <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+      <div className="space-y-3 sm:space-y-4 max-h-[500px] overflow-y-auto pr-1 sm:pr-2">
         {assetsData.map((category: AssetCategory) => {
           const IconComponent = getIcon(category.icon);
           const isExpanded = expandedCategory === category.id;
@@ -89,34 +89,34 @@ const AssetsSection: React.FC = () => {
               {/* Category Header */}
               <button
                 onClick={() => toggleCategory(category.id)}
-                className={`w-full p-4 text-left transition-all duration-200 hover:bg-gray-50 ${
+                className={`w-full p-3 sm:p-4 text-left transition-all duration-200 hover:bg-gray-50 ${
                   isExpanded ? "bg-gray-50" : "bg-white"
                 }`}
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
                     <div
-                      className={`w-12 h-12 rounded-lg flex items-center justify-center ${getIconColorClasses(
+                      className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center shrink-0 ${getIconColorClasses(
                         category.color
                       )}`}
                     >
-                      <IconComponent className="w-6 h-6" />
+                      <IconComponent className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
 
-                    <div>
-                      <h3 className="font-semibold text-gray-900 text-lg">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-gray-900 text-base sm:text-lg truncate">
                         {t(category.id) || category.name}
                       </h3>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-xs sm:text-sm text-gray-500">
                         {category.count}{" "}
                         {category.count === 1 ? "unit" : "unit"}
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                     <span
-                      className={`px-3 py-1 rounded-full text-sm font-medium ${getBadgeColorClasses(
+                      className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${getBadgeColorClasses(
                         category.color
                       )}`}
                     >

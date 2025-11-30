@@ -34,73 +34,77 @@ const AccreditationSection: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h3 className="text-xl font-bold text-gray-900 flex items-center">
-            <Award className="w-6 h-6 mr-2 text-purple-600" />
-            {t("accreditationTitle")}
+    <div className="bg-white rounded-lg shadow-md p-4 sm:p-5 md:p-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        <div className="flex-1 min-w-0">
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900 flex items-center flex-wrap gap-2">
+            <Award className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 shrink-0" />
+            <span className="wrap-break-word">{t("accreditationTitle")}</span>
           </h3>
-          <p className="text-gray-600 mt-1">{t("accreditationSubtitle")}</p>
+          <p className="text-sm sm:text-base text-gray-600 mt-1">{t("accreditationSubtitle")}</p>
         </div>
-        <div className="text-right">
-          <p className="text-2xl font-bold text-purple-600">
+        <div className="text-left sm:text-right shrink-0">
+          <p className="text-xl sm:text-2xl font-bold text-purple-600">
             {accreditationData.filter((acc) => acc.status === "active").length}
           </p>
-          <p className="text-sm text-gray-500">{t("active")}</p>
+          <p className="text-xs sm:text-sm text-gray-500">{t("active")}</p>
         </div>
       </div>
 
-      <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
-        <table className="w-full text-sm">
-          <thead className="sticky top-0 bg-gray-50 z-10">
-            <tr className="bg-gray-50 border-b">
-              <th className="text-left py-3 px-4 font-semibold text-gray-700">
-                {t("program")}
-              </th>
-              <th className="text-left py-3 px-4 font-semibold text-gray-700">
-                {t("level")}
-              </th>
-              <th className="text-left py-3 px-4 font-semibold text-gray-700">
-                {t("accreditor")}
-              </th>
-              <th className="text-left py-3 px-4 font-semibold text-gray-700">
-                {t("validUntil")}
-              </th>
-              <th className="text-left py-3 px-4 font-semibold text-gray-700">
-                {t("status")}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {accreditationData.map((accreditation) => (
-              <tr key={accreditation.id} className="border-b hover:bg-gray-50">
-                <td className="py-3 px-4 font-medium text-gray-900">
-                  {accreditation.program}
-                </td>
-                <td className="py-3 px-4 text-gray-600">
-                  {accreditation.level}
-                </td>
-                <td className="py-3 px-4 text-gray-600">
-                  {accreditation.accreditor}
-                </td>
-                <td className="py-3 px-4 text-gray-600">
-                  {accreditation.validUntil}
-                </td>
-                <td className="py-3 px-4">
-                  <span
-                    className={`inline-flex items-center px-2 py-1 rounded-full text-xs border ${getStatusColor(
-                      accreditation.status
-                    )}`}
-                  >
-                    {getStatusIcon(accreditation.status)}
-                    <span className="ml-1">{t(accreditation.status)}</span>
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="overflow-x-auto -mx-4 sm:mx-0">
+        <div className="inline-block min-w-full align-middle">
+          <div className="overflow-hidden max-h-[500px] overflow-y-auto">
+            <table className="min-w-full text-xs sm:text-sm">
+              <thead className="sticky top-0 bg-gray-50 z-10">
+                <tr className="bg-gray-50 border-b">
+                  <th className="text-left py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700 whitespace-nowrap">
+                    {t("program")}
+                  </th>
+                  <th className="text-left py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700 whitespace-nowrap">
+                    {t("level")}
+                  </th>
+                  <th className="text-left py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700 whitespace-nowrap">
+                    {t("accreditor")}
+                  </th>
+                  <th className="text-left py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700 whitespace-nowrap">
+                    {t("validUntil")}
+                  </th>
+                  <th className="text-left py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700 whitespace-nowrap">
+                    {t("status")}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {accreditationData.map((accreditation) => (
+                  <tr key={accreditation.id} className="border-b hover:bg-gray-50">
+                    <td className="py-2 sm:py-3 px-2 sm:px-4 font-medium text-gray-900 whitespace-nowrap">
+                      {accreditation.program}
+                    </td>
+                    <td className="py-2 sm:py-3 px-2 sm:px-4 text-gray-600 whitespace-nowrap">
+                      {accreditation.level}
+                    </td>
+                    <td className="py-2 sm:py-3 px-2 sm:px-4 text-gray-600 whitespace-nowrap">
+                      {accreditation.accreditor}
+                    </td>
+                    <td className="py-2 sm:py-3 px-2 sm:px-4 text-gray-600 whitespace-nowrap">
+                      {accreditation.validUntil}
+                    </td>
+                    <td className="py-2 sm:py-3 px-2 sm:px-4">
+                      <span
+                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs border ${getStatusColor(
+                          accreditation.status
+                        )}`}
+                      >
+                        {getStatusIcon(accreditation.status)}
+                        <span className="ml-1">{t(accreditation.status)}</span>
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -74,18 +74,20 @@ const StudentsSection: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h3 className="text-xl font-bold text-gray-900 flex items-center">
-            <GraduationCap className="w-6 h-6 mr-2 text-green-600" />
-            {selectedProgramData
-              ? selectedProgramData.name
-              : selectedFacultyData
-              ? selectedFacultyData.name
-              : t("studentsTitle")}
+    <div className="bg-white rounded-lg shadow-md p-4 sm:p-5 md:p-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+        <div className="flex-1 min-w-0">
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900 flex items-center flex-wrap gap-2">
+            <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6 text-green-600 shrink-0" />
+            <span className="break-words">
+              {selectedProgramData
+                ? selectedProgramData.name
+                : selectedFacultyData
+                ? selectedFacultyData.name
+                : t("studentsTitle")}
+            </span>
           </h3>
-          <p className="text-gray-600 mt-1">
+          <p className="text-sm sm:text-base text-gray-600 mt-1">
             {selectedProgramData
               ? `${selectedProgramData.students?.toLocaleString()} ${t(
                   "studentsInProgram"
@@ -97,15 +99,15 @@ const StudentsSection: React.FC = () => {
               : t("studentsSubtitle")}
           </p>
         </div>
-        <div className="text-right">
-          <p className="text-2xl font-bold text-green-600">
+        <div className="text-left sm:text-right shrink-0">
+          <p className="text-xl sm:text-2xl font-bold text-green-600">
             {selectedProgramData
               ? selectedProgramData.students?.toLocaleString()
               : selectedFacultyData
               ? selectedFacultyData.count?.toLocaleString()
               : totalStats?.totalStudents.toLocaleString()}
           </p>
-          <p className="text-sm text-gray-500">{t("totalStudents")}</p>
+          <p className="text-xs sm:text-sm text-gray-500">{t("totalStudents")}</p>
         </div>
       </div>
 

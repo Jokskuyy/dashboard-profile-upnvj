@@ -51,21 +51,21 @@ const KPICard: React.FC<KPICardProps> = ({
   return (
     <div 
       className={`
-        ${colorClass.bg} ${colorClass.border} border rounded-lg p-6 
-        ${onClick ? 'cursor-pointer hover:shadow-lg transition-shadow' : ''}
+        ${colorClass.bg} ${colorClass.border} border rounded-lg p-4 sm:p-5 md:p-6 
+        ${onClick ? 'cursor-pointer hover:shadow-lg transition-all duration-200' : ''}
       `}
       onClick={onClick}
     >
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-gray-600">{title}</p>
-          <p className="text-3xl font-bold text-gray-900 mt-2">{value}</p>
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex-1 min-w-0">
+          <p className="text-xs sm:text-sm font-medium text-gray-600 truncate">{title}</p>
+          <p className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mt-1 sm:mt-2">{value}</p>
           {subtitle && (
-            <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
+            <p className="text-xs sm:text-sm text-gray-500 mt-1 truncate">{subtitle}</p>
           )}
         </div>
-        <div className={`p-3 rounded-full ${colorClass.bg}`}>
-          <Icon className={`w-8 h-8 ${colorClass.icon}`} />
+        <div className={`p-2 sm:p-3 rounded-full ${colorClass.bg} shrink-0`}>
+          <Icon className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 ${colorClass.icon}`} />
         </div>
       </div>
     </div>

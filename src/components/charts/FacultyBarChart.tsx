@@ -24,7 +24,8 @@ const FacultyBarChart: React.FC<FacultyBarChartProps> = ({
   clickBarText = 'Klik pada bar untuk melihat detail fakultas'
 }) => {
   const maxCount = Math.max(...data.map(d => d.count));
-  const chartHeight = 280;
+  // Responsive chart height
+  const chartHeight = typeof window !== 'undefined' && window.innerWidth < 640 ? 200 : 280;
   
   // Generate Y-axis scale
   const yAxisSteps = 5;
@@ -32,16 +33,16 @@ const FacultyBarChart: React.FC<FacultyBarChartProps> = ({
   const yAxisValues = Array.from({ length: yAxisSteps + 1 }, (_, i) => i * stepValue);
   
   return (
-    <div className="space-y-4">
-      {title && <h4 className="text-lg font-semibold text-gray-800">{title}</h4>}
+    <div className="space-y-3 sm:space-y-4">
+      {title && <h4 className="text-base sm:text-lg font-semibold text-gray-800">{title}</h4>}
       
       {/* Chart Container */}
-      <div className="bg-gray-50 rounded-lg p-4">
-        <div className="flex">
+      <div className="bg-gray-50 rounded-lg p-3 sm:p-4 overflow-x-auto">
+        <div className="flex min-w-[500px] sm:min-w-0">
           {/* Y-Axis */}
-          <div className="flex flex-col justify-between mr-4" style={{ height: chartHeight }}>
+          <div className="flex flex-col justify-between mr-2 sm:mr-4" style={{ height: chartHeight }}>
             {yAxisValues.reverse().map((value, index) => (
-              <div key={index} className="text-xs text-gray-500 text-right w-8">
+              <div key={index} className="text-[10px] sm:text-xs text-gray-500 text-right w-6 sm:w-8">
                 {value}
               </div>
             ))}
@@ -63,11 +64,12 @@ const FacultyBarChart: React.FC<FacultyBarChartProps> = ({
               ))}
               
               {/* Bars Container */}
-              <div className="absolute inset-0 flex items-end px-4">
+              <div className="absolute inset-0 flex items-end px-2 sm:px-4">
                 {data.map((faculty, index) => {
                   const barHeight = (faculty.count / maxCount) * (chartHeight - 20);
                   const isSelected = selectedFaculty === faculty.id;
-                  const barWidth = 50;
+                  // Responsive bar width
+                  const barWidth = typeof window !== 'undefined' && window.innerWidth < 640 ? 35 : 50;
                   const totalBars = data.length;
                   
                   return (
@@ -96,7 +98,7 @@ const FacultyBarChart: React.FC<FacultyBarChartProps> = ({
                         }}
                       >
                         {/* Gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-transparent to-white/20 rounded-t-lg"></div>
+                        <div className="absolute inset-0 bg-linear-to-t from-transparent to-white/20 rounded-t-lg"></div>
                         
                         {/* Value label on bar */}
                         {barHeight > 30 && (
