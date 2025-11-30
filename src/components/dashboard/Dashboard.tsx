@@ -145,16 +145,16 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Navigation Arrows */}
+        {/* Navigation Arrows - Bottom on mobile, Center on desktop */}
         <button
           onClick={prevSlide}
-          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
+          className="absolute left-2 bottom-16 sm:top-1/2 sm:bottom-auto sm:left-4 sm:-translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
         </button>
         <button
           onClick={nextSlide}
-          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
+          className="absolute right-2 bottom-16 sm:top-1/2 sm:bottom-auto sm:right-4 sm:-translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
         </button>
