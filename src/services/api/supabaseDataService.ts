@@ -30,7 +30,7 @@ export interface DashboardData {
 let dataCache: DashboardData | null = null;
 let facultiesCache: FacultyInfo[] | null = null;
 
-// Mapping fakultas dari database ke format aplikasi
+// Mapping fakultas dari database ke format aplikasi (Data Statis)
 const FACULTY_MAPPING: Record<string, FacultyInfo> = {
   "Fakultas Ilmu Komputer": {
     id: "fik",
@@ -51,12 +51,19 @@ const FACULTY_MAPPING: Record<string, FacultyInfo> = {
     color: "#F59E0B",
   },
   "Fakultas Ilmu Kesehatan": {
-    id: "fik-kesehatan",
+    id: "fikes",
     name: "Fakultas Ilmu Kesehatan",
-    shortName: "FIK",
+    shortName: "FIKES",
     color: "#EF4444",
   },
   "Fakultas Ilmu Sosial dan Ilmu Politik": {
+    id: "fisip",
+    name: "Fakultas Ilmu Sosial dan Ilmu Politik",
+    shortName: "FISIP",
+    color: "#8B5CF6",
+  },
+  // Alias untuk variasi nama yang mungkin ada di database
+  "Fakultas Ilmu Sosial dan Politik": {
     id: "fisip",
     name: "Fakultas Ilmu Sosial dan Ilmu Politik",
     shortName: "FISIP",
@@ -87,15 +94,13 @@ export const fetchFaculties = async (): Promise<FacultyInfo[]> => {
     if (error) throw error;
 
     const faculties: FacultyInfo[] = data.map((fak: any) => {
+      // Gunakan mapping statis, jika tidak ada fallback ke data default
       const mapped = FACULTY_MAPPING[fak.nama_fakultas];
       return (
         mapped || {
           id: fak.id.toString(),
           name: fak.nama_fakultas,
-          shortName: fak.nama_fakultas
-            .split(" ")
-            .map((w: string) => w[0])
-            .join(""),
+          shortName: "UNKNOWN",
           color: "#6B7280",
         }
       );

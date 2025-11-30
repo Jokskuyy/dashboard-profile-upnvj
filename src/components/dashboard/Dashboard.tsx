@@ -29,6 +29,28 @@ const Dashboard: React.FC = () => {
 
   // Carousel state
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < 1024 : false
+  );
+
+  // Check if mobile/tablet on mount and resize (< 1024px = lg breakpoint)
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 1024; // lg breakpoint for tablets too
+      console.log(
+        "Window width:",
+        window.innerWidth,
+        "isMobile/Tablet:",
+        mobile
+      );
+      setIsMobile(mobile);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Scroll to section function
   const scrollToSection = (sectionId: string) => {
@@ -145,16 +167,36 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Navigation Arrows - Same level as indicators on mobile, Center on desktop */}
+        {/* Navigation Arrows - Responsive positioning (mobile/tablet bottom, desktop center) */}
         <button
-          onClick={prevSlide}
-          className="absolute left-2 bottom-4 sm:left-4 sm:top-1/2 sm:bottom-auto sm:-translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
+          onClick={() => {
+            console.log("Prev button clicked, isMobile/Tablet:", isMobile);
+            prevSlide();
+          }}
+          className="absolute z-20 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-12 lg:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:scale-110"
+          style={{
+            left: isMobile ? "0.5rem" : "1.5rem",
+            bottom: isMobile ? "1rem" : "auto",
+            top: isMobile ? "auto" : "50%",
+            transform: isMobile ? "none" : "translateY(-50%)",
+            transition: "all 300ms",
+          }}
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
         </button>
         <button
-          onClick={nextSlide}
-          className="absolute right-2 bottom-4 sm:right-4 sm:top-1/2 sm:bottom-auto sm:-translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
+          onClick={() => {
+            console.log("Next button clicked, isMobile/Tablet:", isMobile);
+            nextSlide();
+          }}
+          className="absolute z-20 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-12 lg:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:scale-110"
+          style={{
+            right: isMobile ? "0.5rem" : "1.5rem",
+            bottom: isMobile ? "1rem" : "auto",
+            top: isMobile ? "auto" : "50%",
+            transform: isMobile ? "none" : "translateY(-50%)",
+            transition: "all 300ms",
+          }}
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
         </button>

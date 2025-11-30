@@ -122,8 +122,6 @@ export default function AdminTrafficAnalytics() {
   const totalVisitors = analyticsData.totalVisitors;
   const totalPageViews = analyticsData.totalPageViews;
 
-  
-
   // Format data for Recharts
   const chartData = trafficData.map((day) => {
     // Format date safely
@@ -265,33 +263,36 @@ export default function AdminTrafficAnalytics() {
                     style={{ fontSize: "12px" }}
                   />
                   <YAxis stroke="#666" style={{ fontSize: "12px" }} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "white",
-                    border: "1px solid #ddd",
-                    borderRadius: "8px",
-                    padding: "12px",
-                  }}
-                />
-                <Legend wrapperStyle={{ paddingTop: "20px" }} iconType="line" />
-                <Line
-                  type="monotone"
-                  dataKey="pengunjung"
-                  stroke="#3b82f6"
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "white",
+                      border: "1px solid #ddd",
+                      borderRadius: "8px",
+                      padding: "12px",
+                    }}
+                  />
+                  <Legend
+                    wrapperStyle={{ paddingTop: "20px" }}
+                    iconType="line"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="pengunjung"
+                    stroke="#3b82f6"
                     strokeWidth={3}
                     dot={{ fill: "#3b82f6", r: 3 }}
                     activeDot={{ r: 5 }}
-                  name="Pengunjung"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="webViews"
-                  stroke="#10b981"
+                    name="Pengunjung"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="webViews"
+                    stroke="#10b981"
                     strokeWidth={3}
                     dot={{ fill: "#10b981", r: 3 }}
                     activeDot={{ r: 5 }}
-                  name="Web Views"
-                />
+                    name="Web Views"
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </div>

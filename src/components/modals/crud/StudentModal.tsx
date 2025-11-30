@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import type { StudentData } from '../../../types';
-import type { FacultyInfo } from '../../../services/api/dataService';
+import type { StudentData } from "../../../types";
+import type { FacultyInfo } from "../../../services/api/dataService";
 
 interface StudentModalProps {
   isOpen: boolean;
@@ -49,8 +49,7 @@ export default function StudentModal({
 
   // Auto calculate total
   useEffect(() => {
-    const total =
-      formData.undergraduate + formData.graduate;
+    const total = formData.undergraduate + formData.graduate;
     setFormData((prev) => ({ ...prev, totalStudents: total, postgraduate: 0 }));
   }, [formData.undergraduate, formData.graduate]);
 

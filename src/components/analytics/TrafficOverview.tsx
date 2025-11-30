@@ -161,9 +161,9 @@ const TrafficOverview: React.FC = () => {
       </div>
 
       {/* Info Alert */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-6">
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-6">
         <div className="flex items-start gap-2">
-            <svg
+          <svg
             className="w-5 h-5 text-blue-600 mt-0.5 shrink-0"
             fill="none"
             stroke="currentColor"
@@ -231,8 +231,8 @@ const TrafficOverview: React.FC = () => {
           </div>
 
           {/* Recharts Line Chart */}
-          <div className="bg-gray-50 rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-6 flex items-center gap-2">
+          <div className="bg-gray-50 rounded-xl p-4 sm:p-6">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4 sm:mb-6 flex items-center justify-center sm:justify-start gap-2">
               <svg
                 className="w-5 h-5 text-[#2C5F2D]"
                 fill="none"
@@ -251,46 +251,49 @@ const TrafficOverview: React.FC = () => {
 
             {chartData && chartData.length > 0 ? (
               <>
-                <div className="w-full h-56 md:h-[400px]">
+                <div className="w-full h-56 md:h-[400px] flex items-center justify-center">
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-                    <XAxis
-                      dataKey="tanggal"
-                      stroke="#666"
-                      style={{ fontSize: "12px" }}
-                    />
-                    <YAxis stroke="#666" style={{ fontSize: "12px" }} />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: "white",
-                        border: "1px solid #ddd",
-                        borderRadius: "8px",
-                        padding: "12px",
-                      }}
-                    />
-                    <Legend
-                      wrapperStyle={{ paddingTop: "20px" }}
-                      iconType="line"
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="pengunjung"
-                      stroke="#3b82f6"
-                      strokeWidth={3}
-                      dot={{ fill: "#3b82f6", r: 3 }}
-                      activeDot={{ r: 5 }}
-                      name={language === "id" ? "Pengunjung" : "Visitors"}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="webViews"
-                      stroke="#a855f7"
-                      strokeWidth={3}
-                      dot={{ fill: "#a855f7", r: 3 }}
-                      activeDot={{ r: 5 }}
-                      name={language === "id" ? "Web Views" : "Web Views"}
-                    />
+                    <LineChart 
+                      data={chartData}
+                      margin={{ top: 5, right: 20, left: -10, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+                      <XAxis
+                        dataKey="tanggal"
+                        stroke="#666"
+                        style={{ fontSize: "12px" }}
+                      />
+                      <YAxis stroke="#666" style={{ fontSize: "12px" }} />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "white",
+                          border: "1px solid #ddd",
+                          borderRadius: "8px",
+                          padding: "12px",
+                        }}
+                      />
+                      <Legend
+                        wrapperStyle={{ paddingTop: "20px" }}
+                        iconType="line"
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="pengunjung"
+                        stroke="#3b82f6"
+                        strokeWidth={3}
+                        dot={{ fill: "#3b82f6", r: 3 }}
+                        activeDot={{ r: 5 }}
+                        name={language === "id" ? "Pengunjung" : "Visitors"}
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="webViews"
+                        stroke="#a855f7"
+                        strokeWidth={3}
+                        dot={{ fill: "#a855f7", r: 3 }}
+                        activeDot={{ r: 5 }}
+                        name={language === "id" ? "Web Views" : "Web Views"}
+                      />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>

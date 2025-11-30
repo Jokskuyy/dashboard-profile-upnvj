@@ -110,7 +110,9 @@ const ProfessorsSection: React.FC = () => {
               ? selectedFacultyData.count
               : professors.length}
           </p>
-          <p className="text-xs sm:text-sm text-gray-500">{t("totalProfessors")}</p>
+          <p className="text-xs sm:text-sm text-gray-500">
+            {t("totalProfessors")}
+          </p>
         </div>
       </div>
 

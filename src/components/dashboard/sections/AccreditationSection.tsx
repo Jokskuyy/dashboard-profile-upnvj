@@ -41,7 +41,9 @@ const AccreditationSection: React.FC = () => {
             <Award className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 shrink-0" />
             <span className="wrap-break-word">{t("accreditationTitle")}</span>
           </h3>
-          <p className="text-sm sm:text-base text-gray-600 mt-1">{t("accreditationSubtitle")}</p>
+          <p className="text-sm sm:text-base text-gray-600 mt-1">
+            {t("accreditationSubtitle")}
+          </p>
         </div>
         <div className="text-left sm:text-right shrink-0">
           <p className="text-xl sm:text-2xl font-bold text-purple-600">
@@ -53,7 +55,7 @@ const AccreditationSection: React.FC = () => {
 
       <div className="overflow-x-auto -mx-4 sm:mx-0">
         <div className="inline-block min-w-full align-middle">
-          <div className="overflow-hidden max-h-[500px] overflow-y-auto">
+          <div className="overflow-y-auto max-h-[350px] sm:max-h-[450px]">
             <table className="min-w-full text-xs sm:text-sm">
               <thead className="sticky top-0 bg-gray-50 z-10">
                 <tr className="bg-gray-50 border-b">
@@ -76,7 +78,10 @@ const AccreditationSection: React.FC = () => {
               </thead>
               <tbody>
                 {accreditationData.map((accreditation) => (
-                  <tr key={accreditation.id} className="border-b hover:bg-gray-50">
+                  <tr
+                    key={accreditation.id}
+                    className="border-b hover:bg-gray-50"
+                  >
                     <td className="py-2 sm:py-3 px-2 sm:px-4 font-medium text-gray-900 whitespace-nowrap">
                       {accreditation.program}
                     </td>

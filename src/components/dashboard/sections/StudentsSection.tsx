@@ -107,7 +107,9 @@ const StudentsSection: React.FC = () => {
               ? selectedFacultyData.count?.toLocaleString()
               : totalStats?.totalStudents.toLocaleString()}
           </p>
-          <p className="text-xs sm:text-sm text-gray-500">{t("totalStudents")}</p>
+          <p className="text-xs sm:text-sm text-gray-500">
+            {t("totalStudents")}
+          </p>
         </div>
       </div>
 

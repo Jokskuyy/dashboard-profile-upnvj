@@ -72,7 +72,9 @@ const AssetsSection: React.FC = () => {
             {t("assetsTitle")}
           </h2>
         </div>
-        <p className="text-xs sm:text-sm text-gray-600">{t("assetsSubtitle")}</p>
+        <p className="text-xs sm:text-sm text-gray-600">
+          {t("assetsSubtitle")}
+        </p>
       </div>
 
       {/* Assets Categories */}
