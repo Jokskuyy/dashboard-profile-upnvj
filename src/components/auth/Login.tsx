@@ -23,7 +23,8 @@ const Login: React.FC = () => {
       loginButton: "Masuk",
       loggingIn: "Memproses...",
       heroTitle: "Memberdayakan Masa Depan Pendidikan",
-      heroSubtitle: "Akses aman untuk Administrasi UPNVJ. Kelola sumber daya, mahasiswa, dan dosen secara efisien.",
+      heroSubtitle:
+        "Akses aman untuk Administrasi UPNVJ. Kelola sumber daya, mahasiswa, dan dosen secara efisien.",
       footer: "© 2024 Administrasi UPNVJ. Hak cipta dilindungi.",
     },
     en: {
@@ -34,7 +35,8 @@ const Login: React.FC = () => {
       loginButton: "Sign In",
       loggingIn: "Processing...",
       heroTitle: "Empowering the Future of Education",
-      heroSubtitle: "Secure access for UPNVJ Administration. Manage resources, students, and faculty efficiently.",
+      heroSubtitle:
+        "Secure access for UPNVJ Administration. Manage resources, students, and faculty efficiently.",
       footer: "© 2024 UPNVJ Administration. All rights reserved.",
     },
   };
@@ -46,26 +48,26 @@ const Login: React.FC = () => {
     setError("");
     setIsLoading(true);
 
-    console.log('📝 Form submitted');
-    console.log('👤 Username:', username);
-    console.log('🔑 Password length:', password.length);
+    console.log("📝 Form submitted");
+    console.log("👤 Username:", username);
+    console.log("🔑 Password length:", password.length);
 
     try {
       const result = await login(username, password);
 
-      console.log('Login result:', result);
+      console.log("Login result:", result);
 
       if (result.success) {
-        console.log('Login successful, navigating to /admin');
+        console.log("Login successful, navigating to /admin");
         navigate("/admin");
       } else {
-        console.error('Login failed:', result.message);
+        console.error("Login failed:", result.message);
         setError(result.message);
         setIsLoading(false);
       }
     } catch (err: any) {
-      console.error('Login exception:', err);
-      setError(err.message || 'Terjadi kesalahan tidak terduga');
+      console.error("Login exception:", err);
+      setError(err.message || "Terjadi kesalahan tidak terduga");
       setIsLoading(false);
     }
   };
@@ -75,24 +77,29 @@ const Login: React.FC = () => {
       {/* Left Panel: Visual Anchor */}
       <div className="hidden lg:flex w-1/2 relative overflow-hidden bg-gray-900">
         {/* Background Image */}
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center opacity-90 transition-transform duration-1000 hover:scale-105"
           style={{
-            backgroundImage: "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAz9rcxciIr0_3ekg8WQZRlsaxt4h94OHIQmctdYfNRuahGwUcQLAYKo4PMlGp_RnSHqF6sxzhURnsmsveK4QGIiQIVIau1ocf-K-fnFyHYO3cd6-XOFqJEI4k6ljCNDKkSphVwaZrkK988Jp1z8pYUSltnP6GuGC_Is4soFqwSZRhkenM01zfJM_lgpL9oif4qqQPQmFS_myCAbeUs3JTvsgl51tQIwb_cpJk8arVarC_4pLaI9AKLY-HiLfer98-xqEE2EWgOCEY')",
-            filter: "blur(2px)"
+            backgroundImage:
+              "url('https://lh3.googleusercontent.com/aida-public/AB6AXuAz9rcxciIr0_3ekg8WQZRlsaxt4h94OHIQmctdYfNRuahGwUcQLAYKo4PMlGp_RnSHqF6sxzhURnsmsveK4QGIiQIVIau1ocf-K-fnFyHYO3cd6-XOFqJEI4k6ljCNDKkSphVwaZrkK988Jp1z8pYUSltnP6GuGC_Is4soFqwSZRhkenM01zfJM_lgpL9oif4qqQPQmFS_myCAbeUs3JTvsgl51tQIwb_cpJk8arVarC_4pLaI9AKLY-HiLfer98-xqEE2EWgOCEY')",
+            filter: "blur(2px)",
           }}
         />
-        
+
         {/* Color Overlay */}
         <div className="absolute inset-0 bg-[#2C5F2D]/80 mix-blend-multiply"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-        
+
         {/* Overlay Content */}
         <div className="relative z-10 flex flex-col justify-between p-12 w-full h-full text-white">
           <div></div>
           <div className="max-w-lg">
-            <h2 className="text-4xl font-bold leading-tight mb-4">{t.heroTitle}</h2>
-            <p className="text-lg text-gray-100 opacity-90 font-medium">{t.heroSubtitle}</p>
+            <h2 className="text-4xl font-bold leading-tight mb-4">
+              {t.heroTitle}
+            </h2>
+            <p className="text-lg text-gray-100 opacity-90 font-medium">
+              {t.heroSubtitle}
+            </p>
           </div>
         </div>
       </div>
@@ -102,14 +109,9 @@ const Login: React.FC = () => {
         <div className="w-full max-w-[420px] flex flex-col gap-8">
           {/* Header Section */}
           <div className="flex flex-col gap-2">
-            {/* Logo */}
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#2C5F2D]/10 text-[#2C5F2D]">
-                <span className="material-symbols-outlined" style={{ fontSize: '32px' }}>school</span>
-              </div>
-              <span className="text-xl font-bold tracking-tight text-gray-900">UPNVJ Admin</span>
-            </div>
-            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">{t.title}</h1>
+            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+              {t.title}
+            </h1>
             <p className="text-slate-500 font-medium text-base">{t.subtitle}</p>
           </div>
 
@@ -119,7 +121,11 @@ const Login: React.FC = () => {
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl">
                 <div className="flex items-center">
-                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <svg
+                    className="w-5 h-5 mr-2"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
                     <path
                       fillRule="evenodd"
                       d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
@@ -133,10 +139,17 @@ const Login: React.FC = () => {
 
             {/* Username Field */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-semibold text-gray-700 ml-1">{t.username}</label>
+              <label className="text-sm font-semibold text-gray-700 ml-1">
+                {t.username}
+              </label>
               <div className="input-group flex items-center w-full rounded-xl bg-gray-50 border border-gray-200 transition-all duration-200 overflow-hidden focus-within:border-[#2C5F2D] focus-within:shadow-[0_0_0_1px_#2C5F2D]">
                 <div className="pl-4 pr-2 text-slate-400">
-                  <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>person</span>
+                  <span
+                    className="material-symbols-outlined"
+                    style={{ fontSize: "20px" }}
+                  >
+                    person
+                  </span>
                 </div>
                 <input
                   className="w-full bg-transparent border-none focus:ring-0 text-gray-900 placeholder-slate-400 h-12 text-base font-medium"
@@ -152,10 +165,17 @@ const Login: React.FC = () => {
 
             {/* Password Field */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-semibold text-gray-700 ml-1">{t.password}</label>
+              <label className="text-sm font-semibold text-gray-700 ml-1">
+                {t.password}
+              </label>
               <div className="input-group flex items-center w-full rounded-xl bg-gray-50 border border-gray-200 transition-all duration-200 overflow-hidden focus-within:border-[#2C5F2D] focus-within:shadow-[0_0_0_1px_#2C5F2D]">
                 <div className="pl-4 pr-2 text-slate-400">
-                  <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>lock</span>
+                  <span
+                    className="material-symbols-outlined"
+                    style={{ fontSize: "20px" }}
+                  >
+                    lock
+                  </span>
                 </div>
                 <input
                   className="w-full bg-transparent border-none focus:ring-0 text-gray-900 placeholder-slate-400 h-12 text-base font-medium"
@@ -171,8 +191,11 @@ const Login: React.FC = () => {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
-                    {showPassword ? 'visibility' : 'visibility_off'}
+                  <span
+                    className="material-symbols-outlined"
+                    style={{ fontSize: "20px" }}
+                  >
+                    {showPassword ? "visibility" : "visibility_off"}
                   </span>
                 </button>
               </div>
@@ -211,7 +234,10 @@ const Login: React.FC = () => {
               ) : (
                 <>
                   <span>{t.loginButton}</span>
-                  <span className="material-symbols-outlined transition-transform group-hover:translate-x-1" style={{ fontSize: '20px' }}>
+                  <span
+                    className="material-symbols-outlined transition-transform group-hover:translate-x-1"
+                    style={{ fontSize: "20px" }}
+                  >
                     arrow_forward
                   </span>
                 </>
