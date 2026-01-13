@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useLanguage } from "../../contexts/LanguageContext";
+import { ArrowLeft } from "lucide-react";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -107,6 +108,16 @@ const Login: React.FC = () => {
       {/* Right Panel: Login Form */}
       <div className="flex flex-1 flex-col justify-center items-center bg-white px-6 py-12 lg:px-24 h-full overflow-y-auto">
         <div className="w-full max-w-[420px] flex flex-col gap-8">
+          {/* Back to Home Button */}
+          <button
+            type="button"
+            onClick={() => navigate("/")}
+            className="self-start flex items-center gap-2 text-slate-600 hover:text-[#2C5F2D] transition-colors group"
+          >
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+            <span className="font-medium">Kembali ke Beranda</span>
+          </button>
+
           {/* Header Section */}
           <div className="flex flex-col gap-2">
             <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
