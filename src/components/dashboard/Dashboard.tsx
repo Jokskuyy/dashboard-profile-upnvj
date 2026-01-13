@@ -88,9 +88,9 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
       {/* Simple Hero Section with Carousel - Responsive Height */}
-      <div className="relative overflow-hidden h-[60vh] sm:h-[65vh] md:h-[70vh] lg:h-[75vh]">
+      <div className="relative overflow-hidden h-[90vh] pt-20 w-full">
         {/* Image Carousel */}
         {/* Image Carousel */}
         {heroImages.map((image, index) => (
@@ -225,6 +225,13 @@ const Dashboard: React.FC = () => {
         {/* Traffic Overview */}
         <TrafficOverview />
 
+        {/* Assets Section */}
+        {!loading && (
+          <div id="assets-section" className="mb-8">
+            <AssetsSection />
+          </div>
+        )}
+
         {/* Loading state with skeletons */}
         {loading && (
           <>
@@ -293,25 +300,24 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
             {/* Detailed Sections */}
-            <div
-              id="professors-section"
-              className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"
-            >
-              <ProfessorsSection />
-              <AccreditationSection />
+            {/* Dosen dan Mahasiswa sejajar */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+              <div id="professors-section">
+                <ProfessorsSection />
+              </div>
+              <div id="students-section">
+                <StudentsSection />
+              </div>
             </div>
-            <div
-              id="students-section"
-              className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-            >
-              <StudentsSection />
+
+            {/* Akreditasi dan Map sejajar */}
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+              <div className="xl:col-span-2">
+                <AccreditationSection />
+              </div>
               <div id="campus-map-section">
                 <CampusMapSection />
               </div>
-            </div>
-            {/* Assets Section */}
-            <div id="assets-section" className="mt-8">
-              <AssetsSection />
             </div>
           </>
         )}

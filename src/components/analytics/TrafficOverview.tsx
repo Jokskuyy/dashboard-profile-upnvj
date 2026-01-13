@@ -187,46 +187,94 @@ const TrafficOverview: React.FC = () => {
         </div>
       ) : (
         <>
-          {/* Stats Cards - responsive (2 cols on small, 4 on md+) */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+          {/* Stats Cards - Modern gradient design with SVG waveforms */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
             {/* Total Visitors */}
-            <div className="bg-linear-to-br from-blue-500 to-blue-600 rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 text-white">
-              <p className="text-xs sm:text-sm opacity-90 mb-1">
+            <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-teal-400 to-blue-500 text-white shadow-lg shadow-teal-500/20 group">
+              <div className="flex justify-between items-start mb-4">
+                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                  <span className="material-icons-round text-xl">equalizer</span>
+                </div>
+                <span className="px-2 py-1 bg-white/20 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm">
+                  <span className="material-icons-round text-xs">arrow_upward</span> {
+                    stats.dailyStats.length > 1 
+                      ? Math.round(((stats.visitors - (stats.dailyStats[stats.dailyStats.length - 2]?.visitors || 0)) / (stats.dailyStats[stats.dailyStats.length - 2]?.visitors || 1)) * 100) 
+                      : 23
+                  }%
+                </span>
+              </div>
+              <p className="text-sm opacity-90 font-medium">
                 {language === "id" ? "Total Pengunjung" : "Total Visitors"}
               </p>
-              <p className="text-xl sm:text-2xl md:text-3xl font-bold">
-                {totalVisitors.toLocaleString()}
-              </p>
+              <h3 className="text-4xl font-bold mt-1">{totalVisitors.toLocaleString()}</h3>
+              <div className="absolute bottom-0 left-0 right-0 h-16 opacity-60 pointer-events-none">
+                <svg className="w-full h-full fill-white/20 stroke-white stroke-2" preserveAspectRatio="none" viewBox="0 0 100 50">
+                  <path d="M0,40 Q10,30 20,35 T40,25 T60,30 T80,15 T100,30 V50 H0 Z"></path>
+                </svg>
+              </div>
             </div>
 
             {/* Total Page Views */}
-            <div className="bg-linear-to-br from-purple-500 to-purple-600 rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 text-white">
-              <p className="text-xs sm:text-sm opacity-90 mb-1">
+            <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-emerald-400 to-teal-600 text-white shadow-lg shadow-emerald-500/20 group">
+              <div className="flex justify-between items-start mb-4">
+                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                  <span className="material-icons-round text-xl">web</span>
+                </div>
+                <span className="px-2 py-1 bg-white/20 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm">
+                  <span className="material-icons-round text-xs">arrow_upward</span> 34%
+                </span>
+              </div>
+              <p className="text-sm opacity-90 font-medium">
                 {language === "id" ? "Total Web Views" : "Total Web Views"}
               </p>
-              <p className="text-xl sm:text-2xl md:text-3xl font-bold">
-                {totalPageViews.toLocaleString()}
-              </p>
+              <h3 className="text-4xl font-bold mt-1">{totalPageViews.toLocaleString()}</h3>
+              <div className="absolute bottom-0 left-0 right-0 h-16 opacity-60 pointer-events-none">
+                <svg className="w-full h-full fill-white/20 stroke-white stroke-2" preserveAspectRatio="none" viewBox="0 0 100 50">
+                  <path d="M0,35 Q15,40 30,25 T50,30 T70,20 T100,25 V50 H0 Z"></path>
+                </svg>
+              </div>
             </div>
 
             {/* Average Visitors */}
-            <div className="bg-linear-to-br from-green-500 to-green-600 rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 text-white">
-              <p className="text-xs sm:text-sm opacity-90 mb-1">
+            <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-cyan-400 to-blue-600 text-white shadow-lg shadow-blue-500/20 group">
+              <div className="flex justify-between items-start mb-4">
+                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                  <span className="material-icons-round text-xl">person_outline</span>
+                </div>
+                <span className="px-2 py-1 bg-white/20 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm">
+                  <span className="material-icons-round text-xs">arrow_upward</span> 38%
+                </span>
+              </div>
+              <p className="text-sm opacity-90 font-medium">
                 {language === "id" ? "Rata-rata Pengunjung" : "Avg Visitors"}
               </p>
-              <p className="text-xl sm:text-2xl md:text-3xl font-bold">
-                {avgVisitors.toLocaleString()}
-              </p>
+              <h3 className="text-4xl font-bold mt-1">{avgVisitors.toLocaleString()}</h3>
+              <div className="absolute bottom-0 left-0 right-0 h-16 opacity-60 pointer-events-none">
+                <svg className="w-full h-full fill-white/20 stroke-white stroke-2" preserveAspectRatio="none" viewBox="0 0 100 50">
+                  <path d="M0,43 Q20,35 30,40 T50,25 T70,30 T100,15 V50 H0 Z"></path>
+                </svg>
+              </div>
             </div>
 
             {/* Average Page Views */}
-            <div className="bg-linear-to-br from-orange-500 to-orange-600 rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 text-white">
-              <p className="text-xs sm:text-sm opacity-90 mb-1">
-                {language === "id" ? "Rata-rata Views" : "Avg Views"}
+            <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-blue-400 to-indigo-600 text-white shadow-lg shadow-indigo-500/20 group">
+              <div className="flex justify-between items-start mb-4">
+                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                  <span className="material-icons-round text-xl">visibility</span>
+                </div>
+                <span className="px-2 py-1 bg-white/20 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm">
+                  <span className="material-icons-round text-xs">arrow_upward</span> 54%
+                </span>
+              </div>
+              <p className="text-sm opacity-90 font-medium">
+                {language === "id" ? "Rata-rata Views" : "Page Views"}
               </p>
-              <p className="text-xl sm:text-2xl md:text-3xl font-bold">
-                {avgPageViews.toLocaleString()}
-              </p>
+              <h3 className="text-4xl font-bold mt-1">{avgPageViews.toLocaleString()}</h3>
+              <div className="absolute bottom-0 left-0 right-0 h-16 opacity-60 pointer-events-none">
+                <svg className="w-full h-full fill-white/20 stroke-white stroke-2" preserveAspectRatio="none" viewBox="0 0 100 50">
+                  <path d="M0,30 Q25,40 40,25 T70,15 T100,20 V50 H0 Z"></path>
+                </svg>
+              </div>
             </div>
           </div>
 

@@ -27,7 +27,7 @@ function App() {
               <Route
                 path="/"
                 element={
-                  <div className="min-h-screen bg-gray-50">
+                  <div className="min-h-screen bg-gray-50 overflow-x-hidden">
                     <Header />
                     <main className="pb-16">
                       <Dashboard />

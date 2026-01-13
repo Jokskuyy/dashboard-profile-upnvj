@@ -1,258 +1,197 @@
 import React, { useState } from "react";
-import {
-  ChevronDown,
-  ChevronUp,
-  Beaker,
-  BookOpen,
-  Users,
-  Trophy,
-  Building2,
-  MapPin,
-  User,
-  Package,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "../../../contexts/LanguageContext";
-import { useAssets } from "../../../contexts/DashboardContext";
-import type { AssetCategory } from "../../../types";
 
 const AssetsSection: React.FC = () => {
   const { t } = useLanguage();
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
-  const assetsData = useAssets();
+  const [labScrollPosition, setLabScrollPosition] = useState(0);
 
-  const getIcon = (iconName: string) => {
-    const icons = {
-      Flask: Beaker,
-      BookOpen: BookOpen,
-      Users: Users,
-      Trophy: Trophy,
-      Building2: Building2,
-    };
-    const IconComponent = icons[iconName as keyof typeof icons] || Building2;
-    return IconComponent;
-  };
+  const assets = [
+    {
+      id: 1,
+      title: "Campus Buildings",
+      icon: "corporate_fare",
+      count: "42",
+      unit: "Units",
+      status: "Good Condition",
+      statusColor: "bg-green-100 text-green-700",
+      iconBg: "bg-blue-50",
+      iconColor: "text-blue-600"
+    },
+    {
+      id: 2,
+      title: "Operational Vehicles",
+      icon: "directions_bus",
+      count: "18",
+      unit: "Units",
+      status: "Maintenance",
+      statusColor: "bg-amber-100 text-amber-700",
+      iconBg: "bg-amber-50",
+      iconColor: "text-amber-600"
+    },
+    {
+      id: 3,
+      title: "IT & Lab Equipment",
+      icon: "devices",
+      count: "1,245",
+      unit: "Units",
+      status: "Optimal",
+      statusColor: "bg-green-100 text-green-700",
+      iconBg: "bg-purple-50",
+      iconColor: "text-purple-600"
+    },
+    {
+      id: 4,
+      title: "Land Area",
+      icon: "landscape",
+      count: "24.5",
+      unit: "Hectares",
+      status: "Verified",
+      statusColor: "bg-blue-100 text-blue-700",
+      iconBg: "bg-emerald-50",
+      iconColor: "text-emerald-600"
+    }
+  ];
 
-  const getIconColorClasses = (color: string) => {
-    const colorMap = {
-      blue: "bg-blue-100 text-blue-600",
-      green: "bg-green-100 text-green-600",
-      purple: "bg-purple-100 text-purple-600",
-      orange: "bg-orange-100 text-orange-600",
-      indigo: "bg-indigo-100 text-indigo-600",
-    };
-    return (
-      colorMap[color as keyof typeof colorMap] || "bg-gray-100 text-gray-600"
-    );
-  };
+  const labs = [
+    {
+      id: 1,
+      name: "Anatomy & Physiology Lab",
+      faculty: "FIKES",
+      location: "Lt. 4",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBGwKPi640_OFmHH_LRJG_ykGBxUmG1BFQi4S4MjSeNCXmfJidDNzIepOGE9QYAlrfA34TwZ3RVe2ZqQH47Cni7Ffdes4nVM24BUoh-TUiVPu9L2uHW0qu3HARbM6wM9c8jq4CRCSA-q3NdNQs2mAPTlLB-otkJPEnp-stIy--sLGJCPvbfpltzw7Iz_xoqst3SBUg3mPyFhHjkJJRicpXA50w7t2hCOfHrOBNXfzO1xQynv4f2hCEvS_ZkDCht1IJT6kFig-xQ1fs",
+      facultyColor: "bg-[#2C5F2D] text-white"
+    },
+    {
+      id: 2,
+      name: "Robotics & IoT Laboratory",
+      faculty: "FT",
+      location: "Gedung B",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAjZ8_7OKtEz6zAxCopFc1hmw5nvy6WSnxziTFWpKrWxvSuSkVgP7L9y9Ysmfxsl8tbYIF5c-qh6fN-JXoaowo4-J5v2y-lvrdXCb02lfHQUK3tYKWytfwOBRtgk6-fvtIvatVw2vjO0GiHuoxGXkSIKoBeOdNhodiGtcQvZHjBB6RvpT_z2xWknM60yJfIqvw_Gjt0NDa61za15lx5DTzKopRrk9KIEFaI4ppKY-l3awG7Y2zxLiywZsVW_ozHsEF_u5jT4JsTB_s",
+      facultyColor: "bg-indigo-100 text-indigo-700"
+    },
+    {
+      id: 3,
+      name: "Microbiology Center",
+      faculty: "FK",
+      location: "Kampus Limo",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBsFj-0KJkBNhkhR-qHc-LJNYvfNePZevcTKauoyVJlBqbNJUifaaCnG7KzHvEgbLwGFBK8ROPZxYQsOlz9HGn6m076kp-bPTs7u5alKduXoo5MdUfqRvtnkIAPHlxyJ0MQupSMM-qNm445wfcW3C1oOo4YdEzeD3GsthDu4S8gN3MSuY2gAe2GX3lYtp-_ort8-wKJZFHyliDSdVdQ7tyDDghS9j_DJ4iruq-CyZEXuvZyWSPhTjAxOKh0AQloq96NHxT1wDPb0i4",
+      facultyColor: "bg-sky-100 text-sky-700"
+    },
+    {
+      id: 4,
+      name: "Cyber Security & AI Lab",
+      faculty: "FIK",
+      location: "Gedung Ki Hajar",
+      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuC8WgBubWZaiqTdcJ4DBvNyqTBGp4oMOCTB6BdhxAbOYsPj-rAryX1VZbdB6zgkTogioOsPFJZaqeuBmSPQfmAPrlD5UfqrNpWqbetq9d8hQkbcNC8E_AwawxiZpGCGN93GkKK9pnlCIIj5P5q1GKdn0aIYX3qfkP5R7xz-qzXhL6ug43WG9uGEYk6kdNNovxL1dnGdo3y9JJGWpL1k4UPaP6RjWVP6BkacCENKY-JnUHgWcgcHAtM9Cyurt6V14NT-mctdK_zg5fI",
+      facultyColor: "bg-fuchsia-100 text-fuchsia-700"
+    }
+  ];
 
-  const getBadgeColorClasses = (color: string) => {
-    const colorMap = {
-      blue: "bg-blue-500 text-white",
-      green: "bg-green-500 text-white",
-      purple: "bg-purple-500 text-white",
-      orange: "bg-orange-500 text-white",
-      indigo: "bg-indigo-500 text-white",
-    };
-    return colorMap[color as keyof typeof colorMap] || "bg-gray-500 text-white";
-  };
-
-  const toggleCategory = (categoryId: string) => {
-    setExpandedCategory(expandedCategory === categoryId ? null : categoryId);
+  const scrollLabs = (direction: 'left' | 'right') => {
+    const container = document.getElementById('labs-container');
+    if (container) {
+      const scrollAmount = 320; // card width + gap
+      const newPosition = direction === 'left' 
+        ? Math.max(0, labScrollPosition - scrollAmount)
+        : Math.min(container.scrollWidth - container.clientWidth, labScrollPosition + scrollAmount);
+      
+      container.scrollTo({ left: newPosition, behavior: 'smooth' });
+      setLabScrollPosition(newPosition);
+    }
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 md:p-6">
-      {/* Header */}
-      <div className="mb-6">
-        <div className="flex items-center gap-2 sm:gap-3 mb-2">
-          <div className="w-7 h-7 sm:w-8 sm:h-8 bg-indigo-100 rounded-lg flex items-center justify-center shrink-0">
-            <Building2 className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
-          </div>
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900 wrap-break-word">
-            {t("assetsTitle")}
+    <div className="space-y-8">
+      {/* University Assets Section */}
+      <section>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+            <span className="material-symbols-outlined text-[#2C5F2D]">account_balance</span>
+            {t("assetsTitle") || "University Assets"}
           </h2>
         </div>
-        <p className="text-xs sm:text-sm text-gray-600">
-          {t("assetsSubtitle")}
-        </p>
-      </div>
-
-      {/* Assets Categories */}
-      <div className="space-y-3 sm:space-y-4 max-h-[500px] overflow-y-auto pr-1 sm:pr-2">
-        {assetsData.map((category: AssetCategory) => {
-          const IconComponent = getIcon(category.icon);
-          const isExpanded = expandedCategory === category.id;
-
-          return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {assets.map((asset) => (
             <div
-              key={category.id}
-              className="border border-gray-200 rounded-lg overflow-hidden"
+              key={asset.id}
+              className="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 group hover:shadow-md transition-all"
             >
-              {/* Category Header */}
-              <button
-                onClick={() => toggleCategory(category.id)}
-                className={`w-full p-3 sm:p-4 text-left transition-all duration-200 hover:bg-gray-50 ${
-                  isExpanded ? "bg-gray-50" : "bg-white"
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
-                    <div
-                      className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center shrink-0 ${getIconColorClasses(
-                        category.color
-                      )}`}
-                    >
-                      <IconComponent className="w-5 h-5 sm:w-6 sm:h-6" />
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-gray-900 text-base sm:text-lg truncate">
-                        {t(category.id) || category.name}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-gray-500">
-                        {category.count}{" "}
-                        {category.count === 1 ? "unit" : "unit"}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-                    <span
-                      className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${getBadgeColorClasses(
-                        category.color
-                      )}`}
-                    >
-                      {category.count}
-                    </span>
-                    {isExpanded ? (
-                      <ChevronUp className="w-5 h-5 text-gray-500" />
-                    ) : (
-                      <ChevronDown className="w-5 h-5 text-gray-500" />
-                    )}
-                  </div>
+              <div className="flex items-start justify-between mb-4">
+                <div className={`w-12 h-12 ${asset.iconBg} rounded-xl flex items-center justify-center ${asset.iconColor}`}>
+                  <span className="material-symbols-outlined text-3xl">{asset.icon}</span>
                 </div>
-              </button>
-
-              {/* Expanded Details */}
-              {isExpanded && (
-                <div className="border-t border-gray-200 bg-gray-50">
-                  <div className="p-4">
-                    <div className="grid gap-4">
-                      {category.details.map((asset) => (
-                        <div
-                          key={asset.id}
-                          className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200"
-                        >
-                          <div className="flex flex-col lg:flex-row lg:items-start gap-4">
-                            {/* Asset Info */}
-                            <div className="flex-1">
-                              <h4 className="font-semibold text-gray-900 mb-2">
-                                {asset.name}
-                              </h4>
-                              <p className="text-gray-600 text-sm mb-3">
-                                {asset.description}
-                              </p>
-
-                              {/* Location */}
-                              <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
-                                <div className="flex items-center gap-1">
-                                  <Building2 className="w-4 h-4" />
-                                  <span>{asset.building}</span>
-                                </div>
-                                <div className="flex items-center gap-1">
-                                  <MapPin className="w-4 h-4" />
-                                  <span>{asset.room}</span>
-                                </div>
-                                {asset.capacity && (
-                                  <div className="flex items-center gap-1">
-                                    <User className="w-4 h-4" />
-                                    <span>{asset.capacity} orang</span>
-                                  </div>
-                                )}
-                              </div>
-
-                              {/* Equipment */}
-                              {asset.equipment &&
-                                asset.equipment.length > 0 && (
-                                  <div>
-                                    <div className="flex items-center gap-1 mb-2">
-                                      <Package className="w-4 h-4 text-gray-500" />
-                                      <span className="text-sm font-medium text-gray-700">
-                                        {t("equipment")}:
-                                      </span>
-                                    </div>
-                                    <div className="flex flex-wrap gap-2">
-                                      {asset.equipment.map((item, index) => (
-                                        <span
-                                          key={index}
-                                          className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                                        >
-                                          {item}
-                                        </span>
-                                      ))}
-                                    </div>
-                                  </div>
-                                )}
-                            </div>
-
-                            {/* Asset Stats */}
-                            <div className="lg:w-48 bg-gray-50 rounded-lg p-4">
-                              <div className="space-y-3">
-                                <div>
-                                  <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-                                    {t("building")}
-                                  </div>
-                                  <div className="text-sm font-medium text-gray-900">
-                                    {asset.building}
-                                  </div>
-                                </div>
-                                <div>
-                                  <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-                                    {t("room")}
-                                  </div>
-                                  <div className="text-sm font-medium text-gray-900">
-                                    {asset.room}
-                                  </div>
-                                </div>
-                                {asset.capacity && (
-                                  <div>
-                                    <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
-                                      {t("capacity")}
-                                    </div>
-                                    <div className="text-sm font-medium text-gray-900">
-                                      {asset.capacity} orang
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Summary */}
-      <div className="mt-6 pt-4 border-t border-gray-200">
-        <div className="flex flex-wrap justify-center gap-4">
-          {assetsData.map((category) => (
-            <div key={category.id} className="text-center min-w-[120px]">
-              <div className="text-lg font-bold text-gray-900">
-                {category.count}
+                <span className={`px-2.5 py-1 ${asset.statusColor} text-[10px] font-bold uppercase rounded-full`}>
+                  {asset.status}
+                </span>
               </div>
-              <div className="text-xs text-gray-500">
-                {t(category.id) || category.name}
+              <h3 className="font-bold text-gray-900 mb-1">{asset.title}</h3>
+              <div className="flex items-end justify-between">
+                <span className="text-gray-500 text-sm">{asset.unit}</span>
+                <span className="text-2xl font-bold text-gray-900">{asset.count}</span>
               </div>
             </div>
           ))}
         </div>
-      </div>
+      </section>
+
+      {/* Featured Laboratories Section */}
+      <section>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+            <span className="material-symbols-outlined text-[#2C5F2D]">biotech</span>
+            Featured Laboratories
+          </h2>
+          <div className="flex gap-2">
+            <button
+              onClick={() => scrollLabs('left')}
+              className="p-2 rounded-full bg-white border border-gray-200 text-gray-400 hover:text-[#2C5F2D] transition-colors"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => scrollLabs('right')}
+              className="p-2 rounded-full bg-white border border-gray-200 text-gray-400 hover:text-[#2C5F2D] transition-colors"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+        <div
+          id="labs-container"
+          className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {labs.map((lab) => (
+            <div
+              key={lab.id}
+              className="min-w-[300px] flex-shrink-0 bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex flex-col group"
+            >
+              <div className="h-40 overflow-hidden">
+                <img
+                  alt={lab.name}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  src={lab.image}
+                />
+              </div>
+              <div className="p-5 flex flex-col flex-grow">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className={`px-2 py-0.5 ${lab.facultyColor} text-[10px] font-bold rounded uppercase`}>
+                    {lab.faculty}
+                  </span>
+                  <span className="text-xs text-gray-400 flex items-center gap-1">
+                    <span className="material-icons-round text-sm">room</span> {lab.location}
+                  </span>
+                </div>
+                <h3 className="font-bold text-gray-900 mb-4 line-clamp-1">{lab.name}</h3>
+                <button className="mt-auto w-full py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
+                  View Details <span className="material-icons-round text-base">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 };

@@ -1,11 +1,29 @@
-import React from "react";
-import { Award, CheckCircle, Clock, AlertCircle } from "lucide-react";
+import React, { useState } from "react";
+import { Award, CheckCircle, Clock, AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "../../../contexts/LanguageContext";
 import { useAccreditations } from "../../../contexts/DashboardContext";
 
 const AccreditationSection: React.FC = () => {
   const { t } = useLanguage();
   const accreditationData = useAccreditations();
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7; // Show 7 items per page
+  
+  // Calculate pagination
+  const totalPages = Math.ceil(accreditationData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = accreditationData.slice(startIndex, endIndex);
+
+  const goToNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const goToPrevPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -34,14 +52,14 @@ const AccreditationSection: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 sm:p-5 md:p-6">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full">
+      <div className="p-6 pb-4 border-b border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg sm:text-xl font-bold text-gray-900 flex items-center flex-wrap gap-2">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 flex items-center flex-wrap gap-2">
             <Award className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 shrink-0" />
             <span className="wrap-break-word">{t("accreditationTitle")}</span>
-          </h3>
-          <p className="text-sm sm:text-base text-gray-600 mt-1">
+          </h2>
+          <p className="text-sm text-gray-600 mt-1">
             {t("accreditationSubtitle")}
           </p>
         </div>
@@ -53,62 +71,84 @@ const AccreditationSection: React.FC = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto -mx-4 sm:mx-0">
-        <div className="inline-block min-w-full align-middle">
-          <div className="overflow-y-auto max-h-[350px] sm:max-h-[450px]">
-            <table className="min-w-full text-xs sm:text-sm">
-              <thead className="sticky top-0 bg-gray-50 z-10">
-                <tr className="bg-gray-50 border-b">
-                  <th className="text-left py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700 whitespace-nowrap">
-                    {t("program")}
-                  </th>
-                  <th className="text-left py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700 whitespace-nowrap">
-                    {t("level")}
-                  </th>
-                  <th className="text-left py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700 whitespace-nowrap">
-                    {t("accreditor")}
-                  </th>
-                  <th className="text-left py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700 whitespace-nowrap">
-                    {t("validUntil")}
-                  </th>
-                  <th className="text-left py-2 sm:py-3 px-2 sm:px-4 font-semibold text-gray-700 whitespace-nowrap">
-                    {t("status")}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {accreditationData.map((accreditation) => (
-                  <tr
-                    key={accreditation.id}
-                    className="border-b hover:bg-gray-50"
+      <div className="overflow-x-auto flex-grow">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="text-gray-500 text-sm border-b border-gray-200 bg-gray-50">
+              <th className="p-4 font-semibold whitespace-nowrap">
+                {t("program")}
+              </th>
+              <th className="p-4 font-semibold whitespace-nowrap">
+                {t("level")}
+              </th>
+              <th className="p-4 font-semibold whitespace-nowrap">
+                {t("accreditor")}
+              </th>
+              <th className="p-4 font-semibold whitespace-nowrap">
+                {t("validUntil")}
+              </th>
+              <th className="p-4 font-semibold whitespace-nowrap">
+                {t("status")}
+              </th>
+            </tr>
+          </thead>
+          <tbody className="text-sm">
+            {currentData.map((accreditation) => (
+              <tr
+                key={accreditation.id}
+                className="group hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0"
+              >
+                <td className="p-4 font-medium text-gray-900 whitespace-nowrap">
+                  {accreditation.program}
+                </td>
+                <td className="p-4 text-gray-600 whitespace-nowrap">
+                  {accreditation.level}
+                </td>
+                <td className="p-4 text-gray-600 whitespace-nowrap">
+                  {accreditation.accreditor}
+                </td>
+                <td className="p-4 text-gray-600 whitespace-nowrap">
+                  {accreditation.validUntil}
+                </td>
+                <td className="p-4">
+                  <span
+                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${getStatusColor(
+                      accreditation.status
+                    )}`}
                   >
-                    <td className="py-2 sm:py-3 px-2 sm:px-4 font-medium text-gray-900 whitespace-nowrap">
-                      {accreditation.program}
-                    </td>
-                    <td className="py-2 sm:py-3 px-2 sm:px-4 text-gray-600 whitespace-nowrap">
-                      {accreditation.level}
-                    </td>
-                    <td className="py-2 sm:py-3 px-2 sm:px-4 text-gray-600 whitespace-nowrap">
-                      {accreditation.accreditor}
-                    </td>
-                    <td className="py-2 sm:py-3 px-2 sm:px-4 text-gray-600 whitespace-nowrap">
-                      {accreditation.validUntil}
-                    </td>
-                    <td className="py-2 sm:py-3 px-2 sm:px-4">
-                      <span
-                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs border ${getStatusColor(
-                          accreditation.status
-                        )}`}
-                      >
-                        {getStatusIcon(accreditation.status)}
-                        <span className="ml-1">{t(accreditation.status)}</span>
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    {getStatusIcon(accreditation.status)}
+                    <span className="ml-1">{t(accreditation.status)}</span>
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination Footer */}
+      <div className="p-4 flex justify-between items-center bg-gray-50 border-t border-gray-200">
+        <div className="text-sm text-gray-600">
+          {t("showing")} {startIndex + 1}-{Math.min(endIndex, accreditationData.length)} {t("of")} {accreditationData.length}
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={goToPrevPage}
+            disabled={currentPage === 1}
+            className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <span className="text-sm text-gray-700 min-w-[60px] text-center">
+            {currentPage} / {totalPages}
+          </span>
+          <button
+            onClick={goToNextPage}
+            disabled={currentPage === totalPages}
+            className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </div>
