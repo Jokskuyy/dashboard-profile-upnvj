@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Users,
   Award,
@@ -13,6 +14,7 @@ import {
   X,
   RefreshCw,
   TrendingUp,
+  LogOut,
 } from "lucide-react";
 import {
   fetchDashboardData,
@@ -58,6 +60,7 @@ import AssetDetailModal from '../modals/crud/AssetDetailModal';
 import DeleteConfirmModal from '../modals/shared/DeleteConfirmModal';
 import Toast, { type ToastType } from "../common/Toast";
 import AdminTrafficAnalytics from './analytics/AdminTrafficAnalytics';
+import { useAuth } from '../../contexts/AuthContext';
 
 type TabType =
   | "professors"
@@ -84,6 +87,8 @@ const glassStyles = `
 `;
 
 export default function AdminDashboard() {
+  const navigate = useNavigate();
+  const { logout, admin } = useAuth();
   const [activeTab, setActiveTab] = useState<TabType>("professors");
   const [data, setData] = useState<DashboardData | null>(null);
   const [faculties, setFaculties] = useState<FacultyInfo[]>([]);
@@ -164,6 +169,17 @@ export default function AdminDashboard() {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      showToast("Logout berhasil", "success");
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+      showToast("Gagal logout", "error");
     }
   };
 
@@ -511,12 +527,31 @@ export default function AdminDashboard() {
                   ? new Date(data.lastUpdated).toLocaleString("id-ID")
                   : "-"}
               </p>
+              <div className="hidden md:flex items-center gap-3 px-4 py-2 border-l border-slate-200">
+                <div className="text-right">
+                  <p className="text-sm font-semibold text-slate-900">
+                    {admin?.fullName || admin?.username || "Admin"}
+                  </p>
+                  <p className="text-xs text-slate-500">{admin?.role || "Administrator"}</p>
+                </div>
+                <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold">
+                  {(admin?.fullName || admin?.username || "A").substring(0, 1).toUpperCase()}
+                </div>
+              </div>
               <button
                 onClick={loadData}
                 className="flex items-center gap-2 px-4 py-2 text-slate-600 border border-slate-200 bg-white rounded-full hover:border-emerald-500 hover:text-emerald-600 transition-all shadow-sm"
               >
                 <RefreshCw className="w-4 h-4" />
                 <span className="hidden sm:inline font-medium text-sm">Refresh Data</span>
+              </button>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2 text-red-600 border border-red-200 bg-white rounded-full hover:bg-red-50 hover:border-red-400 transition-all shadow-sm"
+                title="Logout"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="hidden sm:inline font-medium text-sm">Logout</span>
               </button>
               <button
                 onClick={handleSave}
