@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react-swc'
 export default defineConfig(() => ({
   plugins: [react()],
   // Base path for subdirectory deployment
-  base: '/dashboard-profile-upnvj/',
+  base: '/',
   server: {
     fs: {
       // Allow serving files from unity-builds
