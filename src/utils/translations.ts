@@ -147,7 +147,7 @@ export const translations = {
     available: "Tersedia",
     ready: "Siap",
     clickToViewDetail: "Klik untuk melihat detail",
-    viewAll: "Lihat Semua",
+    viewAllAssets: "Lihat Semua",
     
     // Assets Categories
     laboratoriesTitle: "Laboratorium",
@@ -346,7 +346,7 @@ export const translations = {
     available: "Available",
     ready: "Ready",
     clickToViewDetail: "Click to view details",
-    viewAll: "View All",
+    viewAllAssets: "View All",
     
     // Assets Categories
     laboratoriesTitle: "Laboratories",

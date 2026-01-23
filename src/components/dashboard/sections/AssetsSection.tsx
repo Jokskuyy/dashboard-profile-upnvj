@@ -511,7 +511,7 @@ const AssetsSection: React.FC = () => {
                     <span className="material-icons-round text-sm">
                       visibility
                     </span>
-                    {t("viewAll")}
+                    {t("viewAllAssets")}
                   </span>
                 </div>
               )}
