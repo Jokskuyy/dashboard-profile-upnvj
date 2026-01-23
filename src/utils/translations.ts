@@ -134,6 +134,35 @@ export const translations = {
     description: "Deskripsi",
     viewDetails: "Lihat Detail",
     hideDetails: "Sembunyikan Detail",
+    
+    // Assets Section Cards
+    campusBuildings: "Gedung Kampus",
+    buildingsUnit: "Gedung",
+    labsUnit: "Lab",
+    facilitiesUnit: "Fasilitas",
+    roomsUnit: "Ruang",
+    venuesUnit: "Tempat",
+    operational: "Operasional",
+    activeStatus: "Aktif",
+    available: "Tersedia",
+    ready: "Siap",
+    clickToViewDetail: "Klik untuk melihat detail",
+    viewAll: "Lihat Semua",
+    
+    // Assets Categories
+    laboratoriesTitle: "Laboratorium",
+    librariesReadingRooms: "Perpustakaan & Ruang Baca",
+    classrooms: "Ruang Kuliah",
+    auditoriumsHalls: "Auditorium & Aula",
+    sportsFacilities: "Fasilitas Olahraga",
+    healthFacilities: "Fasilitas Kesehatan",
+    worshipFacilities: "Fasilitas Ibadah",
+    cafeteriaFoodCourt: "Kantin & Food Court",
+    
+    // Featured Section
+    featuredAuditoriumsLabs: "Auditorium & Laboratorium Unggulan",
+    noFacilitiesAvailable: "Tidak ada data fasilitas",
+    modernFacilityDescription: "Fasilitas modern dengan peralatan lengkap untuk mendukung kegiatan akademik.",
 
     // University Info
     universityName: "Universitas Pembangunan Nasional Veteran Jakarta",
@@ -304,6 +333,35 @@ export const translations = {
     description: "Description",
     viewDetails: "View Details",
     hideDetails: "Hide Details",
+    
+    // Assets Section Cards
+    campusBuildings: "Campus Buildings",
+    buildingsUnit: "Buildings",
+    labsUnit: "Labs",
+    facilitiesUnit: "Facilities",
+    roomsUnit: "Rooms",
+    venuesUnit: "Venues",
+    operational: "Operational",
+    activeStatus: "Active",
+    available: "Available",
+    ready: "Ready",
+    clickToViewDetail: "Click to view details",
+    viewAll: "View All",
+    
+    // Assets Categories
+    laboratoriesTitle: "Laboratories",
+    librariesReadingRooms: "Libraries & Reading Rooms",
+    classrooms: "Classrooms",
+    auditoriumsHalls: "Auditoriums & Halls",
+    sportsFacilities: "Sports Facilities",
+    healthFacilities: "Health Facilities",
+    worshipFacilities: "Worship Facilities",
+    cafeteriaFoodCourt: "Cafeteria & Food Court",
+    
+    // Featured Section
+    featuredAuditoriumsLabs: "Featured Auditoriums & Laboratories",
+    noFacilitiesAvailable: "No facilities data available",
+    modernFacilityDescription: "Modern facilities with complete equipment to support academic activities.",
 
     // University Info
     universityName: "Pembangunan Nasional Veteran Jakarta University",

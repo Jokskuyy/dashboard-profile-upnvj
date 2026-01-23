@@ -200,11 +200,11 @@ const AssetsSection: React.FC = () => {
   const assets = [
     {
       id: 1,
-      title: "Campus Buildings",
+      title: t("campusBuildings"),
       icon: "corporate_fare",
       count: buildingsCount.toString(),
-      unit: "Buildings",
-      status: "Operational",
+      unit: t("buildingsUnit"),
+      status: t("operational"),
       statusColor: "bg-green-100 text-green-700",
       iconBg: "bg-blue-50",
       iconColor: "text-blue-600",
@@ -213,11 +213,11 @@ const AssetsSection: React.FC = () => {
     },
     {
       id: 2,
-      title: "Laboratories",
+      title: t("laboratoriesTitle"),
       icon: "biotech",
       count: facilityCounts.laboratorium.toString(),
-      unit: "Labs",
-      status: "Active",
+      unit: t("labsUnit"),
+      status: t("activeStatus"),
       statusColor: "bg-green-100 text-green-700",
       iconBg: "bg-purple-50",
       iconColor: "text-purple-600",
@@ -231,11 +231,11 @@ const AssetsSection: React.FC = () => {
     },
     {
       id: 3,
-      title: "Libraries & Reading Rooms",
+      title: t("librariesReadingRooms"),
       icon: "local_library",
       count: facilityCounts.perpustakaan.toString(),
-      unit: "Facilities",
-      status: "Available",
+      unit: t("facilitiesUnit"),
+      status: t("available"),
       statusColor: "bg-green-100 text-green-700",
       iconBg: "bg-emerald-50",
       iconColor: "text-emerald-600",
@@ -249,11 +249,11 @@ const AssetsSection: React.FC = () => {
     },
     {
       id: 4,
-      title: "Classrooms",
+      title: t("classrooms"),
       icon: "school",
       count: facilityCounts.ruangKuliah.toString(),
-      unit: "Rooms",
-      status: "Ready",
+      unit: t("roomsUnit"),
+      status: t("ready"),
       statusColor: "bg-blue-100 text-blue-700",
       iconBg: "bg-amber-50",
       iconColor: "text-amber-600",
@@ -267,11 +267,11 @@ const AssetsSection: React.FC = () => {
     },
     {
       id: 5,
-      title: "Auditoriums & Halls",
+      title: t("auditoriumsHalls"),
       icon: "theater_comedy",
       count: facilityCounts.auditorium.toString(),
-      unit: "Venues",
-      status: "Available",
+      unit: t("venuesUnit"),
+      status: t("available"),
       statusColor: "bg-purple-100 text-purple-700",
       iconBg: "bg-purple-50",
       iconColor: "text-purple-600",
@@ -285,11 +285,11 @@ const AssetsSection: React.FC = () => {
     },
     {
       id: 6,
-      title: "Sports Facilities",
+      title: t("sportsFacilities"),
       icon: "sports_soccer",
       count: facilityCounts.olahraga.toString(),
-      unit: "Facilities",
-      status: "Active",
+      unit: t("facilitiesUnit"),
+      status: t("activeStatus"),
       statusColor: "bg-indigo-100 text-indigo-700",
       iconBg: "bg-indigo-50",
       iconColor: "text-indigo-600",
@@ -303,11 +303,11 @@ const AssetsSection: React.FC = () => {
     },
     {
       id: 7,
-      title: "Health Facilities",
+      title: t("healthFacilities"),
       icon: "medical_services",
       count: facilityCounts.kesehatan.toString(),
-      unit: "Facilities",
-      status: "Operational",
+      unit: t("facilitiesUnit"),
+      status: t("operational"),
       statusColor: "bg-red-100 text-red-700",
       iconBg: "bg-red-50",
       iconColor: "text-red-600",
@@ -321,11 +321,11 @@ const AssetsSection: React.FC = () => {
     },
     {
       id: 8,
-      title: "Worship Facilities",
+      title: t("worshipFacilities"),
       icon: "mosque",
       count: facilityCounts.ibadah.toString(),
-      unit: "Facilities",
-      status: "Available",
+      unit: t("facilitiesUnit"),
+      status: t("available"),
       statusColor: "bg-violet-100 text-violet-700",
       iconBg: "bg-violet-50",
       iconColor: "text-violet-600",
@@ -499,9 +499,9 @@ const AssetsSection: React.FC = () => {
             <span className="material-symbols-outlined text-[#2C5F2D]">
               account_balance
             </span>
-            {t("assetsTitle") || "University Assets & Facilities"}
+            {t("assetsTitle")}
           </h2>
-          <p className="text-sm text-gray-500">Klik untuk melihat detail</p>
+          <p className="text-sm text-gray-500">{t("clickToViewDetail")}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {assets.map((asset) => (
@@ -546,7 +546,7 @@ const AssetsSection: React.FC = () => {
                     <span className="material-icons-round text-sm">
                       visibility
                     </span>
-                    Lihat Semua
+                    {t("viewAll")}
                   </span>
                 </div>
               )}
@@ -562,7 +562,7 @@ const AssetsSection: React.FC = () => {
             <span className="material-symbols-outlined text-[#2C5F2D]">
               star
             </span>
-            Featured Auditoriums & Laboratories
+            {t("featuredAuditoriumsLabs")}
           </h2>
           <div className="flex gap-2">
             <button
@@ -618,7 +618,7 @@ const AssetsSection: React.FC = () => {
                   </h3>
                   <p className="text-xs text-gray-500 mb-3 line-clamp-3 flex-1 leading-relaxed">
                     {facility.deskripsi_fasilitas?.substring(0, 120) ||
-                      "Fasilitas modern dengan peralatan lengkap untuk mendukung kegiatan akademik."}
+                      t("modernFacilityDescription")}
                     ...
                   </p>
                   <button
@@ -628,7 +628,7 @@ const AssetsSection: React.FC = () => {
                     }}
                     className="w-full py-2 rounded-xl border border-gray-200 text-xs font-semibold text-gray-700 hover:bg-[#2C5F2D] hover:text-white hover:border-[#2C5F2D] transition-colors flex items-center justify-center gap-1.5"
                   >
-                    View Details{" "}
+                    {t("viewDetails")}{" "}
                     <span className="material-icons-round text-sm">
                       arrow_forward
                     </span>
@@ -644,7 +644,7 @@ const AssetsSection: React.FC = () => {
             <span className="material-symbols-outlined text-6xl mb-4 block">
               apartment
             </span>
-            <p>No facilities data available</p>
+            <p>{t("noFacilitiesAvailable")}</p>
           </div>
         )}
       </section>
