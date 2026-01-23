@@ -36,7 +36,7 @@ const Header: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
             className={`flex justify-between items-center transition-all duration-300 ${
-              isScrolled ? "py-3" : "py-6"
+              isScrolled ? "py-3" : "py-4"
             }`}
           >
             {/* Logo Section */}
@@ -45,7 +45,7 @@ const Header: React.FC = () => {
                 src={logoUpnvj}
                 alt="UPNVJ Logo"
                 className={`object-contain transition-all duration-300 transform group-hover:scale-110 ${
-                  isScrolled ? "w-10 h-10" : "w-14 h-14"
+                  isScrolled ? "w-10 h-10" : "w-12 h-12"
                 }`}
               />
               <div className="hidden md:block">

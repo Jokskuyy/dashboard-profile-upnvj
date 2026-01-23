@@ -50,10 +50,10 @@ const FACULTY_MAPPING: Record<string, FacultyInfo> = {
     shortName: "FEB",
     color: "#F59E0B",
   },
-  "Fakultas Ilmu Kesehatan": {
-    id: "fikes",
-    name: "Fakultas Ilmu Kesehatan",
-    shortName: "FIKES",
+  "Fakultas Kedokteran": {
+    id: "fk",
+    name: "Fakultas Kedokteran",
+    shortName: "FK",
     color: "#EF4444",
   },
   "Fakultas Ilmu Sosial dan Ilmu Politik": {
@@ -131,7 +131,7 @@ const fetchProfessors = async (): Promise<Professor[]> => {
             nama_fakultas
           )
         )
-      `
+      `,
       )
       .order("nama_dosen", { ascending: true });
 
@@ -171,7 +171,7 @@ const fetchAccreditations = async (): Promise<Accreditation[]> => {
         fakultas (
           nama_fakultas
         )
-      `
+      `,
       )
       .not("id_akreditasi", "is", null)
       .order("nama_prodi", { ascending: true });
@@ -220,7 +220,7 @@ const fetchStudents = async (): Promise<StudentData[]> => {
             nama_fakultas
           )
         )
-      `
+      `,
       )
       .eq("status", "Aktif");
 
@@ -279,7 +279,7 @@ const fetchPrograms = async (): Promise<ProgramData[]> => {
           nama_fakultas
         ),
         mahasiswa (count)
-      `
+      `,
       )
       .order("nama_prodi", { ascending: true });
 
@@ -318,7 +318,7 @@ const fetchDepartments = async (): Promise<DepartmentData[]> => {
           nama_fakultas
         ),
         dosen (count)
-      `
+      `,
       )
       .order("nama_prodi", { ascending: true });
 
@@ -357,7 +357,7 @@ const fetchAssets = async (): Promise<AssetCategory[]> => {
           nama_gedung,
           lokasi
         )
-      `
+      `,
       )
       .order("tipe_fasilitas", { ascending: true });
 
@@ -455,7 +455,7 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
       onRetry: (attempt, error) => {
         console.log(
           `Retrying dashboard data fetch (attempt ${attempt}):`,
-          error.message
+          error.message,
         );
       },
     });
@@ -517,19 +517,19 @@ export const getTotalStats = (data: DashboardData) => {
   const totalStudents = data.students.reduce(
     (sum, faculty) =>
       sum + (faculty.undergraduate + faculty.postgraduate + faculty.graduate),
-    0
+    0,
   );
 
   const totalAssets = data.assets.reduce(
     (sum, category) => sum + category.details.length,
-    0
+    0,
   );
 
   return {
     totalProfessors: data.professors.length,
     totalStudents,
     activeAccreditations: data.accreditations.filter(
-      (a) => a.status === "active"
+      (a) => a.status === "active",
     ).length,
     totalFaculties: data.students.length,
     totalAssets,
@@ -539,7 +539,7 @@ export const getTotalStats = (data: DashboardData) => {
 // Helper functions for assets data
 export const getAssetsByCategory = (
   assets: AssetCategory[],
-  categoryId: string
+  categoryId: string,
 ) => {
   return assets.find((category) => category.id === categoryId);
 };
@@ -548,7 +548,7 @@ export const getAssetsByCategory = (
 export const getProgramsByFacultyId = (
   programs: ProgramData[],
   facultyId: string,
-  faculties: FacultyInfo[]
+  faculties: FacultyInfo[],
 ) => {
   const faculty = faculties.find((f) => f.id === facultyId);
   if (!faculty) return [];
@@ -559,7 +559,7 @@ export const getProgramsByFacultyId = (
 export const getDepartmentsByFacultyId = (
   departments: DepartmentData[],
   facultyId: string,
-  faculties: FacultyInfo[]
+  faculties: FacultyInfo[],
 ) => {
   const faculty = faculties.find((f) => f.id === facultyId);
   if (!faculty) return [];
@@ -573,7 +573,7 @@ export const getDepartmentsByFacultyId = (
 // ===== PROFESSORS CRUD =====
 
 export const createProfessor = async (
-  professor: Omit<Professor, "id">
+  professor: Omit<Professor, "id">,
 ): Promise<Professor> => {
   clearCache();
 
@@ -614,7 +614,7 @@ export const createProfessor = async (
 
 export const updateProfessor = async (
   id: string,
-  professor: Partial<Professor>
+  professor: Partial<Professor>,
 ): Promise<Professor> => {
   clearCache();
 
@@ -635,7 +635,7 @@ export const updateProfessor = async (
           nama_fakultas
         )
       )
-    `
+    `,
     )
     .single();
 
@@ -664,7 +664,7 @@ export const deleteProfessor = async (id: string): Promise<void> => {
 // ===== ACCREDITATIONS CRUD =====
 
 export const createAccreditation = async (
-  accreditation: Omit<Accreditation, "id">
+  accreditation: Omit<Accreditation, "id">,
 ): Promise<Accreditation> => {
   clearCache();
 
@@ -708,7 +708,7 @@ export const createAccreditation = async (
 
 export const updateAccreditation = async (
   id: string,
-  accreditation: Partial<Accreditation>
+  accreditation: Partial<Accreditation>,
 ): Promise<Accreditation> => {
   clearCache();
 
@@ -755,7 +755,7 @@ export const deleteAccreditation = async (id: string): Promise<void> => {
 // ===== STUDENTS CRUD =====
 
 export const createStudentData = async (
-  student: Omit<StudentData, "facultyId">
+  student: Omit<StudentData, "facultyId">,
 ): Promise<StudentData> => {
   clearCache();
   // This would require creating individual mahasiswa records
@@ -769,7 +769,7 @@ export const createStudentData = async (
 
 export const updateStudentData = async (
   _facultyId: string,
-  student: Partial<StudentData>
+  student: Partial<StudentData>,
 ): Promise<StudentData> => {
   clearCache();
   // This would require updating mahasiswa records
@@ -785,7 +785,7 @@ export const deleteStudentData = async (_facultyId: string): Promise<void> => {
 // ===== PROGRAMS CRUD =====
 
 export const createProgram = async (
-  program: Omit<ProgramData, "id">
+  program: Omit<ProgramData, "id">,
 ): Promise<ProgramData> => {
   clearCache();
 
@@ -822,7 +822,7 @@ export const createProgram = async (
 
 export const updateProgram = async (
   id: string,
-  program: Partial<ProgramData>
+  program: Partial<ProgramData>,
 ): Promise<ProgramData> => {
   clearCache();
 
@@ -840,7 +840,7 @@ export const updateProgram = async (
       fakultas (
         nama_fakultas
       )
-    `
+    `,
     )
     .single();
 
@@ -869,7 +869,7 @@ export const deleteProgram = async (id: string): Promise<void> => {
 // ===== DEPARTMENTS CRUD =====
 
 export const createDepartment = async (
-  department: Omit<DepartmentData, "id">
+  department: Omit<DepartmentData, "id">,
 ): Promise<DepartmentData> => {
   clearCache();
   // Departments are same as programs in this schema
@@ -893,7 +893,7 @@ export const createDepartment = async (
 
 export const updateDepartment = async (
   id: string,
-  department: Partial<DepartmentData>
+  department: Partial<DepartmentData>,
 ): Promise<DepartmentData> => {
   clearCache();
   const program = await updateProgram(id, {
@@ -921,7 +921,7 @@ export const deleteDepartment = async (id: string): Promise<void> => {
 // ===== ASSETS CRUD =====
 
 export const createAssetCategory = async (
-  category: Omit<AssetCategory, "id">
+  category: Omit<AssetCategory, "id">,
 ): Promise<AssetCategory> => {
   clearCache();
   // This would require creating a new type of fasilitas
@@ -933,7 +933,7 @@ export const createAssetCategory = async (
 
 export const updateAssetCategory = async (
   _id: string,
-  category: Partial<AssetCategory>
+  category: Partial<AssetCategory>,
 ): Promise<AssetCategory> => {
   clearCache();
   // This would require updating fasilitas records
@@ -956,7 +956,7 @@ export interface AssetDetail {
 
 export const addAssetDetail = async (
   categoryId: string,
-  detail: Omit<AssetDetail, "id">
+  detail: Omit<AssetDetail, "id">,
 ): Promise<AssetDetail> => {
   clearCache();
 
@@ -1002,7 +1002,7 @@ export const addAssetDetail = async (
 export const updateAssetDetail = async (
   _categoryId: string,
   detailId: string,
-  detail: Partial<AssetDetail>
+  detail: Partial<AssetDetail>,
 ): Promise<AssetDetail> => {
   clearCache();
 
@@ -1019,7 +1019,7 @@ export const updateAssetDetail = async (
       gedung (
         nama_gedung
       )
-    `
+    `,
     )
     .single();
 
@@ -1036,7 +1036,7 @@ export const updateAssetDetail = async (
 
 export const deleteAssetDetail = async (
   _categoryId: string,
-  detailId: string
+  detailId: string,
 ): Promise<void> => {
   clearCache();
   const { error } = await supabase

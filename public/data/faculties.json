@@ -30,9 +30,9 @@
     "color": "#EF4444"
   },
   {
-    "id": "fikes",
-    "name": "Fakultas Ilmu Kesehatan",
-    "shortName": "FIKES",
+    "id": "fk",
+    "name": "Fakultas Kedokteran",
+    "shortName": "FK",
     "color": "#06B6D4"
   }
 ]

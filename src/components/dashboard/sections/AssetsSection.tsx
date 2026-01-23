@@ -1,157 +1,581 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "../../../contexts/LanguageContext";
+import { useAssets } from "../../../contexts/DashboardContext";
+import { supabase } from "../../../lib/supabase";
+import FacilityDetailModal from "../../modals/shared/FacilityDetailModal";
+import CategoryFacilitiesModal from "../../modals/shared/CategoryFacilitiesModal";
+import BuildingsModal from "../../modals/shared/BuildingsModal";
+
+// Interface untuk data gedung dan fasilitas
+interface Building {
+  id: number;
+  nama_gedung: string;
+  deskripsi_gedung?: string;
+  lokasi?: string;
+}
+
+interface FacilityDetail {
+  id: number;
+  nama_fasilitas: string;
+  deskripsi_fasilitas?: string;
+  tipe_fasilitas: string;
+  color?: string;
+  gedung?: Building;
+}
 
 const AssetsSection: React.FC = () => {
   const { t } = useLanguage();
   const [labScrollPosition, setLabScrollPosition] = useState(0);
+  const assetsFromContext = useAssets();
+
+  // State untuk data real dari database
+  const [buildingsCount, setBuildingsCount] = useState(0);
+  const [facilitiesData, setFacilitiesData] = useState<FacilityDetail[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedFacility, setSelectedFacility] =
+    useState<FacilityDetail | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [isBuildingsModalOpen, setIsBuildingsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<any>(null);
+
+  // State untuk count berbagai tipe fasilitas
+  const [facilityCounts, setFacilityCounts] = useState({
+    laboratorium: 0,
+    perpustakaan: 0,
+    ruangKuliah: 0,
+    auditorium: 0,
+    olahraga: 0,
+    kesehatan: 0,
+    ibadah: 0,
+    kantin: 0,
+  });
+
+  // Fetch data real dari Supabase
+  useEffect(() => {
+    const fetchRealData = async () => {
+      try {
+        // Fetch jumlah gedung
+        const { count: buildingCount, error: buildingError } = await supabase
+          .from("gedung")
+          .select("*", { count: "exact", head: true });
+
+        if (!buildingError && buildingCount !== null) {
+          setBuildingsCount(buildingCount);
+        }
+
+        // Fetch semua fasilitas untuk counting
+        const { data: allFacilities, error: countError } = await supabase
+          .from("fasilitas")
+          .select("tipe_fasilitas");
+
+        if (!countError && allFacilities) {
+          const counts = {
+            laboratorium: allFacilities.filter(
+              (f) =>
+                f.tipe_fasilitas === "Laboratorium" ||
+                f.tipe_fasilitas?.toLowerCase().includes("lab"),
+            ).length,
+            perpustakaan: allFacilities.filter(
+              (f) =>
+                f.tipe_fasilitas === "Perpustakaan" ||
+                f.tipe_fasilitas?.toLowerCase().includes("perpustakaan") ||
+                f.tipe_fasilitas?.toLowerCase().includes("ruang baca"),
+            ).length,
+            ruangKuliah: allFacilities.filter(
+              (f) =>
+                f.tipe_fasilitas === "Ruang Kuliah" ||
+                f.tipe_fasilitas?.toLowerCase().includes("ruang kuliah") ||
+                f.tipe_fasilitas?.toLowerCase().includes("ruang kelas"),
+            ).length,
+            auditorium: allFacilities.filter(
+              (f) =>
+                f.tipe_fasilitas === "Auditorium" ||
+                f.tipe_fasilitas?.toLowerCase().includes("auditorium") ||
+                f.tipe_fasilitas?.toLowerCase().includes("aula"),
+            ).length,
+            olahraga: allFacilities.filter(
+              (f) =>
+                f.tipe_fasilitas === "Olahraga" ||
+                f.tipe_fasilitas?.toLowerCase().includes("olahraga") ||
+                f.tipe_fasilitas?.toLowerCase().includes("sport"),
+            ).length,
+            kesehatan: allFacilities.filter(
+              (f) =>
+                f.tipe_fasilitas === "Kesehatan" ||
+                f.tipe_fasilitas?.toLowerCase().includes("kesehatan") ||
+                f.tipe_fasilitas?.toLowerCase().includes("klinik"),
+            ).length,
+            ibadah: allFacilities.filter(
+              (f) =>
+                f.tipe_fasilitas === "Ibadah" ||
+                f.tipe_fasilitas?.toLowerCase().includes("ibadah") ||
+                f.tipe_fasilitas?.toLowerCase().includes("masjid") ||
+                f.tipe_fasilitas?.toLowerCase().includes("musholla"),
+            ).length,
+            kantin: allFacilities.filter(
+              (f) =>
+                f.tipe_fasilitas === "Kantin" ||
+                f.tipe_fasilitas?.toLowerCase().includes("kantin") ||
+                f.tipe_fasilitas?.toLowerCase().includes("food"),
+            ).length,
+          };
+          setFacilityCounts(counts);
+        }
+
+        // Fetch fasilitas featured (Auditorium dan Lab penting) untuk display
+        const { data: allFacilitiesData, error: facilitiesError } =
+          await supabase
+            .from("fasilitas")
+            .select(
+              `
+            id,
+            nama_fasilitas,
+            deskripsi_fasilitas,
+            tipe_fasilitas,
+            color,
+            gedung:id_gedung (
+              id,
+              nama_gedung,
+              lokasi,
+              deskripsi_gedung
+            )
+          `,
+            )
+            .order("tipe_fasilitas", { ascending: true })
+            .order("nama_fasilitas", { ascending: true });
+
+        if (!facilitiesError && allFacilitiesData) {
+          // Filter di client-side untuk menangkap semua variasi Lab dan Auditorium
+          const featuredFacilities = allFacilitiesData.filter(
+            (f) =>
+              f.tipe_fasilitas === "Auditorium" ||
+              f.tipe_fasilitas?.toLowerCase().includes("auditorium") ||
+              f.tipe_fasilitas?.toLowerCase().includes("aula") ||
+              f.tipe_fasilitas === "Laboratorium Komputer" ||
+              f.tipe_fasilitas?.toLowerCase().includes("laboratorium"),
+          );
+          setFacilitiesData(featuredFacilities.slice(0, 12));
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching real data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchRealData();
+  }, []);
+
+  const handleFacilityClick = (facility: FacilityDetail) => {
+    setSelectedFacility(facility);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setTimeout(() => setSelectedFacility(null), 300);
+  };
+
+  const handleCategoryClick = (category: any) => {
+    setSelectedCategory(category);
+    setIsCategoryModalOpen(true);
+  };
+
+  const handleCloseCategoryModal = () => {
+    setIsCategoryModalOpen(false);
+    setTimeout(() => setSelectedCategory(null), 300);
+  };
+
+  const handleBuildingsClick = () => {
+    setIsBuildingsModalOpen(true);
+  };
+
+  const handleCloseBuildingsModal = () => {
+    setIsBuildingsModalOpen(false);
+  };
 
   const assets = [
     {
       id: 1,
       title: "Campus Buildings",
       icon: "corporate_fare",
-      count: "42",
-      unit: "Units",
-      status: "Good Condition",
+      count: buildingsCount.toString(),
+      unit: "Buildings",
+      status: "Operational",
       statusColor: "bg-green-100 text-green-700",
       iconBg: "bg-blue-50",
-      iconColor: "text-blue-600"
+      iconColor: "text-blue-600",
+      clickable: true,
+      isBuildings: true,
     },
     {
       id: 2,
-      title: "Operational Vehicles",
-      icon: "directions_bus",
-      count: "18",
-      unit: "Units",
-      status: "Maintenance",
-      statusColor: "bg-amber-100 text-amber-700",
-      iconBg: "bg-amber-50",
-      iconColor: "text-amber-600"
-    },
-    {
-      id: 3,
-      title: "IT & Lab Equipment",
-      icon: "devices",
-      count: "1,245",
-      unit: "Units",
-      status: "Optimal",
+      title: "Laboratories",
+      icon: "biotech",
+      count: facilityCounts.laboratorium.toString(),
+      unit: "Labs",
+      status: "Active",
       statusColor: "bg-green-100 text-green-700",
       iconBg: "bg-purple-50",
-      iconColor: "text-purple-600"
-    },
-    {
-      id: 4,
-      title: "Land Area",
-      icon: "landscape",
-      count: "24.5",
-      unit: "Hectares",
-      status: "Verified",
-      statusColor: "bg-blue-100 text-blue-700",
-      iconBg: "bg-emerald-50",
-      iconColor: "text-emerald-600"
-    }
-  ];
-
-  const labs = [
-    {
-      id: 1,
-      name: "Anatomy & Physiology Lab",
-      faculty: "FIKES",
-      location: "Lt. 4",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBGwKPi640_OFmHH_LRJG_ykGBxUmG1BFQi4S4MjSeNCXmfJidDNzIepOGE9QYAlrfA34TwZ3RVe2ZqQH47Cni7Ffdes4nVM24BUoh-TUiVPu9L2uHW0qu3HARbM6wM9c8jq4CRCSA-q3NdNQs2mAPTlLB-otkJPEnp-stIy--sLGJCPvbfpltzw7Iz_xoqst3SBUg3mPyFhHjkJJRicpXA50w7t2hCOfHrOBNXfzO1xQynv4f2hCEvS_ZkDCht1IJT6kFig-xQ1fs",
-      facultyColor: "bg-[#2C5F2D] text-white"
-    },
-    {
-      id: 2,
-      name: "Robotics & IoT Laboratory",
-      faculty: "FT",
-      location: "Gedung B",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAjZ8_7OKtEz6zAxCopFc1hmw5nvy6WSnxziTFWpKrWxvSuSkVgP7L9y9Ysmfxsl8tbYIF5c-qh6fN-JXoaowo4-J5v2y-lvrdXCb02lfHQUK3tYKWytfwOBRtgk6-fvtIvatVw2vjO0GiHuoxGXkSIKoBeOdNhodiGtcQvZHjBB6RvpT_z2xWknM60yJfIqvw_Gjt0NDa61za15lx5DTzKopRrk9KIEFaI4ppKY-l3awG7Y2zxLiywZsVW_ozHsEF_u5jT4JsTB_s",
-      facultyColor: "bg-indigo-100 text-indigo-700"
+      iconColor: "text-purple-600",
+      clickable: true,
+      category: {
+        name: "Laboratorium",
+        icon: "biotech",
+        color: "bg-linear-to-r from-purple-600 to-blue-600",
+        filter: "Laboratorium",
+      },
     },
     {
       id: 3,
-      name: "Microbiology Center",
-      faculty: "FK",
-      location: "Kampus Limo",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBsFj-0KJkBNhkhR-qHc-LJNYvfNePZevcTKauoyVJlBqbNJUifaaCnG7KzHvEgbLwGFBK8ROPZxYQsOlz9HGn6m076kp-bPTs7u5alKduXoo5MdUfqRvtnkIAPHlxyJ0MQupSMM-qNm445wfcW3C1oOo4YdEzeD3GsthDu4S8gN3MSuY2gAe2GX3lYtp-_ort8-wKJZFHyliDSdVdQ7tyDDghS9j_DJ4iruq-CyZEXuvZyWSPhTjAxOKh0AQloq96NHxT1wDPb0i4",
-      facultyColor: "bg-sky-100 text-sky-700"
+      title: "Libraries & Reading Rooms",
+      icon: "local_library",
+      count: facilityCounts.perpustakaan.toString(),
+      unit: "Facilities",
+      status: "Available",
+      statusColor: "bg-green-100 text-green-700",
+      iconBg: "bg-emerald-50",
+      iconColor: "text-emerald-600",
+      clickable: true,
+      category: {
+        name: "Perpustakaan & Ruang Baca",
+        icon: "local_library",
+        color: "bg-linear-to-r from-emerald-600 to-green-600",
+        filter: "Perpustakaan",
+      },
     },
     {
       id: 4,
-      name: "Cyber Security & AI Lab",
-      faculty: "FIK",
-      location: "Gedung Ki Hajar",
-      image: "https://lh3.googleusercontent.com/aida-public/AB6AXuC8WgBubWZaiqTdcJ4DBvNyqTBGp4oMOCTB6BdhxAbOYsPj-rAryX1VZbdB6zgkTogioOsPFJZaqeuBmSPQfmAPrlD5UfqrNpWqbetq9d8hQkbcNC8E_AwawxiZpGCGN93GkKK9pnlCIIj5P5q1GKdn0aIYX3qfkP5R7xz-qzXhL6ug43WG9uGEYk6kdNNovxL1dnGdo3y9JJGWpL1k4UPaP6RjWVP6BkacCENKY-JnUHgWcgcHAtM9Cyurt6V14NT-mctdK_zg5fI",
-      facultyColor: "bg-fuchsia-100 text-fuchsia-700"
-    }
+      title: "Classrooms",
+      icon: "school",
+      count: facilityCounts.ruangKuliah.toString(),
+      unit: "Rooms",
+      status: "Ready",
+      statusColor: "bg-blue-100 text-blue-700",
+      iconBg: "bg-amber-50",
+      iconColor: "text-amber-600",
+      clickable: true,
+      category: {
+        name: "Ruang Kuliah",
+        icon: "school",
+        color: "bg-linear-to-r from-amber-600 to-orange-600",
+        filter: "Ruang Kuliah",
+      },
+    },
+    {
+      id: 5,
+      title: "Auditoriums & Halls",
+      icon: "theater_comedy",
+      count: facilityCounts.auditorium.toString(),
+      unit: "Venues",
+      status: "Available",
+      statusColor: "bg-purple-100 text-purple-700",
+      iconBg: "bg-purple-50",
+      iconColor: "text-purple-600",
+      clickable: true,
+      category: {
+        name: "Auditorium & Aula",
+        icon: "theater_comedy",
+        color: "bg-linear-to-r from-purple-600 to-pink-600",
+        filter: "Auditorium",
+      },
+    },
+    {
+      id: 6,
+      title: "Sports Facilities",
+      icon: "sports_soccer",
+      count: facilityCounts.olahraga.toString(),
+      unit: "Facilities",
+      status: "Active",
+      statusColor: "bg-indigo-100 text-indigo-700",
+      iconBg: "bg-indigo-50",
+      iconColor: "text-indigo-600",
+      clickable: true,
+      category: {
+        name: "Fasilitas Olahraga",
+        icon: "sports_soccer",
+        color: "bg-linear-to-r from-indigo-600 to-blue-600",
+        filter: "Olahraga",
+      },
+    },
+    {
+      id: 7,
+      title: "Health Facilities",
+      icon: "medical_services",
+      count: facilityCounts.kesehatan.toString(),
+      unit: "Facilities",
+      status: "Operational",
+      statusColor: "bg-red-100 text-red-700",
+      iconBg: "bg-red-50",
+      iconColor: "text-red-600",
+      clickable: true,
+      category: {
+        name: "Fasilitas Kesehatan",
+        icon: "medical_services",
+        color: "bg-linear-to-r from-red-600 to-pink-600",
+        filter: "Kesehatan",
+      },
+    },
+    {
+      id: 8,
+      title: "Worship Facilities",
+      icon: "mosque",
+      count: facilityCounts.ibadah.toString(),
+      unit: "Facilities",
+      status: "Available",
+      statusColor: "bg-violet-100 text-violet-700",
+      iconBg: "bg-violet-50",
+      iconColor: "text-violet-600",
+      clickable: true,
+      category: {
+        name: "Fasilitas Ibadah",
+        icon: "mosque",
+        color: "bg-linear-to-r from-violet-600 to-purple-600",
+        filter: "Ibadah",
+      },
+    },
   ];
 
-  const scrollLabs = (direction: 'left' | 'right') => {
-    const container = document.getElementById('labs-container');
+  // Helper untuk mendapatkan icon berdasarkan tipe
+  const getFacilityIcon = (type: string) => {
+    const typeMap: Record<string, string> = {
+      Laboratorium: "biotech",
+      Perpustakaan: "local_library",
+      Auditorium: "theater_comedy",
+      "Ruang Kuliah": "school",
+      Studio: "videocam",
+      Olahraga: "sports_soccer",
+    };
+    return typeMap[type] || "business";
+  };
+
+  // Helper untuk mendapatkan warna fakultas dari nama gedung
+  const getFacultyFromBuilding = (buildingName: string) => {
+    if (
+      buildingName?.includes("Kihajar") ||
+      buildingName?.includes("Komputer")
+    ) {
+      return { faculty: "FIK", color: "bg-blue-100 text-blue-700" };
+    } else if (buildingName?.includes("Teknik")) {
+      return { faculty: "FT", color: "bg-green-100 text-green-700" };
+    } else if (buildingName?.includes("Ekonomi")) {
+      return { faculty: "FEB", color: "bg-amber-100 text-amber-700" };
+    } else if (buildingName?.includes("Kesehatan")) {
+      return { faculty: "FIKES", color: "bg-red-100 text-red-700" };
+    } else if (buildingName?.includes("Hukum")) {
+      return { faculty: "FH", color: "bg-pink-100 text-pink-700" };
+    } else if (buildingName?.includes("FISIP")) {
+      return { faculty: "FISIP", color: "bg-purple-100 text-purple-700" };
+    }
+    return { faculty: "UPNVJ", color: "bg-gray-100 text-gray-700" };
+  };
+
+  // Mapping gambar default untuk fasilitas berdasarkan tipe dan nama
+  const getFacilityImage = (
+    facilityName: string,
+    facilityType: string,
+    facilityDesc: string,
+  ) => {
+    const name = facilityName.toLowerCase();
+    const type = facilityType.toLowerCase();
+    const desc = facilityDesc?.toLowerCase() || "";
+
+    // Laboratorium images
+    if (type.includes("laboratorium") || type.includes("lab")) {
+      if (name.includes("anatomi") || name.includes("fisiologi")) {
+        return "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&q=80";
+      } else if (name.includes("robotika") || name.includes("iot")) {
+        return "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&q=80";
+      } else if (
+        name.includes("cyber") ||
+        name.includes("keamanan") ||
+        name.includes("ai") ||
+        name.includes("artificial")
+      ) {
+        return "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&q=80";
+      } else if (name.includes("mikro") || name.includes("biologi")) {
+        return "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=400&q=80";
+      } else if (name.includes("jaringan") || name.includes("network")) {
+        return "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=400&q=80";
+      } else if (name.includes("multimedia") || name.includes("desain")) {
+        return "https://images.unsplash.com/photo-1561998338-13ad7883b20f?w=400&q=80";
+      } else if (name.includes("mesin") || name.includes("motor")) {
+        return "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=400&q=80";
+      } else if (name.includes("elektronika") || name.includes("elektro")) {
+        return "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=400&q=80";
+      } else if (name.includes("kimia")) {
+        return "https://images.unsplash.com/photo-1532634922-8fe0b757fb13?w=400&q=80";
+      } else if (name.includes("keperawatan")) {
+        return "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&q=80";
+      } else if (name.includes("basis data") || name.includes("database")) {
+        return "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=400&q=80";
+      } else if (name.includes("programming") || name.includes("pemrograman")) {
+        return "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&q=80";
+      }
+      return "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&q=80";
+    }
+
+    // Perpustakaan images
+    if (type.includes("perpustakaan") || type.includes("library")) {
+      return "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=400&q=80";
+    }
+
+    // Auditorium/Aula images
+    if (type.includes("auditorium") || type.includes("aula")) {
+      return "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80";
+    }
+
+    // Studio images
+    if (type.includes("studio")) {
+      return "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&q=80";
+    }
+
+    // Default facility image
+    return "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?w=400&q=80";
+  };
+
+  const scrollLabs = (direction: "left" | "right") => {
+    const container = document.getElementById("labs-container");
     if (container) {
-      const scrollAmount = 320; // card width + gap
-      const newPosition = direction === 'left' 
-        ? Math.max(0, labScrollPosition - scrollAmount)
-        : Math.min(container.scrollWidth - container.clientWidth, labScrollPosition + scrollAmount);
-      
-      container.scrollTo({ left: newPosition, behavior: 'smooth' });
+      const scrollAmount = 320;
+      const newPosition =
+        direction === "left"
+          ? Math.max(0, labScrollPosition - scrollAmount)
+          : Math.min(
+              container.scrollWidth - container.clientWidth,
+              labScrollPosition + scrollAmount,
+            );
+
+      container.scrollTo({ left: newPosition, behavior: "smooth" });
       setLabScrollPosition(newPosition);
     }
   };
 
+  if (loading) {
+    return (
+      <div className="space-y-8">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-64 mb-6"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="bg-gray-200 h-32 rounded-2xl"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
+      {/* Facility Detail Modal */}
+      <FacilityDetailModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        facility={selectedFacility}
+      />
+
+      {/* Category Facilities Modal */}
+      <CategoryFacilitiesModal
+        isOpen={isCategoryModalOpen}
+        onClose={handleCloseCategoryModal}
+        category={selectedCategory}
+        onFacilityClick={handleFacilityClick}
+      />
+
+      {/* Buildings Modal */}
+      <BuildingsModal
+        isOpen={isBuildingsModalOpen}
+        onClose={handleCloseBuildingsModal}
+      />
+
       {/* University Assets Section */}
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <span className="material-symbols-outlined text-[#2C5F2D]">account_balance</span>
-            {t("assetsTitle") || "University Assets"}
+            <span className="material-symbols-outlined text-[#2C5F2D]">
+              account_balance
+            </span>
+            {t("assetsTitle") || "University Assets & Facilities"}
           </h2>
+          <p className="text-sm text-gray-500">Klik untuk melihat detail</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {assets.map((asset) => (
             <div
               key={asset.id}
-              className="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 group hover:shadow-md transition-all"
+              onClick={() => {
+                if (asset.clickable) {
+                  if ((asset as any).isBuildings) {
+                    handleBuildingsClick();
+                  } else if (asset.category) {
+                    handleCategoryClick(asset.category);
+                  }
+                }
+              }}
+              className={`bg-white p-5 rounded-2xl shadow-sm border border-gray-200 transition-all ${
+                asset.clickable
+                  ? "cursor-pointer hover:shadow-lg hover:border-[#2C5F2D] hover:-translate-y-1"
+                  : ""
+              }`}
             >
               <div className="flex items-start justify-between mb-4">
-                <div className={`w-12 h-12 ${asset.iconBg} rounded-xl flex items-center justify-center ${asset.iconColor}`}>
-                  <span className="material-symbols-outlined text-3xl">{asset.icon}</span>
+                <div
+                  className={`w-12 h-12 ${asset.iconBg} rounded-xl flex items-center justify-center ${asset.iconColor}`}
+                >
+                  <span className="material-symbols-outlined text-3xl">
+                    {asset.icon}
+                  </span>
                 </div>
-                <span className={`px-2.5 py-1 ${asset.statusColor} text-[10px] font-bold uppercase rounded-full`}>
-                  {asset.status}
-                </span>
               </div>
-              <h3 className="font-bold text-gray-900 mb-1">{asset.title}</h3>
+              <h3 className="font-bold text-gray-900 mb-1 line-clamp-1">
+                {asset.title}
+              </h3>
               <div className="flex items-end justify-between">
                 <span className="text-gray-500 text-sm">{asset.unit}</span>
-                <span className="text-2xl font-bold text-gray-900">{asset.count}</span>
+                <span className="text-2xl font-bold text-gray-900">
+                  {asset.count}
+                </span>
               </div>
+              {asset.clickable && (
+                <div className="mt-3 pt-3 border-t border-gray-200">
+                  <span className="text-xs text-[#2C5F2D] font-semibold flex items-center gap-1">
+                    <span className="material-icons-round text-sm">
+                      visibility
+                    </span>
+                    Lihat Semua
+                  </span>
+                </div>
+              )}
             </div>
           ))}
         </div>
       </section>
 
-      {/* Featured Laboratories Section */}
+      {/* Featured Facilities Section */}
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <span className="material-symbols-outlined text-[#2C5F2D]">biotech</span>
-            Featured Laboratories
+            <span className="material-symbols-outlined text-[#2C5F2D]">
+              star
+            </span>
+            Featured Auditoriums & Laboratories
           </h2>
           <div className="flex gap-2">
             <button
-              onClick={() => scrollLabs('left')}
+              onClick={() => scrollLabs("left")}
               className="p-2 rounded-full bg-white border border-gray-200 text-gray-400 hover:text-[#2C5F2D] transition-colors"
+              aria-label="Scroll left"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
-              onClick={() => scrollLabs('right')}
+              onClick={() => scrollLabs("right")}
               className="p-2 rounded-full bg-white border border-gray-200 text-gray-400 hover:text-[#2C5F2D] transition-colors"
+              aria-label="Scroll right"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -160,37 +584,69 @@ const AssetsSection: React.FC = () => {
         <div
           id="labs-container"
           className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
-          {labs.map((lab) => (
-            <div
-              key={lab.id}
-              className="min-w-[300px] flex-shrink-0 bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex flex-col group"
-            >
-              <div className="h-40 overflow-hidden">
-                <img
-                  alt={lab.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  src={lab.image}
-                />
-              </div>
-              <div className="p-5 flex flex-col flex-grow">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className={`px-2 py-0.5 ${lab.facultyColor} text-[10px] font-bold rounded uppercase`}>
-                    {lab.faculty}
-                  </span>
-                  <span className="text-xs text-gray-400 flex items-center gap-1">
-                    <span className="material-icons-round text-sm">room</span> {lab.location}
-                  </span>
+          {facilitiesData.map((facility) => {
+            const buildingName =
+              (facility.gedung as any)?.nama_gedung || "Unknown";
+            const facilityImage = getFacilityImage(
+              facility.nama_fasilitas,
+              facility.tipe_fasilitas,
+              facility.deskripsi_fasilitas || "",
+            );
+
+            return (
+              <div
+                key={facility.id}
+                onClick={() => handleFacilityClick(facility)}
+                className="w-[280px] shrink-0 bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex flex-col group cursor-pointer hover:shadow-lg hover:border-[#2C5F2D] transition-all"
+              >
+                <div className="h-[160px] overflow-hidden bg-gray-100 relative">
+                  <img
+                    alt={facility.nama_fasilitas}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    src={facilityImage}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src =
+                        "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?w=400&q=80";
+                    }}
+                  />
                 </div>
-                <h3 className="font-bold text-gray-900 mb-4 line-clamp-1">{lab.name}</h3>
-                <button className="mt-auto w-full py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
-                  View Details <span className="material-icons-round text-base">arrow_forward</span>
-                </button>
+                <div className="p-4 flex flex-col h-[180px]">
+                  <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 h-[48px] leading-6">
+                    {facility.nama_fasilitas}
+                  </h3>
+                  <p className="text-xs text-gray-500 mb-3 line-clamp-3 flex-1 leading-relaxed">
+                    {facility.deskripsi_fasilitas?.substring(0, 120) ||
+                      "Fasilitas modern dengan peralatan lengkap untuk mendukung kegiatan akademik."}
+                    ...
+                  </p>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFacilityClick(facility);
+                    }}
+                    className="w-full py-2 rounded-xl border border-gray-200 text-xs font-semibold text-gray-700 hover:bg-[#2C5F2D] hover:text-white hover:border-[#2C5F2D] transition-colors flex items-center justify-center gap-1.5"
+                  >
+                    View Details{" "}
+                    <span className="material-icons-round text-sm">
+                      arrow_forward
+                    </span>
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
+
+        {facilitiesData.length === 0 && !loading && (
+          <div className="text-center py-12 text-gray-500">
+            <span className="material-symbols-outlined text-6xl mb-4 block">
+              apartment
+            </span>
+            <p>No facilities data available</p>
+          </div>
+        )}
       </section>
     </div>
   );
