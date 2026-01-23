@@ -38,7 +38,7 @@ const FacilityDetailModal: React.FC<FacilityDetailModalProps> = ({
   if (!isOpen || !facility) return null;
 
   // Helper untuk mendapatkan gambar fasilitas
-  const getFacilityImage = (name: string, type: string) => {
+  const getFacilityImage = () => {
     // Default placeholder image
     return `https://images.unsplash.com/photo-1562774053-701939374585?w=800&auto=format&fit=crop&q=60`;
   };
@@ -92,10 +92,7 @@ const FacilityDetailModal: React.FC<FacilityDetailModalProps> = ({
             <img
               alt={facility.nama_fasilitas}
               className="absolute inset-0 w-full h-full object-cover"
-              src={getFacilityImage(
-                facility.nama_fasilitas,
-                facility.tipe_fasilitas,
-              )}
+              src={getFacilityImage()}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent md:hidden"></div>
             <div className="absolute bottom-4 left-4 right-4 text-white md:hidden">
@@ -238,7 +235,7 @@ const FacilityDetailModal: React.FC<FacilityDetailModalProps> = ({
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 6px;
         }

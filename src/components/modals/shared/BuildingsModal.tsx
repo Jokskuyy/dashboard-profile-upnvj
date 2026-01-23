@@ -16,9 +16,6 @@ interface BuildingsModalProps {
 const BuildingsModal: React.FC<BuildingsModalProps> = ({ isOpen, onClose }) => {
   const [buildings, setBuildings] = useState<Building[]>([]);
   const [loading, setLoading] = useState(false);
-  const [facilityCounts, setFacilityCounts] = useState<Record<number, number>>(
-    {},
-  );
 
   // Disable body scroll when modal is open
   useEffect(() => {
@@ -44,19 +41,6 @@ const BuildingsModal: React.FC<BuildingsModalProps> = ({ isOpen, onClose }) => {
 
       if (buildingsError) throw buildingsError;
 
-      // Fetch facility counts per building
-      const { data: facilitiesData, error: facilitiesError } = await supabase
-        .from("fasilitas")
-        .select("id_gedung");
-
-      if (!facilitiesError && facilitiesData) {
-        const counts: Record<number, number> = {};
-        facilitiesData.forEach((f) => {
-          counts[f.id_gedung] = (counts[f.id_gedung] || 0) + 1;
-        });
-        setFacilityCounts(counts);
-      }
-
       setBuildings(buildingsData || []);
     } catch (error) {
       console.error("Error fetching buildings:", error);
@@ -69,7 +53,7 @@ const BuildingsModal: React.FC<BuildingsModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   // Helper to get building image
-  const getBuildingImage = (buildingName: string) => {
+  const getBuildingImage = () => {
     return `https://images.unsplash.com/photo-1562774053-701939374585?w=800&auto=format&fit=crop&q=60`;
   };
 
@@ -155,7 +139,7 @@ const BuildingsModal: React.FC<BuildingsModalProps> = ({ isOpen, onClose }) => {
                       <img
                         alt={`${building.nama_gedung} Facade`}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                        src={getBuildingImage(building.nama_gedung)}
+                        src={getBuildingImage()}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
                     </div>
@@ -195,7 +179,7 @@ const BuildingsModal: React.FC<BuildingsModalProps> = ({ isOpen, onClose }) => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 8px;
         }

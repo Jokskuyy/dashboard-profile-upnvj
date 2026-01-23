@@ -177,7 +177,7 @@ const CategoryFacilitiesModal: React.FC<CategoryFacilitiesModalProps> = ({
   };
 
   // Helper to get facility image
-  const getFacilityImage = (facilityName: string, facilityType: string) => {
+  const getFacilityImage = () => {
     return `https://images.unsplash.com/photo-1562774053-701939374585?w=800&auto=format&fit=crop&q=60`;
   };
 
@@ -264,10 +264,7 @@ const CategoryFacilitiesModal: React.FC<CategoryFacilitiesModalProps> = ({
                       <img
                         alt={facility.nama_fasilitas}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                        src={getFacilityImage(
-                          facility.nama_fasilitas,
-                          facility.tipe_fasilitas,
-                        )}
+                        src={getFacilityImage()}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
                     </div>
@@ -317,7 +314,7 @@ const CategoryFacilitiesModal: React.FC<CategoryFacilitiesModalProps> = ({
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 8px;
         }

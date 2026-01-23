@@ -78,14 +78,16 @@ export const getRoomById = async (roomId: number): Promise<RoomData | null> => {
 
     if (error) throw error;
 
+    const building = Array.isArray(data.gedung) ? data.gedung[0] : data.gedung;
+    
     return {
       id: data.id,
       name: data.nama_fasilitas,
       description: data.deskripsi_fasilitas || "",
-      building: data.gedung?.nama_gedung || "Unknown",
+      building: building?.nama_gedung || "Unknown",
       buildingId: data.id_gedung,
       type: data.tipe_fasilitas || "Lainnya",
-      location: data.gedung?.lokasi || "",
+      location: building?.lokasi || "",
     };
   } catch (error) {
     console.error("Error fetching room:", error);
