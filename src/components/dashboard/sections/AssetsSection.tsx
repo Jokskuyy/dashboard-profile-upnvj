@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "../../../contexts/LanguageContext";
-import { useAssets } from "../../../contexts/DashboardContext";
 import { supabase } from "../../../lib/supabase";
 import FacilityDetailModal from "../../modals/shared/FacilityDetailModal";
 import CategoryFacilitiesModal from "../../modals/shared/CategoryFacilitiesModal";
@@ -27,7 +26,6 @@ interface FacilityDetail {
 const AssetsSection: React.FC = () => {
   const { t } = useLanguage();
   const [labScrollPosition, setLabScrollPosition] = useState(0);
-  const assetsFromContext = useAssets();
 
   // State untuk data real dari database
   const [buildingsCount, setBuildingsCount] = useState(0);
@@ -155,7 +153,10 @@ const AssetsSection: React.FC = () => {
               f.tipe_fasilitas?.toLowerCase().includes("aula") ||
               f.tipe_fasilitas === "Laboratorium Komputer" ||
               f.tipe_fasilitas?.toLowerCase().includes("laboratorium"),
-          );
+          ).map(f => ({
+            ...f,
+            gedung: Array.isArray(f.gedung) ? f.gedung[0] : f.gedung
+          }));
           setFacilitiesData(featuredFacilities.slice(0, 12));
         }
 
@@ -339,49 +340,13 @@ const AssetsSection: React.FC = () => {
     },
   ];
 
-  // Helper untuk mendapatkan icon berdasarkan tipe
-  const getFacilityIcon = (type: string) => {
-    const typeMap: Record<string, string> = {
-      Laboratorium: "biotech",
-      Perpustakaan: "local_library",
-      Auditorium: "theater_comedy",
-      "Ruang Kuliah": "school",
-      Studio: "videocam",
-      Olahraga: "sports_soccer",
-    };
-    return typeMap[type] || "business";
-  };
-
-  // Helper untuk mendapatkan warna fakultas dari nama gedung
-  const getFacultyFromBuilding = (buildingName: string) => {
-    if (
-      buildingName?.includes("Kihajar") ||
-      buildingName?.includes("Komputer")
-    ) {
-      return { faculty: "FIK", color: "bg-blue-100 text-blue-700" };
-    } else if (buildingName?.includes("Teknik")) {
-      return { faculty: "FT", color: "bg-green-100 text-green-700" };
-    } else if (buildingName?.includes("Ekonomi")) {
-      return { faculty: "FEB", color: "bg-amber-100 text-amber-700" };
-    } else if (buildingName?.includes("Kesehatan")) {
-      return { faculty: "FIKES", color: "bg-red-100 text-red-700" };
-    } else if (buildingName?.includes("Hukum")) {
-      return { faculty: "FH", color: "bg-pink-100 text-pink-700" };
-    } else if (buildingName?.includes("FISIP")) {
-      return { faculty: "FISIP", color: "bg-purple-100 text-purple-700" };
-    }
-    return { faculty: "UPNVJ", color: "bg-gray-100 text-gray-700" };
-  };
-
   // Mapping gambar default untuk fasilitas berdasarkan tipe dan nama
   const getFacilityImage = (
     facilityName: string,
     facilityType: string,
-    facilityDesc: string,
   ) => {
     const name = facilityName.toLowerCase();
     const type = facilityType.toLowerCase();
-    const desc = facilityDesc?.toLowerCase() || "";
 
     // Laboratorium images
     if (type.includes("laboratorium") || type.includes("lab")) {
@@ -587,12 +552,9 @@ const AssetsSection: React.FC = () => {
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {facilitiesData.map((facility) => {
-            const buildingName =
-              (facility.gedung as any)?.nama_gedung || "Unknown";
             const facilityImage = getFacilityImage(
               facility.nama_fasilitas,
               facility.tipe_fasilitas,
-              facility.deskripsi_fasilitas || "",
             );
 
             return (
@@ -601,7 +563,7 @@ const AssetsSection: React.FC = () => {
                 onClick={() => handleFacilityClick(facility)}
                 className="w-[280px] shrink-0 bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex flex-col group cursor-pointer hover:shadow-lg hover:border-[#2C5F2D] transition-all"
               >
-                <div className="h-[160px] overflow-hidden bg-gray-100 relative">
+                <div className="h-40 overflow-hidden bg-gray-100 relative">
                   <img
                     alt={facility.nama_fasilitas}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
@@ -613,7 +575,7 @@ const AssetsSection: React.FC = () => {
                   />
                 </div>
                 <div className="p-4 flex flex-col h-[180px]">
-                  <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 h-[48px] leading-6">
+                  <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 h-12 leading-6">
                     {facility.nama_fasilitas}
                   </h3>
                   <p className="text-xs text-gray-500 mb-3 line-clamp-3 flex-1 leading-relaxed">
