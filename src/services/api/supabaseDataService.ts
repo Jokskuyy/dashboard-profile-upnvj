@@ -516,8 +516,9 @@ export const getProfessorsByFaculty = (professors: Professor[]) => {
   const facultyMap = new Map<string, number>();
 
   professors.forEach((prof) => {
-    const count = facultyMap.get(prof.faculty) || 0;
-    facultyMap.set(prof.faculty, count + 1);
+    const faculty = prof.faculty || "Unknown";
+    const count = facultyMap.get(faculty) || 0;
+    facultyMap.set(faculty, count + 1);
   });
 
   return Array.from(facultyMap.entries()).map(([faculty, count]) => ({
