@@ -119,7 +119,6 @@ export interface Fasilitas {
   color?: string;
 }
 
-
 // Department/Research Group types for professors
 export interface DepartmentData {
   id: string;

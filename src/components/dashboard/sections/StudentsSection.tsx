@@ -62,7 +62,7 @@ const StudentsSection: React.FC = () => {
   };
 
   const handleProgramClick = (program: ProgramData) => {
-    setSelectedProgram(program.id);
+    setSelectedProgram(program.id.toString());
   };
 
   const handleBackToChart = () => {

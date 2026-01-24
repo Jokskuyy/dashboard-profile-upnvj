@@ -1,5 +1,5 @@
 import { AlertTriangle } from "lucide-react";
-import type { Professor } from '../../../types';
+import type { Professor } from "../../../types";
 
 interface DeleteProfessorModalProps {
   isOpen: boolean;
@@ -33,11 +33,11 @@ export default function DeleteProfessorModal({
           <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-red-50 dark:bg-red-900/20 mb-6">
             <AlertTriangle className="w-12 h-12 text-red-600" />
           </div>
-          
+
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
             Hapus Data Dosen?
           </h2>
-          
+
           <p className="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">
             Apakah Anda yakin ingin menghapus data{" "}
             <span className="font-bold text-gray-800 dark:text-gray-200">
@@ -45,7 +45,7 @@ export default function DeleteProfessorModal({
             </span>
             ? Tindakan ini tidak dapat dibatalkan.
           </p>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <button
               type="button"

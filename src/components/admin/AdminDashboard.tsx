@@ -804,7 +804,7 @@ export default function AdminDashboard() {
                     setDeleteModal({
                       isOpen: true,
                       type: "assetDetail",
-                      id: detail.id,
+                      id: detail.id.toString(),
                       categoryId,
                       name: detail.name,
                     })
@@ -823,7 +823,7 @@ export default function AdminDashboard() {
                     setDeleteModal({
                       isOpen: true,
                       type: "program",
-                      id: program.id,
+                      id: program.id.toString(),
                       name: program.name,
                     })
                   }
@@ -1127,7 +1127,7 @@ function AccreditationsTable({
                 <td className="px-6 py-4 text-slate-600">{acc.level}</td>
                 <td className="px-6 py-4 text-slate-600">{acc.accreditor}</td>
                 <td className="px-6 py-4 text-slate-600">
-                  {new Date(acc.validUntil).toLocaleDateString("id-ID")}
+                  {acc.validUntil ? new Date(acc.validUntil).toLocaleDateString("id-ID") : "-"}
                 </td>
                 <td className="px-6 py-4">
                   <span
@@ -1265,7 +1265,7 @@ function StudentsTable({
     return pages;
   };
 
-  const totalStudents = students.reduce((sum, s) => sum + s.totalStudents, 0);
+  const totalStudents = students.reduce((sum, s) => sum + (s.totalStudents || 0), 0);
 
   return (
     <div>
@@ -1306,13 +1306,13 @@ function StudentsTable({
                   {student.faculty}
                 </td>
                 <td className="px-6 py-4 text-slate-600 text-right">
-                  {student.undergraduate.toLocaleString()}
+                  {(student.undergraduate || 0).toLocaleString()}
                 </td>
                 <td className="px-6 py-4 text-slate-600 text-right">
-                  {student.graduate.toLocaleString()}
+                  {(student.graduate || 0).toLocaleString()}
                 </td>
                 <td className="px-6 py-4 font-bold text-slate-900 text-right">
-                  {student.totalStudents.toLocaleString()}
+                  {(student.totalStudents || 0).toLocaleString()}
                 </td>
                 <td className="px-6 py-4 text-center">
                   <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1340,12 +1340,12 @@ function StudentsTable({
               </td>
               <td className="px-6 py-4 text-sm font-bold text-slate-900 text-right">
                 {students
-                  .reduce((sum, s) => sum + s.undergraduate, 0)
+                  .reduce((sum, s) => sum + (s.undergraduate || 0), 0)
                   .toLocaleString()}
               </td>
               <td className="px-4 py-3 text-sm font-bold text-gray-900 text-right">
                 {students
-                  .reduce((sum, s) => sum + s.graduate, 0)
+                  .reduce((sum, s) => sum + (s.graduate || 0), 0)
                   .toLocaleString()}
               </td>
               <td className="px-4 py-3 text-sm font-bold text-blue-600 text-right">
@@ -1608,7 +1608,7 @@ function ProgramsTable({
     return pages;
   };
 
-  const totalStudents = programs.reduce((sum, p) => sum + p.students, 0);
+  const totalStudents = programs.reduce((sum, p) => sum + (p.students || 0), 0);
 
   return (
     <div>
@@ -1655,7 +1655,7 @@ function ProgramsTable({
                 </td>
                 <td className="px-6 py-4 text-slate-600">{program.faculty}</td>
                 <td className="px-6 py-4 text-slate-900 text-right font-bold">
-                  {program.students.toLocaleString()}
+                  {(program.students || 0).toLocaleString()}
                 </td>
                 <td className="px-6 py-4 text-center">
                   <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">

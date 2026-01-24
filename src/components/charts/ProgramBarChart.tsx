@@ -16,8 +16,8 @@ const ProgramBarChart: React.FC<ProgramBarChartProps> = ({
   selectedProgram,
   clickBarText,
 }) => {
-  const maxValue = Math.max(...data.map((item) => item.students));
-  const sortedData = [...data].sort((a, b) => b.students - a.students);
+  const maxValue = Math.max(...data.map((item) => item.students || 0));
+  const sortedData = [...data].sort((a, b) => (b.students || 0) - (a.students || 0));
 
   return (
     <div className="w-full">
@@ -27,7 +27,7 @@ const ProgramBarChart: React.FC<ProgramBarChartProps> = ({
 
       <div className="space-y-3">
         {sortedData.map((program) => {
-          const percentage = (program.students / maxValue) * 100;
+          const percentage = ((program.students || 0) / maxValue) * 100;
           const isSelected = selectedProgram === program.id;
 
           return (
@@ -46,7 +46,7 @@ const ProgramBarChart: React.FC<ProgramBarChartProps> = ({
                   </span>
                 </div>
                 <span className="font-semibold text-gray-900">
-                  {program.students.toLocaleString()}
+                  {(program.students || 0).toLocaleString()}
                 </span>
               </div>
 
@@ -74,7 +74,7 @@ const ProgramBarChart: React.FC<ProgramBarChartProps> = ({
                 {/* Tooltip on hover */}
                 {onBarClick && (
                   <div className="absolute left-1/2 transform -translate-x-1/2 -top-8 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
-                    {program.students.toLocaleString()} mahasiswa
+                      {(program.students || 0).toLocaleString()} mahasiswa
                   </div>
                 )}
               </div>

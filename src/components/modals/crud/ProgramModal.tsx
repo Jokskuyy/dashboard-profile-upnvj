@@ -60,9 +60,9 @@ export default function ProgramModal({
 
     try {
       if (program && 'id' in program) {
-        await onSave({ ...formData, id: program.id });
+        await onSave({ ...formData, jenjang: formData.jenjang as "D3" | "S1" | "S2" | "S3", id: program.id });
       } else {
-        await onSave(formData);
+        await onSave({ ...formData, jenjang: formData.jenjang as "D3" | "S1" | "S2" | "S3" });
       }
       onClose();
     } catch (error) {

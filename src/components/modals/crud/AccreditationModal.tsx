@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import type { Accreditation } from '../../../types';
+import type { Accreditation } from "../../../types";
 
 interface AccreditationModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (
-    accreditation: Omit<Accreditation, "id"> | Accreditation
+    accreditation: Omit<Accreditation, "id"> | Accreditation,
   ) => Promise<void>;
   accreditation?: Accreditation;
 }
@@ -27,13 +27,13 @@ export default function AccreditationModal({
 
   useEffect(() => {
     if (!isOpen) return;
-    
+
     if (accreditation) {
       setFormData({
         status: accreditation.status || accreditation.level || "",
-        tgl_berlaku: accreditation.tgl_berlaku || accreditation.validFrom || "",
-        tgl_kadaluarsa: accreditation.tgl_kadaluarsa || accreditation.validUntil || "",
-        keterangan: accreditation.keterangan || accreditation.notes || "",
+        tgl_berlaku: typeof accreditation.tgl_berlaku === 'string' ? accreditation.tgl_berlaku : accreditation.tgl_berlaku instanceof Date ? accreditation.tgl_berlaku.toISOString().split('T')[0] : accreditation.validUntil || "",
+        tgl_kadaluarsa: typeof accreditation.tgl_kadaluarsa === 'string' ? accreditation.tgl_kadaluarsa : accreditation.tgl_kadaluarsa?.toISOString().split('T')[0] || accreditation.validUntil || "",
+        keterangan: accreditation.keterangan || "",
       });
     } else {
       setFormData({
@@ -50,7 +50,7 @@ export default function AccreditationModal({
     setLoading(true);
 
     try {
-      if (accreditation && 'id' in accreditation) {
+      if (accreditation && "id" in accreditation) {
         await onSave({ ...formData, id: accreditation.id });
       } else {
         await onSave(formData);
@@ -67,7 +67,7 @@ export default function AccreditationModal({
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
@@ -75,7 +75,7 @@ export default function AccreditationModal({
         }
       }}
     >
-      <div 
+      <div
         className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >

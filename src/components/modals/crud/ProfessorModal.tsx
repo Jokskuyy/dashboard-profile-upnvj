@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { X, Plus } from "lucide-react";
-import type { Professor, ProgramData, ProgramStudi } from '../../../types';
-import type { FacultyInfo } from '../../../services/api/dataService';
+import type { Professor, ProgramData, ProgramStudi } from "../../../types";
+import type { FacultyInfo } from "../../../services/api/dataService";
 
 interface ProfessorModalProps {
   isOpen: boolean;
@@ -17,7 +17,7 @@ export default function ProfessorModal({
   onClose,
   onSave,
   professor,
-  faculties,
+
   programs = [],
 }: ProfessorModalProps) {
   const [formData, setFormData] = useState({
@@ -36,7 +36,7 @@ export default function ProfessorModal({
 
   useEffect(() => {
     if (!isOpen) return;
-    
+
     if (professor) {
       // Parse kompetensi from JSON string to array
       let expertiseArray: string[] = [];
@@ -46,7 +46,9 @@ export default function ProfessorModal({
         }
       } catch (e) {
         // If not JSON, treat as comma-separated string
-        expertiseArray = professor.kompetensi ? professor.kompetensi.split(',').map(s => s.trim()) : [];
+        expertiseArray = professor.kompetensi
+          ? professor.kompetensi.split(",").map((s) => s.trim())
+          : [];
       }
 
       setFormData({
@@ -61,10 +63,13 @@ export default function ProfessorModal({
         id_gs: professor.id_gs || "",
       });
     } else {
-      const defaultProdiId = programs.length > 0 
-        ? (typeof programs[0].id === 'string' ? parseInt(programs[0].id) : programs[0].id) 
-        : 0;
-        
+      const defaultProdiId =
+        programs.length > 0
+          ? typeof programs[0].id === "string"
+            ? parseInt(programs[0].id)
+            : programs[0].id
+          : 0;
+
       setFormData({
         nidn: "",
         nama_dosen: "",
@@ -124,7 +129,7 @@ export default function ProfessorModal({
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       onClick={(e) => {
         // Close modal when clicking on backdrop
@@ -133,7 +138,7 @@ export default function ProfessorModal({
         }
       }}
     >
-      <div 
+      <div
         className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-xl shadow-2xl my-8 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
@@ -156,7 +161,10 @@ export default function ProfessorModal({
             {/* Left Column */}
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" htmlFor="nidn">
+                <label
+                  className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                  htmlFor="nidn"
+                >
                   NIP / NIDN *
                 </label>
                 <input
@@ -164,14 +172,19 @@ export default function ProfessorModal({
                   id="nidn"
                   required
                   value={formData.nidn}
-                  onChange={(e) => setFormData({ ...formData, nidn: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, nidn: e.target.value })
+                  }
                   className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
                   placeholder="Contoh: 198501012015011001"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" htmlFor="nama_dosen">
+                <label
+                  className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                  htmlFor="nama_dosen"
+                >
                   Nama Lengkap *
                 </label>
                 <input
@@ -179,14 +192,19 @@ export default function ProfessorModal({
                   id="nama_dosen"
                   required
                   value={formData.nama_dosen}
-                  onChange={(e) => setFormData({ ...formData, nama_dosen: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, nama_dosen: e.target.value })
+                  }
                   className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
                   placeholder="Contoh: Dr. Jane Doe, S.Kom., M.TI."
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" htmlFor="email">
+                <label
+                  className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                  htmlFor="email"
+                >
                   Email Institusi *
                 </label>
                 <input
@@ -194,30 +212,45 @@ export default function ProfessorModal({
                   id="email"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
                   placeholder="nama@upnvj.ac.id"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" htmlFor="id_prodi">
+                <label
+                  className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                  htmlFor="id_prodi"
+                >
                   Program Studi *
                 </label>
                 <select
                   id="id_prodi"
                   required
                   value={formData.id_prodi}
-                  onChange={(e) => setFormData({ ...formData, id_prodi: parseInt(e.target.value) })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      id_prodi: parseInt(e.target.value),
+                    })
+                  }
                   className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none appearance-none cursor-pointer"
                 >
                   <option value="">Pilih Program Studi</option>
                   {programs.map((prodi) => {
                     // Handle both ProgramData and ProgramStudi types
-                    const prodiId = typeof prodi.id === 'string' ? parseInt(prodi.id) : prodi.id;
-                    const prodiName = 'nama_prodi' in prodi ? prodi.nama_prodi : prodi.name;
-                    const prodiLevel = 'jenjang' in prodi ? prodi.jenjang : prodi.level;
-                    
+                    const prodiId =
+                      typeof prodi.id === "string"
+                        ? parseInt(prodi.id)
+                        : prodi.id;
+                    const prodiName =
+                      "nama_prodi" in prodi ? prodi.nama_prodi : prodi.name;
+                    const prodiLevel =
+                      "jenjang" in prodi ? prodi.jenjang : prodi.level;
+
                     return (
                       <option key={prodiId} value={prodiId}>
                         {prodiName} ({prodiLevel})
@@ -231,7 +264,10 @@ export default function ProfessorModal({
             {/* Right Column */}
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" htmlFor="jabatan_fungsional">
+                <label
+                  className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                  htmlFor="jabatan_fungsional"
+                >
                   Jabatan Fungsional *
                 </label>
                 <input
@@ -239,14 +275,22 @@ export default function ProfessorModal({
                   id="jabatan_fungsional"
                   required
                   value={formData.jabatan_fungsional}
-                  onChange={(e) => setFormData({ ...formData, jabatan_fungsional: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      jabatan_fungsional: e.target.value,
+                    })
+                  }
                   className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
                   placeholder="Contoh: Profesor, Lektor Kepala, Asisten Ahli"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2" htmlFor="kompetensi">
+                <label
+                  className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"
+                  htmlFor="kompetensi"
+                >
                   Kepakaran / Kompetensi
                 </label>
                 <div className="flex gap-2">
@@ -255,7 +299,9 @@ export default function ProfessorModal({
                     id="kompetensi"
                     value={expertiseInput}
                     onChange={(e) => setExpertiseInput(e.target.value)}
-                    onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addExpertise())}
+                    onKeyPress={(e) =>
+                      e.key === "Enter" && (e.preventDefault(), addExpertise())
+                    }
                     className="flex-1 px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
                     placeholder="Tambah keahlian..."
                   />
@@ -296,42 +342,57 @@ export default function ProfessorModal({
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
-                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2" htmlFor="id_sinta">
+                <label
+                  className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2"
+                  htmlFor="id_sinta"
+                >
                   ID SINTA
                 </label>
                 <input
                   type="text"
                   id="id_sinta"
                   value={formData.id_sinta}
-                  onChange={(e) => setFormData({ ...formData, id_sinta: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, id_sinta: e.target.value })
+                  }
                   className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
                   placeholder="Contoh: 6021453"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2" htmlFor="id_scopus">
+                <label
+                  className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2"
+                  htmlFor="id_scopus"
+                >
                   ID SCOPUS
                 </label>
                 <input
                   type="text"
                   id="id_scopus"
                   value={formData.id_scopus}
-                  onChange={(e) => setFormData({ ...formData, id_scopus: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, id_scopus: e.target.value })
+                  }
                   className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
                   placeholder="Contoh: 5720490000"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2" htmlFor="id_gs">
+                <label
+                  className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-2"
+                  htmlFor="id_gs"
+                >
                   ID GOOGLE SCHOLAR
                 </label>
                 <input
                   type="text"
                   id="id_gs"
                   value={formData.id_gs}
-                  onChange={(e) => setFormData({ ...formData, id_gs: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, id_gs: e.target.value })
+                  }
                   className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
                   placeholder="Contoh: rYv_X_8AAAAJ"
                 />
@@ -353,7 +414,11 @@ export default function ProfessorModal({
               disabled={loading}
               className="w-full sm:w-auto px-10 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-lg shadow-emerald-500/20 transition-all disabled:opacity-50"
             >
-              {loading ? "Menyimpan..." : professor ? "Perbarui Data" : "Simpan Data"}
+              {loading
+                ? "Menyimpan..."
+                : professor
+                  ? "Perbarui Data"
+                  : "Simpan Data"}
             </button>
           </div>
         </form>

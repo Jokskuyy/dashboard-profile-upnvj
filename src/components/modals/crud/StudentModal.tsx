@@ -28,7 +28,7 @@ export default function StudentModal({
 
   useEffect(() => {
     if (!isOpen) return;
-    
+
     if (student) {
       setFormData({
         nim: student.nim || "",
@@ -38,10 +38,13 @@ export default function StudentModal({
         id_prodi: student.id_prodi || 0,
       });
     } else {
-      const defaultProdiId = programs.length > 0 
-        ? (typeof programs[0].id === 'string' ? parseInt(programs[0].id) : programs[0].id) 
-        : 0;
-        
+      const defaultProdiId =
+        programs.length > 0
+          ? typeof programs[0].id === "string"
+            ? parseInt(programs[0].id)
+            : programs[0].id
+          : 0;
+
       setFormData({
         nim: "",
         nama_mahasiswa: "",
@@ -57,7 +60,7 @@ export default function StudentModal({
     setLoading(true);
 
     try {
-      if (student && 'id' in student) {
+      if (student && "id" in student) {
         await onSave({ ...formData, id: student.id });
       } else {
         await onSave(formData);
@@ -74,7 +77,7 @@ export default function StudentModal({
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
@@ -82,7 +85,7 @@ export default function StudentModal({
         }
       }}
     >
-      <div 
+      <div
         className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
@@ -109,7 +112,9 @@ export default function StudentModal({
               type="text"
               required
               value={formData.nim}
-              onChange={(e) => setFormData({ ...formData, nim: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, nim: e.target.value })
+              }
               className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
               placeholder="Contoh: 2021123456"
             />
@@ -123,7 +128,9 @@ export default function StudentModal({
               type="text"
               required
               value={formData.nama_mahasiswa}
-              onChange={(e) => setFormData({ ...formData, nama_mahasiswa: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, nama_mahasiswa: e.target.value })
+              }
               className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
               placeholder="Contoh: John Doe"
             />
@@ -138,7 +145,12 @@ export default function StudentModal({
                 type="number"
                 required
                 value={formData.angkatan}
-                onChange={(e) => setFormData({ ...formData, angkatan: parseInt(e.target.value) })}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    angkatan: parseInt(e.target.value),
+                  })
+                }
                 className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
                 placeholder="2021"
                 min="2000"
@@ -153,7 +165,9 @@ export default function StudentModal({
               <select
                 required
                 value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.value })
+                }
                 className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none appearance-none cursor-pointer"
               >
                 <option value="Aktif">Aktif</option>
@@ -172,15 +186,18 @@ export default function StudentModal({
             <select
               required
               value={formData.id_prodi}
-              onChange={(e) => setFormData({ ...formData, id_prodi: parseInt(e.target.value) })}
+              onChange={(e) =>
+                setFormData({ ...formData, id_prodi: parseInt(e.target.value) })
+              }
               className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none appearance-none cursor-pointer"
             >
               <option value="">Pilih Program Studi</option>
               {programs.map((prodi) => {
-                const prodiId = typeof prodi.id === 'string' ? parseInt(prodi.id) : prodi.id;
+                const prodiId =
+                  typeof prodi.id === "string" ? parseInt(prodi.id) : prodi.id;
                 const prodiName = prodi.nama_prodi || prodi.name;
                 const prodiLevel = prodi.jenjang || prodi.level;
-                
+
                 return (
                   <option key={prodiId} value={prodiId}>
                     {prodiName} ({prodiLevel})

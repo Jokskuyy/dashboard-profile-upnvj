@@ -31,9 +31,9 @@ export default function AssetDetailModal({
   useEffect(() => {
     if (detail) {
       setFormData({
-        name: detail.name,
-        room: detail.room,
-        building: detail.building,
+        name: detail.name || "",
+        room: detail.room || "",
+        building: detail.building || "",
         capacity: detail.capacity || 0,
         equipment: detail.equipment || [],
         description: detail.description || "",

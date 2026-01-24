@@ -36,7 +36,6 @@ export {
 export type {
   FacultyInfo,
   DashboardData,
-  AssetDetail,
 } from "./supabaseDataService";
 
 import type { DashboardData } from "./supabaseDataService";
@@ -46,7 +45,7 @@ import type { DashboardData } from "./supabaseDataService";
  * Data is automatically saved to Supabase via CRUD operations
  */
 export const saveDashboardData = async (
-  _data: DashboardData
+  _data: DashboardData,
 ): Promise<boolean> => {
   try {
     // With Supabase, data is saved automatically via CRUD operations

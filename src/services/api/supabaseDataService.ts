@@ -541,7 +541,7 @@ export const getStudentsByFaculty = (students: StudentData[]) => {
 export const getTotalStats = (data: DashboardData) => {
   const totalStudents = data.students.reduce(
     (sum, faculty) =>
-      sum + (faculty.undergraduate + faculty.postgraduate + faculty.graduate),
+      sum + ((faculty.undergraduate || 0) + (faculty.postgraduate || 0) + (faculty.graduate || 0)),
     0,
   );
 
@@ -1035,9 +1035,9 @@ export const createDepartment = async (
   });
 
   return {
-    id: program.id,
-    name: program.name,
-    faculty: program.faculty,
+    id: program.id.toString(),
+    name: program.name || "",
+    faculty: program.faculty || "",
     professors: 0,
     color: department.color,
     description: department.description,
@@ -1057,9 +1057,9 @@ export const updateDepartment = async (
   });
 
   return {
-    id: program.id,
-    name: program.name,
-    faculty: program.faculty,
+    id: program.id.toString(),
+    name: program.name || "",
+    faculty: program.faculty || "",
     professors: department.professors || 0,
     color: department.color,
     description: department.description,
