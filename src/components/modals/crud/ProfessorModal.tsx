@@ -63,7 +63,7 @@ export default function ProfessorModal({
         nidn: "",
         nama_dosen: "",
         jabatan_fungsional: "",
-        id_prodi: programs.length > 0 ? parseInt(programs[0].id) : 0,
+        id_prodi: programs.length > 0 ? (typeof programs[0].id === 'string' ? parseInt(programs[0].id) : programs[0].id) : 0,
         expertise: [],
         email: "",
         id_sinta: "",

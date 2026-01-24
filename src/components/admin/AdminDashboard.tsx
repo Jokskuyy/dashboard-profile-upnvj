@@ -190,7 +190,7 @@ export default function AdminDashboard() {
     try {
       if ("id" in professor) {
         // Update existing
-        await updateProfessor(professor.id, professor);
+        await updateProfessor(professor.id.toString(), professor);
         showToast("Data dosen berhasil diupdate", "success");
       } else {
         // Create new
@@ -730,8 +730,8 @@ export default function AdminDashboard() {
                     setDeleteModal({
                       isOpen: true,
                       type: "professor",
-                      id: professor.id,
-                      name: professor.name,
+                      id: professor.id.toString(),
+                      name: professor.nama_dosen || professor.name || "Unknown",
                     })
                   }
                 />
@@ -932,11 +932,11 @@ function ProfessorsTable({
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
-                      {prof.name.substring(0, 2).toUpperCase()}
+                      {(prof.nama_dosen || prof.name || "NA").substring(0, 2).toUpperCase()}
                     </div>
                     <div>
                       <p className="font-semibold text-slate-900">
-                        {prof.name}
+                        {prof.nama_dosen || prof.name}
                       </p>
                       <p className="text-xs text-slate-500">{prof.email}</p>
                     </div>

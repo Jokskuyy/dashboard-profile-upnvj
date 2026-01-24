@@ -137,15 +137,38 @@ const fetchProfessors = async (): Promise<Professor[]> => {
 
     if (error) throw error;
 
-    return data.map((dosen: any) => ({
-      id: dosen.id.toString(),
-      name: dosen.nama_dosen,
-      title: dosen.jabatan_fungsional || "Dosen",
-      faculty: dosen.program_studi?.fakultas?.nama_fakultas || "Unknown",
-      expertise: [dosen.program_studi?.nama_prodi || ""],
-      email: dosen.email || "",
-      image: undefined,
-    }));
+    return data.map((dosen: any) => {
+      // Parse kompetensi safely
+      let expertiseArray: string[] = [];
+      try {
+        if (dosen.kompetensi) {
+          expertiseArray = JSON.parse(dosen.kompetensi);
+        } else {
+          expertiseArray = [dosen.program_studi?.nama_prodi || ""];
+        }
+      } catch (e) {
+        // If not valid JSON, use program studi name as fallback
+        expertiseArray = [dosen.program_studi?.nama_prodi || ""];
+      }
+
+      return {
+        id: dosen.id,
+        nidn: dosen.nidn,
+        nama_dosen: dosen.nama_dosen,
+        email: dosen.email || "",
+        jabatan_fungsional: dosen.jabatan_fungsional || "Dosen",
+        id_prodi: dosen.id_prodi,
+        id_scopus: dosen.id_scopus || undefined,
+        id_gs: dosen.id_gs || undefined,
+        id_sinta: dosen.id_sinta || undefined,
+        kompetensi: dosen.kompetensi || undefined,
+        // Virtual fields for display compatibility
+        name: dosen.nama_dosen,
+        title: dosen.jabatan_fungsional || "Dosen",
+        faculty: dosen.program_studi?.fakultas?.nama_fakultas || "Unknown",
+        expertise: expertiseArray,
+      };
+    });
   } catch (error) {
     console.error("Error fetching professors:", error);
     return [];
@@ -577,38 +600,57 @@ export const createProfessor = async (
 ): Promise<Professor> => {
   clearCache();
 
-  // Get program_studi id from faculty name
-  const { data: prodi, error: prodiError } = await supabase
-    .from("program_studi")
-    .select("id, fakultas(nama_fakultas)")
-    .limit(1)
-    .single();
-
-  if (prodiError || !prodi) {
-    throw new Error("Program studi tidak ditemukan");
-  }
-
   const { data, error } = await supabase
     .from("dosen")
     .insert({
-      nidn: `NIDN-${Date.now()}`,
-      nama_dosen: professor.name,
+      nidn: professor.nidn || `NIDN-${Date.now()}`,
+      nama_dosen: professor.nama_dosen || professor.name,
       email: professor.email,
-      jabatan_fungsional: professor.title,
-      id_prodi: prodi.id,
+      jabatan_fungsional: professor.jabatan_fungsional || professor.title,
+      id_prodi: professor.id_prodi,
+      id_scopus: professor.id_scopus || null,
+      id_gs: professor.id_gs || null,
+      id_sinta: professor.id_sinta || null,
+      kompetensi: professor.kompetensi || (professor.expertise ? JSON.stringify(professor.expertise) : null),
     })
-    .select()
+    .select(`
+      *,
+      program_studi (
+        nama_prodi,
+        jenjang,
+        fakultas (
+          nama_fakultas
+        )
+      )
+    `)
     .single();
 
   if (error) throw error;
 
+  let expertiseArray: string[] = [];
+  try {
+    if (data.kompetensi) {
+      expertiseArray = JSON.parse(data.kompetensi);
+    }
+  } catch (e) {
+    expertiseArray = [];
+  }
+
   return {
-    id: data.id.toString(),
+    id: data.id,
+    nidn: data.nidn,
+    nama_dosen: data.nama_dosen,
+    email: data.email || "",
+    jabatan_fungsional: data.jabatan_fungsional || "Dosen",
+    id_prodi: data.id_prodi,
+    id_scopus: data.id_scopus,
+    id_gs: data.id_gs,
+    id_sinta: data.id_sinta,
+    kompetensi: data.kompetensi,
     name: data.nama_dosen,
     title: data.jabatan_fungsional || "Dosen",
-    faculty: professor.faculty,
-    expertise: professor.expertise,
-    email: data.email || "",
+    faculty: data.program_studi?.fakultas?.nama_fakultas || "Unknown",
+    expertise: expertiseArray,
   };
 };
 
@@ -619,35 +661,62 @@ export const updateProfessor = async (
   clearCache();
 
   const updateData: any = {};
-  if (professor.name) updateData.nama_dosen = professor.name;
+  if (professor.nidn) updateData.nidn = professor.nidn;
+  if (professor.nama_dosen || professor.name) updateData.nama_dosen = professor.nama_dosen || professor.name;
   if (professor.email) updateData.email = professor.email;
-  if (professor.title) updateData.jabatan_fungsional = professor.title;
+  if (professor.jabatan_fungsional || professor.title) updateData.jabatan_fungsional = professor.jabatan_fungsional || professor.title;
+  if (professor.id_prodi) updateData.id_prodi = professor.id_prodi;
+  if (professor.id_scopus !== undefined) updateData.id_scopus = professor.id_scopus;
+  if (professor.id_gs !== undefined) updateData.id_gs = professor.id_gs;
+  if (professor.id_sinta !== undefined) updateData.id_sinta = professor.id_sinta;
+  if (professor.kompetensi !== undefined) {
+    updateData.kompetensi = professor.kompetensi;
+  } else if (professor.expertise) {
+    updateData.kompetensi = JSON.stringify(professor.expertise);
+  }
 
   const { data, error } = await supabase
     .from("dosen")
     .update(updateData)
     .eq("id", parseInt(id))
-    .select(
-      `
+    .select(`
       *,
       program_studi (
+        nama_prodi,
+        jenjang,
         fakultas (
           nama_fakultas
         )
       )
-    `,
-    )
+    `)
     .single();
 
   if (error) throw error;
 
+  let expertiseArray: string[] = [];
+  try {
+    if (data.kompetensi) {
+      expertiseArray = JSON.parse(data.kompetensi);
+    }
+  } catch (e) {
+    expertiseArray = [];
+  }
+
   return {
-    id: data.id.toString(),
+    id: data.id,
+    nidn: data.nidn,
+    nama_dosen: data.nama_dosen,
+    email: data.email || "",
+    jabatan_fungsional: data.jabatan_fungsional || "Dosen",
+    id_prodi: data.id_prodi,
+    id_scopus: data.id_scopus,
+    id_gs: data.id_gs,
+    id_sinta: data.id_sinta,
+    kompetensi: data.kompetensi,
     name: data.nama_dosen,
     title: data.jabatan_fungsional || "Dosen",
     faculty: data.program_studi?.fakultas?.nama_fakultas || "Unknown",
-    expertise: professor.expertise || [],
-    email: data.email || "",
+    expertise: expertiseArray,
   };
 };
 
