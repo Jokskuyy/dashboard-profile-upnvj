@@ -118,8 +118,19 @@ export default function ProfessorModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
-      <div className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-xl shadow-2xl my-8">
+    <div 
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      onClick={(e) => {
+        // Close modal when clicking on backdrop
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <div 
+        className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-xl shadow-2xl my-8 max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="bg-emerald-600 px-8 py-5 flex items-center justify-between">
           <h2 className="text-white text-xl font-bold tracking-tight">
