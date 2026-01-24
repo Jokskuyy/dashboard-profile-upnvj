@@ -212,13 +212,3 @@ export default function ProgramModal({
     </div>
   );
 }
-
-            >
-              {loading ? "Menyimpan..." : "Simpan"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-}
