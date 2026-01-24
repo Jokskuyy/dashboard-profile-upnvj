@@ -35,6 +35,8 @@ export default function ProfessorModal({
   const [expertiseInput, setExpertiseInput] = useState("");
 
   useEffect(() => {
+    if (!isOpen) return;
+    
     if (professor) {
       // Parse kompetensi from JSON string to array
       let expertiseArray: string[] = [];
@@ -59,11 +61,15 @@ export default function ProfessorModal({
         id_gs: professor.id_gs || "",
       });
     } else {
+      const defaultProdiId = programs.length > 0 
+        ? (typeof programs[0].id === 'string' ? parseInt(programs[0].id) : programs[0].id) 
+        : 0;
+        
       setFormData({
         nidn: "",
         nama_dosen: "",
         jabatan_fungsional: "",
-        id_prodi: programs.length > 0 ? (typeof programs[0].id === 'string' ? parseInt(programs[0].id) : programs[0].id) : 0,
+        id_prodi: defaultProdiId,
         expertise: [],
         email: "",
         id_sinta: "",
@@ -71,7 +77,7 @@ export default function ProfessorModal({
         id_gs: "",
       });
     }
-  }, [professor, faculties, programs, isOpen]);
+  }, [professor, isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
