@@ -738,41 +738,32 @@ export const createAccreditation = async (
 ): Promise<Accreditation> => {
   clearCache();
 
-  // First create akreditasi record
+  // Create akreditasi record dengan field database
   const { data: akrData, error: akrError } = await supabase
     .from("akreditasi")
     .insert({
-      status: accreditation.level,
-      tgl_berlaku: new Date().toISOString().split("T")[0],
-      tgl_kadaluarsa: accreditation.validUntil,
-      keterangan: `Akreditasi ${accreditation.level} oleh ${accreditation.accreditor}`,
+      status: accreditation.status || accreditation.level || "Belum Akreditasi",
+      tgl_berlaku: accreditation.tgl_berlaku || new Date().toISOString().split("T")[0],
+      tgl_kadaluarsa: accreditation.tgl_kadaluarsa || accreditation.validUntil,
+      keterangan: accreditation.keterangan || `Akreditasi ${accreditation.level || accreditation.status} oleh ${accreditation.accreditor || 'BAN-PT'}`,
     })
     .select()
     .single();
 
   if (akrError) throw akrError;
 
-  // Then create program_studi
-  const { data: prodiData, error: prodiError } = await supabase
-    .from("program_studi")
-    .insert({
-      nama_prodi: accreditation.program.split(" (")[0],
-      jenjang: "S1",
-      id_fakultas: 1, // Default to first faculty
-      id_akreditasi: akrData.id,
-    })
-    .select()
-    .single();
-
-  if (prodiError) throw prodiError;
-
+  // Return dengan format yang include database fields
   return {
-    id: prodiData.id.toString(),
+    id: akrData.id,
+    status: akrData.status,
+    tgl_berlaku: akrData.tgl_berlaku,
+    tgl_kadaluarsa: akrData.tgl_kadaluarsa,
+    keterangan: akrData.keterangan,
+    // Virtual fields
     program: accreditation.program,
-    level: accreditation.level,
-    accreditor: accreditation.accreditor,
-    validUntil: accreditation.validUntil,
-    status: accreditation.status,
+    level: akrData.status,
+    accreditor: accreditation.accreditor || "BAN-PT",
+    validUntil: akrData.tgl_kadaluarsa,
   };
 };
 
@@ -782,40 +773,41 @@ export const updateAccreditation = async (
 ): Promise<Accreditation> => {
   clearCache();
 
+  const updateData: any = {};
+  if (accreditation.status) updateData.status = accreditation.status;
+  if (accreditation.tgl_berlaku) updateData.tgl_berlaku = accreditation.tgl_berlaku;
+  if (accreditation.tgl_kadaluarsa) updateData.tgl_kadaluarsa = accreditation.tgl_kadaluarsa;
+  if (accreditation.validUntil) updateData.tgl_kadaluarsa = accreditation.validUntil;
+  if (accreditation.keterangan) updateData.keterangan = accreditation.keterangan;
+  if (accreditation.level) updateData.status = accreditation.level;
+
   const { data, error } = await supabase
-    .from("program_studi")
-    .select("*, akreditasi(*)")
+    .from("akreditasi")
+    .update(updateData)
     .eq("id", parseInt(id))
+    .select()
     .single();
 
   if (error) throw error;
 
-  // Update akreditasi if it exists
-  if (data.id_akreditasi && accreditation.validUntil) {
-    await supabase
-      .from("akreditasi")
-      .update({
-        tgl_kadaluarsa: accreditation.validUntil,
-        status: accreditation.level || data.akreditasi.status,
-      })
-      .eq("id", data.id_akreditasi);
-  }
-
   return {
-    id: data.id.toString(),
-    program: accreditation.program || data.nama_prodi,
-    level: accreditation.level || data.akreditasi?.status || "",
+    id: data.id,
+    status: data.status,
+    tgl_berlaku: data.tgl_berlaku,
+    tgl_kadaluarsa: data.tgl_kadaluarsa,
+    keterangan: data.keterangan,
+    // Virtual fields
+    program: accreditation.program,
+    level: data.status,
     accreditor: accreditation.accreditor || "BAN-PT",
-    validUntil:
-      accreditation.validUntil || data.akreditasi?.tgl_kadaluarsa || "",
-    status: accreditation.status || "pending",
+    validUntil: data.tgl_kadaluarsa,
   };
 };
 
 export const deleteAccreditation = async (id: string): Promise<void> => {
   clearCache();
   const { error } = await supabase
-    .from("program_studi")
+    .from("akreditasi")
     .delete()
     .eq("id", parseInt(id));
 
@@ -825,31 +817,74 @@ export const deleteAccreditation = async (id: string): Promise<void> => {
 // ===== STUDENTS CRUD =====
 
 export const createStudentData = async (
-  student: Omit<StudentData, "facultyId">,
+  student: Omit<StudentData, "id">,
 ): Promise<StudentData> => {
   clearCache();
-  // This would require creating individual mahasiswa records
-  // For simplicity, we return the input data
+  
+  const { data, error } = await supabase
+    .from("mahasiswa")
+    .insert({
+      nim: student.nim || `MHS-${Date.now()}`,
+      nama_mahasiswa: student.nama_mahasiswa || "Mahasiswa Baru",
+      angkatan: student.angkatan || new Date().getFullYear(),
+      status: student.status || "Aktif",
+      id_prodi: student.id_prodi || 1,
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+
   return {
-    ...student,
-    totalStudents:
-      student.undergraduate + student.graduate + student.postgraduate,
+    id: data.id,
+    nim: data.nim,
+    nama_mahasiswa: data.nama_mahasiswa,
+    angkatan: data.angkatan,
+    status: data.status,
+    id_prodi: data.id_prodi,
   };
 };
 
 export const updateStudentData = async (
-  _facultyId: string,
+  id: string,
   student: Partial<StudentData>,
 ): Promise<StudentData> => {
   clearCache();
-  // This would require updating mahasiswa records
-  // For simplicity, we return the updated data
-  return student as StudentData;
+  
+  const updateData: any = {};
+  if (student.nim) updateData.nim = student.nim;
+  if (student.nama_mahasiswa) updateData.nama_mahasiswa = student.nama_mahasiswa;
+  if (student.angkatan) updateData.angkatan = student.angkatan;
+  if (student.status) updateData.status = student.status;
+  if (student.id_prodi) updateData.id_prodi = student.id_prodi;
+
+  const { data, error } = await supabase
+    .from("mahasiswa")
+    .update(updateData)
+    .eq("id", parseInt(id))
+    .select()
+    .single();
+
+  if (error) throw error;
+
+  return {
+    id: data.id,
+    nim: data.nim,
+    nama_mahasiswa: data.nama_mahasiswa,
+    angkatan: data.angkatan,
+    status: data.status,
+    id_prodi: data.id_prodi,
+  };
 };
 
-export const deleteStudentData = async (_facultyId: string): Promise<void> => {
+export const deleteStudentData = async (id: string): Promise<void> => {
   clearCache();
-  // This would require deleting mahasiswa records by faculty
+  const { error } = await supabase
+    .from("mahasiswa")
+    .delete()
+    .eq("id", parseInt(id));
+
+  if (error) throw error;
 };
 
 // ===== PROGRAMS CRUD =====
@@ -859,32 +894,48 @@ export const createProgram = async (
 ): Promise<ProgramData> => {
   clearCache();
 
-  // Get faculty id from name
-  const { data: fakultas, error: fakultasError } = await supabase
-    .from("fakultas")
-    .select("id")
-    .eq("nama_fakultas", program.faculty)
-    .single();
+  let fakultasId = program.id_fakultas;
+  
+  // If faculty name provided, get faculty id
+  if (!fakultasId && program.faculty) {
+    const { data: fakultas, error: fakultasError } = await supabase
+      .from("fakultas")
+      .select("id")
+      .eq("nama_fakultas", program.faculty)
+      .single();
 
-  if (fakultasError) throw fakultasError;
+    if (fakultasError) throw fakultasError;
+    fakultasId = fakultas.id;
+  }
 
   const { data, error } = await supabase
     .from("program_studi")
     .insert({
-      nama_prodi: program.name,
-      jenjang: program.level,
-      id_fakultas: fakultas.id,
+      nama_prodi: program.nama_prodi || program.name,
+      jenjang: program.jenjang || program.level,
+      id_fakultas: fakultasId || 1,
+      id_akreditasi: program.id_akreditasi || null,
     })
-    .select()
+    .select(`
+      *,
+      fakultas (
+        nama_fakultas
+      )
+    `)
     .single();
 
   if (error) throw error;
 
   return {
-    id: data.id.toString(),
+    id: data.id,
+    nama_prodi: data.nama_prodi,
+    jenjang: data.jenjang as "D3" | "S1" | "S2" | "S3",
+    id_fakultas: data.id_fakultas,
+    id_akreditasi: data.id_akreditasi,
+    // Virtual fields
     name: data.nama_prodi,
     level: data.jenjang as "D3" | "S1" | "S2",
-    faculty: program.faculty,
+    faculty: data.fakultas?.nama_fakultas || "",
     students: 0,
     color: program.color,
   };
@@ -897,27 +948,32 @@ export const updateProgram = async (
   clearCache();
 
   const updateData: any = {};
-  if (program.name) updateData.nama_prodi = program.name;
-  if (program.level) updateData.jenjang = program.level;
+  if (program.nama_prodi || program.name) updateData.nama_prodi = program.nama_prodi || program.name;
+  if (program.jenjang || program.level) updateData.jenjang = program.jenjang || program.level;
+  if (program.id_fakultas) updateData.id_fakultas = program.id_fakultas;
+  if (program.id_akreditasi !== undefined) updateData.id_akreditasi = program.id_akreditasi;
 
   const { data, error } = await supabase
     .from("program_studi")
     .update(updateData)
     .eq("id", parseInt(id))
-    .select(
-      `
+    .select(`
       *,
       fakultas (
         nama_fakultas
       )
-    `,
-    )
+    `)
     .single();
 
   if (error) throw error;
 
   return {
-    id: data.id.toString(),
+    id: data.id,
+    nama_prodi: data.nama_prodi,
+    jenjang: data.jenjang as "D3" | "S1" | "S2" | "S3",
+    id_fakultas: data.id_fakultas,
+    id_akreditasi: data.id_akreditasi,
+    // Virtual fields
     name: data.nama_prodi,
     level: data.jenjang as "D3" | "S1" | "S2",
     faculty: data.fakultas?.nama_fakultas || "Unknown",
