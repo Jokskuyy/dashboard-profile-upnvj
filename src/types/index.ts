@@ -3,13 +3,21 @@ export type Language = "id" | "en";
 
 // KPI data types
 export interface Professor {
-  id: string;
-  name: string;
-  title: string;
-  faculty: string;
-  expertise: string[];
+  id: number;
+  nidn: string;
+  nama_dosen: string;
   email: string;
-  image?: string;
+  jabatan_fungsional: string;
+  id_prodi: number;
+  id_scopus?: string;
+  id_gs?: string;
+  id_sinta?: string;
+  kompetensi?: string;
+  // Virtual fields for display
+  name?: string; // Alias for nama_dosen
+  title?: string; // Alias for jabatan_fungsional
+  faculty?: string; // From join with program_studi
+  expertise?: string[]; // Parsed from kompetensi JSON string
 }
 
 export interface Accreditation {
@@ -38,6 +46,63 @@ export interface ProgramData {
   students: number;
   color?: string;
 }
+
+// Database Program Studi type (for Supabase)
+export interface ProgramStudi {
+  id: number;
+  nama_prodi: string;
+  jenjang: "D3" | "S1" | "S2" | "S3";
+  id_fakultas: number;
+  id_akreditasi?: number;
+}
+
+// Database Fakultas type (for Supabase)
+export interface Fakultas {
+  id: number;
+  nama_fakultas: string;
+  deskripsi_fakultas?: string;
+  email?: string;
+  website?: string;
+  id_gedung_utama?: number;
+}
+
+// Database Mahasiswa type (for Supabase)
+export interface Mahasiswa {
+  id: number;
+  nim: string;
+  nama_mahasiswa: string;
+  angkatan: number;
+  status: string;
+  id_prodi: number;
+}
+
+// Database Akreditasi type (for Supabase)
+export interface AkreditasiDB {
+  id: number;
+  status: string;
+  tgl_berlaku?: Date;
+  tgl_kadaluarsa?: Date;
+  keterangan?: string;
+}
+
+// Database Gedung type (for Supabase)
+export interface Gedung {
+  id: number;
+  nama_gedung: string;
+  deskripsi_gedung?: string;
+  lokasi?: string;
+}
+
+// Database Fasilitas type (for Supabase)
+export interface Fasilitas {
+  id: number;
+  nama_fasilitas: string;
+  deskripsi_fasilitas?: string;
+  tipe_fasilitas?: string;
+  id_gedung: number;
+  color?: string;
+}
+
 
 // Department/Research Group types for professors
 export interface DepartmentData {
