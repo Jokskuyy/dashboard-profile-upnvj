@@ -26,7 +26,7 @@ const Login: React.FC = () => {
       heroTitle: "Memberdayakan Masa Depan Pendidikan",
       heroSubtitle:
         "Akses aman untuk Administrasi UPNVJ. Kelola sumber daya, mahasiswa, dan dosen secara efisien.",
-      footer: "© 2024 Administrasi UPNVJ. Hak cipta dilindungi.",
+      footer: "© 2026 Administrasi UPNVJ. Hak cipta dilindungi.",
     },
     en: {
       title: "Welcome Back",
@@ -38,7 +38,7 @@ const Login: React.FC = () => {
       heroTitle: "Empowering the Future of Education",
       heroSubtitle:
         "Secure access for UPNVJ Administration. Manage resources, students, and faculty efficiently.",
-      footer: "© 2024 UPNVJ Administration. All rights reserved.",
+      footer: "© 2026 UPNVJ Administration. All rights reserved.",
     },
   };
 

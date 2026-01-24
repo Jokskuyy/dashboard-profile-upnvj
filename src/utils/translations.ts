@@ -134,7 +134,7 @@ export const translations = {
     description: "Deskripsi",
     viewDetails: "Lihat Detail",
     hideDetails: "Sembunyikan Detail",
-    
+
     // Assets Section Cards
     campusBuildings: "Gedung Kampus",
     buildingsUnit: "Gedung",
@@ -148,7 +148,7 @@ export const translations = {
     ready: "Siap",
     clickToViewDetail: "Klik untuk melihat detail",
     viewAllAssets: "Lihat Semua",
-    
+
     // Assets Categories
     laboratoriesTitle: "Laboratorium",
     librariesReadingRooms: "Perpustakaan & Ruang Baca",
@@ -158,11 +158,12 @@ export const translations = {
     healthFacilities: "Fasilitas Kesehatan",
     worshipFacilities: "Fasilitas Ibadah",
     cafeteriaFoodCourt: "Kantin & Food Court",
-    
+
     // Featured Section
     featuredAuditoriumsLabs: "Auditorium & Laboratorium Unggulan",
     noFacilitiesAvailable: "Tidak ada data fasilitas",
-    modernFacilityDescription: "Fasilitas modern dengan peralatan lengkap untuk mendukung kegiatan akademik.",
+    modernFacilityDescription:
+      "Fasilitas modern dengan peralatan lengkap untuk mendukung kegiatan akademik.",
 
     // University Info
     universityName: "Universitas Pembangunan Nasional Veteran Jakarta",
@@ -180,7 +181,7 @@ export const translations = {
       phone: "Telepon: +62 21 7656971",
       email: "Email: info@upnvj.ac.id",
       copyright:
-        "© 2024 Universitas Pembangunan Nasional Veteran Jakarta. Semua hak dilindungi.",
+        "© 2026 Universitas Pembangunan Nasional Veteran Jakarta. Semua hak dilindungi.",
       contactInformation: "Informasi Kontak",
       quickLinks: "Tautan Cepat",
       campusAddress: "Alamat Kampus",
@@ -333,7 +334,7 @@ export const translations = {
     description: "Description",
     viewDetails: "View Details",
     hideDetails: "Hide Details",
-    
+
     // Assets Section Cards
     campusBuildings: "Campus Buildings",
     buildingsUnit: "Buildings",
@@ -347,7 +348,7 @@ export const translations = {
     ready: "Ready",
     clickToViewDetail: "Click to view details",
     viewAllAssets: "View All",
-    
+
     // Assets Categories
     laboratoriesTitle: "Laboratories",
     librariesReadingRooms: "Libraries & Reading Rooms",
@@ -357,11 +358,12 @@ export const translations = {
     healthFacilities: "Health Facilities",
     worshipFacilities: "Worship Facilities",
     cafeteriaFoodCourt: "Cafeteria & Food Court",
-    
+
     // Featured Section
     featuredAuditoriumsLabs: "Featured Auditoriums & Laboratories",
     noFacilitiesAvailable: "No facilities data available",
-    modernFacilityDescription: "Modern facilities with complete equipment to support academic activities.",
+    modernFacilityDescription:
+      "Modern facilities with complete equipment to support academic activities.",
 
     // University Info
     universityName: "Pembangunan Nasional Veteran Jakarta University",
@@ -379,7 +381,7 @@ export const translations = {
       phone: "Phone: +62 21 7656971",
       email: "Email: info@upnvj.ac.id",
       copyright:
-        "© 2024 Pembangunan Nasional Veteran Jakarta University. All rights reserved.",
+        "© 2026 Pembangunan Nasional Veteran Jakarta University. All rights reserved.",
       contactInformation: "Contact Information",
       quickLinks: "Quick Links",
       campusAddress: "Campus Address",
