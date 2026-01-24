@@ -468,7 +468,7 @@ export default function AdminDashboard() {
           onClose={() => setStudentModal({ isOpen: false })}
           onSave={handleSaveStudent}
           student={studentModal.student}
-          faculties={faculties}
+          programs={data?.programs || []}
         />
 
         <ProgramModal
@@ -477,6 +477,7 @@ export default function AdminDashboard() {
           onSave={handleSaveProgram}
           program={programModal.program}
           faculties={faculties}
+          accreditations={data?.accreditations || []}
         />
 
         <AssetModal

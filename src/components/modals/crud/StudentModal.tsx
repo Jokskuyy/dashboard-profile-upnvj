@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import type { StudentData } from "../../../types";
-import type { FacultyInfo } from "../../../services/api/dataService";
+import type { StudentData, ProgramData } from "../../../types";
 
 interface StudentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (student: StudentData) => Promise<void>;
+  onSave: (student: Omit<StudentData, "id"> | StudentData) => Promise<void>;
   student?: StudentData;
-  faculties: FacultyInfo[];
+  programs?: ProgramData[];
 }
 
 export default function StudentModal({
@@ -16,49 +15,53 @@ export default function StudentModal({
   onClose,
   onSave,
   student,
-  faculties,
+  programs = [],
 }: StudentModalProps) {
   const [formData, setFormData] = useState({
-    faculty: "",
-    undergraduate: 0,
-    graduate: 0,
-    postgraduate: 0,
-    totalStudents: 0,
+    nim: "",
+    nama_mahasiswa: "",
+    angkatan: new Date().getFullYear(),
+    status: "Aktif",
+    id_prodi: 0,
   });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (!isOpen) return;
+    
     if (student) {
       setFormData({
-        faculty: student.faculty,
-        undergraduate: student.undergraduate,
-        graduate: student.graduate,
-        postgraduate: 0,
-        totalStudents: student.totalStudents,
+        nim: student.nim || "",
+        nama_mahasiswa: student.nama_mahasiswa || "",
+        angkatan: student.angkatan || new Date().getFullYear(),
+        status: student.status || "Aktif",
+        id_prodi: student.id_prodi || 0,
       });
     } else {
+      const defaultProdiId = programs.length > 0 
+        ? (typeof programs[0].id === 'string' ? parseInt(programs[0].id) : programs[0].id) 
+        : 0;
+        
       setFormData({
-        faculty: faculties[0]?.name || "",
-        undergraduate: 0,
-        graduate: 0,
-        postgraduate: 0,
-        totalStudents: 0,
+        nim: "",
+        nama_mahasiswa: "",
+        angkatan: new Date().getFullYear(),
+        status: "Aktif",
+        id_prodi: defaultProdiId,
       });
     }
-  }, [student, faculties, isOpen]);
-
-  // Auto calculate total
-  useEffect(() => {
-    const total = formData.undergraduate + formData.graduate;
-    setFormData((prev) => ({ ...prev, totalStudents: total, postgraduate: 0 }));
-  }, [formData.undergraduate, formData.graduate]);
+  }, [student, isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      await onSave(formData);
+      if (student && 'id' in student) {
+        await onSave({ ...formData, id: student.id });
+      } else {
+        await onSave(formData);
+      }
       onClose();
     } catch (error) {
       console.error("Error saving student data:", error);
@@ -71,107 +74,135 @@ export default function StudentModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-3 sm:p-4">
-      <div className="bg-white rounded-xl sm:rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+    <div 
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <div 
+        className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between rounded-t-xl sm:rounded-t-2xl z-10">
-          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 pr-2">
+        <div className="bg-emerald-600 px-6 py-4 flex items-center justify-between">
+          <h2 className="text-white text-xl font-bold tracking-tight">
             {student ? "Edit Data Mahasiswa" : "Tambah Data Mahasiswa"}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors shrink-0"
+            className="text-white/80 hover:text-white transition-colors"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-6 h-6" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 space-y-5">
           <div>
-            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-              Fakultas *
-            </label>
-            <select
-              required
-              value={formData.faculty}
-              onChange={(e) =>
-                setFormData({ ...formData, faculty: e.target.value })
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              {faculties.map((fac) => (
-                <option key={fac.id} value={fac.name}>
-                  {fac.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              S1/D3 *
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              NIM *
             </label>
             <input
-              type="number"
+              type="text"
               required
-              min="0"
-              value={formData.undergraduate}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  undergraduate: parseInt(e.target.value) || 0,
-                })
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Jumlah mahasiswa S1/D3"
+              value={formData.nim}
+              onChange={(e) => setFormData({ ...formData, nim: e.target.value })}
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
+              placeholder="Contoh: 2021123456"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              S2 *
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              Nama Lengkap *
             </label>
             <input
-              type="number"
+              type="text"
               required
-              min="0"
-              value={formData.graduate}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  graduate: parseInt(e.target.value) || 0,
-                })
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Jumlah mahasiswa S2"
+              value={formData.nama_mahasiswa}
+              onChange={(e) => setFormData({ ...formData, nama_mahasiswa: e.target.value })}
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
+              placeholder="Contoh: John Doe"
             />
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-gray-700">
-                Total Mahasiswa:
-              </span>
-              <span className="text-2xl font-bold text-blue-600">
-                {formData.totalStudents.toLocaleString()}
-              </span>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                Angkatan *
+              </label>
+              <input
+                type="number"
+                required
+                value={formData.angkatan}
+                onChange={(e) => setFormData({ ...formData, angkatan: parseInt(e.target.value) })}
+                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
+                placeholder="2021"
+                min="2000"
+                max={new Date().getFullYear() + 1}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                Status *
+              </label>
+              <select
+                required
+                value={formData.status}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none appearance-none cursor-pointer"
+              >
+                <option value="Aktif">Aktif</option>
+                <option value="Cuti">Cuti</option>
+                <option value="Lulus">Lulus</option>
+                <option value="DO">DO</option>
+                <option value="Mengundurkan Diri">Mengundurkan Diri</option>
+              </select>
             </div>
           </div>
 
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              Program Studi *
+            </label>
+            <select
+              required
+              value={formData.id_prodi}
+              onChange={(e) => setFormData({ ...formData, id_prodi: parseInt(e.target.value) })}
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none appearance-none cursor-pointer"
+            >
+              <option value="">Pilih Program Studi</option>
+              {programs.map((prodi) => {
+                const prodiId = typeof prodi.id === 'string' ? parseInt(prodi.id) : prodi.id;
+                const prodiName = prodi.nama_prodi || prodi.name;
+                const prodiLevel = prodi.jenjang || prodi.level;
+                
+                return (
+                  <option key={prodiId} value={prodiId}>
+                    {prodiName} ({prodiLevel})
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+
           {/* Footer */}
-          <div className="flex gap-3 pt-4 border-t border-gray-200">
+          <div className="flex gap-3 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex-1 px-6 py-2.5 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors font-medium"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg hover:from-blue-700 hover:to-green-700 transition-all disabled:opacity-50"
+              className="flex-1 px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium"
             >
               {loading ? "Menyimpan..." : "Simpan"}
             </button>

@@ -18,30 +18,29 @@ export default function AccreditationModal({
   accreditation,
 }: AccreditationModalProps) {
   const [formData, setFormData] = useState({
-    program: "",
-    level: "",
-    accreditor: "",
-    validUntil: "",
-    status: "active" as "active" | "expired" | "pending",
+    status: "",
+    tgl_berlaku: "",
+    tgl_kadaluarsa: "",
+    keterangan: "",
   });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (!isOpen) return;
+    
     if (accreditation) {
       setFormData({
-        program: accreditation.program,
-        level: accreditation.level,
-        accreditor: accreditation.accreditor,
-        validUntil: accreditation.validUntil,
-        status: accreditation.status,
+        status: accreditation.status || accreditation.level || "",
+        tgl_berlaku: accreditation.tgl_berlaku || accreditation.validFrom || "",
+        tgl_kadaluarsa: accreditation.tgl_kadaluarsa || accreditation.validUntil || "",
+        keterangan: accreditation.keterangan || accreditation.notes || "",
       });
     } else {
       setFormData({
-        program: "",
-        level: "S1",
-        accreditor: "BAN-PT",
-        validUntil: "",
-        status: "active",
+        status: "A",
+        tgl_berlaku: "",
+        tgl_kadaluarsa: "",
+        keterangan: "",
       });
     }
   }, [accreditation, isOpen]);
@@ -51,7 +50,7 @@ export default function AccreditationModal({
     setLoading(true);
 
     try {
-      if (accreditation) {
+      if (accreditation && 'id' in accreditation) {
         await onSave({ ...formData, id: accreditation.id });
       } else {
         await onSave(formData);
@@ -68,94 +67,124 @@ export default function AccreditationModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div 
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <div 
+        className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-2xl">
-          <h2 className="text-2xl font-bold text-gray-900">
+        <div className="bg-emerald-600 px-6 py-4 flex items-center justify-between">
+          <h2 className="text-white text-xl font-bold tracking-tight">
             {accreditation ? "Edit Akreditasi" : "Tambah Akreditasi"}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="text-white/80 hover:text-white transition-colors"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-6 h-6" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Program Studi *
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              Status Akreditasi *
             </label>
-            <input
-              type="text"
+            <select
               required
-              value={formData.program}
+              value={formData.status}
               onChange={(e) =>
-                setFormData({ ...formData, program: e.target.value })
+                setFormData({ ...formData, status: e.target.value })
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Teknik Informatika"
-            />
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none appearance-none cursor-pointer"
+            >
+              <option value="">Pilih Status</option>
+              <option value="A">A (Unggul)</option>
+              <option value="B">B (Baik Sekali)</option>
+              <option value="C">C (Baik)</option>
+              <option value="Baik Sekali">Baik Sekali</option>
+              <option value="Unggul">Unggul</option>
+            </select>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Jenjang *
-              </label>
-              <select
-                required
-                value={formData.level}
-                onChange={(e) =>
-                  setFormData({ ...formData, level: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="D3">D3</option>
-                <option value="S1">S1</option>
-                <option value="S2">S2</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Lembaga Akreditasi *
-              </label>
-              <select
-                required
-                value={formData.accreditor}
-                onChange={(e) =>
-                  setFormData({ ...formData, accreditor: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="BAN-PT">BAN-PT</option>
-                <option value="LAM-PTKes">LAM-PTKes</option>
-                <option value="LAMEMBA">LAMEMBA</option>
-                <option value="LAM-Infokom">LAM-Infokom</option>
-                <option value="Lainnya">Lainnya</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Berlaku Hingga *
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                Tanggal Berlaku *
               </label>
               <input
                 type="date"
                 required
-                value={formData.validUntil}
+                value={formData.tgl_berlaku}
                 onChange={(e) =>
-                  setFormData({ ...formData, validUntil: e.target.value })
+                  setFormData({ ...formData, tgl_berlaku: e.target.value })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
               />
             </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                Tanggal Kadaluarsa *
+              </label>
+              <input
+                type="date"
+                required
+                value={formData.tgl_kadaluarsa}
+                onChange={(e) =>
+                  setFormData({ ...formData, tgl_kadaluarsa: e.target.value })
+                }
+                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              Keterangan
+            </label>
+            <textarea
+              value={formData.keterangan}
+              onChange={(e) =>
+                setFormData({ ...formData, keterangan: e.target.value })
+              }
+              rows={4}
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none resize-none"
+              placeholder="Keterangan tambahan tentang akreditasi..."
+            />
+          </div>
+
+          {/* Footer */}
+          <div className="flex gap-3 pt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 px-6 py-2.5 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors font-medium"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex-1 px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+            >
+              {loading ? "Menyimpan..." : "Simpan"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -168,27 +197,19 @@ export default function AccreditationModal({
                   setFormData({ ...formData, status: e.target.value as any })
                 }
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="active">Aktif</option>
-                <option value="pending">Pending</option>
-                <option value="expired">Kadaluarsa</option>
-              </select>
-            </div>
-          </div>
-
           {/* Footer */}
-          <div className="flex gap-3 pt-4 border-t border-gray-200">
+          <div className="flex gap-3 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex-1 px-6 py-2.5 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors font-medium"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg hover:from-blue-700 hover:to-green-700 transition-all disabled:opacity-50"
+              className="flex-1 px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium"
             >
               {loading ? "Menyimpan..." : "Simpan"}
             </button>

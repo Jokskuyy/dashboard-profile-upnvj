@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import type { ProgramData } from '../../../types';
+import type { ProgramData, Accreditation } from '../../../types';
 import type { FacultyInfo } from '../../../services/api/dataService';
 
 interface ProgramModalProps {
@@ -9,6 +9,7 @@ interface ProgramModalProps {
   onSave: (program: Omit<ProgramData, "id"> | ProgramData) => Promise<void>;
   program?: ProgramData;
   faculties: FacultyInfo[];
+  accreditations: Accreditation[];
 }
 
 export default function ProgramModal({
@@ -17,39 +18,48 @@ export default function ProgramModal({
   onSave,
   program,
   faculties,
+  accreditations,
 }: ProgramModalProps) {
   const [formData, setFormData] = useState({
-    name: "",
-    faculty: "",
-    level: "S1" as "S1" | "D3" | "S2",
-    students: 0,
+    nama_prodi: "",
+    jenjang: "S1",
+    id_fakultas: 0,
+    id_akreditasi: 0,
   });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (!isOpen) return;
+    
     if (program) {
+      const fakultasId = typeof program.id_fakultas === 'string' ? parseInt(program.id_fakultas) : program.id_fakultas;
+      const akreditasiId = typeof program.id_akreditasi === 'string' ? parseInt(program.id_akreditasi) : program.id_akreditasi;
+      
       setFormData({
-        name: program.name,
-        faculty: program.faculty,
-        level: program.level as "S1" | "D3" | "S2",
-        students: program.students,
+        nama_prodi: program.nama_prodi || program.name || "",
+        jenjang: program.jenjang || program.level || "S1",
+        id_fakultas: fakultasId || 0,
+        id_akreditasi: akreditasiId || 0,
       });
     } else {
+      const firstFacultyId = typeof faculties[0]?.id === 'string' ? parseInt(faculties[0].id) : faculties[0]?.id || 0;
+      const firstAccreditationId = typeof accreditations[0]?.id === 'string' ? parseInt(accreditations[0].id) : accreditations[0]?.id || 0;
+      
       setFormData({
-        name: "",
-        faculty: faculties[0]?.name || "",
-        level: "S1",
-        students: 0,
+        nama_prodi: "",
+        jenjang: "S1",
+        id_fakultas: firstFacultyId,
+        id_akreditasi: firstAccreditationId,
       });
     }
-  }, [program, faculties, isOpen]);
+  }, [program, isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      if (program) {
+      if (program && 'id' in program) {
         await onSave({ ...formData, id: program.id });
       } else {
         await onSave(formData);
@@ -66,113 +76,143 @@ export default function ProgramModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full">
+    <div 
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <div 
+        className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-2xl">
-          <h2 className="text-2xl font-bold text-gray-900">
+        <div className="bg-emerald-600 px-6 py-4 flex items-center justify-between">
+          <h2 className="text-white text-xl font-bold tracking-tight">
             {program ? "Edit Program Studi" : "Tambah Program Studi"}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="text-white/80 hover:text-white transition-colors"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-6 h-6" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Nama Program Studi *
             </label>
             <input
               type="text"
               required
-              value={formData.name}
+              value={formData.nama_prodi}
               onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
+                setFormData({ ...formData, nama_prodi: e.target.value })
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Teknik Informatika"
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none"
+              placeholder="Contoh: Teknik Informatika"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              Fakultas *
+            </label>
+            <select
+              required
+              value={formData.id_fakultas}
+              onChange={(e) =>
+                setFormData({ ...formData, id_fakultas: parseInt(e.target.value) })
+              }
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none appearance-none cursor-pointer"
+            >
+              <option value="">Pilih Fakultas</option>
+              {faculties.map((fac) => {
+                const facId = typeof fac.id === 'string' ? parseInt(fac.id) : fac.id;
+                return (
+                  <option key={facId} value={facId}>
+                    {fac.name}
+                  </option>
+                );
+              })}
+            </select>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Fakultas *
-              </label>
-              <select
-                required
-                value={formData.faculty}
-                onChange={(e) =>
-                  setFormData({ ...formData, faculty: e.target.value })
-                }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                {faculties.map((fac) => (
-                  <option key={fac.id} value={fac.name}>
-                    {fac.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 Jenjang *
               </label>
               <select
                 required
-                value={formData.level}
+                value={formData.jenjang}
                 onChange={(e) =>
-                  setFormData({ ...formData, level: e.target.value as any })
+                  setFormData({ ...formData, jenjang: e.target.value })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none appearance-none cursor-pointer"
               >
                 <option value="D3">D3</option>
+                <option value="D4">D4</option>
                 <option value="S1">S1</option>
                 <option value="S2">S2</option>
+                <option value="S3">S3</option>
                 <option value="Profesi">Profesi</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                Akreditasi *
+              </label>
+              <select
+                required
+                value={formData.id_akreditasi}
+                onChange={(e) =>
+                  setFormData({ ...formData, id_akreditasi: parseInt(e.target.value) })
+                }
+                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 transition-all outline-none appearance-none cursor-pointer"
+              >
+                <option value="">Pilih Akreditasi</option>
+                {accreditations.map((acc) => {
+                  const accId = typeof acc.id === 'string' ? parseInt(acc.id) : acc.id;
+                  return (
+                    <option key={accId} value={accId}>
+                      {acc.status || acc.level || 'N/A'}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Jumlah Mahasiswa *
-            </label>
-            <input
-              type="number"
-              required
-              min="0"
-              value={formData.students}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  students: parseInt(e.target.value) || 0,
-                })
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Total mahasiswa aktif"
-            />
-          </div>
-
           {/* Footer */}
-          <div className="flex gap-3 pt-4 border-t border-gray-200">
+          <div className="flex gap-3 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex-1 px-6 py-2.5 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors font-medium"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg hover:from-blue-700 hover:to-green-700 transition-all disabled:opacity-50"
+              className="flex-1 px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+            >
+              {loading ? "Menyimpan..." : "Simpan"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
             >
               {loading ? "Menyimpan..." : "Simpan"}
             </button>
