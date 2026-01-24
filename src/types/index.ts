@@ -21,29 +21,45 @@ export interface Professor {
 }
 
 export interface Accreditation {
-  id: string;
-  program: string;
-  level: string;
-  accreditor: string;
-  validUntil: string;
-  status: "active" | "expired" | "pending";
+  id: number;
+  status: string;
+  tgl_berlaku?: Date | string;
+  tgl_kadaluarsa?: Date | string;
+  keterangan?: string;
+  // Virtual fields for display
+  program?: string;
+  level?: string;
+  accreditor?: string;
+  validUntil?: string;
 }
 
 export interface StudentData {
-  faculty: string;
-  totalStudents: number;
-  undergraduate: number;
-  graduate: number;
-  postgraduate: number;
+  id?: number;
+  nim?: string;
+  nama_mahasiswa?: string;
+  angkatan?: number;
+  status?: string;
+  id_prodi?: number;
+  // Virtual fields for aggregation display
+  faculty?: string;
+  totalStudents?: number;
+  undergraduate?: number;
+  graduate?: number;
+  postgraduate?: number;
 }
 
 // Program Study types
 export interface ProgramData {
-  id: string;
-  name: string;
-  level: "D3" | "S1" | "S2";
-  faculty: string;
-  students: number;
+  id: string | number;
+  nama_prodi?: string;
+  jenjang?: "D3" | "S1" | "S2" | "S3";
+  id_fakultas?: number;
+  id_akreditasi?: number;
+  // Virtual fields for display
+  name?: string; // Alias for nama_prodi
+  level?: "D3" | "S1" | "S2";
+  faculty?: string;
+  students?: number;
   color?: string;
 }
 
@@ -116,13 +132,19 @@ export interface DepartmentData {
 
 // Assets/Facilities types
 export interface AssetDetail {
-  id: string;
-  name: string;
-  room: string;
-  building: string;
+  id: number | string;
+  nama_fasilitas?: string;
+  deskripsi_fasilitas?: string;
+  tipe_fasilitas?: string;
+  id_gedung?: number;
+  color?: string;
+  // Virtual fields for display
+  name?: string; // Alias for nama_fasilitas
+  room?: string;
+  building?: string;
   capacity?: number;
   equipment?: string[];
-  description?: string;
+  description?: string; // Alias for deskripsi_fasilitas
 }
 
 export interface AssetCategory {
