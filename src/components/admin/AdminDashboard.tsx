@@ -185,7 +185,7 @@ export default function AdminDashboard() {
 
   // Professor CRUD handlers
   const handleSaveProfessor = async (
-    professor: Omit<Professor, "id"> | Professor
+    professor: Omit<Professor, "id"> | Professor,
   ) => {
     try {
       if ("id" in professor) {
@@ -242,11 +242,11 @@ export default function AdminDashboard() {
 
   // Accreditation CRUD handlers
   const handleSaveAccreditation = async (
-    accreditation: Omit<Accreditation, "id"> | Accreditation
+    accreditation: Omit<Accreditation, "id"> | Accreditation,
   ) => {
     try {
       if ("id" in accreditation) {
-        await updateAccreditation(accreditation.id, accreditation);
+        await updateAccreditation(accreditation.id.toString(), accreditation);
         showToast("Data akreditasi berhasil diupdate", "success");
       } else {
         await createAccreditation(accreditation);
@@ -265,12 +265,12 @@ export default function AdminDashboard() {
     try {
       // Check if student data for this faculty already exists
       const existing = data?.students.find(
-        (s) => s.faculty === student.faculty
+        (s) => s.faculty === student.faculty,
       );
 
       if (existing) {
         // Update existing - use faculty as identifier
-        await updateStudentData(student.faculty, student);
+        await updateStudentData(student.faculty || "", student);
         showToast("Data mahasiswa berhasil diupdate", "success");
       } else {
         // Create new
@@ -287,11 +287,11 @@ export default function AdminDashboard() {
 
   // Program CRUD handlers
   const handleSaveProgram = async (
-    program: Omit<ProgramData, "id"> | ProgramData
+    program: Omit<ProgramData, "id"> | ProgramData,
   ) => {
     try {
       if ("id" in program) {
-        await updateProgram(program.id, program);
+        await updateProgram(program.id.toString(), program);
         showToast("Data program studi berhasil diupdate", "success");
       } else {
         await createProgram(program);
@@ -306,7 +306,7 @@ export default function AdminDashboard() {
   };
 
   const handleSaveAsset = async (
-    asset: Omit<AssetCategory, "id"> | AssetCategory
+    asset: Omit<AssetCategory, "id"> | AssetCategory,
   ) => {
     try {
       if ("id" in asset) {
@@ -325,16 +325,16 @@ export default function AdminDashboard() {
   };
 
   const handleSaveAssetDetail = async (
-    detail: Omit<AssetDetail, "id"> | AssetDetail
+    detail: Omit<AssetDetail, "id"> | AssetDetail,
   ) => {
     if (!assetDetailModal.categoryId) return;
 
     try {
       if ("id" in detail) {
-        await updateAssetDetail(assetDetailModal.categoryId, detail.id, detail);
+        await updateAssetDetail(assetDetailModal.categoryId.toString(), detail.id.toString(), detail);
         showToast("Item aset berhasil diupdate", "success");
       } else {
-        await addAssetDetail(assetDetailModal.categoryId, detail);
+        await addAssetDetail(assetDetailModal.categoryId.toString(), detail);
         showToast("Item aset baru berhasil ditambahkan", "success");
       }
       await loadData();
@@ -749,7 +749,7 @@ export default function AdminDashboard() {
                     setDeleteModal({
                       isOpen: true,
                       type: "accreditation",
-                      id: accreditation.id,
+                      id: accreditation.id.toString(),
                       name: `${accreditation.program} - ${accreditation.level}`,
                     })
                   }
@@ -934,7 +934,9 @@ function ProfessorsTable({
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
-                      {(prof.nama_dosen || prof.name || "NA").substring(0, 2).toUpperCase()}
+                      {(prof.nama_dosen || prof.name || "NA")
+                        .substring(0, 2)
+                        .toUpperCase()}
                     </div>
                     <div>
                       <p className="font-semibold text-slate-900">
@@ -1008,7 +1010,7 @@ function ProfessorsTable({
                 >
                   {page}
                 </button>
-              )
+              ),
             )}
             <button
               onClick={() =>
@@ -1130,14 +1132,14 @@ function AccreditationsTable({
                 <td className="px-6 py-4">
                   <span
                     className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusBadge(
-                      acc.status
+                      acc.status,
                     )}`}
                   >
                     {acc.status === "active"
                       ? "Aktif"
                       : acc.status === "expired"
-                      ? "Kadaluarsa"
-                      : "Pending"}
+                        ? "Kadaluarsa"
+                        : "Pending"}
                   </span>
                 </td>
                 <td className="px-6 py-4 text-center">
@@ -1198,7 +1200,7 @@ function AccreditationsTable({
                 >
                   {page}
                 </button>
-              )
+              ),
             )}
             <button
               onClick={() =>
@@ -1390,7 +1392,7 @@ function StudentsTable({
                 >
                   {page}
                 </button>
-              )
+              ),
             )}
             <button
               onClick={() =>
@@ -1425,12 +1427,12 @@ function AssetsTable({
   onEditDetail: (
     categoryId: string,
     categoryName: string,
-    detail: AssetDetail
+    detail: AssetDetail,
   ) => void;
   onDeleteDetail: (
     categoryId: string,
     categoryName: string,
-    detail: AssetDetail
+    detail: AssetDetail,
   ) => void;
 }) {
   return (
@@ -1712,7 +1714,7 @@ function ProgramsTable({
                 >
                   {page}
                 </button>
-              )
+              ),
             )}
             <button
               onClick={() =>

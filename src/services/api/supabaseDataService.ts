@@ -5,6 +5,7 @@ import type {
   Accreditation,
   StudentData,
   AssetCategory,
+  AssetDetail,
   ProgramData,
   DepartmentData,
 } from "../../types";
@@ -612,9 +613,12 @@ export const createProfessor = async (
       id_scopus: professor.id_scopus || null,
       id_gs: professor.id_gs || null,
       id_sinta: professor.id_sinta || null,
-      kompetensi: professor.kompetensi || (professor.expertise ? JSON.stringify(professor.expertise) : null),
+      kompetensi:
+        professor.kompetensi ||
+        (professor.expertise ? JSON.stringify(professor.expertise) : null),
     })
-    .select(`
+    .select(
+      `
       *,
       program_studi (
         nama_prodi,
@@ -623,7 +627,8 @@ export const createProfessor = async (
           nama_fakultas
         )
       )
-    `)
+    `,
+    )
     .single();
 
   if (error) throw error;
@@ -663,13 +668,18 @@ export const updateProfessor = async (
 
   const updateData: any = {};
   if (professor.nidn) updateData.nidn = professor.nidn;
-  if (professor.nama_dosen || professor.name) updateData.nama_dosen = professor.nama_dosen || professor.name;
+  if (professor.nama_dosen || professor.name)
+    updateData.nama_dosen = professor.nama_dosen || professor.name;
   if (professor.email) updateData.email = professor.email;
-  if (professor.jabatan_fungsional || professor.title) updateData.jabatan_fungsional = professor.jabatan_fungsional || professor.title;
+  if (professor.jabatan_fungsional || professor.title)
+    updateData.jabatan_fungsional =
+      professor.jabatan_fungsional || professor.title;
   if (professor.id_prodi) updateData.id_prodi = professor.id_prodi;
-  if (professor.id_scopus !== undefined) updateData.id_scopus = professor.id_scopus;
+  if (professor.id_scopus !== undefined)
+    updateData.id_scopus = professor.id_scopus;
   if (professor.id_gs !== undefined) updateData.id_gs = professor.id_gs;
-  if (professor.id_sinta !== undefined) updateData.id_sinta = professor.id_sinta;
+  if (professor.id_sinta !== undefined)
+    updateData.id_sinta = professor.id_sinta;
   if (professor.kompetensi !== undefined) {
     updateData.kompetensi = professor.kompetensi;
   } else if (professor.expertise) {
@@ -680,7 +690,8 @@ export const updateProfessor = async (
     .from("dosen")
     .update(updateData)
     .eq("id", parseInt(id))
-    .select(`
+    .select(
+      `
       *,
       program_studi (
         nama_prodi,
@@ -689,7 +700,8 @@ export const updateProfessor = async (
           nama_fakultas
         )
       )
-    `)
+    `,
+    )
     .single();
 
   if (error) throw error;
@@ -743,9 +755,12 @@ export const createAccreditation = async (
     .from("akreditasi")
     .insert({
       status: accreditation.status || accreditation.level || "Belum Akreditasi",
-      tgl_berlaku: accreditation.tgl_berlaku || new Date().toISOString().split("T")[0],
+      tgl_berlaku:
+        accreditation.tgl_berlaku || new Date().toISOString().split("T")[0],
       tgl_kadaluarsa: accreditation.tgl_kadaluarsa || accreditation.validUntil,
-      keterangan: accreditation.keterangan || `Akreditasi ${accreditation.level || accreditation.status} oleh ${accreditation.accreditor || 'BAN-PT'}`,
+      keterangan:
+        accreditation.keterangan ||
+        `Akreditasi ${accreditation.level || accreditation.status} oleh ${accreditation.accreditor || "BAN-PT"}`,
     })
     .select()
     .single();
@@ -775,10 +790,14 @@ export const updateAccreditation = async (
 
   const updateData: any = {};
   if (accreditation.status) updateData.status = accreditation.status;
-  if (accreditation.tgl_berlaku) updateData.tgl_berlaku = accreditation.tgl_berlaku;
-  if (accreditation.tgl_kadaluarsa) updateData.tgl_kadaluarsa = accreditation.tgl_kadaluarsa;
-  if (accreditation.validUntil) updateData.tgl_kadaluarsa = accreditation.validUntil;
-  if (accreditation.keterangan) updateData.keterangan = accreditation.keterangan;
+  if (accreditation.tgl_berlaku)
+    updateData.tgl_berlaku = accreditation.tgl_berlaku;
+  if (accreditation.tgl_kadaluarsa)
+    updateData.tgl_kadaluarsa = accreditation.tgl_kadaluarsa;
+  if (accreditation.validUntil)
+    updateData.tgl_kadaluarsa = accreditation.validUntil;
+  if (accreditation.keterangan)
+    updateData.keterangan = accreditation.keterangan;
   if (accreditation.level) updateData.status = accreditation.level;
 
   const { data, error } = await supabase
@@ -820,7 +839,7 @@ export const createStudentData = async (
   student: Omit<StudentData, "id">,
 ): Promise<StudentData> => {
   clearCache();
-  
+
   const { data, error } = await supabase
     .from("mahasiswa")
     .insert({
@@ -850,10 +869,11 @@ export const updateStudentData = async (
   student: Partial<StudentData>,
 ): Promise<StudentData> => {
   clearCache();
-  
+
   const updateData: any = {};
   if (student.nim) updateData.nim = student.nim;
-  if (student.nama_mahasiswa) updateData.nama_mahasiswa = student.nama_mahasiswa;
+  if (student.nama_mahasiswa)
+    updateData.nama_mahasiswa = student.nama_mahasiswa;
   if (student.angkatan) updateData.angkatan = student.angkatan;
   if (student.status) updateData.status = student.status;
   if (student.id_prodi) updateData.id_prodi = student.id_prodi;
@@ -895,7 +915,7 @@ export const createProgram = async (
   clearCache();
 
   let fakultasId = program.id_fakultas;
-  
+
   // If faculty name provided, get faculty id
   if (!fakultasId && program.faculty) {
     const { data: fakultas, error: fakultasError } = await supabase
@@ -916,12 +936,14 @@ export const createProgram = async (
       id_fakultas: fakultasId || 1,
       id_akreditasi: program.id_akreditasi || null,
     })
-    .select(`
+    .select(
+      `
       *,
       fakultas (
         nama_fakultas
       )
-    `)
+    `,
+    )
     .single();
 
   if (error) throw error;
@@ -948,21 +970,26 @@ export const updateProgram = async (
   clearCache();
 
   const updateData: any = {};
-  if (program.nama_prodi || program.name) updateData.nama_prodi = program.nama_prodi || program.name;
-  if (program.jenjang || program.level) updateData.jenjang = program.jenjang || program.level;
+  if (program.nama_prodi || program.name)
+    updateData.nama_prodi = program.nama_prodi || program.name;
+  if (program.jenjang || program.level)
+    updateData.jenjang = program.jenjang || program.level;
   if (program.id_fakultas) updateData.id_fakultas = program.id_fakultas;
-  if (program.id_akreditasi !== undefined) updateData.id_akreditasi = program.id_akreditasi;
+  if (program.id_akreditasi !== undefined)
+    updateData.id_akreditasi = program.id_akreditasi;
 
   const { data, error } = await supabase
     .from("program_studi")
     .update(updateData)
     .eq("id", parseInt(id))
-    .select(`
+    .select(
+      `
       *,
       fakultas (
         nama_fakultas
       )
-    `)
+    `,
+    )
     .single();
 
   if (error) throw error;
@@ -1072,44 +1099,47 @@ export const deleteAssetCategory = async (_id: string): Promise<void> => {
 };
 
 // Asset details within a category
-export interface AssetDetail {
-  id: string;
-  name: string;
-  room: string;
-  building: string;
-  capacity?: number;
-}
-
 export const addAssetDetail = async (
   categoryId: string,
   detail: Omit<AssetDetail, "id">,
 ): Promise<AssetDetail> => {
   clearCache();
 
-  // Get or create gedung
-  let { data: gedung, error: gedungError } = await supabase
-    .from("gedung")
-    .select("id")
-    .eq("nama_gedung", detail.building)
-    .single();
-
-  if (gedungError || !gedung) {
-    const { data: newGedung, error: createError } = await supabase
+  // Get building name from either new or old field format
+  const buildingName = detail.building || (detail.id_gedung ? `Building ${detail.id_gedung}` : "");
+  
+  // Get or create gedung if building name provided
+  let gedungId = detail.id_gedung;
+  
+  if (buildingName && !gedungId) {
+    let { data: gedung, error: gedungError } = await supabase
       .from("gedung")
-      .insert({ nama_gedung: detail.building })
-      .select()
+      .select("id")
+      .eq("nama_gedung", buildingName)
       .single();
 
-    if (createError) throw createError;
-    gedung = newGedung;
+    if (gedungError || !gedung) {
+      const { data: newGedung, error: createError } = await supabase
+        .from("gedung")
+        .insert({ nama_gedung: buildingName })
+        .select()
+        .single();
+
+      if (createError) throw createError;
+      gedung = newGedung;
+    }
+    
+    gedungId = gedung?.id;
   }
 
   const { data, error } = await supabase
     .from("fasilitas")
     .insert({
-      nama_fasilitas: detail.name,
-      tipe_fasilitas: categoryId.replace(/-/g, " "),
-      id_gedung: gedung?.id || 0,
+      nama_fasilitas: detail.nama_fasilitas || detail.name || "",
+      deskripsi_fasilitas: detail.deskripsi_fasilitas || detail.description,
+      tipe_fasilitas: detail.tipe_fasilitas || categoryId.replace(/-/g, " "),
+      id_gedung: gedungId || 0,
+      color: detail.color,
     })
     .select()
     .single();
@@ -1117,10 +1147,17 @@ export const addAssetDetail = async (
   if (error) throw error;
 
   return {
-    id: data.id.toString(),
+    id: data.id,
+    nama_fasilitas: data.nama_fasilitas,
+    deskripsi_fasilitas: data.deskripsi_fasilitas,
+    tipe_fasilitas: data.tipe_fasilitas,
+    id_gedung: data.id_gedung,
+    color: data.color,
+    // Virtual fields for backward compatibility
     name: data.nama_fasilitas,
+    description: data.deskripsi_fasilitas,
     room: detail.room,
-    building: detail.building,
+    building: buildingName,
     capacity: detail.capacity,
   };
 };
@@ -1133,7 +1170,17 @@ export const updateAssetDetail = async (
   clearCache();
 
   const updateData: any = {};
-  if (detail.name) updateData.nama_fasilitas = detail.name;
+  
+  // Handle both old and new field formats
+  if (detail.nama_fasilitas || detail.name) {
+    updateData.nama_fasilitas = detail.nama_fasilitas || detail.name;
+  }
+  if (detail.deskripsi_fasilitas || detail.description) {
+    updateData.deskripsi_fasilitas = detail.deskripsi_fasilitas || detail.description;
+  }
+  if (detail.tipe_fasilitas) updateData.tipe_fasilitas = detail.tipe_fasilitas;
+  if (detail.id_gedung) updateData.id_gedung = detail.id_gedung;
+  if (detail.color) updateData.color = detail.color;
 
   const { data, error } = await supabase
     .from("fasilitas")
@@ -1152,8 +1199,15 @@ export const updateAssetDetail = async (
   if (error) throw error;
 
   return {
-    id: data.id.toString(),
+    id: data.id,
+    nama_fasilitas: data.nama_fasilitas,
+    deskripsi_fasilitas: data.deskripsi_fasilitas,
+    tipe_fasilitas: data.tipe_fasilitas,
+    id_gedung: data.id_gedung,
+    color: data.color,
+    // Virtual fields for backward compatibility
     name: data.nama_fasilitas,
+    description: data.deskripsi_fasilitas,
     room: detail.room || data.nama_fasilitas,
     building: data.gedung?.nama_gedung || "",
     capacity: detail.capacity,
