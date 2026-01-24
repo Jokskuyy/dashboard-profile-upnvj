@@ -453,6 +453,7 @@ export default function AdminDashboard() {
           onSave={handleSaveProfessor}
           professor={professorModal.professor}
           faculties={faculties}
+          programs={data?.programs || []}
         />
 
         <AccreditationModal

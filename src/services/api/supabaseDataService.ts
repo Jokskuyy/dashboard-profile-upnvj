@@ -291,7 +291,7 @@ const fetchStudents = async (): Promise<StudentData[]> => {
 /**
  * Fetch programs data from Supabase
  */
-const fetchPrograms = async (): Promise<ProgramData[]> => {
+export const fetchPrograms = async (): Promise<ProgramData[]> => {
   try {
     const { data, error } = await supabase
       .from("program_studi")

@@ -2,6 +2,7 @@
 export {
   fetchDashboardData,
   fetchFaculties,
+  fetchPrograms,
   clearCache,
   createProfessor,
   updateProfessor,
