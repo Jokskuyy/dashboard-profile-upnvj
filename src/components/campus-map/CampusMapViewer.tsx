@@ -38,12 +38,12 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const [unityInstance, setUnityInstance] = useState<any>(null);
   const [webglSupported, setWebglSupported] = useState<boolean>(true);
 
-  // Unity WebGL configuration - using decompressed files
+  // Unity WebGL configuration - using compressed files
   const basePath = import.meta.env.BASE_URL;
   const unityConfig = {
-    dataUrl: `${basePath}unity-builds/downloads/Build/Downloads.data`,
-    frameworkUrl: `${basePath}unity-builds/downloads/Build/Downloads.framework.js`,
-    codeUrl: `${basePath}unity-builds/downloads/Build/Downloads.wasm`,
+    dataUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.data.br`,
+    frameworkUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.framework.js.br`,
+    codeUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.wasm.br`,
     streamingAssetsUrl: "StreamingAssets",
     companyName: "DefaultCompany",
     productName: "Proposal",
@@ -101,7 +101,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         canvas.height = container.clientHeight || 600;
 
         // First, dynamically load the Unity loader script - use BASE_URL for GitHub Pages
-        const loaderUrl = `${basePath}unity-builds/downloads/Build/Downloads.loader.js`;
+        const loaderUrl = `${basePath}unity-builds/downloads/prototipe/Build/prototipe.loader.js`;
         
         if (!window.createUnityInstance) {
           console.log("Loading Unity WebGL loader...");
