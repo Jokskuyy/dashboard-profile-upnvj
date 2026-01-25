@@ -235,7 +235,8 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       }`}
     >
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4">
+      {!isFullscreen && (
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
@@ -271,6 +272,18 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
           )}
         </div>
       </div>
+      )}
+
+      {/* Fullscreen Controls - Only show in fullscreen */}
+      {isFullscreen && onToggleFullscreen && (
+        <button
+          onClick={onToggleFullscreen}
+          className="absolute top-4 right-4 z-50 p-3 bg-black/50 hover:bg-black/70 rounded-lg transition-colors backdrop-blur-sm"
+          title={t("exitFullscreen")}
+        >
+          <Minimize2 className="w-5 h-5 text-white" />
+        </button>
+      )}
 
       {/* Unity WebGL Canvas Container */}
       <div
@@ -309,7 +322,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       </div>
 
       {/* Info Panel */}
-      {!isLoading && !error && (
+      {!isLoading && !error && !isFullscreen && (
         <div className="bg-gray-50 p-4 border-t">
           <div className="flex items-center justify-between text-sm text-gray-600">
             <div className="flex items-center space-x-6">
