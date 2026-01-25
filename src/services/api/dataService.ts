@@ -19,6 +19,9 @@ export {
   createDepartment,
   updateDepartment,
   deleteDepartment,
+  createFacility,
+  updateFacility,
+  deleteFacility,
   createAssetCategory,
   updateAssetCategory,
   deleteAssetCategory,
@@ -36,6 +39,7 @@ export {
 export type {
   FacultyInfo,
   DashboardData,
+  FacilityData,
 } from "./supabaseDataService";
 
 import type { DashboardData } from "./supabaseDataService";

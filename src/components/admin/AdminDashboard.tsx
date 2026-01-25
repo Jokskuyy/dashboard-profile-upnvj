@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../../lib/supabase";
 import {
   Users,
   Award,
@@ -34,29 +35,24 @@ import {
   createProgram,
   updateProgram,
   deleteProgram,
-  createAssetCategory,
-  updateAssetCategory,
-  deleteAssetCategory,
-  addAssetDetail,
-  updateAssetDetail,
-  deleteAssetDetail,
+  createFacility,
+  updateFacility,
+  deleteFacility,
   type DashboardData,
   type FacultyInfo,
+  type FacilityData,
 } from "../../services/api/dataService";
 import type {
   Professor,
   Accreditation,
   StudentData,
-  AssetCategory,
-  AssetDetail,
   ProgramData,
 } from "../../types";
 import ProfessorModal from "../modals/crud/ProfessorModal";
 import AccreditationModal from "../modals/crud/AccreditationModal";
 import StudentModal from "../modals/crud/StudentModal";
 import ProgramModal from "../modals/crud/ProgramModal";
-import AssetModal from "../modals/crud/AssetModal";
-import AssetDetailModal from "../modals/crud/AssetDetailModal";
+import FacilityModal from "../modals/crud/FacilityModal";
 import DeleteConfirmModal from "../modals/shared/DeleteConfirmModal";
 import Toast, { type ToastType } from "../common/Toast";
 import AdminTrafficAnalytics from "./analytics/AdminTrafficAnalytics";
@@ -117,24 +113,16 @@ export default function AdminDashboard() {
     program?: ProgramData;
   }>({ isOpen: false });
 
-  const [assetModal, setAssetModal] = useState<{
+  const [facilityModal, setFacilityModal] = useState<{
     isOpen: boolean;
-    asset?: AssetCategory;
-  }>({ isOpen: false });
-
-  const [assetDetailModal, setAssetDetailModal] = useState<{
-    isOpen: boolean;
-    detail?: AssetDetail;
-    categoryId?: string;
-    categoryName?: string;
+    facility?: FacilityData;
   }>({ isOpen: false });
 
   const [deleteModal, setDeleteModal] = useState<{
     isOpen: boolean;
     type?: string;
-    id?: string;
+    id?: string | number;
     facultyId?: string;
-    categoryId?: string;
     name?: string;
   }>({ isOpen: false });
 
@@ -210,30 +198,24 @@ export default function AdminDashboard() {
 
     try {
       if (deleteModal.type === "professor" && deleteModal.id) {
-        await deleteProfessor(deleteModal.id);
+        await deleteProfessor(deleteModal.id.toString());
         showToast("Dosen berhasil dihapus", "success");
       } else if (deleteModal.type === "accreditation" && deleteModal.id) {
-        await deleteAccreditation(deleteModal.id);
+        await deleteAccreditation(deleteModal.id.toString());
         showToast("Akreditasi berhasil dihapus", "success");
       } else if (deleteModal.type === "student" && deleteModal.facultyId) {
         await deleteStudentData(deleteModal.facultyId);
         showToast("Data mahasiswa berhasil dihapus", "success");
       } else if (deleteModal.type === "program" && deleteModal.id) {
-        await deleteProgram(deleteModal.id);
+        await deleteProgram(deleteModal.id.toString());
         showToast("Program studi berhasil dihapus", "success");
-      } else if (deleteModal.type === "asset" && deleteModal.id) {
-        await deleteAssetCategory(deleteModal.id);
-        showToast("Kategori aset berhasil dihapus", "success");
-      } else if (
-        deleteModal.type === "assetDetail" &&
-        deleteModal.categoryId &&
-        deleteModal.id
-      ) {
-        await deleteAssetDetail(deleteModal.categoryId, deleteModal.id);
-        showToast("Item aset berhasil dihapus", "success");
+      } else if (deleteModal.type === "facility" && deleteModal.id) {
+        await deleteFacility(Number(deleteModal.id));
+        showToast("Fasilitas berhasil dihapus", "success");
       }
 
       await loadData(); // Reload data
+      setDeleteModal({ isOpen: false });
     } catch (error) {
       console.error("Error deleting:", error);
       showToast("Gagal menghapus data", "error");
@@ -305,42 +287,23 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleSaveAsset = async (
-    asset: Omit<AssetCategory, "id"> | AssetCategory,
+  // Facility CRUD handlers (replacing asset handlers)
+  const handleSaveFacility = async (
+    facility: Omit<FacilityData, "id"> | FacilityData,
   ) => {
     try {
-      if ("id" in asset) {
-        await updateAssetCategory(asset.id, asset);
-        showToast("Kategori aset berhasil diupdate", "success");
+      if ("id" in facility && facility.id) {
+        await updateFacility(facility.id, facility);
+        showToast("Fasilitas berhasil diupdate", "success");
       } else {
-        await createAssetCategory(asset);
-        showToast("Kategori aset baru berhasil ditambahkan", "success");
+        await createFacility(facility);
+        showToast("Fasilitas baru berhasil ditambahkan", "success");
       }
       await loadData();
+      setFacilityModal({ isOpen: false });
     } catch (error) {
-      console.error("Error saving asset category:", error);
-      showToast("Gagal menyimpan kategori aset", "error");
-      throw error;
-    }
-  };
-
-  const handleSaveAssetDetail = async (
-    detail: Omit<AssetDetail, "id"> | AssetDetail,
-  ) => {
-    if (!assetDetailModal.categoryId) return;
-
-    try {
-      if ("id" in detail) {
-        await updateAssetDetail(assetDetailModal.categoryId.toString(), detail.id.toString(), detail);
-        showToast("Item aset berhasil diupdate", "success");
-      } else {
-        await addAssetDetail(assetDetailModal.categoryId.toString(), detail);
-        showToast("Item aset baru berhasil ditambahkan", "success");
-      }
-      await loadData();
-    } catch (error) {
-      console.error("Error saving asset detail:", error);
-      showToast("Gagal menyimpan item aset", "error");
+      console.error("Error saving facility:", error);
+      showToast("Gagal menyimpan fasilitas", "error");
       throw error;
     }
   };
@@ -384,7 +347,12 @@ export default function AdminDashboard() {
       icon: GraduationCap,
       count: data?.students.length,
     },
-    { id: "assets", label: "Aset", icon: Package, count: data?.assets.length },
+    {
+      id: "assets",
+      label: "Fasilitas",
+      icon: Package,
+      count: data?.assets.length,
+    },
     {
       id: "programs",
       label: "Program Studi",
@@ -480,19 +448,11 @@ export default function AdminDashboard() {
           accreditations={data?.accreditations || []}
         />
 
-        <AssetModal
-          isOpen={assetModal.isOpen}
-          onClose={() => setAssetModal({ isOpen: false })}
-          onSave={handleSaveAsset}
-          asset={assetModal.asset}
-        />
-
-        <AssetDetailModal
-          isOpen={assetDetailModal.isOpen}
-          onClose={() => setAssetDetailModal({ isOpen: false })}
-          onSave={handleSaveAssetDetail}
-          detail={assetDetailModal.detail}
-          categoryName={assetDetailModal.categoryName || ""}
+        <FacilityModal
+          isOpen={facilityModal.isOpen}
+          onClose={() => setFacilityModal({ isOpen: false })}
+          onSave={handleSaveFacility}
+          facility={facilityModal.facility}
         />
 
         <DeleteConfirmModal
@@ -583,7 +543,7 @@ export default function AdminDashboard() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
               <div>
                 <h1 className="text-3xl font-bold text-slate-900 mb-2">
-                  Selamat Datang, Admin 👋
+                  Selamat Datang, Admin Ganteng Muach
                 </h1>
               </div>
             </div>
@@ -633,7 +593,7 @@ export default function AdminDashboard() {
                 </div>
                 <div>
                   <p className="text-slate-500 text-sm font-medium mb-1">
-                    Total Aset
+                    Total Fasilitas
                   </p>
                   <h3 className="text-3xl font-bold text-slate-900">
                     {stats.totalAssets}
@@ -772,41 +732,18 @@ export default function AdminDashboard() {
                   }
                 />
               )}
-              {activeTab === "assets" && data && (
-                <AssetsTable
-                  assets={data.assets}
-                  onAdd={() => setAssetModal({ isOpen: true })}
-                  onEdit={(asset) => setAssetModal({ isOpen: true, asset })}
-                  onDelete={(asset) =>
+              {activeTab === "assets" && (
+                <FacilitiesTable
+                  onAdd={() => setFacilityModal({ isOpen: true })}
+                  onEdit={(facility) =>
+                    setFacilityModal({ isOpen: true, facility })
+                  }
+                  onDelete={(facility) =>
                     setDeleteModal({
                       isOpen: true,
-                      type: "asset",
-                      id: asset.id,
-                      name: asset.name,
-                    })
-                  }
-                  onAddDetail={(categoryId, categoryName) =>
-                    setAssetDetailModal({
-                      isOpen: true,
-                      categoryId,
-                      categoryName,
-                    })
-                  }
-                  onEditDetail={(categoryId, categoryName, detail) =>
-                    setAssetDetailModal({
-                      isOpen: true,
-                      detail,
-                      categoryId,
-                      categoryName,
-                    })
-                  }
-                  onDeleteDetail={(categoryId, _categoryName, detail) =>
-                    setDeleteModal({
-                      isOpen: true,
-                      type: "assetDetail",
-                      id: detail.id.toString(),
-                      categoryId,
-                      name: detail.name,
+                      type: "facility",
+                      id: facility.id,
+                      name: facility.nama_fasilitas,
                     })
                   }
                 />
@@ -954,7 +891,7 @@ function ProfessorsTable({
                 <td className="px-6 py-4 text-slate-600">{prof.faculty}</td>
                 <td className="px-6 py-4 text-slate-500">{prof.email}</td>
                 <td className="px-6 py-4 text-center">
-                  <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center justify-center gap-2">
                     <button
                       onClick={() => onEdit(prof)}
                       className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
@@ -1127,7 +1064,9 @@ function AccreditationsTable({
                 <td className="px-6 py-4 text-slate-600">{acc.level}</td>
                 <td className="px-6 py-4 text-slate-600">{acc.accreditor}</td>
                 <td className="px-6 py-4 text-slate-600">
-                  {acc.validUntil ? new Date(acc.validUntil).toLocaleDateString("id-ID") : "-"}
+                  {acc.validUntil
+                    ? new Date(acc.validUntil).toLocaleDateString("id-ID")
+                    : "-"}
                 </td>
                 <td className="px-6 py-4">
                   <span
@@ -1143,7 +1082,7 @@ function AccreditationsTable({
                   </span>
                 </td>
                 <td className="px-6 py-4 text-center">
-                  <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center justify-center gap-2">
                     <button
                       onClick={() => onEdit(acc)}
                       className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
@@ -1265,7 +1204,10 @@ function StudentsTable({
     return pages;
   };
 
-  const totalStudents = students.reduce((sum, s) => sum + (s.totalStudents || 0), 0);
+  const totalStudents = students.reduce(
+    (sum, s) => sum + (s.totalStudents || 0),
+    0,
+  );
 
   return (
     <div>
@@ -1315,7 +1257,7 @@ function StudentsTable({
                   {(student.totalStudents || 0).toLocaleString()}
                 </td>
                 <td className="px-6 py-4 text-center">
-                  <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center justify-center gap-2">
                     <button
                       onClick={() => onEdit(student)}
                       className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
@@ -1410,152 +1352,298 @@ function StudentsTable({
   );
 }
 
-function AssetsTable({
-  assets,
+function FacilitiesTable({
   onAdd,
   onEdit,
   onDelete,
-  onAddDetail,
-  onEditDetail,
-  onDeleteDetail,
 }: {
-  assets: AssetCategory[];
   onAdd: () => void;
-  onEdit: (asset: AssetCategory) => void;
-  onDelete: (asset: AssetCategory) => void;
-  onAddDetail: (categoryId: string, categoryName: string) => void;
-  onEditDetail: (
-    categoryId: string,
-    categoryName: string,
-    detail: AssetDetail,
-  ) => void;
-  onDeleteDetail: (
-    categoryId: string,
-    categoryName: string,
-    detail: AssetDetail,
-  ) => void;
+  onEdit: (facility: FacilityData) => void;
+  onDelete: (facility: FacilityData) => void;
 }) {
+  const [facilities, setFacilities] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedType, setSelectedType] = useState<string>("Semua");
+  const itemsPerPage = 10;
+
+  useEffect(() => {
+    fetchFacilities();
+  }, []);
+
+  const fetchFacilities = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("fasilitas")
+        .select(
+          `
+          *,
+          gedung (
+            id,
+            nama_gedung
+          )
+        `,
+        )
+        .order("tipe_fasilitas", { ascending: true })
+        .order("nama_fasilitas", { ascending: true });
+
+      if (error) throw error;
+      setFacilities(data || []);
+    } catch (error) {
+      console.error("Error fetching facilities:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Get unique facility types for filtering
+  const facilityTypes = [
+    "Semua",
+    ...new Set(facilities.map((f) => f.tipe_fasilitas)),
+  ];
+
+  // Filter facilities by selected type
+  const filteredFacilities =
+    selectedType === "Semua"
+      ? facilities
+      : facilities.filter((f) => f.tipe_fasilitas === selectedType);
+
+  // Group facilities by type for display
+  const facilitiesByType = filteredFacilities.reduce(
+    (acc, facility) => {
+      const type = facility.tipe_fasilitas || "Lainnya";
+      if (!acc[type]) {
+        acc[type] = [];
+      }
+      acc[type].push(facility);
+      return acc;
+    },
+    {} as Record<string, any[]>,
+  );
+
+  const totalPages = Math.ceil(
+    Object.keys(facilitiesByType).length / itemsPerPage,
+  );
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentTypes = Object.keys(facilitiesByType).slice(
+    startIndex,
+    endIndex,
+  );
+
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) pages.push(i);
+        pages.push("...");
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        pages.push("...");
+        for (let i = totalPages - 3; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        pages.push("...");
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) pages.push(i);
+        pages.push("...");
+        pages.push(totalPages);
+      }
+    }
+    return pages;
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <RefreshCw className="w-8 h-8 animate-spin text-emerald-600" />
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Daftar Aset</h2>
+          <h2 className="text-xl font-bold text-slate-900">Daftar Fasilitas</h2>
           <p className="text-sm text-slate-500">
-            {assets.length} Kategori aset terdaftar.
+            {filteredFacilities.length} fasilitas terdaftar
+            {selectedType !== "Semua" && ` dalam kategori ${selectedType}`}
           </p>
         </div>
-        <button
-          onClick={onAdd}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg shadow-emerald-500/20 flex items-center gap-2 transition-all active:scale-95"
-        >
-          <Plus className="w-4 h-4" />
-          Tambah Kategori
-        </button>
-      </div>
-      <div className="space-y-4">
-        {assets.map((category) => (
-          <div
-            key={category.id}
-            className="border border-slate-200 rounded-2xl overflow-hidden bg-white/50"
+        <div className="flex gap-3">
+          <select
+            value={selectedType}
+            onChange={(e) => {
+              setSelectedType(e.target.value);
+              setCurrentPage(1);
+            }}
+            className="px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
           >
-            <div className="bg-slate-50/50 px-6 py-4 flex items-center justify-between border-b border-slate-200">
-              <div className="flex items-center gap-3">
-                <div
-                  className={`w-12 h-12 rounded-xl bg-${category.color}-50 flex items-center justify-center`}
-                >
-                  <Package className={`w-6 h-6 text-${category.color}-600`} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-slate-900 text-lg">
-                    {category.name}
-                  </h4>
-                  <p className="text-sm text-slate-500">
-                    {category.count} item terdaftar
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => onAddDetail(category.id, category.name)}
-                  className="px-4 py-2 text-sm bg-emerald-100 text-emerald-700 rounded-xl hover:bg-emerald-200 transition-colors flex items-center gap-2 font-semibold"
-                >
-                  <Plus className="w-4 h-4" />
-                  Tambah Item
-                </button>
-                <button
-                  onClick={() => onEdit(category)}
-                  className="p-2.5 text-blue-500 hover:bg-blue-50 rounded-xl transition-colors"
-                >
-                  <Edit2 className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => onDelete(category)}
-                  className="p-2.5 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
-                >
-                  <Trash2 className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-            <div className="p-6">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-semibold">
-                    <th className="pb-3">Nama</th>
-                    <th className="pb-3">Ruangan</th>
-                    <th className="pb-3">Gedung</th>
-                    <th className="pb-3 text-right">Kapasitas</th>
-                    <th className="pb-3 text-center">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody className="text-sm divide-y divide-slate-100">
-                  {category.details.slice(0, 5).map((detail) => (
-                    <tr
-                      key={detail.id}
-                      className="hover:bg-slate-50 group transition-colors"
-                    >
-                      <td className="py-3 text-slate-900 font-medium">
-                        {detail.name}
-                      </td>
-                      <td className="py-3 text-slate-600">{detail.room}</td>
-                      <td className="py-3 text-slate-600">{detail.building}</td>
-                      <td className="py-3 text-slate-600 text-right">
-                        {detail.capacity ? `${detail.capacity} orang` : "-"}
-                      </td>
-                      <td className="py-3 text-center">
-                        <div className="flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button
-                            onClick={() =>
-                              onEditDetail(category.id, category.name, detail)
-                            }
-                            className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
-                          >
-                            <Edit2 className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() =>
-                              onDeleteDetail(category.id, category.name, detail)
-                            }
-                            className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {category.details.length > 5 && (
-                <div className="mt-4 pt-4 text-center text-sm border-t border-slate-200 bg-slate-50/50 rounded-lg p-3">
-                  <span className="text-emerald-600 font-semibold">
-                    +{category.details.length - 5} item lainnya
-                  </span>
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
+            {facilityTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+          <button
+            onClick={onAdd}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg shadow-emerald-500/20 flex items-center gap-2 transition-all active:scale-95"
+          >
+            <Plus className="w-4 h-4" />
+            Tambah Fasilitas
+          </button>
+        </div>
       </div>
+
+      <div className="space-y-4">
+        {currentTypes.map((type) => {
+          const typeFacilities = facilitiesByType[type];
+          return (
+            <div
+              key={type}
+              className="border border-slate-200 rounded-2xl overflow-hidden bg-white/50"
+            >
+              <div className="bg-slate-50/50 px-6 py-4 border-b border-slate-200">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center">
+                    <Package className="w-6 h-6 text-emerald-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 text-lg">{type}</h4>
+                    <p className="text-sm text-slate-500">
+                      {typeFacilities.length} fasilitas
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-slate-50/30 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-semibold">
+                      <th className="px-6 py-3">Nama Fasilitas</th>
+                      <th className="px-6 py-3">Deskripsi</th>
+                      <th className="px-6 py-3">Gedung</th>
+                      <th className="px-6 py-3 text-center">Warna</th>
+                      <th className="px-6 py-3 text-center">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-sm divide-y divide-slate-100">
+                    {typeFacilities.map((facility: any) => (
+                      <tr
+                        key={facility.id}
+                        className="hover:bg-slate-50 group transition-colors"
+                      >
+                        <td className="px-6 py-4 text-slate-900 font-medium">
+                          {facility.nama_fasilitas}
+                        </td>
+                        <td className="px-6 py-4 text-slate-600 max-w-md truncate">
+                          {facility.deskripsi_fasilitas || "-"}
+                        </td>
+                        <td className="px-6 py-4 text-slate-600">
+                          {facility.gedung?.nama_gedung || "-"}
+                        </td>
+                        <td className="px-6 py-4 text-center">
+                          <span
+                            className={`inline-block w-6 h-6 rounded-full bg-${facility.color || "gray"}-500`}
+                            title={facility.color || "gray"}
+                          ></span>
+                        </td>
+                        <td className="px-6 py-4 text-center">
+                          <div className="flex items-center justify-center gap-1">
+                            <button
+                              onClick={() => onEdit(facility)}
+                              className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+                            >
+                              <Edit2 className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => onDelete(facility)}
+                              className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {filteredFacilities.length === 0 && !loading && (
+        <div className="text-center py-12 text-slate-500">
+          <Package className="w-16 h-16 mx-auto mb-4 opacity-30" />
+          <p className="text-lg font-semibold">Tidak ada fasilitas</p>
+          <p className="text-sm">
+            {selectedType === "Semua"
+              ? "Belum ada fasilitas yang terdaftar"
+              : `Tidak ada fasilitas dengan tipe ${selectedType}`}
+          </p>
+        </div>
+      )}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="mt-6 p-6 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-slate-500">
+            Menampilkan {startIndex + 1}-
+            {Math.min(endIndex, Object.keys(facilitiesByType).length)} dari{" "}
+            {Object.keys(facilitiesByType).length} kategori
+          </p>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+            >
+              Previous
+            </button>
+            {getPageNumbers().map((page, index) =>
+              page === "..." ? (
+                <span
+                  key={`ellipsis-${index}`}
+                  className="px-4 py-2 text-slate-400"
+                >
+                  ...
+                </span>
+              ) : (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page as number)}
+                  className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                    currentPage === page
+                      ? "bg-emerald-600 text-white shadow-lg shadow-emerald-500/20"
+                      : "border border-slate-200 text-slate-600 hover:bg-slate-50"
+                  }`}
+                >
+                  {page}
+                </button>
+              ),
+            )}
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+              }
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -1658,7 +1746,7 @@ function ProgramsTable({
                   {(program.students || 0).toLocaleString()}
                 </td>
                 <td className="px-6 py-4 text-center">
-                  <div className="flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center justify-center gap-2">
                     <button
                       onClick={() => onEdit(program)}
                       className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"

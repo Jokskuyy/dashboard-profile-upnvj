@@ -28,19 +28,19 @@ export default function DeleteProfessorModal({
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-2xl transform transition-all">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl transform transition-all">
         <div className="p-8 text-center">
-          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-red-50 dark:bg-red-900/20 mb-6">
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-red-50 mb-6">
             <AlertTriangle className="w-12 h-12 text-red-600" />
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+          <h2 className="text-2xl font-bold text-gray-900 mb-3">
             Hapus Data Dosen?
           </h2>
 
-          <p className="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed">
+          <p className="text-gray-500 mb-8 leading-relaxed">
             Apakah Anda yakin ingin menghapus data{" "}
-            <span className="font-bold text-gray-800 dark:text-gray-200">
+            <span className="font-bold text-gray-800">
               {professor.nama_dosen || professor.name}
             </span>
             ? Tindakan ini tidak dapat dibatalkan.
@@ -50,7 +50,7 @@ export default function DeleteProfessorModal({
             <button
               type="button"
               onClick={onClose}
-              className="w-full px-6 py-3 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-gray-200"
+              className="w-full px-6 py-3 rounded-xl border border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-gray-200"
             >
               Batal
             </button>

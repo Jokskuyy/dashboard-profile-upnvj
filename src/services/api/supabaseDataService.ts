@@ -541,7 +541,10 @@ export const getStudentsByFaculty = (students: StudentData[]) => {
 export const getTotalStats = (data: DashboardData) => {
   const totalStudents = data.students.reduce(
     (sum, faculty) =>
-      sum + ((faculty.undergraduate || 0) + (faculty.postgraduate || 0) + (faculty.graduate || 0)),
+      sum +
+      ((faculty.undergraduate || 0) +
+        (faculty.postgraduate || 0) +
+        (faculty.graduate || 0)),
     0,
   );
 
@@ -1072,6 +1075,64 @@ export const deleteDepartment = async (id: string): Promise<void> => {
 };
 
 // ===== ASSETS CRUD =====
+// New facility-based CRUD operations (replacing category-based approach)
+
+export interface FacilityData {
+  id?: number;
+  nama_fasilitas: string;
+  deskripsi_fasilitas: string;
+  tipe_fasilitas: string;
+  id_gedung: number;
+  color: string;
+}
+
+export const createFacility = async (
+  facility: Omit<FacilityData, "id">,
+): Promise<FacilityData> => {
+  clearCache();
+
+  const { data, error } = await supabase
+    .from("fasilitas")
+    .insert({
+      nama_fasilitas: facility.nama_fasilitas,
+      deskripsi_fasilitas: facility.deskripsi_fasilitas,
+      tipe_fasilitas: facility.tipe_fasilitas,
+      id_gedung: facility.id_gedung,
+      color: facility.color || "gray",
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
+export const updateFacility = async (
+  id: number,
+  facility: Partial<FacilityData>,
+): Promise<FacilityData> => {
+  clearCache();
+
+  const { data, error } = await supabase
+    .from("fasilitas")
+    .update(facility)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
+export const deleteFacility = async (id: number): Promise<void> => {
+  clearCache();
+
+  const { error } = await supabase.from("fasilitas").delete().eq("id", id);
+
+  if (error) throw error;
+};
+
+// ===== LEGACY ASSETS CRUD (DEPRECATED - FOR BACKWARD COMPATIBILITY) =====
 
 export const createAssetCategory = async (
   category: Omit<AssetCategory, "id">,
@@ -1106,11 +1167,12 @@ export const addAssetDetail = async (
   clearCache();
 
   // Get building name from either new or old field format
-  const buildingName = detail.building || (detail.id_gedung ? `Building ${detail.id_gedung}` : "");
-  
+  const buildingName =
+    detail.building || (detail.id_gedung ? `Building ${detail.id_gedung}` : "");
+
   // Get or create gedung if building name provided
   let gedungId = detail.id_gedung;
-  
+
   if (buildingName && !gedungId) {
     let { data: gedung, error: gedungError } = await supabase
       .from("gedung")
@@ -1128,7 +1190,7 @@ export const addAssetDetail = async (
       if (createError) throw createError;
       gedung = newGedung;
     }
-    
+
     gedungId = gedung?.id;
   }
 
@@ -1170,13 +1232,14 @@ export const updateAssetDetail = async (
   clearCache();
 
   const updateData: any = {};
-  
+
   // Handle both old and new field formats
   if (detail.nama_fasilitas || detail.name) {
     updateData.nama_fasilitas = detail.nama_fasilitas || detail.name;
   }
   if (detail.deskripsi_fasilitas || detail.description) {
-    updateData.deskripsi_fasilitas = detail.deskripsi_fasilitas || detail.description;
+    updateData.deskripsi_fasilitas =
+      detail.deskripsi_fasilitas || detail.description;
   }
   if (detail.tipe_fasilitas) updateData.tipe_fasilitas = detail.tipe_fasilitas;
   if (detail.id_gedung) updateData.id_gedung = detail.id_gedung;

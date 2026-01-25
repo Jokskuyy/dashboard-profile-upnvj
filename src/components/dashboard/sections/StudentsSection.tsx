@@ -83,20 +83,20 @@ const StudentsSection: React.FC = () => {
               {selectedProgramData
                 ? selectedProgramData.name
                 : selectedFacultyData
-                ? selectedFacultyData.name
-                : t("studentsTitle")}
+                  ? selectedFacultyData.name
+                  : t("studentsTitle")}
             </span>
           </h3>
           <p className="text-sm sm:text-base text-gray-600 mt-1">
             {selectedProgramData
               ? `${selectedProgramData.students?.toLocaleString()} ${t(
-                  "studentsInProgram"
+                  "studentsInProgram",
                 )}`
               : selectedFacultyData
-              ? `${selectedFacultyData.count?.toLocaleString()} ${t(
-                  "studentsInFaculty"
-                )}`
-              : t("studentsSubtitle")}
+                ? `${selectedFacultyData.count?.toLocaleString()} ${t(
+                    "studentsInFaculty",
+                  )}`
+                : t("studentsSubtitle")}
           </p>
         </div>
         <div className="text-left sm:text-right shrink-0">
@@ -104,8 +104,8 @@ const StudentsSection: React.FC = () => {
             {selectedProgramData
               ? selectedProgramData.students?.toLocaleString()
               : selectedFacultyData
-              ? selectedFacultyData.count?.toLocaleString()
-              : totalStats?.totalStudents.toLocaleString()}
+                ? selectedFacultyData.count?.toLocaleString()
+                : totalStats?.totalStudents.toLocaleString()}
           </p>
           <p className="text-xs sm:text-sm text-gray-500">
             {t("totalStudents")}
