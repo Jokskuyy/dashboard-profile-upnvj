@@ -44,7 +44,7 @@ export default function AdminTrafficAnalytics() {
   const [timeRange, setTimeRange] = useState<"7d" | "30d" | "90d">("7d");
   const [loading, setLoading] = useState(true);
   const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(
-    null
+    null,
   );
 
   // Load analytics data
@@ -52,15 +52,8 @@ export default function AdminTrafficAnalytics() {
     setLoading(true);
     try {
       const days = timeRange === "7d" ? 7 : timeRange === "30d" ? 30 : 90;
-      console.log("Loading analytics for", days, "days...");
 
       const data = await getAnalytics(days);
-
-      console.log("Analytics data received:", data);
-      console.log("Success?", data?.success);
-      console.log("Daily stats:", data?.dailyStats);
-      console.log("Total visitors:", data?.totalVisitors);
-      console.log("Total page views:", data?.totalPageViews);
 
       if (data && data.success) {
         const analyticsResult = {
@@ -74,14 +67,11 @@ export default function AdminTrafficAnalytics() {
           totalPageViews: data.totalPageViews || 0,
         };
 
-        console.log("Setting analytics data:", analyticsResult);
         setAnalyticsData(analyticsResult);
       } else {
-        console.log("No data or not successful:", data);
         setAnalyticsData(null);
       }
     } catch (error) {
-      console.error("Error loading analytics:", error);
       setAnalyticsData(null);
     } finally {
       setLoading(false);
@@ -198,8 +188,8 @@ export default function AdminTrafficAnalytics() {
               {range === "7d"
                 ? "7 Hari"
                 : range === "30d"
-                ? "30 Hari"
-                : "90 Hari"}
+                  ? "30 Hari"
+                  : "90 Hari"}
             </button>
           ))}
         </div>

@@ -476,12 +476,6 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
     const data = await retryWithBackoff(fetchWithRetry, {
       maxRetries: 3,
       initialDelay: 1000,
-      onRetry: (attempt, error) => {
-        console.log(
-          `Retrying dashboard data fetch (attempt ${attempt}):`,
-          error.message,
-        );
-      },
     });
 
     dataCache = data;

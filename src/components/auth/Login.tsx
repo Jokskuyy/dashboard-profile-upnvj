@@ -49,25 +49,16 @@ const Login: React.FC = () => {
     setError("");
     setIsLoading(true);
 
-    console.log("📝 Form submitted");
-    console.log("👤 Username:", username);
-    console.log("🔑 Password length:", password.length);
-
     try {
       const result = await login(username, password);
 
-      console.log("Login result:", result);
-
       if (result.success) {
-        console.log("Login successful, navigating to /admin");
         navigate("/admin");
       } else {
-        console.error("Login failed:", result.message);
         setError(result.message);
         setIsLoading(false);
       }
     } catch (err: any) {
-      console.error("Login exception:", err);
       setError(err.message || "Terjadi kesalahan tidak terduga");
       setIsLoading(false);
     }

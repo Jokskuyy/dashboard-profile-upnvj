@@ -32,9 +32,6 @@ class ErrorBoundary extends Component<Props, State> {
       error,
       errorInfo,
     });
-
-    // You can also log the error to an error reporting service here
-    // logErrorToService(error, errorInfo);
   }
 
   handleReset = () => {
@@ -67,8 +64,12 @@ class ErrorBoundary extends Component<Props, State> {
                   <AlertTriangle className="w-8 h-8" />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold mb-1">Oops! Terjadi Kesalahan</h1>
-                  <p className="text-red-100">Aplikasi mengalami masalah yang tidak terduga</p>
+                  <h1 className="text-3xl font-bold mb-1">
+                    Oops! Terjadi Kesalahan
+                  </h1>
+                  <p className="text-red-100">
+                    Aplikasi mengalami masalah yang tidak terduga
+                  </p>
                 </div>
               </div>
             </div>
@@ -80,7 +81,8 @@ class ErrorBoundary extends Component<Props, State> {
                   Apa yang terjadi?
                 </h2>
                 <p className="text-gray-600">
-                  Aplikasi mengalami error yang tidak terduga. Tim kami telah diberitahu dan sedang menyelidiki masalah ini.
+                  Aplikasi mengalami error yang tidak terduga. Tim kami telah
+                  diberitahu dan sedang menyelidiki masalah ini.
                 </p>
               </div>
 
@@ -126,7 +128,8 @@ class ErrorBoundary extends Component<Props, State> {
                   Masih mengalami masalah?
                 </h3>
                 <p className="text-sm text-gray-600">
-                  Coba refresh halaman atau hubungi administrator jika masalah terus berlanjut.
+                  Coba refresh halaman atau hubungi administrator jika masalah
+                  terus berlanjut.
                 </p>
               </div>
             </div>

@@ -30,7 +30,7 @@ const calculateDelay = (
   attempt: number,
   initialDelay: number,
   maxDelay: number,
-  multiplier: number
+  multiplier: number,
 ): number => {
   const exponentialDelay = initialDelay * Math.pow(multiplier, attempt - 1);
   const delayWithJitter = exponentialDelay * (0.5 + Math.random() * 0.5);
@@ -39,12 +39,12 @@ const calculateDelay = (
 
 /**
  * Retry a function with exponential backoff
- * 
+ *
  * @param fn - The async function to retry
  * @param options - Retry options
  * @returns The result of the function if successful
  * @throws The last error if all retries fail
- * 
+ *
  * @example
  * const data = await retryWithBackoff(
  *   async () => await fetchData(),
@@ -53,7 +53,7 @@ const calculateDelay = (
  */
 export async function retryWithBackoff<T>(
   fn: () => Promise<T>,
-  options: RetryOptions = {}
+  options: RetryOptions = {},
 ): Promise<T> {
   const opts = { ...DEFAULT_OPTIONS, ...options };
   let lastError: Error;
@@ -77,12 +77,7 @@ export async function retryWithBackoff<T>(
         attempt,
         opts.initialDelay,
         opts.maxDelay,
-        opts.backoffMultiplier
-      );
-      
-      console.log(
-        `Retry attempt ${attempt}/${opts.maxRetries} after ${Math.round(delay)}ms`,
-        lastError.message
+        opts.backoffMultiplier,
       );
 
       await sleep(delay);
@@ -126,7 +121,7 @@ export function isRetryableError(error: any): boolean {
 export async function retryIf<T>(
   fn: () => Promise<T>,
   shouldRetry: (error: Error) => boolean,
-  options: RetryOptions = {}
+  options: RetryOptions = {},
 ): Promise<T> {
   return retryWithBackoff(async () => {
     try {
@@ -146,7 +141,7 @@ export async function retryIf<T>(
  */
 export function withRetry<T extends (...args: any[]) => Promise<any>>(
   fn: T,
-  options: RetryOptions = {}
+  options: RetryOptions = {},
 ): T {
   return ((...args: Parameters<T>) =>
     retryWithBackoff(() => fn(...args), options)) as T;

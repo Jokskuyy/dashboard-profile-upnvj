@@ -1,10 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Maximize2,
-  Minimize2,
-  RotateCcw,
-  Loader2,
-} from "lucide-react";
+import { Maximize2, Minimize2, RotateCcw, Loader2 } from "lucide-react";
 
 interface UnityWebGLViewerProps {
   buildPath: string;
@@ -23,7 +18,7 @@ declare global {
     createUnityInstance: (
       canvas: HTMLCanvasElement,
       config: any,
-      onProgress?: (progress: number) => void
+      onProgress?: (progress: number) => void,
     ) => Promise<any>;
   }
 }
@@ -56,7 +51,6 @@ const UnityWebGLViewer: React.FC<UnityWebGLViewerProps> = ({
     productName,
     productVersion,
     showBanner: (msg: string, type: string) => {
-      console.log(`[Unity ${type}]: ${msg}`);
       if (type === "error") {
         setError(msg);
       }
@@ -80,7 +74,7 @@ const UnityWebGLViewer: React.FC<UnityWebGLViewerProps> = ({
 
         if (!window.createUnityInstance) {
           throw new Error(
-            "Unity WebGL loader not loaded. Please check if the loader script is included."
+            "Unity WebGL loader not loaded. Please check if the loader script is included.",
           );
         }
 
@@ -90,7 +84,7 @@ const UnityWebGLViewer: React.FC<UnityWebGLViewerProps> = ({
           unityConfig,
           (progress: number) => {
             setLoadingProgress(Math.round(progress * 100));
-          }
+          },
         );
 
         setUnityInstance(instance);
@@ -104,7 +98,7 @@ const UnityWebGLViewer: React.FC<UnityWebGLViewerProps> = ({
         setError(
           err instanceof Error
             ? err.message
-            : "Failed to load Unity WebGL application"
+            : "Failed to load Unity WebGL application",
         );
         setIsLoading(false);
       }
@@ -136,9 +130,13 @@ const UnityWebGLViewer: React.FC<UnityWebGLViewerProps> = ({
 
   if (error) {
     return (
-      <div className={`bg-red-50 border border-red-200 rounded-lg p-6 ${className}`}>
+      <div
+        className={`bg-red-50 border border-red-200 rounded-lg p-6 ${className}`}
+      >
         <div className="text-center">
-          <div className="text-red-600 font-semibold mb-2">Failed to Load Unity WebGL</div>
+          <div className="text-red-600 font-semibold mb-2">
+            Failed to Load Unity WebGL
+          </div>
           <p className="text-red-700 text-sm mb-4">{error}</p>
           <button
             onClick={handleReload}
@@ -162,7 +160,9 @@ const UnityWebGLViewer: React.FC<UnityWebGLViewerProps> = ({
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900 to-purple-900 flex items-center justify-center z-10">
           <div className="text-center">
             <Loader2 className="w-12 h-12 text-white animate-spin mx-auto mb-4" />
-            <p className="text-white font-medium mb-2">Loading Unity WebGL...</p>
+            <p className="text-white font-medium mb-2">
+              Loading Unity WebGL...
+            </p>
             <div className="w-64 h-2 bg-white/20 rounded-full mx-auto">
               <div
                 className="h-full bg-white rounded-full transition-all duration-300"

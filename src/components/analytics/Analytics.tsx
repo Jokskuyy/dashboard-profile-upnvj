@@ -4,7 +4,7 @@ import {
   trackPageView,
   trackEvent,
   initTracking,
-} from '../../services/analytics/trackingService';
+} from "../../services/analytics/trackingService";
 
 // Helper functions for tracking specific events
 export const trackClick = (elementName: string) => {
@@ -25,7 +25,7 @@ export const trackSectionView = (sectionName: string) => {
 
 export const trackCarousel = (
   action: "next" | "prev" | "indicator",
-  slideIndex: number
+  slideIndex: number,
 ) => {
   trackEvent("carousel_interaction", { action, slideIndex });
 };
@@ -53,13 +53,11 @@ const Analytics: React.FC = () => {
   // Initialize tracking on component mount
   useEffect(() => {
     initTracking();
-    console.log("Analytics tracking initialized");
   }, []);
 
   // Track page view on route change
   useEffect(() => {
     trackPageView(location.pathname);
-    console.log("Page view tracked:", location.pathname);
   }, [location]);
 
   return null;

@@ -15,30 +15,6 @@ const getVisitorId = (): string => {
   return visitorId;
 };
 
-// Generate session ID (expires after 30 minutes of inactivity)
-// Kept for potential future use
-// const getSessionId = (): string => {
-//   const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
-//   const now = Date.now();
-//
-//   let sessionId = sessionStorage.getItem("sessionId");
-//   let lastActivity = sessionStorage.getItem("lastActivity");
-//
-//   if (
-//     !sessionId ||
-//     !lastActivity ||
-//     now - parseInt(lastActivity) > SESSION_TIMEOUT
-//   ) {
-//     sessionId = `session_${Date.now()}_${Math.random()
-//       .toString(36)
-//       .substr(2, 9)}`;
-//     sessionStorage.setItem("sessionId", sessionId);
-//   }
-//
-//   sessionStorage.setItem("lastActivity", now.toString());
-//   return sessionId;
-// };
-
 // Get device information with improved detection
 const getDeviceInfo = () => {
   const ua = navigator.userAgent.toLowerCase();
@@ -48,7 +24,7 @@ const getDeviceInfo = () => {
   const isMobile =
     /android|webos|iphone|ipod|blackberry|iemobile|opera mini/i.test(ua);
   const isTablet = /ipad|android(?!.*mobile)|tablet|kindle|silk|playbook/i.test(
-    ua
+    ua,
   );
 
   if (isTablet) {
@@ -88,7 +64,10 @@ const hashVisitorId = (visitorId: string): string => {
     // Simple hash using Web Crypto API
     const encoder = new TextEncoder();
     const data = encoder.encode(visitorId);
-    return Array.from(data).map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 32);
+    return Array.from(data)
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("")
+      .substring(0, 32);
   } catch {
     return visitorId.substring(0, 32);
   }
@@ -101,13 +80,11 @@ export const trackPageView = async (page: string) => {
     const deviceInfo = getDeviceInfo();
 
     // Insert into Supabase
-    const { error } = await supabase
-      .from("web_analytics_log")
-      .insert({
-        visitor_hash: hashVisitorId(visitorId),
-        page_path: page,
-        device_type: deviceInfo.deviceType,
-      });
+    const { error } = await supabase.from("web_analytics_log").insert({
+      visitor_hash: hashVisitorId(visitorId),
+      page_path: page,
+      device_type: deviceInfo.deviceType,
+    });
 
     if (error && process.env.NODE_ENV === "development") {
       console.error("Error tracking page view:", error);
@@ -123,20 +100,18 @@ export const trackPageView = async (page: string) => {
 // Track custom event
 export const trackEvent = async (
   eventName: string,
-  _eventData?: Record<string, any>
+  _eventData?: Record<string, any>,
 ) => {
   try {
     const visitorId = getVisitorId();
     const deviceInfo = getDeviceInfo();
 
     // Insert into Supabase with event name as page path
-    const { error } = await supabase
-      .from("web_analytics_log")
-      .insert({
-        visitor_hash: hashVisitorId(visitorId),
-        page_path: `event:${eventName}`,
-        device_type: deviceInfo.deviceType,
-      });
+    const { error } = await supabase.from("web_analytics_log").insert({
+      visitor_hash: hashVisitorId(visitorId),
+      page_path: `event:${eventName}`,
+      device_type: deviceInfo.deviceType,
+    });
 
     if (error && process.env.NODE_ENV === "development") {
       console.error("Error tracking event:", error);
@@ -152,8 +127,6 @@ export const trackEvent = async (
 // Get analytics data from Supabase
 export const getAnalytics = async (days: number = 7) => {
   try {
-    console.log('Fetching analytics for last', days, 'days...');
-    
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - days);
 
@@ -163,13 +136,9 @@ export const getAnalytics = async (days: number = 7) => {
       .gte("visited_at", startDate.toISOString())
       .order("visited_at", { ascending: false });
 
-    console.log('📦 Raw data from Supabase:', data);
-    console.log('Error:', error);
-
     if (error) throw error;
 
     if (!data || data.length === 0) {
-      console.log('No analytics data found');
       return {
         success: false,
         totalVisitors: 0,
@@ -182,7 +151,10 @@ export const getAnalytics = async (days: number = 7) => {
     // Process analytics data
     const pageViews = new Map<string, number>();
     const deviceTypes = new Map<string, number>();
-    const dailyViewsMap = new Map<string, { visitors: Set<string>, pageViews: number }>();
+    const dailyViewsMap = new Map<
+      string,
+      { visitors: Set<string>; pageViews: number }
+    >();
     const allVisitors = new Set<string>();
 
     data.forEach((log: any) => {
@@ -214,9 +186,11 @@ export const getAnalytics = async (days: number = 7) => {
     // Calculate device percentages
     const totalViews = data.length;
     const deviceStats = {
-      desktop: Math.round(((deviceTypes.get('desktop') || 0) / totalViews) * 100),
-      mobile: Math.round(((deviceTypes.get('mobile') || 0) / totalViews) * 100),
-      tablet: Math.round(((deviceTypes.get('tablet') || 0) / totalViews) * 100),
+      desktop: Math.round(
+        ((deviceTypes.get("desktop") || 0) / totalViews) * 100,
+      ),
+      mobile: Math.round(((deviceTypes.get("mobile") || 0) / totalViews) * 100),
+      tablet: Math.round(((deviceTypes.get("tablet") || 0) / totalViews) * 100),
     };
 
     // Convert daily stats to array
@@ -239,8 +213,6 @@ export const getAnalytics = async (days: number = 7) => {
         count,
       })),
     };
-
-    console.log('Processed analytics result:', result);
 
     return result;
   } catch (error) {

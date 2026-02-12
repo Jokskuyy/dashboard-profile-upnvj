@@ -11,7 +11,6 @@ import {
   Plus,
   Edit2,
   Trash2,
-  Save,
   X,
   RefreshCw,
   TrendingUp,
@@ -315,14 +314,13 @@ export default function AdminDashboard() {
     try {
       const success = await saveDashboardData(data);
       if (success) {
-        alert("Data berhasil disimpan!");
+        showToast("Data berhasil disimpan!", "success");
         clearCache();
       } else {
-        alert("Gagal menyimpan data.");
+        showToast("Gagal menyimpan data.", "error");
       }
-    } catch (err) {
-      alert("Terjadi kesalahan saat menyimpan data.");
-      console.error(err);
+    } catch (_err) {
+      showToast("Terjadi kesalahan saat menyimpan data.", "error");
     } finally {
       setSaving(false);
     }
@@ -523,15 +521,6 @@ export default function AdminDashboard() {
                     Logout
                   </span>
                 </button>
-                <button
-                  onClick={handleSave}
-                  disabled={saving}
-                  className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full font-semibold shadow-lg shadow-emerald-500/20 flex items-center gap-2 transition-all active:scale-95 disabled:opacity-50"
-                  style={{ display: "none" }}
-                >
-                  <Save className="w-4 h-4" />
-                  {saving ? "Menyimpan..." : "Simpan Perubahan"}
-                </button>
               </div>
             </div>
           </div>
@@ -543,7 +532,7 @@ export default function AdminDashboard() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
               <div>
                 <h1 className="text-3xl font-bold text-slate-900 mb-2">
-                  Selamat Datang, Admin Ganteng Muach
+                  Selamat Datang, {admin?.fullName || "Admin"}
                 </h1>
               </div>
             </div>
@@ -642,31 +631,6 @@ export default function AdminDashboard() {
                             activeTab === tab.id
                               ? "bg-emerald-600 text-white"
                               : "bg-slate-200 text-slate-600"
-                          }`}
-                        >
-                          {tab.count}
-                        </span>
-                      )}
-                    </button>
-                  );
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id as TabType)}
-                      className={`flex items-center gap-2 px-6 py-4 text-sm font-medium whitespace-nowrap transition-colors border-b-2 ${
-                        activeTab === tab.id
-                          ? "border-blue-600 text-blue-600"
-                          : "border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300"
-                      }`}
-                    >
-                      <Icon className="w-4 h-4" />
-                      {tab.label}
-                      {tab.count !== undefined && (
-                        <span
-                          className={`px-2 py-0.5 rounded-full text-xs ${
-                            activeTab === tab.id
-                              ? "bg-blue-100 text-blue-700"
-                              : "bg-gray-100 text-gray-600"
                           }`}
                         >
                           {tab.count}

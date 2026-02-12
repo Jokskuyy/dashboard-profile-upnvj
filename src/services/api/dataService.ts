@@ -51,13 +51,7 @@ import type { DashboardData } from "./supabaseDataService";
 export const saveDashboardData = async (
   _data: DashboardData,
 ): Promise<boolean> => {
-  try {
-    // With Supabase, data is saved automatically via CRUD operations
-    // This function is kept for backward compatibility
-    console.log("Dashboard data saved to Supabase via CRUD operations");
-    return true;
-  } catch (error) {
-    console.error("Error in saveDashboardData:", error);
-    return false;
-  }
+  // With Supabase, data is saved automatically via CRUD operations
+  // This function is kept for backward compatibility
+  return true;
 };

@@ -43,8 +43,7 @@ const DepartmentBarChart: React.FC<DepartmentBarChartProps> = ({
                   </span>
                 </div>
                 <span className="font-semibold text-gray-900">
-                  {department.professors}{" "}
-                  {department.professors === 1 ? "dosen" : "dosen"}
+                  {department.professors} dosen
                 </span>
               </div>
 

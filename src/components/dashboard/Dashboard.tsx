@@ -30,19 +30,13 @@ const Dashboard: React.FC = () => {
   // Carousel state
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" ? window.innerWidth < 1024 : false
+    typeof window !== "undefined" ? window.innerWidth < 1024 : false,
   );
 
   // Check if mobile/tablet on mount and resize (< 1024px = lg breakpoint)
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 1024; // lg breakpoint for tablets too
-      console.log(
-        "Window width:",
-        window.innerWidth,
-        "isMobile/Tablet:",
-        mobile
-      );
       setIsMobile(mobile);
     };
 
@@ -91,7 +85,6 @@ const Dashboard: React.FC = () => {
     <div className="overflow-x-hidden">
       {/* Simple Hero Section with Carousel - Responsive Height */}
       <div className="relative overflow-hidden h-[90vh] pt-20 w-full">
-        {/* Image Carousel */}
         {/* Image Carousel */}
         {heroImages.map((image, index) => (
           <div
@@ -169,10 +162,7 @@ const Dashboard: React.FC = () => {
 
         {/* Navigation Arrows - Responsive positioning (mobile/tablet bottom, desktop center) */}
         <button
-          onClick={() => {
-            console.log("Prev button clicked, isMobile/Tablet:", isMobile);
-            prevSlide();
-          }}
+          onClick={prevSlide}
           className="absolute z-20 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-12 lg:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:scale-110"
           style={{
             left: isMobile ? "0.5rem" : "1.5rem",
@@ -185,10 +175,7 @@ const Dashboard: React.FC = () => {
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
         </button>
         <button
-          onClick={() => {
-            console.log("Next button clicked, isMobile/Tablet:", isMobile);
-            nextSlide();
-          }}
+          onClick={nextSlide}
           className="absolute z-20 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-12 lg:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:scale-110"
           style={{
             right: isMobile ? "0.5rem" : "1.5rem",
