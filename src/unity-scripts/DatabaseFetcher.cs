@@ -24,8 +24,14 @@ using UnityEngine.Networking;
 public class DatabaseFetcher : MonoBehaviour
 {
     [Header("Backend API Configuration")]
-    [Tooltip("URL backend Express API")]
-    public string apiUrl = "http://localhost:3001/api/unity/data";
+    [Tooltip("URL production (Vercel). Dipakai saat bukan di Editor.")]
+    public string productionApiUrl = "https://dashboard-profile-upnvj.vercel.app/api/unity/data";
+
+    [Tooltip("URL lokal untuk debugging di Editor")]
+    public string localApiUrl = "http://localhost:3001/api/unity/data";
+
+    [Tooltip("Paksa pakai URL production di Editor? (untuk test tanpa backend lokal)")]
+    public bool useProductionInEditor = false;
 
     [Tooltip("Otomatis fetch saat Start?")]
     public bool fetchOnStart = true;
@@ -41,6 +47,20 @@ public class DatabaseFetcher : MonoBehaviour
     public bool logRawJson = false;
 
     private BuildingDataReceiver dataReceiver;
+
+    /// <summary>
+    /// Pilih URL berdasarkan environment
+    /// Editor: pakai localApiUrl (kecuali useProductionInEditor = true)
+    /// Standalone build: pakai productionApiUrl
+    /// </summary>
+    private string GetApiUrl()
+    {
+        #if UNITY_EDITOR
+            return useProductionInEditor ? productionApiUrl : localApiUrl;
+        #else
+            return productionApiUrl;
+        #endif
+    }
 
     void Start()
     {
@@ -61,7 +81,7 @@ public class DatabaseFetcher : MonoBehaviour
         // Di WebGL, data dikirim dari React via SendMessage
         if (fetchOnStart && !IsWebGL())
         {
-            Debug.Log("[DatabaseFetcher] Fetching data from backend API...");
+            Debug.Log($"[DatabaseFetcher] Fetching data from: {GetApiUrl()}");
             StartCoroutine(FetchDataWithRetry());
         }
         else if (IsWebGL())
@@ -92,7 +112,8 @@ public class DatabaseFetcher : MonoBehaviour
         while (attempt < maxRetries)
         {
             attempt++;
-            Debug.Log($"[DatabaseFetcher] Attempt {attempt}/{maxRetries} — GET {apiUrl}");
+            string url = GetApiUrl();
+            Debug.Log($"[DatabaseFetcher] Attempt {attempt}/{maxRetries} — GET {url}");
 
             bool success = false;
             yield return StartCoroutine(FetchData((result) => { success = result; }));
@@ -118,7 +139,7 @@ public class DatabaseFetcher : MonoBehaviour
     /// </summary>
     private IEnumerator FetchData(System.Action<bool> onComplete)
     {
-        using (UnityWebRequest request = UnityWebRequest.Get(apiUrl))
+        using (UnityWebRequest request = UnityWebRequest.Get(GetApiUrl()))
         {
             // Set timeout
             request.timeout = 10;
