@@ -19,8 +19,6 @@ import {
 import {
   fetchDashboardData,
   fetchFaculties,
-  saveDashboardData,
-  clearCache,
   getTotalStats,
   createProfessor,
   updateProfessor,
@@ -88,7 +86,6 @@ export default function AdminDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [faculties, setFaculties] = useState<FacultyInfo[]>([]);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Modal states
@@ -304,25 +301,6 @@ export default function AdminDashboard() {
       console.error("Error saving facility:", error);
       showToast("Gagal menyimpan fasilitas", "error");
       throw error;
-    }
-  };
-
-  const handleSave = async () => {
-    if (!data) return;
-
-    setSaving(true);
-    try {
-      const success = await saveDashboardData(data);
-      if (success) {
-        showToast("Data berhasil disimpan!", "success");
-        clearCache();
-      } else {
-        showToast("Gagal menyimpan data.", "error");
-      }
-    } catch (_err) {
-      showToast("Terjadi kesalahan saat menyimpan data.", "error");
-    } finally {
-      setSaving(false);
     }
   };
 
