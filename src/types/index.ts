@@ -107,6 +107,7 @@ export interface Gedung {
   nama_gedung: string;
   deskripsi_gedung?: string;
   lokasi?: string;
+  jumlah_lantai?: number;
 }
 
 // Database Fasilitas type (for Supabase)
@@ -117,6 +118,8 @@ export interface Fasilitas {
   tipe_fasilitas?: string;
   id_gedung: number;
   color?: string;
+  lantai?: number;
+  foto_url?: string;
 }
 
 // Department/Research Group types for professors
@@ -137,6 +140,8 @@ export interface AssetDetail {
   tipe_fasilitas?: string;
   id_gedung?: number;
   color?: string;
+  lantai?: number;
+  foto_url?: string;
   // Virtual fields for display
   name?: string; // Alias for nama_fasilitas
   room?: string;

@@ -14,6 +14,8 @@ interface FacilityData {
   tipe_fasilitas: string;
   id_gedung: number;
   color: string;
+  lantai?: number;
+  foto_url?: string;
 }
 
 interface FacilityModalProps {
@@ -76,6 +78,8 @@ export default function FacilityModal({
     tipe_fasilitas: "Laboratorium",
     id_gedung: 0,
     color: "gray",
+    lantai: 1,
+    foto_url: "",
   });
 
   useEffect(() => {
@@ -90,6 +94,8 @@ export default function FacilityModal({
           tipe_fasilitas: "Laboratorium",
           id_gedung: 0,
           color: "gray",
+          lantai: 1,
+          foto_url: "",
         });
       }
     }
@@ -231,6 +237,55 @@ export default function FacilityModal({
                 </select>
                 <p className="mt-1 text-xs text-gray-500">
                   Pilih gedung lokasi fasilitas
+                </p>
+              </div>
+            </div>
+
+            {/* Row for Lantai and Foto URL */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {/* Lantai */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Lantai
+                </label>
+                <input
+                  type="number"
+                  min={1}
+                  max={20}
+                  value={formData.lantai || 1}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      lantai: parseInt(e.target.value) || 1,
+                    })
+                  }
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  placeholder="1"
+                />
+                <p className="mt-1 text-xs text-gray-500">
+                  Nomor lantai lokasi fasilitas
+                </p>
+              </div>
+
+              {/* Foto URL */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  URL Foto Ruangan
+                </label>
+                <input
+                  type="url"
+                  value={formData.foto_url || ""}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      foto_url: e.target.value,
+                    })
+                  }
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  placeholder="https://example.com/foto-ruangan.jpg"
+                />
+                <p className="mt-1 text-xs text-gray-500">
+                  Link foto ruangan (opsional)
                 </p>
               </div>
             </div>

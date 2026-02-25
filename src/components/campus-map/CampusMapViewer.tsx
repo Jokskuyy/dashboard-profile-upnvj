@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLanguage } from "../../contexts/LanguageContext";
+import { getBuildingsForUnity } from "../../services/api/roomsApi";
 import {
   MapPin,
   Maximize2,
@@ -141,6 +142,32 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         setUnityInstance(instance);
         window.unityInstance = instance;
         setIsLoading(false);
+
+        // === Unity Data Bridge ===
+        // Fetch data gedung + fasilitas dari Supabase lalu kirim ke Unity
+        try {
+          console.log(
+            "[Unity Bridge] Fetching buildings data from Supabase...",
+          );
+          const unityData = await getBuildingsForUnity();
+          const jsonString = JSON.stringify(unityData);
+          console.log(
+            `[Unity Bridge] Sending data to Unity: ${unityData.gedung.length} gedung, ${unityData.fasilitas.length} fasilitas`,
+          );
+
+          // Kirim data ke Unity via SendMessage
+          // GameObject "DataReceiver" harus ada di Unity scene
+          // dengan method ReceiveBuildingsData(string json)
+          instance.SendMessage(
+            "DataReceiver",
+            "ReceiveBuildingsData",
+            jsonString,
+          );
+          console.log("[Unity Bridge] Data sent to Unity successfully");
+        } catch (dataErr) {
+          // Tidak fatal — Unity tetap berjalan, hanya tanpa data dari DB
+          console.warn("[Unity Bridge] Failed to send data to Unity:", dataErr);
+        }
       } catch (err) {
         console.error("Failed to load Unity WebGL build:", err);
         if (timeoutId) clearTimeout(timeoutId);
