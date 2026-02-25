@@ -46,7 +46,10 @@ function createResponse(data, success = true) {
 // ============================================
 
 async function handleHealth(req, res) {
-  return json(res, createResponse({ status: "OK", message: "Server is running" }));
+  return json(
+    res,
+    createResponse({ status: "OK", message: "Server is running" }),
+  );
 }
 
 async function handleRooms(req, res) {
@@ -78,7 +81,9 @@ async function handleRoomById(req, res, roomId) {
 
   const { data, error } = await supabase
     .from("fasilitas")
-    .select(`id, nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, id_gedung, gedung ( nama_gedung, lokasi )`)
+    .select(
+      `id, nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, id_gedung, gedung ( nama_gedung, lokasi )`,
+    )
     .eq("id", id)
     .single();
   if (error) throw error;
@@ -124,12 +129,18 @@ async function handleBuildingRooms(req, res, buildingId) {
   const supabase = getSupabase();
   const id = parseInt(buildingId);
   if (isNaN(id)) {
-    return json(res, createResponse({ error: "Invalid building ID" }, false), 400);
+    return json(
+      res,
+      createResponse({ error: "Invalid building ID" }, false),
+      400,
+    );
   }
 
   const { data, error } = await supabase
     .from("fasilitas")
-    .select(`id, nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, id_gedung, gedung ( nama_gedung, lokasi )`)
+    .select(
+      `id, nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, id_gedung, gedung ( nama_gedung, lokasi )`,
+    )
     .eq("id_gedung", id);
   if (error) throw error;
 
@@ -155,7 +166,9 @@ async function handleUnityData(req, res) {
       .order("id", { ascending: true }),
     supabase
       .from("fasilitas")
-      .select("id, nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, id_gedung, lantai, foto_url")
+      .select(
+        "id, nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, id_gedung, lantai, foto_url",
+      )
       .order("id_gedung", { ascending: true })
       .order("lantai", { ascending: true }),
   ]);
@@ -202,7 +215,11 @@ export default async function handler(req, res) {
 
   // Only allow GET
   if (req.method !== "GET") {
-    return json(res, createResponse({ error: "Method not allowed" }, false), 405);
+    return json(
+      res,
+      createResponse({ error: "Method not allowed" }, false),
+      405,
+    );
   }
 
   try {
@@ -239,7 +256,11 @@ export default async function handler(req, res) {
       return await handleBuildings(req, res);
     }
 
-    return json(res, createResponse({ error: "Endpoint not found" }, false), 404);
+    return json(
+      res,
+      createResponse({ error: "Endpoint not found" }, false),
+      404,
+    );
   } catch (error) {
     console.error("API Error:", error);
     return json(res, createResponse({ error: error.message }, false), 500);
