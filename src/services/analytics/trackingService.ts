@@ -2,6 +2,7 @@
 // Mengumpulkan dan mengirim data analytics ke Supabase
 
 import { supabase } from "../../lib/supabase";
+import logger from "../../utils/logger";
 
 // Generate atau ambil visitor ID dari localStorage
 const getVisitorId = (): string => {
@@ -109,12 +110,12 @@ export const trackPageView = async (page: string) => {
         device_type: deviceInfo.deviceType,
       });
 
-    if (error && process.env.NODE_ENV === "development") {
+    if (error && import.meta.env.DEV) {
       console.error("Error tracking page view:", error);
     }
   } catch (error) {
     // Silent fail - don't spam console in production
-    if (process.env.NODE_ENV === "development") {
+    if (import.meta.env.DEV) {
       console.error("Error tracking page view:", error);
     }
   }
@@ -123,7 +124,7 @@ export const trackPageView = async (page: string) => {
 // Track custom event
 export const trackEvent = async (
   eventName: string,
-  _eventData?: Record<string, any>
+  _eventData?: Record<string, unknown>
 ) => {
   try {
     const visitorId = getVisitorId();
@@ -138,12 +139,12 @@ export const trackEvent = async (
         device_type: deviceInfo.deviceType,
       });
 
-    if (error && process.env.NODE_ENV === "development") {
+    if (error && import.meta.env.DEV) {
       console.error("Error tracking event:", error);
     }
   } catch (error) {
     // Silent fail - don't spam console in production
-    if (process.env.NODE_ENV === "development") {
+    if (import.meta.env.DEV) {
       console.error("Error tracking event:", error);
     }
   }
@@ -152,7 +153,7 @@ export const trackEvent = async (
 // Get analytics data from Supabase
 export const getAnalytics = async (days: number = 7) => {
   try {
-    console.log('Fetching analytics for last', days, 'days...');
+    logger.log('Fetching analytics for last', days, 'days...');
     
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - days);
@@ -163,13 +164,13 @@ export const getAnalytics = async (days: number = 7) => {
       .gte("visited_at", startDate.toISOString())
       .order("visited_at", { ascending: false });
 
-    console.log('📦 Raw data from Supabase:', data);
-    console.log('Error:', error);
+    logger.log('📦 Raw data from Supabase:', data);
+    logger.log('Error:', error);
 
     if (error) throw error;
 
     if (!data || data.length === 0) {
-      console.log('No analytics data found');
+      logger.log('No analytics data found');
       return {
         success: false,
         totalVisitors: 0,
@@ -185,7 +186,14 @@ export const getAnalytics = async (days: number = 7) => {
     const dailyViewsMap = new Map<string, { visitors: Set<string>, pageViews: number }>();
     const allVisitors = new Set<string>();
 
-    data.forEach((log: any) => {
+    interface AnalyticsLogRow {
+      page_path: string;
+      device_type?: string;
+      visitor_hash?: string;
+      visited_at: string;
+    }
+
+    data.forEach((log: AnalyticsLogRow) => {
       // Count page views
       const page = log.page_path;
       pageViews.set(page, (pageViews.get(page) || 0) + 1);
@@ -240,7 +248,7 @@ export const getAnalytics = async (days: number = 7) => {
       })),
     };
 
-    console.log('Processed analytics result:', result);
+    logger.log('Processed analytics result:', result);
 
     return result;
   } catch (error) {
@@ -255,26 +263,12 @@ export const getAnalytics = async (days: number = 7) => {
   }
 };
 
-// Auto-track page view on load
+// Initialize tracking (popstate only — SPA route changes handled by Analytics component)
 export const initTracking = () => {
   // Track initial page view
   trackPageView(window.location.pathname);
 
-  // Track navigation changes (for SPA)
-  let lastPath = window.location.pathname;
-
-  const checkPathChange = () => {
-    const currentPath = window.location.pathname;
-    if (currentPath !== lastPath) {
-      lastPath = currentPath;
-      trackPageView(currentPath);
-    }
-  };
-
-  // Check for path changes every 500ms (for SPA routing)
-  setInterval(checkPathChange, 500);
-
-  // Also track on popstate (back/forward browser buttons)
+  // Track back/forward browser button navigation
   window.addEventListener("popstate", () => {
     trackPageView(window.location.pathname);
   });

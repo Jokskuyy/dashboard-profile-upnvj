@@ -60,7 +60,7 @@ const CampusMapSection: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg p-8 text-center">
+      <div className="bg-linear-to-br from-blue-50 to-indigo-100 rounded-lg p-8 text-center">
         <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <Building className="w-8 h-8 text-red-600" />
         </div>

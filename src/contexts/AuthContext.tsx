@@ -66,7 +66,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     verifyAuth();
 
     // Listen for auth state changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: string, session: any) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!session) {
         setAdmin(null);
       } else {
@@ -82,7 +82,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       // Convert username to email format for Supabase Auth
       const email = `${username}@admin.upnvj.ac.id`;
       
-      console.log('Attempting login with email:', email);
+      if (import.meta.env.DEV) {
+        console.log('Attempting login with email:', email);
+      }
       
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -127,11 +129,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       }
 
       return { success: true, message: "Login berhasil" };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Login failed:", error);
       return {
         success: false,
-        message: error.message || "Terjadi kesalahan. Silakan coba lagi.",
+        message: error instanceof Error ? error.message : "Terjadi kesalahan. Silakan coba lagi.",
       };
     }
   };

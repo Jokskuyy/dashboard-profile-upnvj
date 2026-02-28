@@ -2,7 +2,6 @@
 export {
   fetchDashboardData,
   fetchFaculties,
-  fetchPrograms,
   clearCache,
   createProfessor,
   updateProfessor,
@@ -16,24 +15,10 @@ export {
   createProgram,
   updateProgram,
   deleteProgram,
-  createDepartment,
-  updateDepartment,
-  deleteDepartment,
   createFacility,
   updateFacility,
   deleteFacility,
-  createAssetCategory,
-  updateAssetCategory,
-  deleteAssetCategory,
-  addAssetDetail,
-  updateAssetDetail,
-  deleteAssetDetail,
-  getProfessorsByFaculty,
-  getStudentsByFaculty,
   getTotalStats,
-  getAssetsByCategory,
-  getProgramsByFacultyId,
-  getDepartmentsByFacultyId,
 } from "./supabaseDataService";
 
 export type {

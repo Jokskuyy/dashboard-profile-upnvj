@@ -71,7 +71,7 @@ const AccreditationSection: React.FC = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto flex-grow">
+      <div className="overflow-x-auto grow">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="text-gray-500 text-sm border-b border-gray-200 bg-gray-50">

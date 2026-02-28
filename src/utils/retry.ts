@@ -80,10 +80,12 @@ export async function retryWithBackoff<T>(
         opts.backoffMultiplier
       );
       
-      console.log(
-        `Retry attempt ${attempt}/${opts.maxRetries} after ${Math.round(delay)}ms`,
-        lastError.message
-      );
+      if (import.meta.env.DEV) {
+        console.log(
+          `Retry attempt ${attempt}/${opts.maxRetries} after ${Math.round(delay)}ms`,
+          lastError.message
+        );
+      }
 
       await sleep(delay);
     }
@@ -95,25 +97,28 @@ export async function retryWithBackoff<T>(
 /**
  * Determine if an error is retryable
  */
-export function isRetryableError(error: any): boolean {
+export function isRetryableError(error: unknown): boolean {
   // Network errors
   if (error instanceof TypeError && error.message.includes("fetch")) {
     return true;
   }
 
+  // Narrow error to access potential message/status properties
+  const err = error as { message?: string; status?: number };
+
   // Timeout errors
-  if (error.message?.includes("timeout")) {
+  if (err.message?.includes("timeout")) {
     return true;
   }
 
   // HTTP status codes that are retryable
   const retryableStatuses = [408, 429, 500, 502, 503, 504];
-  if (error.status && retryableStatuses.includes(error.status)) {
+  if (err.status && retryableStatuses.includes(err.status)) {
     return true;
   }
 
   // Supabase specific errors
-  if (error.message?.includes("connection")) {
+  if (err.message?.includes("connection")) {
     return true;
   }
 
@@ -144,10 +149,10 @@ export async function retryIf<T>(
 /**
  * Create a retryable version of a function
  */
-export function withRetry<T extends (...args: any[]) => Promise<any>>(
-  fn: T,
+export function withRetry<A extends unknown[], R>(
+  fn: (...args: A) => Promise<R>,
   options: RetryOptions = {}
-): T {
-  return ((...args: Parameters<T>) =>
-    retryWithBackoff(() => fn(...args), options)) as T;
+): (...args: A) => Promise<R> {
+  return (...args: A) =>
+    retryWithBackoff(() => fn(...args), options);
 }

@@ -3,7 +3,7 @@ import React from "react";
 // Base skeleton component
 export const Skeleton: React.FC<{ className?: string; style?: React.CSSProperties }> = ({ className = "", style }) => (
   <div
-    className={`animate-pulse bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] rounded ${className}`}
+    className={`animate-pulse bg-linear-to-r from-gray-200 via-gray-300 to-gray-200 bg-size-[200%_100%] rounded ${className}`}
     style={{
       animation: "shimmer 2s infinite linear",
       ...style,
@@ -105,7 +105,7 @@ export const SectionSkeleton: React.FC<{ title?: boolean; items?: number }> = ({
     <div className="space-y-4">
       {Array.from({ length: items }).map((_, i) => (
         <div key={i} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-          <Skeleton className="w-12 h-12 rounded-full flex-shrink-0" />
+          <Skeleton className="w-12 h-12 rounded-full shrink-0" />
           <div className="flex-1 space-y-2">
             <Skeleton className="h-4 w-3/4" />
             <Skeleton className="h-3 w-1/2" />

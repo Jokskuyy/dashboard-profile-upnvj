@@ -20,7 +20,7 @@ import {
   AssetsSection,
 } from "./sections";
 import TrafficOverview from "../analytics/TrafficOverview";
-import { trackClick, trackCarousel } from "../analytics/Analytics";
+import { trackClick, trackCarousel } from "../analytics/trackingHelpers";
 
 const Dashboard: React.FC = () => {
   const { t } = useLanguage();
@@ -37,12 +37,6 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 1024; // lg breakpoint for tablets too
-      console.log(
-        "Window width:",
-        window.innerWidth,
-        "isMobile/Tablet:",
-        mobile
-      );
       setIsMobile(mobile);
     };
 
@@ -170,7 +164,6 @@ const Dashboard: React.FC = () => {
         {/* Navigation Arrows - Responsive positioning (mobile/tablet bottom, desktop center) */}
         <button
           onClick={() => {
-            console.log("Prev button clicked, isMobile/Tablet:", isMobile);
             prevSlide();
           }}
           className="absolute z-20 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-12 lg:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:scale-110"
@@ -186,7 +179,6 @@ const Dashboard: React.FC = () => {
         </button>
         <button
           onClick={() => {
-            console.log("Next button clicked, isMobile/Tablet:", isMobile);
             nextSlide();
           }}
           className="absolute z-20 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-12 lg:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:scale-110"

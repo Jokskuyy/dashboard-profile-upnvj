@@ -9,13 +9,57 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Allowed origins for CORS
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+}));
 app.use(express.json());
 
-// Initialize Supabase client
-const supabaseUrl = process.env.VITE_SUPABASE_URL;
-const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
+// Simple in-memory rate limiter
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX = 100; // max requests per window
+
+const rateLimit = (req, res, next) => {
+  const ip = req.ip || req.connection.remoteAddress;
+  const now = Date.now();
+  const record = rateLimitMap.get(ip) || { count: 0, start: now };
+
+  if (now - record.start > RATE_LIMIT_WINDOW) {
+    record.count = 1;
+    record.start = now;
+  } else {
+    record.count++;
+  }
+
+  rateLimitMap.set(ip, record);
+
+  if (record.count > RATE_LIMIT_MAX) {
+    return res.status(429).json(createResponse({ error: 'Too many requests. Please try again later.' }, false));
+  }
+
+  next();
+};
+
+app.use(rateLimit);
+
+// Initialize Supabase client — use SUPABASE_* (non-VITE_ prefix) for server
+const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
   console.error('Missing Supabase credentials in environment variables');
@@ -31,6 +75,15 @@ const createResponse = (data, success = true) => {
     data,
     timestamp: new Date().toISOString(),
   };
+};
+
+// Input validation helper
+const validateId = (id) => {
+  const parsed = parseInt(id);
+  if (isNaN(parsed) || parsed <= 0 || parsed > 2147483647) {
+    return null;
+  }
+  return parsed;
 };
 
 // ============================================
@@ -74,16 +127,16 @@ app.get('/api/rooms', async (req, res) => {
     res.json(createResponse(rooms));
   } catch (error) {
     console.error('Error fetching rooms:', error);
-    res.status(500).json(createResponse({ error: error.message }, false));
+    res.status(500).json(createResponse({ error: 'Failed to fetch rooms' }, false));
   }
 });
 
 // GET /api/rooms/:id - Get room by ID
 app.get('/api/rooms/:id', async (req, res) => {
   try {
-    const roomId = parseInt(req.params.id);
+    const roomId = validateId(req.params.id);
 
-    if (isNaN(roomId)) {
+    if (roomId === null) {
       return res.status(400).json(createResponse({ error: 'Invalid room ID' }, false));
     }
 
@@ -118,7 +171,7 @@ app.get('/api/rooms/:id', async (req, res) => {
     res.json(createResponse(room));
   } catch (error) {
     console.error('Error fetching room:', error);
-    res.status(500).json(createResponse({ error: error.message }, false));
+    res.status(500).json(createResponse({ error: 'Failed to fetch room' }, false));
   }
 });
 
@@ -161,16 +214,16 @@ app.get('/api/buildings', async (req, res) => {
     res.json(createResponse(buildings));
   } catch (error) {
     console.error('Error fetching buildings:', error);
-    res.status(500).json(createResponse({ error: error.message }, false));
+    res.status(500).json(createResponse({ error: 'Failed to fetch buildings' }, false));
   }
 });
 
 // GET /api/buildings/:id/rooms - Get rooms by building ID
 app.get('/api/buildings/:id/rooms', async (req, res) => {
   try {
-    const buildingId = parseInt(req.params.id);
+    const buildingId = validateId(req.params.id);
 
-    if (isNaN(buildingId)) {
+    if (buildingId === null) {
       return res.status(400).json(createResponse({ error: 'Invalid building ID' }, false));
     }
 
@@ -204,7 +257,7 @@ app.get('/api/buildings/:id/rooms', async (req, res) => {
     res.json(createResponse(rooms));
   } catch (error) {
     console.error('Error fetching rooms by building:', error);
-    res.status(500).json(createResponse({ error: error.message }, false));
+    res.status(500).json(createResponse({ error: 'Failed to fetch rooms' }, false));
   }
 });
 

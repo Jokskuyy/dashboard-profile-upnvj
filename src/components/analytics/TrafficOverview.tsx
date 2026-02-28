@@ -37,15 +37,12 @@ const TrafficOverview: React.FC = () => {
     // Fetch stats from Supabase
     const fetchStats = async () => {
       try {
-        console.log("Fetching analytics from Supabase...");
-
         const data = await getAnalytics(14); // Last 14 days
 
         if (data && data.success) {
-          console.log("Analytics data loaded from Supabase:", data);
 
           // Transform dailyStats to match interface
-          const dailyStats = (data.dailyStats || []).map((day: any) => ({
+          const dailyStats = (data.dailyStats || []).map((day: { date: string; visitors: number; pageViews: number }) => ({
             date: day.date,
             visitors: day.visitors,
             pageviews: day.pageViews, // Note: API returns pageViews, we need pageviews
@@ -57,7 +54,6 @@ const TrafficOverview: React.FC = () => {
             dailyStats,
           });
         } else {
-          console.warn("No analytics data available");
           setStats({
             visitors: 0,
             pageviews: 0,
@@ -79,8 +75,8 @@ const TrafficOverview: React.FC = () => {
 
     fetchStats();
 
-    // Refresh data every 30 seconds
-    const interval = setInterval(fetchStats, 30000);
+    // Refresh data every 5 minutes (avoid excessive Supabase reads)
+    const interval = setInterval(fetchStats, 300000);
     return () => clearInterval(interval);
   }, []);
 
@@ -190,7 +186,7 @@ const TrafficOverview: React.FC = () => {
           {/* Stats Cards - Modern gradient design with SVG waveforms */}
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
             {/* Total Visitors */}
-            <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-teal-400 to-blue-500 text-white shadow-lg shadow-teal-500/20 group">
+            <div className="relative overflow-hidden rounded-2xl p-6 bg-linear-to-br from-teal-400 to-blue-500 text-white shadow-lg shadow-teal-500/20 group">
               <div className="flex justify-between items-start mb-4">
                 <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
                   <span className="material-icons-round text-xl">equalizer</span>
@@ -215,7 +211,7 @@ const TrafficOverview: React.FC = () => {
             </div>
 
             {/* Total Page Views */}
-            <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-emerald-400 to-teal-600 text-white shadow-lg shadow-emerald-500/20 group">
+            <div className="relative overflow-hidden rounded-2xl p-6 bg-linear-to-br from-emerald-400 to-teal-600 text-white shadow-lg shadow-emerald-500/20 group">
               <div className="flex justify-between items-start mb-4">
                 <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
                   <span className="material-icons-round text-xl">web</span>
@@ -236,7 +232,7 @@ const TrafficOverview: React.FC = () => {
             </div>
 
             {/* Average Visitors */}
-            <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-cyan-400 to-blue-600 text-white shadow-lg shadow-blue-500/20 group">
+            <div className="relative overflow-hidden rounded-2xl p-6 bg-linear-to-br from-cyan-400 to-blue-600 text-white shadow-lg shadow-blue-500/20 group">
               <div className="flex justify-between items-start mb-4">
                 <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
                   <span className="material-icons-round text-xl">person_outline</span>
@@ -257,7 +253,7 @@ const TrafficOverview: React.FC = () => {
             </div>
 
             {/* Average Page Views */}
-            <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-blue-400 to-indigo-600 text-white shadow-lg shadow-indigo-500/20 group">
+            <div className="relative overflow-hidden rounded-2xl p-6 bg-linear-to-br from-blue-400 to-indigo-600 text-white shadow-lg shadow-indigo-500/20 group">
               <div className="flex justify-between items-start mb-4">
                 <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
                   <span className="material-icons-round text-xl">visibility</span>

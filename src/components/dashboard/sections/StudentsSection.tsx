@@ -14,6 +14,7 @@ import {
   useDashboard,
 } from "../../../contexts/DashboardContext";
 import FacultyBarChart from "../../charts/FacultyBarChart";
+import type { FacultyData } from "../../charts/FacultyBarChart";
 import ProgramBarChart from "../../charts/ProgramBarChart";
 import type { ProgramData } from "../../../types";
 
@@ -56,7 +57,7 @@ const StudentsSection: React.FC = () => {
     ? programsData.find((p) => p.id === selectedProgram)
     : null;
 
-  const handleBarClick = (faculty: any) => {
+  const handleBarClick = (faculty: FacultyData) => {
     setSelectedFaculty(faculty.id);
     setSelectedProgram(null); // Reset program selection
   };
@@ -79,7 +80,7 @@ const StudentsSection: React.FC = () => {
         <div className="flex-1 min-w-0">
           <h3 className="text-lg sm:text-xl font-bold text-gray-900 flex items-center flex-wrap gap-2">
             <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6 text-green-600 shrink-0" />
-            <span className="break-words">
+            <span className="wrap-break-word">
               {selectedProgramData
                 ? selectedProgramData.name
                 : selectedFacultyData

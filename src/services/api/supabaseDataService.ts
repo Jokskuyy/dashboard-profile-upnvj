@@ -1,14 +1,129 @@
-import { supabase } from "../../lib/supabase";
+﻿import { supabase } from "../../lib/supabase";
 import { retryWithBackoff } from "../../utils/retry";
 import type {
   Professor,
   Accreditation,
   StudentData,
   AssetCategory,
-  AssetDetail,
   ProgramData,
   DepartmentData,
 } from "../../types";
+
+// ===== Supabase Row Types (query results with joins) =====
+
+interface FakultasRow {
+  id: number;
+  nama_fakultas: string;
+  deskripsi_fakultas?: string;
+  email?: string;
+  website?: string;
+  id_gedung_utama?: number;
+}
+
+interface DosenRow {
+  id: number;
+  nidn: string;
+  nama_dosen: string;
+  email?: string;
+  jabatan_fungsional?: string;
+  id_prodi: number;
+  id_scopus?: string;
+  id_gs?: string;
+  id_sinta?: string;
+  kompetensi?: string;
+  program_studi?: {
+    nama_prodi: string;
+    jenjang: string;
+    fakultas?: {
+      nama_fakultas: string;
+    };
+  };
+}
+
+interface ProdiRow {
+  id: number;
+  nama_prodi: string;
+  jenjang: string;
+  id_fakultas: number;
+  id_akreditasi?: number;
+  akreditasi?: {
+    status: string;
+    tgl_berlaku?: string;
+    tgl_kadaluarsa?: string;
+    keterangan?: string;
+  };
+  fakultas?: {
+    nama_fakultas: string;
+  };
+  mahasiswa?: { count: number }[];
+  dosen?: { count: number }[];
+}
+
+interface MahasiswaRow {
+  id: number;
+  nim: string;
+  nama_mahasiswa: string;
+  angkatan: number;
+  status: string;
+  id_prodi: number;
+  program_studi?: {
+    jenjang: string;
+    fakultas?: {
+      nama_fakultas: string;
+    };
+  };
+}
+
+interface FasilitasRow {
+  id: number;
+  nama_fasilitas: string;
+  deskripsi_fasilitas?: string;
+  tipe_fasilitas?: string;
+  id_gedung: number;
+  color?: string;
+  gedung?: {
+    nama_gedung: string;
+    lokasi?: string;
+  };
+}
+
+// ===== Update Data Types (for CRUD operations) =====
+
+interface DosenUpdateData {
+  nidn?: string;
+  nama_dosen?: string;
+  email?: string;
+  jabatan_fungsional?: string;
+  id_prodi?: number;
+  id_scopus?: string;
+  id_gs?: string;
+  id_sinta?: string;
+  kompetensi?: string;
+}
+
+interface AkreditasiUpdateData {
+  status?: string;
+  tgl_berlaku?: Date | string;
+  tgl_kadaluarsa?: Date | string;
+  keterangan?: string;
+}
+
+interface MahasiswaUpdateData {
+  nim?: string;
+  nama_mahasiswa?: string;
+  angkatan?: number;
+  status?: string;
+  id_prodi?: number;
+}
+
+interface ProgramStudiUpdateData {
+  nama_prodi?: string;
+  jenjang?: string;
+  id_fakultas?: number;
+  id_akreditasi?: number;
+}
+
+// ===== Export Types =====
 
 export interface FacultyInfo {
   id: string;
@@ -94,7 +209,7 @@ export const fetchFaculties = async (): Promise<FacultyInfo[]> => {
 
     if (error) throw error;
 
-    const faculties: FacultyInfo[] = data.map((fak: any) => {
+    const faculties: FacultyInfo[] = data.map((fak: FakultasRow) => {
       // Gunakan mapping statis, jika tidak ada fallback ke data default
       const mapped = FACULTY_MAPPING[fak.nama_fakultas];
       return (
@@ -138,7 +253,7 @@ const fetchProfessors = async (): Promise<Professor[]> => {
 
     if (error) throw error;
 
-    return data.map((dosen: any) => {
+    return data.map((dosen: DosenRow) => {
       // Parse kompetensi safely
       let expertiseArray: string[] = [];
       try {
@@ -202,7 +317,7 @@ const fetchAccreditations = async (): Promise<Accreditation[]> => {
 
     if (error) throw error;
 
-    return data.map((prodi: any) => {
+    return data.map((prodi: ProdiRow) => {
       const now = new Date();
       const expiry = prodi.akreditasi?.tgl_kadaluarsa
         ? new Date(prodi.akreditasi.tgl_kadaluarsa)
@@ -256,7 +371,7 @@ const fetchStudents = async (): Promise<StudentData[]> => {
       { s1: number; s2: number; s3: number }
     >();
 
-    data.forEach((mhs: any) => {
+    data.forEach((mhs: MahasiswaRow) => {
       const faculty = mhs.program_studi?.fakultas?.nama_fakultas;
       const level = mhs.program_studi?.jenjang;
 
@@ -290,9 +405,9 @@ const fetchStudents = async (): Promise<StudentData[]> => {
 };
 
 /**
- * Fetch programs data from Supabase
+ * Fetch programs data from Supabase (internal use only)
  */
-export const fetchPrograms = async (): Promise<ProgramData[]> => {
+const fetchPrograms = async (): Promise<ProgramData[]> => {
   try {
     const { data, error } = await supabase
       .from("program_studi")
@@ -309,14 +424,14 @@ export const fetchPrograms = async (): Promise<ProgramData[]> => {
 
     if (error) throw error;
 
-    return data.map((prodi: any) => {
+    return data.map((prodi: ProdiRow) => {
       const faculty = prodi.fakultas?.nama_fakultas || "Unknown";
       const facultyInfo = FACULTY_MAPPING[faculty];
 
       return {
         id: prodi.id.toString(),
         name: prodi.nama_prodi,
-        level: prodi.jenjang as "D3" | "S1" | "S2",
+        level: prodi.jenjang as "D3" | "S1" | "S2" | "S3",
         faculty,
         students: prodi.mahasiswa?.length || 0,
         color: facultyInfo?.color || "#6B7280",
@@ -348,7 +463,7 @@ const fetchDepartments = async (): Promise<DepartmentData[]> => {
 
     if (error) throw error;
 
-    return data.map((prodi: any) => {
+    return data.map((prodi: ProdiRow) => {
       const faculty = prodi.fakultas?.nama_fakultas || "Unknown";
       const facultyInfo = FACULTY_MAPPING[faculty];
 
@@ -388,9 +503,9 @@ const fetchAssets = async (): Promise<AssetCategory[]> => {
     if (error) throw error;
 
     // Group by type
-    const typeMap = new Map<string, any[]>();
+    const typeMap = new Map<string, FasilitasRow[]>();
 
-    data.forEach((fasilitas: any) => {
+    data.forEach((fasilitas: FasilitasRow) => {
       const type = fasilitas.tipe_fasilitas || "Lainnya";
       if (!typeMap.has(type)) {
         typeMap.set(type, []);
@@ -422,7 +537,7 @@ const fetchAssets = async (): Promise<AssetCategory[]> => {
       count: facilities.length,
       icon: categoryIcons[type] || "OTH",
       color: facilities[0]?.color || categoryColors[type] || "gray",
-      details: facilities.map((f: any) => ({
+      details: facilities.map((f: FasilitasRow) => ({
         id: f.id.toString(),
         name: f.nama_fasilitas,
         room: f.nama_fasilitas,
@@ -477,10 +592,12 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
       maxRetries: 3,
       initialDelay: 1000,
       onRetry: (attempt, error) => {
-        console.log(
-          `Retrying dashboard data fetch (attempt ${attempt}):`,
-          error.message,
-        );
+        if (import.meta.env.DEV) {
+          console.log(
+            `Retrying dashboard data fetch (attempt ${attempt}):`,
+            error.message,
+          );
+        }
       },
     });
 
@@ -511,31 +628,6 @@ export const clearCache = () => {
 };
 
 /**
- * Get professors by faculty
- */
-export const getProfessorsByFaculty = (professors: Professor[]) => {
-  const facultyMap = new Map<string, number>();
-
-  professors.forEach((prof) => {
-    const faculty = prof.faculty || "Unknown";
-    const count = facultyMap.get(faculty) || 0;
-    facultyMap.set(faculty, count + 1);
-  });
-
-  return Array.from(facultyMap.entries()).map(([faculty, count]) => ({
-    faculty,
-    count,
-  }));
-};
-
-/**
- * Get students by faculty
- */
-export const getStudentsByFaculty = (students: StudentData[]) => {
-  return students;
-};
-
-/**
  * Get total statistics
  */
 export const getTotalStats = (data: DashboardData) => {
@@ -562,36 +654,6 @@ export const getTotalStats = (data: DashboardData) => {
     totalFaculties: data.students.length,
     totalAssets,
   };
-};
-
-// Helper functions for assets data
-export const getAssetsByCategory = (
-  assets: AssetCategory[],
-  categoryId: string,
-) => {
-  return assets.find((category) => category.id === categoryId);
-};
-
-// Helper functions for program data
-export const getProgramsByFacultyId = (
-  programs: ProgramData[],
-  facultyId: string,
-  faculties: FacultyInfo[],
-) => {
-  const faculty = faculties.find((f) => f.id === facultyId);
-  if (!faculty) return [];
-  return programs.filter((program) => program.faculty === faculty.name);
-};
-
-// Helper functions for department data
-export const getDepartmentsByFacultyId = (
-  departments: DepartmentData[],
-  facultyId: string,
-  faculties: FacultyInfo[],
-) => {
-  const faculty = faculties.find((f) => f.id === facultyId);
-  if (!faculty) return [];
-  return departments.filter((dept) => dept.faculty === faculty.name);
 };
 
 // ============================================
@@ -669,7 +731,7 @@ export const updateProfessor = async (
 ): Promise<Professor> => {
   clearCache();
 
-  const updateData: any = {};
+  const updateData: DosenUpdateData = {};
   if (professor.nidn) updateData.nidn = professor.nidn;
   if (professor.nama_dosen || professor.name)
     updateData.nama_dosen = professor.nama_dosen || professor.name;
@@ -791,7 +853,7 @@ export const updateAccreditation = async (
 ): Promise<Accreditation> => {
   clearCache();
 
-  const updateData: any = {};
+  const updateData: AkreditasiUpdateData = {};
   if (accreditation.status) updateData.status = accreditation.status;
   if (accreditation.tgl_berlaku)
     updateData.tgl_berlaku = accreditation.tgl_berlaku;
@@ -873,7 +935,7 @@ export const updateStudentData = async (
 ): Promise<StudentData> => {
   clearCache();
 
-  const updateData: any = {};
+  const updateData: MahasiswaUpdateData = {};
   if (student.nim) updateData.nim = student.nim;
   if (student.nama_mahasiswa)
     updateData.nama_mahasiswa = student.nama_mahasiswa;
@@ -959,7 +1021,7 @@ export const createProgram = async (
     id_akreditasi: data.id_akreditasi,
     // Virtual fields
     name: data.nama_prodi,
-    level: data.jenjang as "D3" | "S1" | "S2",
+    level: data.jenjang as "D3" | "S1" | "S2" | "S3",
     faculty: data.fakultas?.nama_fakultas || "",
     students: 0,
     color: program.color,
@@ -972,7 +1034,7 @@ export const updateProgram = async (
 ): Promise<ProgramData> => {
   clearCache();
 
-  const updateData: any = {};
+  const updateData: ProgramStudiUpdateData = {};
   if (program.nama_prodi || program.name)
     updateData.nama_prodi = program.nama_prodi || program.name;
   if (program.jenjang || program.level)
@@ -1005,7 +1067,7 @@ export const updateProgram = async (
     id_akreditasi: data.id_akreditasi,
     // Virtual fields
     name: data.nama_prodi,
-    level: data.jenjang as "D3" | "S1" | "S2",
+    level: data.jenjang as "D3" | "S1" | "S2" | "S3",
     faculty: data.fakultas?.nama_fakultas || "Unknown",
     students: program.students || 0,
     color: program.color,
@@ -1020,58 +1082,6 @@ export const deleteProgram = async (id: string): Promise<void> => {
     .eq("id", parseInt(id));
 
   if (error) throw error;
-};
-
-// ===== DEPARTMENTS CRUD =====
-
-export const createDepartment = async (
-  department: Omit<DepartmentData, "id">,
-): Promise<DepartmentData> => {
-  clearCache();
-  // Departments are same as programs in this schema
-  const program = await createProgram({
-    name: department.name,
-    level: "S1",
-    faculty: department.faculty,
-    students: 0,
-    color: department.color,
-  });
-
-  return {
-    id: program.id.toString(),
-    name: program.name || "",
-    faculty: program.faculty || "",
-    professors: 0,
-    color: department.color,
-    description: department.description,
-  };
-};
-
-export const updateDepartment = async (
-  id: string,
-  department: Partial<DepartmentData>,
-): Promise<DepartmentData> => {
-  clearCache();
-  const program = await updateProgram(id, {
-    name: department.name,
-    level: "S1",
-    faculty: department.faculty,
-    color: department.color,
-  });
-
-  return {
-    id: program.id.toString(),
-    name: program.name || "",
-    faculty: program.faculty || "",
-    professors: department.professors || 0,
-    color: department.color,
-    description: department.description,
-  };
-};
-
-export const deleteDepartment = async (id: string): Promise<void> => {
-  clearCache();
-  await deleteProgram(id);
 };
 
 // ===== ASSETS CRUD =====
@@ -1128,164 +1138,6 @@ export const deleteFacility = async (id: number): Promise<void> => {
   clearCache();
 
   const { error } = await supabase.from("fasilitas").delete().eq("id", id);
-
-  if (error) throw error;
-};
-
-// ===== LEGACY ASSETS CRUD (DEPRECATED - FOR BACKWARD COMPATIBILITY) =====
-
-export const createAssetCategory = async (
-  category: Omit<AssetCategory, "id">,
-): Promise<AssetCategory> => {
-  clearCache();
-  // This would require creating a new type of fasilitas
-  return {
-    id: Date.now().toString(),
-    ...category,
-  };
-};
-
-export const updateAssetCategory = async (
-  _id: string,
-  category: Partial<AssetCategory>,
-): Promise<AssetCategory> => {
-  clearCache();
-  // This would require updating fasilitas records
-  return category as AssetCategory;
-};
-
-export const deleteAssetCategory = async (_id: string): Promise<void> => {
-  clearCache();
-  // This would require deleting fasilitas records by type
-};
-
-// Asset details within a category
-export const addAssetDetail = async (
-  categoryId: string,
-  detail: Omit<AssetDetail, "id">,
-): Promise<AssetDetail> => {
-  clearCache();
-
-  // Get building name from either new or old field format
-  const buildingName =
-    detail.building || (detail.id_gedung ? `Building ${detail.id_gedung}` : "");
-
-  // Get or create gedung if building name provided
-  let gedungId = detail.id_gedung;
-
-  if (buildingName && !gedungId) {
-    let { data: gedung, error: gedungError } = await supabase
-      .from("gedung")
-      .select("id")
-      .eq("nama_gedung", buildingName)
-      .single();
-
-    if (gedungError || !gedung) {
-      const { data: newGedung, error: createError } = await supabase
-        .from("gedung")
-        .insert({ nama_gedung: buildingName })
-        .select()
-        .single();
-
-      if (createError) throw createError;
-      gedung = newGedung;
-    }
-
-    gedungId = gedung?.id;
-  }
-
-  const { data, error } = await supabase
-    .from("fasilitas")
-    .insert({
-      nama_fasilitas: detail.nama_fasilitas || detail.name || "",
-      deskripsi_fasilitas: detail.deskripsi_fasilitas || detail.description,
-      tipe_fasilitas: detail.tipe_fasilitas || categoryId.replace(/-/g, " "),
-      id_gedung: gedungId || 0,
-      color: detail.color,
-    })
-    .select()
-    .single();
-
-  if (error) throw error;
-
-  return {
-    id: data.id,
-    nama_fasilitas: data.nama_fasilitas,
-    deskripsi_fasilitas: data.deskripsi_fasilitas,
-    tipe_fasilitas: data.tipe_fasilitas,
-    id_gedung: data.id_gedung,
-    color: data.color,
-    // Virtual fields for backward compatibility
-    name: data.nama_fasilitas,
-    description: data.deskripsi_fasilitas,
-    room: detail.room,
-    building: buildingName,
-    capacity: detail.capacity,
-  };
-};
-
-export const updateAssetDetail = async (
-  _categoryId: string,
-  detailId: string,
-  detail: Partial<AssetDetail>,
-): Promise<AssetDetail> => {
-  clearCache();
-
-  const updateData: any = {};
-
-  // Handle both old and new field formats
-  if (detail.nama_fasilitas || detail.name) {
-    updateData.nama_fasilitas = detail.nama_fasilitas || detail.name;
-  }
-  if (detail.deskripsi_fasilitas || detail.description) {
-    updateData.deskripsi_fasilitas =
-      detail.deskripsi_fasilitas || detail.description;
-  }
-  if (detail.tipe_fasilitas) updateData.tipe_fasilitas = detail.tipe_fasilitas;
-  if (detail.id_gedung) updateData.id_gedung = detail.id_gedung;
-  if (detail.color) updateData.color = detail.color;
-
-  const { data, error } = await supabase
-    .from("fasilitas")
-    .update(updateData)
-    .eq("id", parseInt(detailId))
-    .select(
-      `
-      *,
-      gedung (
-        nama_gedung
-      )
-    `,
-    )
-    .single();
-
-  if (error) throw error;
-
-  return {
-    id: data.id,
-    nama_fasilitas: data.nama_fasilitas,
-    deskripsi_fasilitas: data.deskripsi_fasilitas,
-    tipe_fasilitas: data.tipe_fasilitas,
-    id_gedung: data.id_gedung,
-    color: data.color,
-    // Virtual fields for backward compatibility
-    name: data.nama_fasilitas,
-    description: data.deskripsi_fasilitas,
-    room: detail.room || data.nama_fasilitas,
-    building: data.gedung?.nama_gedung || "",
-    capacity: detail.capacity,
-  };
-};
-
-export const deleteAssetDetail = async (
-  _categoryId: string,
-  detailId: string,
-): Promise<void> => {
-  clearCache();
-  const { error } = await supabase
-    .from("fasilitas")
-    .delete()
-    .eq("id", parseInt(detailId));
 
   if (error) throw error;
 };

@@ -13,15 +13,33 @@ interface CampusMapViewerProps {
   onToggleFullscreen?: () => void;
 }
 
+/** Minimal type for Unity WebGL instance (no official @types available) */
+interface UnityInstance {
+  Quit(): Promise<void>;
+  SetFullscreen(fullscreen: number): void;
+  SendMessage(objectName: string, methodName: string, value?: string | number): void;
+}
+
+interface UnityConfig {
+  dataUrl: string;
+  frameworkUrl: string;
+  codeUrl: string;
+  streamingAssetsUrl: string;
+  companyName: string;
+  productName: string;
+  productVersion: string;
+  showBanner?: (msg: string, type: string) => void;
+}
+
 // Unity WebGL integration interface
 declare global {
   interface Window {
-    unityInstance: any;
+    unityInstance: UnityInstance | null;
     createUnityInstance: (
       canvas: HTMLCanvasElement,
-      config: any,
+      config: UnityConfig,
       onProgress?: (progress: number) => void
-    ) => Promise<any>;
+    ) => Promise<UnityInstance>;
   }
 }
 
@@ -35,7 +53,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
-  const [unityInstance, setUnityInstance] = useState<any>(null);
+  const [unityInstance, setUnityInstance] = useState<UnityInstance | null>(null);
   const [webglSupported, setWebglSupported] = useState<boolean>(true);
 
   // Unity WebGL configuration - using compressed files
@@ -235,7 +253,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       }`}
     >
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4">
+      <div className="bg-linear-to-r from-blue-600 to-blue-700 p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">

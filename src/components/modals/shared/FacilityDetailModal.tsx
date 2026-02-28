@@ -94,7 +94,7 @@ const FacilityDetailModal: React.FC<FacilityDetailModalProps> = ({
               className="absolute inset-0 w-full h-full object-cover"
               src={getFacilityImage()}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent md:hidden"></div>
+            <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent md:hidden"></div>
             <div className="absolute bottom-4 left-4 right-4 text-white md:hidden">
               <h2 className="text-xl font-bold leading-tight">
                 {facility.nama_fasilitas}

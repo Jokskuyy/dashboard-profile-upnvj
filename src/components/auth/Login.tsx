@@ -49,26 +49,17 @@ const Login: React.FC = () => {
     setError("");
     setIsLoading(true);
 
-    console.log("📝 Form submitted");
-    console.log("👤 Username:", username);
-    console.log("🔑 Password length:", password.length);
-
     try {
       const result = await login(username, password);
 
-      console.log("Login result:", result);
-
       if (result.success) {
-        console.log("Login successful, navigating to /admin");
         navigate("/admin");
       } else {
-        console.error("Login failed:", result.message);
         setError(result.message);
         setIsLoading(false);
       }
-    } catch (err: any) {
-      console.error("Login exception:", err);
-      setError(err.message || "Terjadi kesalahan tidak terduga");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Terjadi kesalahan tidak terduga");
       setIsLoading(false);
     }
   };
@@ -89,7 +80,7 @@ const Login: React.FC = () => {
 
         {/* Color Overlay */}
         <div className="absolute inset-0 bg-[#2C5F2D]/80 mix-blend-multiply"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
 
         {/* Overlay Content */}
         <div className="relative z-10 flex flex-col justify-between p-12 w-full h-full text-white">
