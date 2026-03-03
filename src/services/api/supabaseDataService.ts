@@ -329,7 +329,7 @@ const fetchAccreditations = async (): Promise<Accreditation[]> => {
       }
 
       return {
-        id: prodi.id.toString(),
+        id: prodi.id,
         program: `${prodi.nama_prodi} (${prodi.jenjang})`,
         level: prodi.akreditasi?.status || "Belum Akreditasi",
         accreditor: "BAN-PT",
