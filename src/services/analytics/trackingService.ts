@@ -1,275 +1,47 @@
-// Web Tracking Service with Supabase
-// Mengumpulkan dan mengirim data analytics ke Supabase
+/**
+ * @deprecated This service is deprecated. Tracking is now handled by Umami Analytics.
+ * - Pageviews: Automatically tracked by Umami script (injected in Analytics.tsx)
+ * - Custom events: Use trackingHelpers.ts which calls window.umami.track()
+ * - Data retrieval: Use umamiService.ts which queries /api/analytics/* endpoints
+ *
+ * This file is kept for reference only. The Supabase `web_analytics_log` table
+ * retains historical data but no new data is inserted.
+ */
 
-import { supabase } from "../../lib/supabase";
+// Web Tracking Service with Supabase (DEPRECATED - replaced by Umami)
+
 import logger from "../../utils/logger";
 
-// Generate atau ambil visitor ID dari localStorage
-const getVisitorId = (): string => {
-  let visitorId = localStorage.getItem("visitorId");
-  if (!visitorId) {
-    visitorId = `visitor_${Date.now()}_${Math.random()
-      .toString(36)
-      .substr(2, 9)}`;
-    localStorage.setItem("visitorId", visitorId);
-  }
-  return visitorId;
+/** @deprecated Use Umami auto-tracking instead */
+export const trackPageView = async (_page: string) => {
+  logger.log(
+    "[DEPRECATED] trackPageView called — Umami handles this automatically",
+  );
 };
 
-// Generate session ID (expires after 30 minutes of inactivity)
-// Kept for potential future use
-// const getSessionId = (): string => {
-//   const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
-//   const now = Date.now();
-//
-//   let sessionId = sessionStorage.getItem("sessionId");
-//   let lastActivity = sessionStorage.getItem("lastActivity");
-//
-//   if (
-//     !sessionId ||
-//     !lastActivity ||
-//     now - parseInt(lastActivity) > SESSION_TIMEOUT
-//   ) {
-//     sessionId = `session_${Date.now()}_${Math.random()
-//       .toString(36)
-//       .substr(2, 9)}`;
-//     sessionStorage.setItem("sessionId", sessionId);
-//   }
-//
-//   sessionStorage.setItem("lastActivity", now.toString());
-//   return sessionId;
-// };
+/** @deprecated Use trackingHelpers.ts (which uses window.umami.track) instead */
+export const trackEvent = async (
+  _eventName: string,
+  _eventData?: Record<string, unknown>,
+) => {
+  logger.log("[DEPRECATED] trackEvent called — use trackingHelpers.ts instead");
+};
 
-// Get device information with improved detection
-const getDeviceInfo = () => {
-  const ua = navigator.userAgent.toLowerCase();
-  let deviceType = "desktop";
-
-  // Improved device detection
-  const isMobile =
-    /android|webos|iphone|ipod|blackberry|iemobile|opera mini/i.test(ua);
-  const isTablet = /ipad|android(?!.*mobile)|tablet|kindle|silk|playbook/i.test(
-    ua
-  );
-
-  if (isTablet) {
-    deviceType = "tablet";
-  } else if (isMobile) {
-    deviceType = "mobile";
-  }
-
-  // Additional check using screen size and touch support
-  const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-  const screenWidth = window.screen.width;
-
-  // Override detection with screen size if needed
-  if (deviceType === "desktop" && hasTouch && screenWidth < 768) {
-    deviceType = "mobile";
-  } else if (
-    deviceType === "desktop" &&
-    hasTouch &&
-    screenWidth >= 768 &&
-    screenWidth < 1024
-  ) {
-    deviceType = "tablet";
-  }
-
+/** @deprecated Use umamiService.ts getAnalyticsSummary() instead */
+export const getAnalytics = async (_days: number = 7) => {
+  logger.log("[DEPRECATED] getAnalytics called — use umamiService.ts instead");
   return {
-    deviceType,
-    userAgent: navigator.userAgent,
-    screenWidth: window.screen.width,
-    screenHeight: window.screen.height,
-    language: navigator.language,
+    success: false,
+    totalVisitors: 0,
+    totalPageViews: 0,
+    dailyStats: [],
+    deviceStats: { desktop: 0, mobile: 0, tablet: 0 },
   };
 };
 
-// Hash visitor ID for privacy
-const hashVisitorId = (visitorId: string): string => {
-  try {
-    // Simple hash using Web Crypto API
-    const encoder = new TextEncoder();
-    const data = encoder.encode(visitorId);
-    return Array.from(data).map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 32);
-  } catch {
-    return visitorId.substring(0, 32);
-  }
-};
-
-// Track page view - simplified without duration
-export const trackPageView = async (page: string) => {
-  try {
-    const visitorId = getVisitorId();
-    const deviceInfo = getDeviceInfo();
-
-    // Insert into Supabase
-    const { error } = await supabase
-      .from("web_analytics_log")
-      .insert({
-        visitor_hash: hashVisitorId(visitorId),
-        page_path: page,
-        device_type: deviceInfo.deviceType,
-      });
-
-    if (error && import.meta.env.DEV) {
-      console.error("Error tracking page view:", error);
-    }
-  } catch (error) {
-    // Silent fail - don't spam console in production
-    if (import.meta.env.DEV) {
-      console.error("Error tracking page view:", error);
-    }
-  }
-};
-
-// Track custom event
-export const trackEvent = async (
-  eventName: string,
-  _eventData?: Record<string, unknown>
-) => {
-  try {
-    const visitorId = getVisitorId();
-    const deviceInfo = getDeviceInfo();
-
-    // Insert into Supabase with event name as page path
-    const { error } = await supabase
-      .from("web_analytics_log")
-      .insert({
-        visitor_hash: hashVisitorId(visitorId),
-        page_path: `event:${eventName}`,
-        device_type: deviceInfo.deviceType,
-      });
-
-    if (error && import.meta.env.DEV) {
-      console.error("Error tracking event:", error);
-    }
-  } catch (error) {
-    // Silent fail - don't spam console in production
-    if (import.meta.env.DEV) {
-      console.error("Error tracking event:", error);
-    }
-  }
-};
-
-// Get analytics data from Supabase
-export const getAnalytics = async (days: number = 7) => {
-  try {
-    logger.log('Fetching analytics for last', days, 'days...');
-    
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() - days);
-
-    const { data, error } = await supabase
-      .from("web_analytics_log")
-      .select("*")
-      .gte("visited_at", startDate.toISOString())
-      .order("visited_at", { ascending: false });
-
-    logger.log('📦 Raw data from Supabase:', data);
-    logger.log('Error:', error);
-
-    if (error) throw error;
-
-    if (!data || data.length === 0) {
-      logger.log('No analytics data found');
-      return {
-        success: false,
-        totalVisitors: 0,
-        totalPageViews: 0,
-        dailyStats: [],
-        deviceStats: { desktop: 0, mobile: 0, tablet: 0 },
-      };
-    }
-
-    // Process analytics data
-    const pageViews = new Map<string, number>();
-    const deviceTypes = new Map<string, number>();
-    const dailyViewsMap = new Map<string, { visitors: Set<string>, pageViews: number }>();
-    const allVisitors = new Set<string>();
-
-    interface AnalyticsLogRow {
-      page_path: string;
-      device_type?: string;
-      visitor_hash?: string;
-      visited_at: string;
-    }
-
-    data.forEach((log: AnalyticsLogRow) => {
-      // Count page views
-      const page = log.page_path;
-      pageViews.set(page, (pageViews.get(page) || 0) + 1);
-
-      // Count device types
-      const device = log.device_type || "unknown";
-      deviceTypes.set(device, (deviceTypes.get(device) || 0) + 1);
-
-      // Count unique visitors
-      if (log.visitor_hash) {
-        allVisitors.add(log.visitor_hash);
-      }
-
-      // Count daily views and visitors
-      const date = new Date(log.visited_at).toLocaleDateString("id-ID");
-      if (!dailyViewsMap.has(date)) {
-        dailyViewsMap.set(date, { visitors: new Set(), pageViews: 0 });
-      }
-      const dailyData = dailyViewsMap.get(date)!;
-      dailyData.pageViews++;
-      if (log.visitor_hash) {
-        dailyData.visitors.add(log.visitor_hash);
-      }
-    });
-
-    // Calculate device percentages
-    const totalViews = data.length;
-    const deviceStats = {
-      desktop: Math.round(((deviceTypes.get('desktop') || 0) / totalViews) * 100),
-      mobile: Math.round(((deviceTypes.get('mobile') || 0) / totalViews) * 100),
-      tablet: Math.round(((deviceTypes.get('tablet') || 0) / totalViews) * 100),
-    };
-
-    // Convert daily stats to array
-    const dailyStats = Array.from(dailyViewsMap.entries())
-      .map(([date, data]) => ({
-        date,
-        visitors: data.visitors.size,
-        pageViews: data.pageViews,
-      }))
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-    const result = {
-      success: true,
-      totalVisitors: allVisitors.size,
-      totalPageViews: totalViews,
-      dailyStats,
-      deviceStats,
-      pageViews: Array.from(pageViews.entries()).map(([page, count]) => ({
-        page,
-        count,
-      })),
-    };
-
-    logger.log('Processed analytics result:', result);
-
-    return result;
-  } catch (error) {
-    console.error("Error fetching analytics:", error);
-    return {
-      success: false,
-      totalVisitors: 0,
-      totalPageViews: 0,
-      dailyStats: [],
-      deviceStats: { desktop: 0, mobile: 0, tablet: 0 },
-    };
-  }
-};
-
-// Initialize tracking (popstate only — SPA route changes handled by Analytics component)
+/** @deprecated Umami auto-tracks on script load, no init needed */
 export const initTracking = () => {
-  // Track initial page view
-  trackPageView(window.location.pathname);
-
-  // Track back/forward browser button navigation
-  window.addEventListener("popstate", () => {
-    trackPageView(window.location.pathname);
-  });
+  logger.log(
+    "[DEPRECATED] initTracking called — Umami handles this automatically",
+  );
 };

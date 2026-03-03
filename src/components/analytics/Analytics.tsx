@@ -1,10 +1,5 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import {
-  trackPageView,
-  initTracking,
-} from '../../services/analytics/trackingService';
-import logger from '../../utils/logger';
+import { useEffect, useRef } from "react";
+import logger from "../../utils/logger";
 
 // Re-export tracking helpers for backwards compatibility
 export {
@@ -17,23 +12,62 @@ export {
   trackFormSubmit,
   trackDownload,
   trackExternalLink,
-} from './trackingHelpers';
+} from "./trackingHelpers";
+
+/**
+ * Injects the Umami Analytics script tag into the document head.
+ * Uses VITE_UMAMI_URL and VITE_UMAMI_WEBSITE_ID from environment variables.
+ * Umami auto-tracks pageviews (including SPA route changes via History API).
+ */
+const injectUmamiScript = (): (() => void) => {
+  const umamiUrl = import.meta.env.VITE_UMAMI_URL;
+  const websiteId = import.meta.env.VITE_UMAMI_WEBSITE_ID;
+
+  if (!umamiUrl || !websiteId) {
+    logger.log(
+      "Umami Analytics: Missing VITE_UMAMI_URL or VITE_UMAMI_WEBSITE_ID — tracking disabled",
+    );
+    return () => {};
+  }
+
+  // Prevent duplicate injection
+  const existingScript = document.querySelector("script[data-website-id]");
+  if (existingScript) {
+    return () => {};
+  }
+
+  const script = document.createElement("script");
+  script.defer = true;
+  script.src = `${umamiUrl}/script.js`;
+  script.setAttribute("data-website-id", websiteId);
+  // Only track on these domains (prevents tracking in unintended environments)
+  if (import.meta.env.PROD) {
+    script.setAttribute("data-domains", "upnvj.ac.id");
+  }
+  document.head.appendChild(script);
+
+  logger.log("Umami Analytics: Script injected from", umamiUrl);
+
+  return () => {
+    script.remove();
+  };
+};
 
 // Main Analytics Component
+// Umami handles all pageview tracking automatically (SPA-aware via History API).
+// This component only needs to inject the script on mount.
 const Analytics: React.FC = () => {
-  const location = useLocation();
+  const injected = useRef(false);
 
-  // Initialize tracking on component mount
   useEffect(() => {
-    initTracking();
-    logger.log("Analytics tracking initialized");
+    if (injected.current) return;
+    injected.current = true;
+
+    const cleanup = injectUmamiScript();
+    logger.log("Umami Analytics: Tracking initialized");
+
+    return cleanup;
   }, []);
-
-  // Track page view on route change
-  useEffect(() => {
-    trackPageView(location.pathname);
-    logger.log("Page view tracked:", location.pathname);
-  }, [location]);
 
   return null;
 };

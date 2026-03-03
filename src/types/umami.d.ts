@@ -1,6 +1,8 @@
-/// <reference types="vite/client" />
+// Global type declarations for Umami Analytics
+// This file augments the Window interface with the Umami tracker
 
-// Umami Analytics global type declarations
+export {};
+
 interface UmamiTracker {
   track(event: string, data?: Record<string, string | number | boolean>): void;
   track(
@@ -19,18 +21,3 @@ declare global {
     umami?: UmamiTracker;
   }
 }
-
-// Vite environment variables
-interface ImportMetaEnv {
-  readonly VITE_SUPABASE_URL: string;
-  readonly VITE_SUPABASE_ANON_KEY: string;
-  readonly VITE_UMAMI_URL: string;
-  readonly VITE_UMAMI_WEBSITE_ID: string;
-  readonly VITE_API_URL: string;
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
-
-export {};

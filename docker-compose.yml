@@ -1,0 +1,59 @@
+# Umami Analytics - Self-hosted web analytics
+# Hanya untuk menjalankan Umami, BUKAN untuk containerize dashboard UPNVJ
+#
+# Usage:
+#   docker compose up -d        → Start Umami + PostgreSQL
+#   docker compose down         → Stop semua
+#   docker compose logs -f      → Lihat logs
+#   docker compose pull         → Update ke versi terbaru
+#
+# Akses Umami di: http://localhost:3000
+# Default login: admin / umami (segera ganti password!)
+
+services:
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://umami:${UMAMI_DB_PASSWORD:-umami_secret_123}@umami-db:5432/umami
+      APP_SECRET: ${UMAMI_APP_SECRET:-replace-me-with-a-random-string}
+      TRACKER_SCRIPT_NAME: script.js
+    depends_on:
+      umami-db:
+        condition: service_healthy
+    init: true
+    restart: always
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:3000/api/heartbeat || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - umami-network
+
+  umami-db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: ${UMAMI_DB_PASSWORD:-umami_secret_123}
+    volumes:
+      - umami-db-data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U umami -d umami"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - umami-network
+
+volumes:
+  umami-db-data:
+    driver: local
+
+networks:
+  umami-network:
+    driver: bridge

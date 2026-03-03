@@ -50,3 +50,6 @@ database/schema.sql
 *.sln
 *.sw?
 proxy-server/analytics-data.json
+
+# Docker volumes (Umami analytics)
+umami-db-data/
