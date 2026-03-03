@@ -5,13 +5,7 @@ import type { FacilityData } from "../../../services/api/supabaseDataService";
 import { usePagination } from "../hooks/usePagination";
 import Pagination from "../shared/Pagination";
 
-interface FacilityRow {
-  id: number;
-  nama_fasilitas: string;
-  deskripsi_fasilitas?: string;
-  tipe_fasilitas?: string;
-  id_gedung: number;
-  color?: string;
+interface FacilityRow extends FacilityData {
   gedung?: {
     id: number;
     nama_gedung: string;
