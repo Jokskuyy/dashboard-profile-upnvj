@@ -642,11 +642,13 @@ export default function FacilitySubmissionForm() {
                     </div>
                   ) : (
                     <div className="relative rounded-2xl overflow-hidden border border-slate-200">
-                      <img
-                        src={photoPreview}
-                        alt="Preview"
-                        className="w-full h-48 object-cover"
-                      />
+                      {photoPreview && (
+                        <img
+                          src={photoPreview}
+                          alt="Preview"
+                          className="w-full h-48 object-cover"
+                        />
+                      )}
                       <button
                         type="button"
                         onClick={clearPhoto}
