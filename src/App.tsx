@@ -58,9 +58,6 @@ function App() {
                 <Route path="/login" element={<Suspense fallback={<PageLoader />}><Login /></Suspense>} />
                 <Route path="/admin/login" element={<Suspense fallback={<PageLoader />}><Login /></Suspense>} />
 
-                {/* Public Form Route — standalone, no Header/Footer */}
-                <Route path="/input-data" element={<Suspense fallback={<PageLoader />}><FacilitySubmissionForm /></Suspense>} />
-
                 {/* Protected Admin Dashboard Route */}
                 <Route
                   path="/admin"
@@ -70,6 +67,16 @@ function App() {
                         <AdminDashboard />
                       </Suspense>
                     </ProtectedRoute>
+                  }
+                />
+
+                {/* Public Form Route — No auth required */}
+                <Route
+                  path="/input-data"
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <FacilitySubmissionForm />
+                    </Suspense>
                   }
                 />
 
