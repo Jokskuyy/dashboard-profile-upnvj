@@ -1,64 +1,73 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import {
-  trackPageView,
-  trackEvent,
-  initTracking,
-} from "../../services/analytics/trackingService";
+import { useEffect, useRef } from "react";
+import logger from "../../utils/logger";
 
-// Helper functions for tracking specific events
-export const trackClick = (elementName: string) => {
-  trackEvent("click", { element: elementName });
-};
+// Re-export tracking helpers for backwards compatibility
+export {
+  trackClick,
+  trackNavigation,
+  trackLanguageChange,
+  trackSectionView,
+  trackCarousel,
+  trackButtonClick,
+  trackFormSubmit,
+  trackDownload,
+  trackExternalLink,
+} from "./trackingHelpers";
 
-export const trackNavigation = (to: string) => {
-  trackEvent("navigation", { to });
-};
+/**
+ * Injects the Umami Analytics script tag into the document head.
+ * Uses VITE_UMAMI_URL and VITE_UMAMI_WEBSITE_ID from environment variables.
+ * Umami auto-tracks pageviews (including SPA route changes via History API).
+ */
+const injectUmamiScript = (): (() => void) => {
+  const umamiUrl = import.meta.env.VITE_UMAMI_URL;
+  const websiteId = import.meta.env.VITE_UMAMI_WEBSITE_ID;
 
-export const trackLanguageChange = (from: string, to: string) => {
-  trackEvent("language_change", { from, to });
-};
+  if (!umamiUrl || !websiteId) {
+    logger.log(
+      "Umami Analytics: Missing VITE_UMAMI_URL or VITE_UMAMI_WEBSITE_ID — tracking disabled",
+    );
+    return () => {};
+  }
 
-export const trackSectionView = (sectionName: string) => {
-  trackEvent("section_view", { section: sectionName });
-};
+  // Prevent duplicate injection
+  const existingScript = document.querySelector("script[data-website-id]");
+  if (existingScript) {
+    return () => {};
+  }
 
-export const trackCarousel = (
-  action: "next" | "prev" | "indicator",
-  slideIndex: number,
-) => {
-  trackEvent("carousel_interaction", { action, slideIndex });
-};
+  const script = document.createElement("script");
+  script.defer = true;
+  script.src = `${umamiUrl}/script.js`;
+  script.setAttribute("data-website-id", websiteId);
+  // Only track on these domains (prevents tracking in unintended environments)
+  if (import.meta.env.PROD) {
+    script.setAttribute("data-domains", "upnvj.ac.id");
+  }
+  document.head.appendChild(script);
 
-export const trackButtonClick = (buttonName: string, location: string) => {
-  trackEvent("button_click", { button: buttonName, location });
-};
+  logger.log("Umami Analytics: Script injected from", umamiUrl);
 
-export const trackFormSubmit = (formName: string, success: boolean) => {
-  trackEvent("form_submit", { form: formName, success });
-};
-
-export const trackDownload = (fileName: string) => {
-  trackEvent("download", { file: fileName });
-};
-
-export const trackExternalLink = (url: string) => {
-  trackEvent("external_link_click", { url });
+  return () => {
+    script.remove();
+  };
 };
 
 // Main Analytics Component
+// Umami handles all pageview tracking automatically (SPA-aware via History API).
+// This component only needs to inject the script on mount.
 const Analytics: React.FC = () => {
-  const location = useLocation();
+  const injected = useRef(false);
 
-  // Initialize tracking on component mount
   useEffect(() => {
-    initTracking();
+    if (injected.current) return;
+    injected.current = true;
+
+    const cleanup = injectUmamiScript();
+    logger.log("Umami Analytics: Tracking initialized");
+
+    return cleanup;
   }, []);
-
-  // Track page view on route change
-  useEffect(() => {
-    trackPageView(location.pathname);
-  }, [location]);
 
   return null;
 };

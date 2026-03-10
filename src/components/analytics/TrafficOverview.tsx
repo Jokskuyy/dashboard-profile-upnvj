@@ -10,62 +10,24 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useLanguage } from "../../contexts/LanguageContext";
-import { getAnalytics } from "../../services/analytics/trackingService";
-
-interface DailyData {
-  date: string;
-  visitors: number;
-  pageviews: number;
-}
-
-interface TrafficStats {
-  visitors: number;
-  pageviews: number;
-  dailyStats: DailyData[];
-}
+import {
+  getAnalyticsSummary,
+  type AnalyticsSummary,
+} from "../../services/analytics/umamiService";
 
 const TrafficOverview: React.FC = () => {
   const { language } = useLanguage();
-  const [stats, setStats] = useState<TrafficStats>({
-    visitors: 0,
-    pageviews: 0,
-    dailyStats: [],
-  });
+  const [stats, setStats] = useState<AnalyticsSummary | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch stats from Supabase
     const fetchStats = async () => {
       try {
-        const data = await getAnalytics(14); // Last 14 days
-
-        if (data && data.success) {
-          // Transform dailyStats to match interface
-          const dailyStats = (data.dailyStats || []).map((day: any) => ({
-            date: day.date,
-            visitors: day.visitors,
-            pageviews: day.pageViews, // Note: API returns pageViews, we need pageviews
-          }));
-
-          setStats({
-            visitors: data.totalVisitors || 0,
-            pageviews: data.totalPageViews || 0,
-            dailyStats,
-          });
-        } else {
-          setStats({
-            visitors: 0,
-            pageviews: 0,
-            dailyStats: [],
-          });
-        }
+        const data = await getAnalyticsSummary("14d");
+        setStats(data);
       } catch (error) {
-        // Placeholder data on error
-        setStats({
-          visitors: 0,
-          pageviews: 0,
-          dailyStats: [],
-        });
+        console.error("Error fetching analytics:", error);
+        setStats(null);
       } finally {
         setLoading(false);
       }
@@ -73,8 +35,8 @@ const TrafficOverview: React.FC = () => {
 
     fetchStats();
 
-    // Refresh data every 30 seconds
-    const interval = setInterval(fetchStats, 30000);
+    // Refresh data every 5 minutes
+    const interval = setInterval(fetchStats, 300000);
     return () => clearInterval(interval);
   }, []);
 
@@ -105,20 +67,18 @@ const TrafficOverview: React.FC = () => {
 
   const t = translations[language];
 
-  // Calculate totals and averages
-  const totalVisitors = stats.visitors;
-  const totalPageViews = stats.pageviews;
+  // Use real data from Umami
+  const totalVisitors = stats?.totalVisitors || 0;
+  const totalPageViews = stats?.totalPageViews || 0;
+  const dailyStats = stats?.dailyStats || [];
   const avgVisitors =
-    stats.dailyStats.length > 0
-      ? Math.round(totalVisitors / stats.dailyStats.length)
-      : 0;
+    dailyStats.length > 0 ? Math.round(totalVisitors / dailyStats.length) : 0;
   const avgPageViews =
-    stats.dailyStats.length > 0
-      ? Math.round(totalPageViews / stats.dailyStats.length)
-      : 0;
+    dailyStats.length > 0 ? Math.round(totalPageViews / dailyStats.length) : 0;
+  const trend = stats?.trend || 0;
 
   // Format data for Recharts
-  const chartData = stats.dailyStats.map((day) => {
+  const chartData = dailyStats.map((day) => {
     // Format date safely
     const formatDate = (dateStr: string) => {
       try {
@@ -141,7 +101,7 @@ const TrafficOverview: React.FC = () => {
     return {
       tanggal: formatDate(day.date),
       pengunjung: day.visitors,
-      webViews: day.pageviews,
+      webViews: day.pageViews,
     };
   });
 
@@ -184,7 +144,7 @@ const TrafficOverview: React.FC = () => {
           {/* Stats Cards - Modern gradient design with SVG waveforms */}
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
             {/* Total Visitors */}
-            <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-teal-400 to-blue-500 text-white shadow-lg shadow-teal-500/20 group">
+            <div className="relative overflow-hidden rounded-2xl p-6 bg-linear-to-br from-teal-400 to-blue-500 text-white shadow-lg shadow-teal-500/20 group">
               <div className="flex justify-between items-start mb-4">
                 <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
                   <span className="material-icons-round text-xl">
@@ -193,19 +153,9 @@ const TrafficOverview: React.FC = () => {
                 </div>
                 <span className="px-2 py-1 bg-white/20 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm">
                   <span className="material-icons-round text-xs">
-                    arrow_upward
+                    {trend >= 0 ? "arrow_upward" : "arrow_downward"}
                   </span>{" "}
-                  {stats.dailyStats.length > 1
-                    ? Math.round(
-                        ((stats.visitors -
-                          (stats.dailyStats[stats.dailyStats.length - 2]
-                            ?.visitors || 0)) /
-                          (stats.dailyStats[stats.dailyStats.length - 2]
-                            ?.visitors || 1)) *
-                          100,
-                      )
-                    : 23}
-                  %
+                  {Math.abs(trend).toFixed(1)}%
                 </span>
               </div>
               <p className="text-sm opacity-90 font-medium">
@@ -226,16 +176,16 @@ const TrafficOverview: React.FC = () => {
             </div>
 
             {/* Total Page Views */}
-            <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-emerald-400 to-teal-600 text-white shadow-lg shadow-emerald-500/20 group">
+            <div className="relative overflow-hidden rounded-2xl p-6 bg-linear-to-br from-emerald-400 to-teal-600 text-white shadow-lg shadow-emerald-500/20 group">
               <div className="flex justify-between items-start mb-4">
                 <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
                   <span className="material-icons-round text-xl">web</span>
                 </div>
                 <span className="px-2 py-1 bg-white/20 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm">
                   <span className="material-icons-round text-xs">
-                    arrow_upward
+                    {trend >= 0 ? "arrow_upward" : "arrow_downward"}
                   </span>{" "}
-                  34%
+                  {Math.abs(trend).toFixed(1)}%
                 </span>
               </div>
               <p className="text-sm opacity-90 font-medium">
@@ -256,7 +206,7 @@ const TrafficOverview: React.FC = () => {
             </div>
 
             {/* Average Visitors */}
-            <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-cyan-400 to-blue-600 text-white shadow-lg shadow-blue-500/20 group">
+            <div className="relative overflow-hidden rounded-2xl p-6 bg-linear-to-br from-cyan-400 to-blue-600 text-white shadow-lg shadow-blue-500/20 group">
               <div className="flex justify-between items-start mb-4">
                 <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
                   <span className="material-icons-round text-xl">
@@ -265,9 +215,9 @@ const TrafficOverview: React.FC = () => {
                 </div>
                 <span className="px-2 py-1 bg-white/20 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm">
                   <span className="material-icons-round text-xs">
-                    arrow_upward
+                    {trend >= 0 ? "arrow_upward" : "arrow_downward"}
                   </span>{" "}
-                  38%
+                  {Math.abs(trend).toFixed(1)}%
                 </span>
               </div>
               <p className="text-sm opacity-90 font-medium">
@@ -288,7 +238,7 @@ const TrafficOverview: React.FC = () => {
             </div>
 
             {/* Average Page Views */}
-            <div className="relative overflow-hidden rounded-2xl p-6 bg-gradient-to-br from-blue-400 to-indigo-600 text-white shadow-lg shadow-indigo-500/20 group">
+            <div className="relative overflow-hidden rounded-2xl p-6 bg-linear-to-br from-blue-400 to-indigo-600 text-white shadow-lg shadow-indigo-500/20 group">
               <div className="flex justify-between items-start mb-4">
                 <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
                   <span className="material-icons-round text-xl">
@@ -297,9 +247,9 @@ const TrafficOverview: React.FC = () => {
                 </div>
                 <span className="px-2 py-1 bg-white/20 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm">
                   <span className="material-icons-round text-xs">
-                    arrow_upward
+                    {trend >= 0 ? "arrow_upward" : "arrow_downward"}
                   </span>{" "}
-                  54%
+                  {Math.abs(trend).toFixed(1)}%
                 </span>
               </div>
               <p className="text-sm opacity-90 font-medium">

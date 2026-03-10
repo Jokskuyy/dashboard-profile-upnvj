@@ -58,8 +58,8 @@ const Login: React.FC = () => {
         setError(result.message);
         setIsLoading(false);
       }
-    } catch (err: any) {
-      setError(err.message || "Terjadi kesalahan tidak terduga");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Terjadi kesalahan tidak terduga");
       setIsLoading(false);
     }
   };
@@ -80,7 +80,7 @@ const Login: React.FC = () => {
 
         {/* Color Overlay */}
         <div className="absolute inset-0 bg-[#2C5F2D]/80 mix-blend-multiply"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"></div>
 
         {/* Overlay Content */}
         <div className="relative z-10 flex flex-col justify-between p-12 w-full h-full text-white">

@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="relative overflow-hidden">
       {/* Background with gradient and pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#1B4332] via-[#2C5F2D] to-[#1B5E20]">
+      <div className="absolute inset-0 bg-linear-to-br from-[#1B4332] via-[#2C5F2D] to-[#1B5E20]">
         <div className="absolute inset-0 opacity-10">
           <div
             className="w-full h-full"

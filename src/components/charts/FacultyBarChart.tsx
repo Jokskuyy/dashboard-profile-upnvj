@@ -1,6 +1,6 @@
 import React from "react";
 
-interface FacultyData {
+export interface FacultyData {
   id: string;
   shortName: string;
   name: string;

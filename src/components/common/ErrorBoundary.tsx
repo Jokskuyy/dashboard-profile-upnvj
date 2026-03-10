@@ -55,10 +55,10 @@ class ErrorBoundary extends Component<Props, State> {
 
       // Default error UI
       return (
-        <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-linear-to-br from-red-50 via-white to-red-50 flex items-center justify-center p-4">
           <div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl border border-red-100 overflow-hidden">
             {/* Error Header */}
-            <div className="bg-gradient-to-r from-red-500 to-red-600 text-white p-8">
+            <div className="bg-linear-to-r from-red-500 to-red-600 text-white p-8">
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
                   <AlertTriangle className="w-8 h-8" />
@@ -87,7 +87,7 @@ class ErrorBoundary extends Component<Props, State> {
               </div>
 
               {/* Error Details (only in development) */}
-              {process.env.NODE_ENV === "development" && this.state.error && (
+              {import.meta.env.DEV && this.state.error && (
                 <div className="mb-6 p-4 bg-red-50 rounded-lg border border-red-200">
                   <h3 className="text-sm font-semibold text-red-900 mb-2">
                     Error Details (Development Only):
@@ -108,7 +108,7 @@ class ErrorBoundary extends Component<Props, State> {
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={this.handleReset}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-md hover:shadow-lg"
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-linear-to-r from-red-500 to-red-600 text-white font-semibold rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-md hover:shadow-lg"
                 >
                   <RefreshCw className="w-5 h-5" />
                   Coba Lagi

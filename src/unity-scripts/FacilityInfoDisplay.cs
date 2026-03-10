@@ -93,18 +93,51 @@ public class FacilityInfoDisplay : MonoBehaviour
     // Cache texture agar tidak download ulang
     private static Dictionary<string, Texture2D> textureCache = new Dictionary<string, Texture2D>();
 
+    [Header("Debug")]
+    [Tooltip("Centang untuk test: paksa foto ke tengah layar saat berhasil download")]
+    public bool debugForceCenterScreen = true;
+
     void Start()
     {
+        Debug.Log($"[FacilityInfo] === START pada '{gameObject.name}' ===");
+        Debug.Log($"[FacilityInfo] fasilitasId={fasilitasId}, gedungId={gedungId}, lantaiFilter={lantaiFilter}");
+        Debug.Log($"[FacilityInfo] overrideFotoUrl='{overrideFotoUrl}', autoLoadOverrideOnStart={autoLoadOverrideOnStart}");
+        Debug.Log($"[FacilityInfo] fotoRuanganImage assigned? {fotoRuanganImage != null}");
+        Debug.Log($"[FacilityInfo] fotoLoadingIndicator assigned? {fotoLoadingIndicator != null}");
+        Debug.Log($"[FacilityInfo] noFotoPlaceholder assigned? {noFotoPlaceholder != null}");
+
+        // Log info Canvas
+        if (fotoRuanganImage != null)
+        {
+            Canvas canvas = fotoRuanganImage.GetComponentInParent<Canvas>();
+            if (canvas != null)
+            {
+                CanvasScaler scaler = canvas.GetComponent<CanvasScaler>();
+                Debug.Log($"[FacilityInfo] Canvas: renderMode={canvas.renderMode}, sortingOrder={canvas.sortingOrder}");
+                if (scaler != null)
+                {
+                    Debug.Log($"[FacilityInfo] CanvasScaler: uiScaleMode={scaler.uiScaleMode}, refResolution={scaler.referenceResolution}, scaleFactor={scaler.scaleFactor}");
+                }
+                Debug.Log($"[FacilityInfo] Screen resolution: {Screen.width}x{Screen.height}");
+            }
+        }
+
         // Jika ada override URL dan autoLoad aktif, langsung load foto
         // tanpa perlu menunggu data dari database
         if (autoLoadOverrideOnStart && !string.IsNullOrEmpty(overrideFotoUrl))
         {
+            Debug.Log($"[FacilityInfo] Auto-loading override foto: {overrideFotoUrl}");
             LoadPhoto(overrideFotoUrl);
+        }
+        else
+        {
+            Debug.Log($"[FacilityInfo] Auto-load SKIP — autoLoad={autoLoadOverrideOnStart}, overrideFotoUrl empty={string.IsNullOrEmpty(overrideFotoUrl)}");
         }
 
         // Subscribe ke event data received
         if (BuildingDataReceiver.Instance != null)
         {
+            Debug.Log($"[FacilityInfo] BuildingDataReceiver found. IsDataReady={BuildingDataReceiver.Instance.IsDataReady}");
             if (BuildingDataReceiver.Instance.IsDataReady)
             {
                 // Data sudah ada
@@ -112,6 +145,10 @@ public class FacilityInfoDisplay : MonoBehaviour
             }
             // Subscribe untuk update di masa depan
             BuildingDataReceiver.Instance.OnDataReceived += UpdateDisplay;
+        }
+        else
+        {
+            Debug.LogWarning("[FacilityInfo] BuildingDataReceiver.Instance is NULL! Pastikan ada GameObject dengan BuildingDataReceiver di scene.");
         }
     }
 
@@ -220,16 +257,24 @@ public class FacilityInfoDisplay : MonoBehaviour
                 ? overrideFotoUrl
                 : fasilitas.foto_url;
 
+            Debug.Log($"[FacilityInfo] Foto URL decision: override='{overrideFotoUrl}', db='{fasilitas.foto_url}', final='{fotoUrl}'");
+
             if (!string.IsNullOrEmpty(fotoUrl))
             {
+                Debug.Log($"[FacilityInfo] Calling LoadPhoto with URL: {fotoUrl}");
                 LoadPhoto(fotoUrl);
             }
             else
             {
+                Debug.LogWarning("[FacilityInfo] Tidak ada foto URL (override maupun database). Showing placeholder.");
                 fotoRuanganImage.gameObject.SetActive(false);
                 if (noFotoPlaceholder != null) noFotoPlaceholder.SetActive(true);
                 if (fotoLoadingIndicator != null) fotoLoadingIndicator.SetActive(false);
             }
+        }
+        else
+        {
+            Debug.LogWarning("[FacilityInfo] fotoRuanganImage is NULL — slot RawImage belum di-assign di Inspector!");
         }
     }
 
@@ -354,17 +399,29 @@ public class FacilityInfoDisplay : MonoBehaviour
     /// </summary>
     private void LoadPhoto(string url)
     {
-        if (fotoRuanganImage == null) return;
+        Debug.Log($"[FacilityInfo] >>> LoadPhoto called with URL: {url}");
+
+        if (fotoRuanganImage == null)
+        {
+            Debug.LogError("[FacilityInfo] GAGAL: fotoRuanganImage is NULL! Pastikan RawImage sudah di-drag ke slot Inspector.");
+            return;
+        }
+
+        Debug.Log($"[FacilityInfo] RawImage GameObject: '{fotoRuanganImage.gameObject.name}', active={fotoRuanganImage.gameObject.activeSelf}");
+        Debug.Log($"[FacilityInfo] RawImage RectTransform size: {fotoRuanganImage.rectTransform.sizeDelta}");
 
         // Cek cache
         if (textureCache.TryGetValue(url, out Texture2D cachedTexture))
         {
+            Debug.Log($"[FacilityInfo] Texture found in CACHE. Size: {cachedTexture.width}x{cachedTexture.height}");
             fotoRuanganImage.texture = cachedTexture;
             fotoRuanganImage.gameObject.SetActive(true);
             if (noFotoPlaceholder != null) noFotoPlaceholder.SetActive(false);
             if (fotoLoadingIndicator != null) fotoLoadingIndicator.SetActive(false);
             return;
         }
+
+        Debug.Log($"[FacilityInfo] Not in cache. Starting download: {url}");
 
         // Loading state
         fotoRuanganImage.gameObject.SetActive(false);
@@ -376,30 +433,109 @@ public class FacilityInfoDisplay : MonoBehaviour
 
     private IEnumerator DownloadPhoto(string url)
     {
+        Debug.Log($"[FacilityInfo] === DOWNLOAD START === URL: {url}");
+
         using (UnityWebRequest request = UnityWebRequestTexture.GetTexture(url))
         {
             yield return request.SendWebRequest();
 
+            Debug.Log($"[FacilityInfo] Download result: {request.result}, HTTP {request.responseCode}");
+
             if (request.result == UnityWebRequest.Result.Success)
             {
                 Texture2D texture = DownloadHandlerTexture.GetContent(request);
+                Debug.Log($"[FacilityInfo] SUCCESS! Texture size: {texture.width}x{texture.height}, format: {texture.format}");
                 textureCache[url] = texture;
 
                 if (fotoRuanganImage != null)
                 {
                     fotoRuanganImage.texture = texture;
                     fotoRuanganImage.gameObject.SetActive(true);
+
+                    // AUTO-FIX: Pastikan color alpha tidak 0 (transparan)
+                    if (fotoRuanganImage.color.a < 0.01f)
+                    {
+                        Debug.LogWarning("[FacilityInfo] AUTO-FIX: RawImage alpha was 0 (invisible)! Setting to white.");
+                        fotoRuanganImage.color = Color.white;
+                    }
+
+                    // AUTO-FIX: Pastikan ukuran tidak 0
+                    Vector2 size = fotoRuanganImage.rectTransform.sizeDelta;
+                    if (size.x < 1f || size.y < 1f)
+                    {
+                        Debug.LogWarning($"[FacilityInfo] AUTO-FIX: RawImage size too small ({size})! Setting to 300x200.");
+                        fotoRuanganImage.rectTransform.sizeDelta = new Vector2(300f, 200f);
+                    }
+
+                    // Pastikan parent juga aktif
+                    Transform parent = fotoRuanganImage.transform.parent;
+                    if (parent != null && !parent.gameObject.activeInHierarchy)
+                    {
+                        Debug.LogWarning($"[FacilityInfo] WARNING: Parent '{parent.name}' is INACTIVE! Foto tidak akan terlihat.");
+                    }
+
+                    // Cek Canvas
+                    Canvas canvas = fotoRuanganImage.GetComponentInParent<Canvas>();
+                    if (canvas == null)
+                    {
+                        Debug.LogError("[FacilityInfo] ERROR: RawImage tidak berada di dalam Canvas! Tambahkan Canvas sebagai parent.");
+                    }
+                    else
+                    {
+                        Debug.Log($"[FacilityInfo] Canvas found: '{canvas.name}', renderMode={canvas.renderMode}");
+                    }
+
+                    Debug.Log($"[FacilityInfo] Texture applied to RawImage '{fotoRuanganImage.gameObject.name}'. SetActive(true)");
+                    Debug.Log($"[FacilityInfo] RawImage color: {fotoRuanganImage.color}, UV Rect: {fotoRuanganImage.uvRect}");
+                    Debug.Log($"[FacilityInfo] RawImage sizeDelta: {fotoRuanganImage.rectTransform.sizeDelta}");
+                    Debug.Log($"[FacilityInfo] RawImage position: {fotoRuanganImage.rectTransform.position}");
+                    Debug.Log($"[FacilityInfo] RawImage anchoredPosition: {fotoRuanganImage.rectTransform.anchoredPosition}");
+                    Debug.Log($"[FacilityInfo] RawImage activeInHierarchy: {fotoRuanganImage.gameObject.activeInHierarchy}");
+
+                    // DEBUG: Paksa ke tengah layar agar pasti terlihat
+                    if (debugForceCenterScreen)
+                    {
+                        Debug.LogWarning("[FacilityInfo] DEBUG MODE: Forcing RawImage ke tengah layar!");
+                        fotoRuanganImage.rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+                        fotoRuanganImage.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+                        fotoRuanganImage.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+                        fotoRuanganImage.rectTransform.anchoredPosition = Vector2.zero;
+                        fotoRuanganImage.rectTransform.sizeDelta = new Vector2(400f, 300f);
+                        fotoRuanganImage.color = Color.white;
+
+                        // Pastikan Canvas sorting order tinggi
+                        Canvas canvas2 = fotoRuanganImage.GetComponentInParent<Canvas>();
+                        if (canvas2 != null)
+                        {
+                            canvas2.sortingOrder = 999;
+                        }
+
+                        Debug.Log($"[FacilityInfo] FORCED position: center, size: 400x300, anchor: center");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("[FacilityInfo] fotoRuanganImage became NULL after download! GameObject mungkin destroyed.");
                 }
                 if (noFotoPlaceholder != null) noFotoPlaceholder.SetActive(false);
             }
             else
             {
-                Debug.LogWarning($"[FacilityInfo] Gagal load foto: {url} — {request.error}");
+                Debug.LogError($"[FacilityInfo] DOWNLOAD FAILED: {url}");
+                Debug.LogError($"[FacilityInfo] Error: {request.error}");
+                Debug.LogError($"[FacilityInfo] Response Code: {request.responseCode}");
+                if (request.downloadHandler != null && request.downloadHandler.text != null)
+                {
+                    string responseText = request.downloadHandler.text;
+                    if (responseText.Length > 200) responseText = responseText.Substring(0, 200) + "...";
+                    Debug.LogError($"[FacilityInfo] Response body: {responseText}");
+                }
                 if (fotoRuanganImage != null) fotoRuanganImage.gameObject.SetActive(false);
                 if (noFotoPlaceholder != null) noFotoPlaceholder.SetActive(true);
             }
 
             if (fotoLoadingIndicator != null) fotoLoadingIndicator.SetActive(false);
+            Debug.Log($"[FacilityInfo] === DOWNLOAD END === URL: {url}");
         }
     }
 }

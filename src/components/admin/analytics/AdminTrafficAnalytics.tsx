@@ -8,6 +8,10 @@ import {
   ArrowUp,
   ArrowDown,
   RefreshCw,
+  Clock,
+  Activity,
+  BarChart3,
+  MousePointerClick,
 } from "lucide-react";
 import {
   LineChart,
@@ -19,25 +23,19 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { getAnalytics } from "../../../services/analytics/trackingService";
-
-interface TrafficData {
-  date: string;
-  visitors: number;
-  pageViews: number;
-}
-
-interface DeviceStats {
-  desktop: number;
-  mobile: number;
-  tablet: number;
-}
+import {
+  getAnalyticsSummary,
+  getActiveVisitors,
+  getAnalyticsMetrics,
+  type AnalyticsSummary,
+  type AnalyticsMetric,
+} from "../../../services/analytics/umamiService";
 
 interface AnalyticsData {
-  dailyStats: TrafficData[];
-  deviceStats: DeviceStats;
-  totalVisitors: number;
-  totalPageViews: number;
+  summary: AnalyticsSummary;
+  activeVisitors: number;
+  topPages: AnalyticsMetric[];
+  events: AnalyticsMetric[];
 }
 
 export default function AdminTrafficAnalytics() {
@@ -47,31 +45,30 @@ export default function AdminTrafficAnalytics() {
     null,
   );
 
-  // Load analytics data
+  // Load analytics data from Umami via API proxy
   const loadAnalytics = async () => {
     setLoading(true);
     try {
-      const days = timeRange === "7d" ? 7 : timeRange === "30d" ? 30 : 90;
+      // Fetch summary, active visitors, top pages, and events in parallel
+      const [summary, activeVisitors, topPages, events] = await Promise.all([
+        getAnalyticsSummary(timeRange),
+        getActiveVisitors(),
+        getAnalyticsMetrics("url", timeRange, "10"),
+        getAnalyticsMetrics("event", timeRange, "10"),
+      ]);
 
-      const data = await getAnalytics(days);
-
-      if (data && data.success) {
-        const analyticsResult = {
-          dailyStats: data.dailyStats || [],
-          deviceStats: data.deviceStats || {
-            desktop: 0,
-            mobile: 0,
-            tablet: 0,
-          },
-          totalVisitors: data.totalVisitors || 0,
-          totalPageViews: data.totalPageViews || 0,
-        };
-
-        setAnalyticsData(analyticsResult);
+      if (summary) {
+        setAnalyticsData({
+          summary,
+          activeVisitors,
+          topPages: topPages || [],
+          events: events || [],
+        });
       } else {
         setAnalyticsData(null);
       }
     } catch (error) {
+      console.error("Error loading analytics:", error);
       setAnalyticsData(null);
     } finally {
       setLoading(false);
@@ -107,23 +104,15 @@ export default function AdminTrafficAnalytics() {
     );
   }
 
-  const trafficData = analyticsData.dailyStats;
-  const deviceStats = analyticsData.deviceStats;
-  const totalVisitors = analyticsData.totalVisitors;
-  const totalPageViews = analyticsData.totalPageViews;
+  const { summary, activeVisitors, topPages, events } = analyticsData;
+  const { dailyStats, deviceStats } = summary;
 
   // Format data for Recharts
-  const chartData = trafficData.map((day) => {
-    // Format date safely
+  const chartData = dailyStats.map((day) => {
     const formatDate = (dateStr: string) => {
       try {
-        if (/^\d{1,2}\s\w{3}$/.test(dateStr)) {
-          return dateStr;
-        }
         const date = new Date(dateStr);
-        if (isNaN(date.getTime())) {
-          return dateStr;
-        }
+        if (isNaN(date.getTime())) return dateStr;
         return date.toLocaleDateString("id-ID", {
           month: "short",
           day: "numeric",
@@ -132,7 +121,6 @@ export default function AdminTrafficAnalytics() {
         return dateStr;
       }
     };
-
     return {
       tanggal: formatDate(day.date),
       pengunjung: day.visitors,
@@ -140,19 +128,13 @@ export default function AdminTrafficAnalytics() {
     };
   });
 
-  const calculateTrend = () => {
-    if (trafficData.length < 2) return 0;
-    const recent = trafficData
-      .slice(-7)
-      .reduce((sum, d) => sum + d.visitors, 0);
-    const previous = trafficData
-      .slice(-14, -7)
-      .reduce((sum, d) => sum + d.visitors, 0);
-    if (previous === 0) return 0;
-    return ((recent - previous) / previous) * 100;
+  // Format visit duration
+  const formatDuration = (seconds: number) => {
+    if (seconds < 60) return `${seconds}s`;
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}m ${secs}s`;
   };
-
-  const trend = calculateTrend();
 
   return (
     <div className="space-y-6">
@@ -164,7 +146,7 @@ export default function AdminTrafficAnalytics() {
             Traffic Analytics
           </h2>
           <p className="text-sm text-gray-600 mt-1">
-            Real-time website traffic dan engagement metrics
+            Self-hosted analytics powered by Umami
           </p>
         </div>
         <div className="flex gap-2">
@@ -196,43 +178,69 @@ export default function AdminTrafficAnalytics() {
       </div>
 
       {/* Key Metrics Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Total Visitors */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
               <Users className="w-6 h-6 text-blue-600" />
             </div>
             <div
-              className={`flex items-center gap-1 text-sm font-medium ${
-                trend >= 0 ? "text-green-600" : "text-red-600"
-              }`}
+              className={`flex items-center gap-1 text-sm font-medium ${summary.trend >= 0 ? "text-green-600" : "text-red-600"}`}
             >
-              {trend >= 0 ? (
+              {summary.trend >= 0 ? (
                 <ArrowUp className="w-4 h-4" />
               ) : (
                 <ArrowDown className="w-4 h-4" />
               )}
-              {Math.abs(trend).toFixed(1)}%
+              {Math.abs(summary.trend).toFixed(1)}%
             </div>
           </div>
-          <div>
-            <p className="text-sm text-gray-600 mb-1">Total Visitors</p>
-            <p className="text-3xl font-bold text-gray-900">
-              {totalVisitors.toLocaleString()}
-            </p>
-          </div>
+          <p className="text-sm text-gray-600 mb-1">Total Visitors</p>
+          <p className="text-3xl font-bold text-gray-900">
+            {summary.totalVisitors.toLocaleString()}
+          </p>
         </div>
 
+        {/* Page Views */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
           <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
             <Eye className="w-6 h-6 text-green-600" />
           </div>
-          <div>
-            <p className="text-sm text-gray-600 mb-1">Page Views</p>
-            <p className="text-3xl font-bold text-gray-900">
-              {totalPageViews.toLocaleString()}
-            </p>
+          <p className="text-sm text-gray-600 mb-1">Page Views</p>
+          <p className="text-3xl font-bold text-gray-900">
+            {summary.totalPageViews.toLocaleString()}
+          </p>
+        </div>
+
+        {/* Bounce Rate */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+          <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+            <Activity className="w-6 h-6 text-orange-600" />
           </div>
+          <p className="text-sm text-gray-600 mb-1">Bounce Rate</p>
+          <p className="text-3xl font-bold text-gray-900">
+            {summary.bounceRate}%
+          </p>
+        </div>
+
+        {/* Avg Visit Duration */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+              <Clock className="w-6 h-6 text-purple-600" />
+            </div>
+            {activeVisitors > 0 && (
+              <div className="flex items-center gap-1 text-sm font-medium text-green-600">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                {activeVisitors} aktif
+              </div>
+            )}
+          </div>
+          <p className="text-sm text-gray-600 mb-1">Rata-rata Durasi</p>
+          <p className="text-3xl font-bold text-gray-900">
+            {formatDuration(summary.avgVisitDuration)}
+          </p>
         </div>
       </div>
 
@@ -286,7 +294,6 @@ export default function AdminTrafficAnalytics() {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-
             <div className="mt-6 text-center text-sm text-gray-500">
               <p>Data menampilkan traffic website untuk periode yang dipilih</p>
             </div>
@@ -298,66 +305,127 @@ export default function AdminTrafficAnalytics() {
         )}
       </div>
 
-      {/* Device Stats */}
+      {/* Bottom Section: Device Stats + Top Pages + Events */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Device Stats */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Monitor className="w-5 h-5 text-blue-600" />
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <Monitor className="w-5 h-5 text-gray-600" />
+            Device Breakdown
+          </h3>
+          <div className="space-y-4">
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-2">
+                  <Monitor className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm font-medium text-gray-700">
+                    Desktop
+                  </span>
+                </div>
+                <span className="text-sm font-bold text-gray-900">
+                  {deviceStats.desktop}%
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-blue-600 h-2 rounded-full transition-all"
+                  style={{ width: `${deviceStats.desktop}%` }}
+                />
+              </div>
             </div>
-            <div className="flex-1">
-              <p className="text-sm font-medium text-gray-700">Desktop</p>
-              <p className="text-2xl font-bold text-gray-900">
-                {deviceStats.desktop}%
-              </p>
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-2">
+                  <Smartphone className="w-4 h-4 text-green-600" />
+                  <span className="text-sm font-medium text-gray-700">
+                    Mobile
+                  </span>
+                </div>
+                <span className="text-sm font-bold text-gray-900">
+                  {deviceStats.mobile}%
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-green-600 h-2 rounded-full transition-all"
+                  style={{ width: `${deviceStats.mobile}%` }}
+                />
+              </div>
             </div>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div
-              className="bg-blue-600 h-2 rounded-full transition-all"
-              style={{ width: `${deviceStats.desktop}%` }}
-            />
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-2">
+                  <Monitor className="w-4 h-4 text-purple-600" />
+                  <span className="text-sm font-medium text-gray-700">
+                    Tablet
+                  </span>
+                </div>
+                <span className="text-sm font-bold text-gray-900">
+                  {deviceStats.tablet}%
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-purple-600 h-2 rounded-full transition-all"
+                  style={{ width: `${deviceStats.tablet}%` }}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
+        {/* Top Pages */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-              <Smartphone className="w-5 h-5 text-green-600" />
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <BarChart3 className="w-5 h-5 text-gray-600" />
+            Top Pages
+          </h3>
+          {topPages.length > 0 ? (
+            <div className="space-y-3">
+              {topPages.slice(0, 8).map((page, idx) => (
+                <div key={idx} className="flex items-center justify-between">
+                  <span
+                    className="text-sm text-gray-700 truncate max-w-[200px]"
+                    title={page.x}
+                  >
+                    {page.x || "/"}
+                  </span>
+                  <span className="text-sm font-bold text-gray-900 ml-2">
+                    {page.y}
+                  </span>
+                </div>
+              ))}
             </div>
-            <div className="flex-1">
-              <p className="text-sm font-medium text-gray-700">Mobile</p>
-              <p className="text-2xl font-bold text-gray-900">
-                {deviceStats.mobile}%
-              </p>
-            </div>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div
-              className="bg-green-600 h-2 rounded-full transition-all"
-              style={{ width: `${deviceStats.mobile}%` }}
-            />
-          </div>
+          ) : (
+            <p className="text-sm text-gray-400">Belum ada data</p>
+          )}
         </div>
 
+        {/* Custom Events */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-              <Monitor className="w-5 h-5 text-purple-600" />
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <MousePointerClick className="w-5 h-5 text-gray-600" />
+            Custom Events
+          </h3>
+          {events.length > 0 ? (
+            <div className="space-y-3">
+              {events.slice(0, 8).map((event, idx) => (
+                <div key={idx} className="flex items-center justify-between">
+                  <span
+                    className="text-sm text-gray-700 truncate max-w-[200px]"
+                    title={event.x}
+                  >
+                    {event.x}
+                  </span>
+                  <span className="text-sm font-bold text-gray-900 ml-2">
+                    {event.y}
+                  </span>
+                </div>
+              ))}
             </div>
-            <div className="flex-1">
-              <p className="text-sm font-medium text-gray-700">Tablet</p>
-              <p className="text-2xl font-bold text-gray-900">
-                {deviceStats.tablet}%
-              </p>
-            </div>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div
-              className="bg-purple-600 h-2 rounded-full transition-all"
-              style={{ width: `${deviceStats.tablet}%` }}
-            />
-          </div>
+          ) : (
+            <p className="text-sm text-gray-400">Belum ada events</p>
+          )}
         </div>
       </div>
     </div>

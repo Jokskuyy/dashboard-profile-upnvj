@@ -23,6 +23,13 @@ interface FacilityDetail {
   gedung?: Building;
 }
 
+interface AssetCategory {
+  name: string;
+  icon: string;
+  color: string;
+  filter: string;
+}
+
 const AssetsSection: React.FC = () => {
   const { t } = useLanguage();
   const [labScrollPosition, setLabScrollPosition] = useState(0);
@@ -36,7 +43,7 @@ const AssetsSection: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [isBuildingsModalOpen, setIsBuildingsModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<any>(null);
+  const [selectedCategory, setSelectedCategory] = useState<AssetCategory | null>(null);
 
   // State untuk count berbagai tipe fasilitas
   const [facilityCounts, setFacilityCounts] = useState({
@@ -180,7 +187,7 @@ const AssetsSection: React.FC = () => {
     setTimeout(() => setSelectedFacility(null), 300);
   };
 
-  const handleCategoryClick = (category: any) => {
+  const handleCategoryClick = (category: AssetCategory) => {
     setSelectedCategory(category);
     setIsCategoryModalOpen(true);
   };

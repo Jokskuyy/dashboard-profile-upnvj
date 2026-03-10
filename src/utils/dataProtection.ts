@@ -66,11 +66,11 @@ export function deobfuscateData<T>(obfuscated: string): T | null {
  * Sanitize sensitive data before display
  * Removes or masks sensitive information
  */
-export function sanitizeData<T extends Record<string, any>>(
+export function sanitizeData<T extends Record<string, unknown>>(
   data: T,
   sensitiveFields: string[]
 ): T {
-  const sanitized: Record<string, any> = { ...data };
+  const sanitized: Record<string, unknown> = { ...data };
   
   sensitiveFields.forEach(field => {
     if (field in sanitized) {
@@ -95,7 +95,7 @@ export function sanitizeData<T extends Record<string, any>>(
 /**
  * Generate hash for data integrity check
  */
-export function generateDataHash(data: any): string {
+export function generateDataHash(data: unknown): string {
   const str = JSON.stringify(data);
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -109,14 +109,14 @@ export function generateDataHash(data: any): string {
 /**
  * Verify data hasn't been tampered with
  */
-export function verifyDataIntegrity(data: any, expectedHash: string): boolean {
+export function verifyDataIntegrity(data: unknown, expectedHash: string): boolean {
   return generateDataHash(data) === expectedHash;
 }
 
 /**
  * Create anonymized/mock data for public display
  */
-export function anonymizePersonalData<T extends Record<string, any>>(
+export function anonymizePersonalData<T extends Record<string, unknown>>(
   data: T,
   config: {
     replaceNames?: boolean;
@@ -125,7 +125,7 @@ export function anonymizePersonalData<T extends Record<string, any>>(
     hideAddress?: boolean;
   } = {}
 ): T {
-  const anonymized: Record<string, any> = { ...data };
+  const anonymized: Record<string, unknown> = { ...data };
   
   if (config.replaceNames && 'name' in anonymized) {
     // Replace with generic name
@@ -203,23 +203,22 @@ export function isSecureContext(): boolean {
 }
 
 /**
- * Simple permission check based on localStorage token
- * For production, use proper backend authentication
+ * Simple permission check based on Supabase auth session.
+ * Uses the Supabase SDK for proper session validation.
  */
-export function hasViewPermission(requiredLevel: 'public' | 'restricted' | 'admin'): boolean {
+export async function hasViewPermission(requiredLevel: 'public' | 'restricted' | 'admin'): Promise<boolean> {
   if (requiredLevel === 'public') return true;
   
-  // Check if user has auth token (from localStorage)
-  const authToken = localStorage.getItem('auth_token');
-  if (!authToken) return false;
-  
-  // Simple check - in production, verify with backend
   try {
-    const payload = JSON.parse(atob(authToken.split('.')[1]));
-    const userLevel = payload.role || 'public';
+    // Dynamically import to avoid circular dependency
+    const { supabase } = await import('../lib/supabase');
+    const { data: { session } } = await supabase.auth.getSession();
     
+    if (!session) return false;
+    
+    const userRole = session.user.user_metadata?.role || 'restricted';
     const levels = ['public', 'restricted', 'admin'];
-    return levels.indexOf(userLevel) >= levels.indexOf(requiredLevel);
+    return levels.indexOf(userRole) >= levels.indexOf(requiredLevel);
   } catch {
     return false;
   }

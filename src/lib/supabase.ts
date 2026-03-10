@@ -1,15 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
+import { env } from '../utils/env';
 
-// Supabase configuration from environment variables
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables. Please check your .env file.');
-}
-
-// Create Supabase client
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+// Create Supabase client with validated environment variables
+export const supabase = createClient(env.VITE_SUPABASE_URL, env.VITE_SUPABASE_ANON_KEY, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
@@ -70,16 +63,19 @@ export interface Database {
           nama_gedung: string;
           deskripsi_gedung: string | null;
           lokasi: string | null;
+          jumlah_lantai: number | null;
         };
         Insert: {
           nama_gedung: string;
           deskripsi_gedung?: string | null;
           lokasi?: string | null;
+          jumlah_lantai?: number | null;
         };
         Update: {
           nama_gedung?: string;
           deskripsi_gedung?: string | null;
           lokasi?: string | null;
+          jumlah_lantai?: number | null;
         };
       };
       fakultas: {
@@ -113,18 +109,27 @@ export interface Database {
           deskripsi_fasilitas: string | null;
           tipe_fasilitas: string | null;
           id_gedung: number;
+          color: string | null;
+          lantai: number | null;
+          foto_url: string | null;
         };
         Insert: {
           nama_fasilitas: string;
           deskripsi_fasilitas?: string | null;
           tipe_fasilitas?: string | null;
           id_gedung: number;
+          color?: string | null;
+          lantai?: number | null;
+          foto_url?: string | null;
         };
         Update: {
           nama_fasilitas?: string;
           deskripsi_fasilitas?: string | null;
           tipe_fasilitas?: string | null;
           id_gedung?: number;
+          color?: string | null;
+          lantai?: number | null;
+          foto_url?: string | null;
         };
       };
       program_studi: {
@@ -220,12 +225,13 @@ export interface Database {
 }
 
 // Helper function to handle Supabase errors
-export const handleSupabaseError = (error: any) => {
+export const handleSupabaseError = (error: unknown) => {
   console.error('Supabase error:', error);
+  const message = error instanceof Error ? error.message : 'Terjadi kesalahan pada database';
   return {
     success: false,
-    message: error.message || 'Terjadi kesalahan pada database',
-    error: error,
+    message,
+    error,
   };
 };
 

@@ -141,7 +141,7 @@ const BuildingsModal: React.FC<BuildingsModalProps> = ({ isOpen, onClose }) => {
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                         src={getBuildingImage()}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+                      <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-60"></div>
                     </div>
 
                     {/* Content */}

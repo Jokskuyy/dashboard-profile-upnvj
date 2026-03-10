@@ -7,6 +7,7 @@ import {
   useDashboard,
 } from "../../../contexts/DashboardContext";
 import FacultyBarChart from "../../charts/FacultyBarChart";
+import type { FacultyData } from "../../charts/FacultyBarChart";
 import DepartmentBarChart from "../../charts/DepartmentBarChart";
 import type { DepartmentData } from "../../../types";
 
@@ -61,7 +62,7 @@ const ProfessorsSection: React.FC = () => {
     ? departmentsData.find((d) => d.id === selectedDepartment)
     : null;
 
-  const handleBarClick = (faculty: any) => {
+  const handleBarClick = (faculty: FacultyData) => {
     setSelectedFaculty(faculty.id);
     setSelectedDepartment(null); // Reset department selection
   };

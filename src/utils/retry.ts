@@ -30,7 +30,7 @@ const calculateDelay = (
   attempt: number,
   initialDelay: number,
   maxDelay: number,
-  multiplier: number,
+  multiplier: number
 ): number => {
   const exponentialDelay = initialDelay * Math.pow(multiplier, attempt - 1);
   const delayWithJitter = exponentialDelay * (0.5 + Math.random() * 0.5);
@@ -39,12 +39,12 @@ const calculateDelay = (
 
 /**
  * Retry a function with exponential backoff
- *
+ * 
  * @param fn - The async function to retry
  * @param options - Retry options
  * @returns The result of the function if successful
  * @throws The last error if all retries fail
- *
+ * 
  * @example
  * const data = await retryWithBackoff(
  *   async () => await fetchData(),
@@ -53,7 +53,7 @@ const calculateDelay = (
  */
 export async function retryWithBackoff<T>(
   fn: () => Promise<T>,
-  options: RetryOptions = {},
+  options: RetryOptions = {}
 ): Promise<T> {
   const opts = { ...DEFAULT_OPTIONS, ...options };
   let lastError: Error;
@@ -77,8 +77,15 @@ export async function retryWithBackoff<T>(
         attempt,
         opts.initialDelay,
         opts.maxDelay,
-        opts.backoffMultiplier,
+        opts.backoffMultiplier
       );
+      
+      if (import.meta.env.DEV) {
+        console.log(
+          `Retry attempt ${attempt}/${opts.maxRetries} after ${Math.round(delay)}ms`,
+          lastError.message
+        );
+      }
 
       await sleep(delay);
     }
@@ -90,25 +97,28 @@ export async function retryWithBackoff<T>(
 /**
  * Determine if an error is retryable
  */
-export function isRetryableError(error: any): boolean {
+export function isRetryableError(error: unknown): boolean {
   // Network errors
   if (error instanceof TypeError && error.message.includes("fetch")) {
     return true;
   }
 
+  // Narrow error to access potential message/status properties
+  const err = error as { message?: string; status?: number };
+
   // Timeout errors
-  if (error.message?.includes("timeout")) {
+  if (err.message?.includes("timeout")) {
     return true;
   }
 
   // HTTP status codes that are retryable
   const retryableStatuses = [408, 429, 500, 502, 503, 504];
-  if (error.status && retryableStatuses.includes(error.status)) {
+  if (err.status && retryableStatuses.includes(err.status)) {
     return true;
   }
 
   // Supabase specific errors
-  if (error.message?.includes("connection")) {
+  if (err.message?.includes("connection")) {
     return true;
   }
 
@@ -121,7 +131,7 @@ export function isRetryableError(error: any): boolean {
 export async function retryIf<T>(
   fn: () => Promise<T>,
   shouldRetry: (error: Error) => boolean,
-  options: RetryOptions = {},
+  options: RetryOptions = {}
 ): Promise<T> {
   return retryWithBackoff(async () => {
     try {
@@ -139,10 +149,10 @@ export async function retryIf<T>(
 /**
  * Create a retryable version of a function
  */
-export function withRetry<T extends (...args: any[]) => Promise<any>>(
-  fn: T,
-  options: RetryOptions = {},
-): T {
-  return ((...args: Parameters<T>) =>
-    retryWithBackoff(() => fn(...args), options)) as T;
+export function withRetry<A extends unknown[], R>(
+  fn: (...args: A) => Promise<R>,
+  options: RetryOptions = {}
+): (...args: A) => Promise<R> {
+  return (...args: A) =>
+    retryWithBackoff(() => fn(...args), options);
 }

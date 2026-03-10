@@ -57,7 +57,7 @@ export interface ProgramData {
   id_akreditasi?: number;
   // Virtual fields for display
   name?: string; // Alias for nama_prodi
-  level?: "D3" | "S1" | "S2";
+  level?: "D3" | "S1" | "S2" | "S3";
   faculty?: string;
   students?: number;
   color?: string;
