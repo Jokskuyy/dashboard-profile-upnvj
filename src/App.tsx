@@ -13,6 +13,7 @@ const Dashboard = lazy(() => import("./components/dashboard/Dashboard"));
 const AdminDashboard = lazy(() => import("./components/admin/AdminDashboard"));
 const Login = lazy(() => import("./components/auth/Login"));
 const Analytics = lazy(() => import("./components/analytics/Analytics"));
+const FacilitySubmissionForm = lazy(() => import("./components/public-form/FacilitySubmissionForm"));
 
 // Fallback component for Suspense
 const PageLoader = () => (
@@ -56,6 +57,9 @@ function App() {
                 {/* Login Routes */}
                 <Route path="/login" element={<Suspense fallback={<PageLoader />}><Login /></Suspense>} />
                 <Route path="/admin/login" element={<Suspense fallback={<PageLoader />}><Login /></Suspense>} />
+
+                {/* Public Form Route — standalone, no Header/Footer */}
+                <Route path="/input-data" element={<Suspense fallback={<PageLoader />}><FacilitySubmissionForm /></Suspense>} />
 
                 {/* Protected Admin Dashboard Route */}
                 <Route

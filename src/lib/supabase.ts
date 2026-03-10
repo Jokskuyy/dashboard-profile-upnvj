@@ -63,16 +63,19 @@ export interface Database {
           nama_gedung: string;
           deskripsi_gedung: string | null;
           lokasi: string | null;
+          jumlah_lantai: number | null;
         };
         Insert: {
           nama_gedung: string;
           deskripsi_gedung?: string | null;
           lokasi?: string | null;
+          jumlah_lantai?: number | null;
         };
         Update: {
           nama_gedung?: string;
           deskripsi_gedung?: string | null;
           lokasi?: string | null;
+          jumlah_lantai?: number | null;
         };
       };
       fakultas: {
@@ -106,18 +109,27 @@ export interface Database {
           deskripsi_fasilitas: string | null;
           tipe_fasilitas: string | null;
           id_gedung: number;
+          color: string | null;
+          lantai: number | null;
+          foto_url: string | null;
         };
         Insert: {
           nama_fasilitas: string;
           deskripsi_fasilitas?: string | null;
           tipe_fasilitas?: string | null;
           id_gedung: number;
+          color?: string | null;
+          lantai?: number | null;
+          foto_url?: string | null;
         };
         Update: {
           nama_fasilitas?: string;
           deskripsi_fasilitas?: string | null;
           tipe_fasilitas?: string | null;
           id_gedung?: number;
+          color?: string | null;
+          lantai?: number | null;
+          foto_url?: string | null;
         };
       };
       program_studi: {

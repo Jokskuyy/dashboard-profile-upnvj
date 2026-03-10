@@ -1094,6 +1094,8 @@ export interface FacilityData {
   tipe_fasilitas: string;
   id_gedung: number;
   color: string;
+  lantai?: number;
+  foto_url?: string;
 }
 
 export const createFacility = async (
@@ -1109,6 +1111,8 @@ export const createFacility = async (
       tipe_fasilitas: facility.tipe_fasilitas,
       id_gedung: facility.id_gedung,
       color: facility.color || "gray",
+      lantai: facility.lantai ?? null,
+      foto_url: facility.foto_url ?? null,
     })
     .select()
     .single();
