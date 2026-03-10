@@ -12,6 +12,9 @@ import {
   ImageIcon,
   X,
   SendHorizonal,
+  Trash2,
+  ListPlus,
+  Package,
 } from "lucide-react";
 import { supabase } from "../../lib/supabase";
 import { useToast } from "../../contexts/ToastContext";
@@ -30,6 +33,20 @@ interface FacilityFormData {
   id_gedung: number;
   lantai: number | null;
   foto_url: string;
+}
+
+interface QueueItem extends FacilityFormData {
+  _id: number; // local queue id
+  _photoFile: File | null;
+  _gedungName: string; // for display
+}
+
+interface SubmittedItem {
+  nama_fasilitas: string;
+  tipe_fasilitas: string;
+  gedung: string;
+  status: "success" | "error";
+  message?: string;
 }
 
 interface BuildingFormData {
@@ -71,18 +88,21 @@ export default function FacilitySubmissionForm() {
   // Facility form
   const [formData, setFormData] =
     useState<FacilityFormData>(initialFacilityData);
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
   // Photo
   const [photoMode, setPhotoMode] = useState<PhotoMode>("upload");
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string>("");
-  const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Validation
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Batch queue
+  const [queue, setQueue] = useState<QueueItem[]>([]);
+  const [nextId, setNextId] = useState(1);
+  const [submitting, setSubmitting] = useState(false);
+  const [submittedItems, setSubmittedItems] = useState<SubmittedItem[]>([]);
 
   useEffect(() => {
     fetchBuildings();
@@ -148,7 +168,6 @@ export default function FacilitySubmissionForm() {
         return;
       }
 
-      // Add to list and auto-select
       setBuildings((prev) =>
         [...prev, data].sort((a, b) =>
           a.nama_gedung.localeCompare(b.nama_gedung),
@@ -179,32 +198,134 @@ export default function FacilitySubmissionForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const getGedungName = (id: number): string => {
+    return buildings.find((b) => b.id === id)?.nama_gedung || "-";
+  };
+
+  // Add current form data to queue
+  const handleAddToQueue = () => {
+    if (!validate()) return;
+
+    const item: QueueItem = {
+      ...formData,
+      _id: nextId,
+      _photoFile: photoMode === "upload" ? photoFile : null,
+      _gedungName: getGedungName(formData.id_gedung),
+      foto_url: photoMode === "url" ? formData.foto_url : "",
+    };
+
+    setQueue((prev) => [...prev, item]);
+    setNextId((prev) => prev + 1);
+
+    // Reset form but keep gedung selected
+    const keepGedung = formData.id_gedung;
+    setFormData({ ...initialFacilityData, id_gedung: keepGedung });
+    setPhotoFile(null);
+    setPhotoPreview("");
+    setPhotoMode("upload");
+    setErrors({});
+    if (fileInputRef.current) fileInputRef.current.value = "";
+
+    showSuccess(
+      `"${item.nama_fasilitas}" ditambahkan ke daftar (${queue.length + 1} item)`,
+    );
+  };
+
+  const handleRemoveFromQueue = (id: number) => {
+    setQueue((prev) => prev.filter((item) => item._id !== id));
+  };
+
+  // Submit all items in queue
+  const handleSubmitAll = async () => {
+    if (queue.length === 0) {
+      showError("Belum ada data di daftar");
+      return;
+    }
+
+    setSubmitting(true);
+    const results: SubmittedItem[] = [];
+
+    for (const item of queue) {
+      try {
+        let fotoUrl = item.foto_url;
+
+        // Upload photo if file exists
+        if (item._photoFile) {
+          try {
+            fotoUrl = await uploadFacilityPhoto(item._photoFile);
+          } catch {
+            // Continue without photo
+            fotoUrl = "";
+          }
+        }
+
+        const { error } = await supabase.from("fasilitas").insert({
+          nama_fasilitas: item.nama_fasilitas.trim(),
+          deskripsi_fasilitas: item.deskripsi_fasilitas.trim() || null,
+          tipe_fasilitas: item.tipe_fasilitas || null,
+          id_gedung: item.id_gedung,
+          lantai: item.lantai ?? null,
+          foto_url: fotoUrl.trim() || null,
+        });
+
+        if (error) throw error;
+
+        results.push({
+          nama_fasilitas: item.nama_fasilitas,
+          tipe_fasilitas: item.tipe_fasilitas,
+          gedung: item._gedungName,
+          status: "success",
+        });
+      } catch (err) {
+        results.push({
+          nama_fasilitas: item.nama_fasilitas,
+          tipe_fasilitas: item.tipe_fasilitas,
+          gedung: item._gedungName,
+          status: "error",
+          message:
+            err instanceof Error ? err.message : "Gagal menyimpan data",
+        });
+      }
+    }
+
+    const successCount = results.filter((r) => r.status === "success").length;
+    const errorCount = results.filter((r) => r.status === "error").length;
+
+    if (errorCount === 0) {
+      showSuccess(`Semua ${successCount} fasilitas berhasil disimpan!`);
+    } else {
+      showError(
+        `${successCount} berhasil, ${errorCount} gagal disimpan.`,
+      );
+    }
+
+    setSubmittedItems(results);
+    setQueue([]);
+    setSubmitting(false);
+  };
+
+  // Submit single item directly
+  const handleSubmitSingle = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
-    try {
-      setSubmitting(true);
+    setSubmitting(true);
 
+    try {
       let fotoUrl = formData.foto_url;
 
-      // Upload photo if file selected
       if (photoMode === "upload" && photoFile) {
-        setUploading(true);
         try {
           fotoUrl = await uploadFacilityPhoto(photoFile);
         } catch (err) {
           showError(
             err instanceof Error ? err.message : "Gagal mengupload foto",
           );
-          setUploading(false);
           setSubmitting(false);
           return;
         }
-        setUploading(false);
       }
 
-      // Insert facility
       const { error } = await supabase.from("fasilitas").insert({
         nama_fasilitas: formData.nama_fasilitas.trim(),
         deskripsi_fasilitas: formData.deskripsi_fasilitas.trim() || null,
@@ -216,22 +337,29 @@ export default function FacilitySubmissionForm() {
 
       if (error) throw error;
 
+      const result: SubmittedItem = {
+        nama_fasilitas: formData.nama_fasilitas,
+        tipe_fasilitas: formData.tipe_fasilitas,
+        gedung: getGedungName(formData.id_gedung),
+        status: "success",
+      };
+
+      setSubmittedItems((prev) => [...prev, result]);
       showSuccess("Data fasilitas berhasil disimpan!");
-      setSubmitted(true);
+
+      // Reset form but keep gedung
+      const keepGedung = formData.id_gedung;
+      setFormData({ ...initialFacilityData, id_gedung: keepGedung });
+      setPhotoFile(null);
+      setPhotoPreview("");
+      setPhotoMode("upload");
+      setErrors({});
+      if (fileInputRef.current) fileInputRef.current.value = "";
     } catch {
       showError("Gagal menyimpan data. Silakan coba lagi.");
     } finally {
       setSubmitting(false);
     }
-  };
-
-  const handleReset = () => {
-    setFormData(initialFacilityData);
-    setPhotoFile(null);
-    setPhotoPreview("");
-    setPhotoMode("upload");
-    setErrors({});
-    setSubmitted(false);
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -258,34 +386,9 @@ export default function FacilitySubmissionForm() {
     }
   };
 
-  // Success screen
-  if (submitted) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-3xl shadow-2xl p-8 sm:p-12 max-w-lg w-full text-center">
-          <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle2 className="w-10 h-10 text-emerald-600" />
-          </div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">
-            Data Berhasil Disimpan!
-          </h2>
-          <p className="text-slate-600 mb-8">
-            Terima kasih, data fasilitas telah berhasil ditambahkan ke database.
-          </p>
-          <button
-            onClick={handleReset}
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3.5 rounded-xl font-semibold shadow-lg shadow-emerald-500/20 transition-all active:scale-[0.98]"
-          >
-            Submit Data Lagi
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 py-8 px-4">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-500/30">
@@ -299,9 +402,164 @@ export default function FacilitySubmissionForm() {
           </p>
         </div>
 
+        {/* Submitted Items Table */}
+        {submittedItems.length > 0 && (
+          <div className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden mb-6">
+            <div className="p-6 sm:p-8 border-b border-slate-100">
+              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                Data yang Sudah Disimpan
+                <span className="ml-auto text-sm font-normal text-slate-500">
+                  {submittedItems.filter((i) => i.status === "success").length} berhasil
+                </span>
+              </h2>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="bg-slate-50/50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-semibold">
+                    <th className="px-6 py-3">#</th>
+                    <th className="px-6 py-3">Nama Fasilitas</th>
+                    <th className="px-6 py-3">Tipe</th>
+                    <th className="px-6 py-3">Gedung</th>
+                    <th className="px-6 py-3 text-center">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="text-sm divide-y divide-slate-100">
+                  {submittedItems.map((item, idx) => (
+                    <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                      <td className="px-6 py-3 text-slate-400">{idx + 1}</td>
+                      <td className="px-6 py-3 text-slate-900 font-medium">
+                        {item.nama_fasilitas}
+                      </td>
+                      <td className="px-6 py-3 text-slate-600">
+                        {item.tipe_fasilitas}
+                      </td>
+                      <td className="px-6 py-3 text-slate-600">{item.gedung}</td>
+                      <td className="px-6 py-3 text-center">
+                        {item.status === "success" ? (
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">
+                            <CheckCircle2 className="w-3 h-3" />
+                            Berhasil
+                          </span>
+                        ) : (
+                          <span
+                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-red-50 text-red-700"
+                            title={item.message}
+                          >
+                            <AlertCircle className="w-3 h-3" />
+                            Gagal
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* Queue Table */}
+        {queue.length > 0 && (
+          <div className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden mb-6">
+            <div className="p-6 sm:p-8 border-b border-slate-100">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <ListPlus className="w-5 h-5 text-amber-600" />
+                  Daftar Antrian
+                  <span className="ml-2 px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
+                    {queue.length} item
+                  </span>
+                </h2>
+                <button
+                  type="button"
+                  onClick={handleSubmitAll}
+                  disabled={submitting}
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm shadow-lg shadow-emerald-500/20 transition-all active:scale-[0.98] disabled:opacity-60 flex items-center gap-2"
+                >
+                  {submitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Menyimpan...
+                    </>
+                  ) : (
+                    <>
+                      <SendHorizonal className="w-4 h-4" />
+                      Simpan Semua ({queue.length})
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="bg-slate-50/50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-semibold">
+                    <th className="px-6 py-3">#</th>
+                    <th className="px-6 py-3">Nama Fasilitas</th>
+                    <th className="px-6 py-3">Tipe</th>
+                    <th className="px-6 py-3">Gedung</th>
+                    <th className="px-6 py-3 text-center">Lantai</th>
+                    <th className="px-6 py-3 text-center">Foto</th>
+                    <th className="px-6 py-3 text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody className="text-sm divide-y divide-slate-100">
+                  {queue.map((item, idx) => (
+                    <tr
+                      key={item._id}
+                      className="hover:bg-slate-50 transition-colors"
+                    >
+                      <td className="px-6 py-3 text-slate-400">{idx + 1}</td>
+                      <td className="px-6 py-3 text-slate-900 font-medium">
+                        {item.nama_fasilitas}
+                      </td>
+                      <td className="px-6 py-3 text-slate-600">
+                        {item.tipe_fasilitas}
+                      </td>
+                      <td className="px-6 py-3 text-slate-600">
+                        {item._gedungName}
+                      </td>
+                      <td className="px-6 py-3 text-center text-slate-600">
+                        {item.lantai ?? "-"}
+                      </td>
+                      <td className="px-6 py-3 text-center">
+                        {item._photoFile ? (
+                          <span className="inline-flex items-center gap-1 text-xs text-emerald-600">
+                            <ImageIcon className="w-3 h-3" />
+                            File
+                          </span>
+                        ) : item.foto_url ? (
+                          <span className="inline-flex items-center gap-1 text-xs text-blue-600">
+                            <Link className="w-3 h-3" />
+                            URL
+                          </span>
+                        ) : (
+                          <span className="text-xs text-slate-400">-</span>
+                        )}
+                      </td>
+                      <td className="px-6 py-3 text-center">
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveFromQueue(item._id)}
+                          className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Hapus dari daftar"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
         {/* Form Card */}
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmitSingle}
           className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden"
         >
           {/* Section: Gedung */}
@@ -478,7 +736,8 @@ export default function FacilitySubmissionForm() {
 
           {/* Section: Fasilitas */}
           <div className="p-6 sm:p-8 space-y-5">
-            <h2 className="text-lg font-bold text-slate-900 mb-1">
+            <h2 className="text-lg font-bold text-slate-900 mb-1 flex items-center gap-2">
+              <Package className="w-5 h-5 text-emerald-600" />
               Data Fasilitas
             </h2>
 
@@ -706,25 +965,42 @@ export default function FacilitySubmissionForm() {
             </div>
           </div>
 
-          {/* Submit Button */}
-          <div className="px-6 sm:px-8 pb-6 sm:pb-8">
+          {/* Action Buttons */}
+          <div className="px-6 sm:px-8 pb-6 sm:pb-8 space-y-3">
+            {/* Add to Queue */}
+            <button
+              type="button"
+              onClick={handleAddToQueue}
+              className="w-full bg-amber-500 hover:bg-amber-600 text-white px-6 py-3.5 rounded-2xl font-bold shadow-lg shadow-amber-500/20 transition-all active:scale-[0.98] flex items-center justify-center gap-3"
+            >
+              <ListPlus className="w-5 h-5" />
+              Tambah ke Daftar
+            </button>
+
+            {/* Submit Single */}
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-emerald-500/25 transition-all active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3.5 rounded-2xl font-bold shadow-xl shadow-emerald-500/25 transition-all active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-3"
             >
               {submitting ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  {uploading ? "Mengupload foto..." : "Menyimpan data..."}
+                  Menyimpan data...
                 </>
               ) : (
                 <>
                   <SendHorizonal className="w-5 h-5" />
-                  Simpan Data Fasilitas
+                  Simpan Langsung
                 </>
               )}
             </button>
+
+            <p className="text-center text-xs text-slate-400">
+              "Tambah ke Daftar" untuk mengumpulkan beberapa fasilitas lalu simpan sekaligus.
+              <br />
+              "Simpan Langsung" untuk menyimpan satu fasilitas ini saja.
+            </p>
           </div>
         </form>
 
