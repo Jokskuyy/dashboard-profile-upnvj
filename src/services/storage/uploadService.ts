@@ -1,6 +1,6 @@
 import { supabase } from "../../lib/supabase";
 
-const BUCKET_NAME = "facility-photos";
+const BUCKET_NAME = "Gambar Gedung dan Fasilitas";
 
 /**
  * Upload a facility photo to Supabase Storage.
