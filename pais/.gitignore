@@ -1,0 +1,50 @@
+# Ignore generated Unity files and folders inside pais/T_A
+T_A/[Ll]ibrary/
+T_A/[Tt]emp/
+T_A/obj/
+T_A/[Bb]uild*/
+T_A/[Ll]ogs/
+T_A/MemoryCaptures/
+T_A/UserSettings/
+T_A/.vscode/
+
+# Ignore generated Unity project files
+T_A/*.csproj
+T_A/*.sln
+T_A/*.suo
+T_A/*.tmp
+T_A/*.user
+T_A/*.userprefs
+T_A/*.pidb
+T_A/*.booproj
+T_A/*.svd
+T_A/*.pdb
+T_A/*.mdb
+T_A/*.opendb
+T_A/*.VC.db
+T_A/*.pidb.meta
+T_A/*.unityproj
+T_A/*.unitypackage
+T_A/*.apk
+T_A/*.aab
+T_A/*.xcodeproj
+T_A/*.xcworkspace
+T_A/*.xcuserdata/
+T_A/*.DS_Store
+T_A/*.swp
+T_A/*.log
+T_A/*.cache
+T_A/*.bak
+T_A/*.orig
+
+# Ignore local Unity settings that are machine-specific
+T_A/ProjectSettings/EditorBuildSettings.asset
+T_A/ProjectSettings/EditorSettings.asset
+T_A/ProjectSettings/GraphicsSettings.asset
+T_A/ProjectSettings/ProjectSettings.asset
+T_A/ProjectSettings/TagManager.asset
+T_A/ProjectSettings/TimeManager.asset
+T_A/ProjectSettings/UnityConnectSettings.asset
+
+# Ignore generated package lock file
+T_A/Packages/packages-lock.json
