@@ -1,0 +1,5 @@
+C:/Users/Faiz/T_A/.utmp/RelWithDebInfo/1d4t4y1o/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/Faiz/T_A/.utmp/RelWithDebInfo/1d4t4y1o/arm64-v8a/CMakeFiles/rebuild_cache.dir
+C:/Users/Faiz/T_A/.utmp/RelWithDebInfo/1d4t4y1o/arm64-v8a/GameActivity/CMakeFiles/game.dir
+C:/Users/Faiz/T_A/.utmp/RelWithDebInfo/1d4t4y1o/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+C:/Users/Faiz/T_A/.utmp/RelWithDebInfo/1d4t4y1o/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir
