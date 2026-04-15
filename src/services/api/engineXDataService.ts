@@ -2,13 +2,22 @@ import type { Accreditation, Professor, ProgramData, StudentData } from "../../t
 import type { DataProvider } from "./dataProvider";
 import type { DashboardData, FacultyInfo, FacilityData } from "./supabaseDataService";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001";
-
 let dashboardCache: DashboardData | null = null;
 let facultiesCache: FacultyInfo[] | null = null;
 
+const getApiBase = (): string => {
+  const apiBase = import.meta.env.VITE_API_URL;
+  if (!apiBase) {
+    throw new Error(
+      "VITE_API_URL is required when VITE_DATA_BACKEND is set to 'enginex'.",
+    );
+  }
+
+  return apiBase;
+};
+
 const request = async <T>(path: string, init?: RequestInit): Promise<T> => {
-  const response = await fetch(`${API_BASE}${path}`, {
+  const response = await fetch(`${getApiBase()}${path}`, {
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
@@ -27,7 +36,7 @@ const request = async <T>(path: string, init?: RequestInit): Promise<T> => {
   return response.json() as Promise<T>;
 };
 
-const fallbackTotals = (data: DashboardData) => {
+const computeTotals = (data: DashboardData) => {
   const totalStudents = data.students.reduce(
     (sum, faculty) =>
       sum +
@@ -201,7 +210,7 @@ export const deleteFacility = async (id: number): Promise<void> => {
   await request<void>(`/api/admin/facilities/${id}`, { method: "DELETE" });
 };
 
-export const getTotalStats = fallbackTotals;
+export const getTotalStats = computeTotals;
 
 export const engineXDataProvider: DataProvider = {
   fetchDashboardData,

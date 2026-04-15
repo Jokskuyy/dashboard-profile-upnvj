@@ -276,7 +276,7 @@ Sistem menggunakan Supabase sebagai sumber data utama dengan mode backend yang b
 - `VITE_DATA_BACKEND=supabase` (default): langsung ke Supabase
 - `VITE_DATA_BACKEND=enginex`: akses melalui API backend internal (`VITE_API_URL`)
 
-> Catatan: Saat ini autentikasi admin masih memakai Supabase Auth.
+> Catatan: Saat ini autentikasi admin masih memakai Supabase Auth. Jika `VITE_DATA_BACKEND=enginex`, data CRUD dibaca/tulis lewat API internal, tetapi login admin tetap menggunakan session Supabase sampai migrasi auth selesai.
 
 ### Data Synchronization
 

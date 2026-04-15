@@ -3,14 +3,36 @@ import type { DataBackend, DataProvider } from "./dataProvider";
 import { engineXDataProvider } from "./engineXDataService";
 import * as supabaseProvider from "./supabaseDataService";
 
-const DATA_BACKEND = (import.meta.env.VITE_DATA_BACKEND || "supabase").toLowerCase();
+const DATA_BACKEND = import.meta.env.VITE_DATA_BACKEND || "supabase";
+
+const supabaseDataProvider: DataProvider = {
+  fetchDashboardData: supabaseProvider.fetchDashboardData,
+  fetchFaculties: supabaseProvider.fetchFaculties,
+  clearCache: supabaseProvider.clearCache,
+  createProfessor: supabaseProvider.createProfessor,
+  updateProfessor: supabaseProvider.updateProfessor,
+  deleteProfessor: supabaseProvider.deleteProfessor,
+  createAccreditation: supabaseProvider.createAccreditation,
+  updateAccreditation: supabaseProvider.updateAccreditation,
+  deleteAccreditation: supabaseProvider.deleteAccreditation,
+  createStudentData: supabaseProvider.createStudentData,
+  updateStudentData: supabaseProvider.updateStudentData,
+  deleteStudentData: supabaseProvider.deleteStudentData,
+  createProgram: supabaseProvider.createProgram,
+  updateProgram: supabaseProvider.updateProgram,
+  deleteProgram: supabaseProvider.deleteProgram,
+  createFacility: supabaseProvider.createFacility,
+  updateFacility: supabaseProvider.updateFacility,
+  deleteFacility: supabaseProvider.deleteFacility,
+  getTotalStats: supabaseProvider.getTotalStats,
+};
 
 const resolveProvider = (): { backend: DataBackend; provider: DataProvider } => {
   if (DATA_BACKEND === "enginex") {
     return { backend: "enginex", provider: engineXDataProvider };
   }
 
-  return { backend: "supabase", provider: supabaseProvider as DataProvider };
+  return { backend: "supabase", provider: supabaseDataProvider };
 };
 
 const { backend: activeBackend, provider } = resolveProvider();
