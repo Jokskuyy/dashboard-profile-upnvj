@@ -232,9 +232,17 @@ npm run preview
 Upload folder `dist/` ke hosting provider seperti:
 
 - Netlify
-- Vercel
 - GitHub Pages
 - AWS S3
+
+### Deploy ke Server UPNVJ (Non-Vercel)
+
+- Frontend (`dist/`) disajikan sebagai static files via Nginx/Apache.
+- Backend API dijalankan sebagai service Node.js (`npm run dev:api` untuk development, process manager untuk production).
+- Reverse proxy diarahkan agar:
+  - `/` -> static frontend
+  - `/api/*` -> backend service internal
+- Gunakan `VITE_API_URL` untuk mengarah ke endpoint API internal UPNVJ.
 
 ## 📈 Performance
 
@@ -263,18 +271,18 @@ Upload folder `dist/` ke hosting provider seperti:
 
 ### Data Source
 
-Sistem menggunakan **single source of truth** dengan JSON files:
+Sistem menggunakan Supabase sebagai sumber data utama dengan mode backend yang bisa dipilih:
 
-- **`public/data/dashboard-data.json`** - Main data (professors, students, accreditation, assets)
-- **`public/data/faculties.json`** - Faculty information
-- **`proxy-server/admin-data.json`** - Admin accounts & sessions
-- **`proxy-server/analytics-data.json`** - Web analytics data
+- `VITE_DATA_BACKEND=supabase` (default): langsung ke Supabase
+- `VITE_DATA_BACKEND=enginex`: akses melalui API backend internal (`VITE_API_URL`)
+
+> Catatan: Saat ini autentikasi admin masih memakai Supabase Auth.
 
 ### Data Synchronization
 
-- Public dashboard dan Admin dashboard membaca dari file JSON yang sama
-- Data service dengan caching untuk performa optimal
-- Changes di Admin dashboard langsung terlihat di public dashboard
+- Data service memakai abstraction layer agar backend bisa diganti tanpa ubah komponen UI.
+- CRUD admin mewajibkan session autentikasi Supabase aktif.
+- Caching tetap dipakai untuk performa optimal.
 
 ### Backend API Endpoints
 
@@ -323,6 +331,8 @@ Sistem menggunakan **single source of truth** dengan JSON files:
 - [ ] More language support
 - [ ] Advanced data visualization
 - [ ] Integration dengan sistem akademik UPNVJ
+- [ ] Migrasi penuh ke backend on-prem UPNVJ (tanpa Vercel)
+- [ ] Migrasi data source dari Supabase ke Engine X
 
 ## 🤝 Contributing
 

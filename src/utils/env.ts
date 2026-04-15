@@ -8,6 +8,8 @@
 interface EnvConfig {
   VITE_SUPABASE_URL: string;
   VITE_SUPABASE_ANON_KEY: string;
+  VITE_DATA_BACKEND?: "supabase" | "enginex";
+  VITE_API_URL?: string;
 }
 
 function validateEnv(): EnvConfig {
@@ -33,6 +35,8 @@ function validateEnv(): EnvConfig {
   return {
     VITE_SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL,
     VITE_SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY,
+    VITE_DATA_BACKEND: import.meta.env.VITE_DATA_BACKEND,
+    VITE_API_URL: import.meta.env.VITE_API_URL,
   };
 }
 

@@ -660,11 +660,27 @@ export const getTotalStats = (data: DashboardData) => {
 // CRUD OPERATIONS
 // ============================================
 
+const ensureAuthenticated = async () => {
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.getSession();
+
+  if (error) {
+    throw error;
+  }
+
+  if (!session) {
+    throw new Error("Unauthorized: admin session is required.");
+  }
+};
+
 // ===== PROFESSORS CRUD =====
 
 export const createProfessor = async (
   professor: Omit<Professor, "id">,
 ): Promise<Professor> => {
+  await ensureAuthenticated();
   clearCache();
 
   const { data, error } = await supabase
@@ -729,6 +745,7 @@ export const updateProfessor = async (
   id: string,
   professor: Partial<Professor>,
 ): Promise<Professor> => {
+  await ensureAuthenticated();
   clearCache();
 
   const updateData: DosenUpdateData = {};
@@ -799,6 +816,7 @@ export const updateProfessor = async (
 };
 
 export const deleteProfessor = async (id: string): Promise<void> => {
+  await ensureAuthenticated();
   clearCache();
   const { error } = await supabase
     .from("dosen")
@@ -813,6 +831,7 @@ export const deleteProfessor = async (id: string): Promise<void> => {
 export const createAccreditation = async (
   accreditation: Omit<Accreditation, "id">,
 ): Promise<Accreditation> => {
+  await ensureAuthenticated();
   clearCache();
 
   // Create akreditasi record dengan field database
@@ -851,6 +870,7 @@ export const updateAccreditation = async (
   id: string,
   accreditation: Partial<Accreditation>,
 ): Promise<Accreditation> => {
+  await ensureAuthenticated();
   clearCache();
 
   const updateData: AkreditasiUpdateData = {};
@@ -889,6 +909,7 @@ export const updateAccreditation = async (
 };
 
 export const deleteAccreditation = async (id: string): Promise<void> => {
+  await ensureAuthenticated();
   clearCache();
   const { error } = await supabase
     .from("akreditasi")
@@ -903,6 +924,7 @@ export const deleteAccreditation = async (id: string): Promise<void> => {
 export const createStudentData = async (
   student: Omit<StudentData, "id">,
 ): Promise<StudentData> => {
+  await ensureAuthenticated();
   clearCache();
 
   const { data, error } = await supabase
@@ -933,6 +955,7 @@ export const updateStudentData = async (
   id: string,
   student: Partial<StudentData>,
 ): Promise<StudentData> => {
+  await ensureAuthenticated();
   clearCache();
 
   const updateData: MahasiswaUpdateData = {};
@@ -963,6 +986,7 @@ export const updateStudentData = async (
 };
 
 export const deleteStudentData = async (id: string): Promise<void> => {
+  await ensureAuthenticated();
   clearCache();
   const { error } = await supabase
     .from("mahasiswa")
@@ -977,6 +1001,7 @@ export const deleteStudentData = async (id: string): Promise<void> => {
 export const createProgram = async (
   program: Omit<ProgramData, "id">,
 ): Promise<ProgramData> => {
+  await ensureAuthenticated();
   clearCache();
 
   let fakultasId = program.id_fakultas;
@@ -1032,6 +1057,7 @@ export const updateProgram = async (
   id: string,
   program: Partial<ProgramData>,
 ): Promise<ProgramData> => {
+  await ensureAuthenticated();
   clearCache();
 
   const updateData: ProgramStudiUpdateData = {};
@@ -1075,6 +1101,7 @@ export const updateProgram = async (
 };
 
 export const deleteProgram = async (id: string): Promise<void> => {
+  await ensureAuthenticated();
   clearCache();
   const { error } = await supabase
     .from("program_studi")
@@ -1101,6 +1128,7 @@ export interface FacilityData {
 export const createFacility = async (
   facility: Omit<FacilityData, "id">,
 ): Promise<FacilityData> => {
+  await ensureAuthenticated();
   clearCache();
 
   const { data, error } = await supabase
@@ -1125,6 +1153,7 @@ export const updateFacility = async (
   id: number,
   facility: Partial<FacilityData>,
 ): Promise<FacilityData> => {
+  await ensureAuthenticated();
   clearCache();
 
   const { data, error } = await supabase
@@ -1139,6 +1168,7 @@ export const updateFacility = async (
 };
 
 export const deleteFacility = async (id: number): Promise<void> => {
+  await ensureAuthenticated();
   clearCache();
 
   const { error } = await supabase.from("fasilitas").delete().eq("id", id);
