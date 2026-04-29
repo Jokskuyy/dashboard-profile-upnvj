@@ -1,5 +1,5 @@
 // GET /api/rooms — Get all rooms
-import { getSupabase, setCors, createResponse } from "./_shared.js";
+import { getSupabase, setCors, createResponse } from "../_shared.js";
 
 export default async function handler(req, res) {
   setCors(res);
