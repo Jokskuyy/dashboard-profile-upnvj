@@ -1,5 +1,6 @@
-﻿import { supabase } from "../../lib/supabase";
+import { supabase } from "../../lib/supabase";
 import { retryWithBackoff } from "../../utils/retry";
+import { logCreate, logUpdate, logDelete } from "./auditLogService";
 import type {
   Professor,
   Accreditation,
@@ -551,6 +552,9 @@ export const createProgram = async (
 
   if (error) throw error;
 
+  // Audit log (fire-and-forget)
+  logCreate("program_studi", data.id.toString(), data);
+
   return {
     id: data.id,
     nama_prodi: data.nama_prodi,
@@ -570,6 +574,13 @@ export const updateProgram = async (
   program: Partial<ProgramData>,
 ): Promise<ProgramData> => {
   clearCache();
+
+  // Fetch old data for audit log
+  const { data: oldData } = await supabase
+    .from("program_studi")
+    .select("*")
+    .eq("id", parseInt(id))
+    .single();
 
   const updateData: ProgramStudiUpdateData = {};
   if (program.nama_prodi || program.name)
@@ -594,6 +605,9 @@ export const updateProgram = async (
 
   if (error) throw error;
 
+  // Audit log (fire-and-forget)
+  logUpdate("program_studi", id, oldData || {}, data);
+
   return {
     id: data.id,
     nama_prodi: data.nama_prodi,
@@ -610,12 +624,23 @@ export const updateProgram = async (
 
 export const deleteProgram = async (id: string): Promise<void> => {
   clearCache();
+
+  // Fetch old data for audit log before deleting
+  const { data: oldData } = await supabase
+    .from("program_studi")
+    .select("*")
+    .eq("id", parseInt(id))
+    .single();
+
   const { error } = await supabase
     .from("program_studi")
     .delete()
     .eq("id", parseInt(id));
 
   if (error) throw error;
+
+  // Audit log (fire-and-forget)
+  logDelete("program_studi", id, oldData || {});
 };
 
 // ===== ASSETS CRUD =====
@@ -652,6 +677,10 @@ export const createFacility = async (
     .single();
 
   if (error) throw error;
+
+  // Audit log (fire-and-forget)
+  logCreate("fasilitas", data.id.toString(), data);
+
   return data;
 };
 
@@ -661,6 +690,13 @@ export const updateFacility = async (
 ): Promise<FacilityData> => {
   clearCache();
 
+  // Fetch old data for audit log
+  const { data: oldData } = await supabase
+    .from("fasilitas")
+    .select("*")
+    .eq("id", id)
+    .single();
+
   const { data, error } = await supabase
     .from("fasilitas")
     .update(facility)
@@ -669,13 +705,27 @@ export const updateFacility = async (
     .single();
 
   if (error) throw error;
+
+  // Audit log (fire-and-forget)
+  logUpdate("fasilitas", id.toString(), oldData || {}, data);
+
   return data;
 };
 
 export const deleteFacility = async (id: number): Promise<void> => {
   clearCache();
 
+  // Fetch old data for audit log before deleting
+  const { data: oldData } = await supabase
+    .from("fasilitas")
+    .select("*")
+    .eq("id", id)
+    .single();
+
   const { error } = await supabase.from("fasilitas").delete().eq("id", id);
 
   if (error) throw error;
+
+  // Audit log (fire-and-forget)
+  logDelete("fasilitas", id.toString(), oldData || {});
 };
