@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   TrendingUp,
   Users,
@@ -46,7 +46,7 @@ export default function AdminTrafficAnalytics() {
   );
 
   // Load analytics data from Umami via API proxy
-  const loadAnalytics = async () => {
+  const loadAnalytics = useCallback(async () => {
     setLoading(true);
     try {
       // Fetch summary, active visitors, top pages, and events in parallel
@@ -73,11 +73,11 @@ export default function AdminTrafficAnalytics() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [timeRange]);
 
   useEffect(() => {
     loadAnalytics();
-  }, [timeRange]);
+  }, [loadAnalytics]);
 
   if (loading) {
     return (

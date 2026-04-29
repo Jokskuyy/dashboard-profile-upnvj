@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { supabase } from "../../../lib/supabase";
 
 interface Facility {
@@ -35,20 +35,7 @@ const CategoryFacilitiesModal: React.FC<CategoryFacilitiesModalProps> = ({
   const [facilities, setFacilities] = useState<Facility[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Disable body scroll when modal is open
-  useEffect(() => {
-    if (isOpen && category) {
-      document.body.style.overflow = "hidden";
-      fetchFacilities();
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen, category]);
-
-  const fetchFacilities = async () => {
+  const fetchFacilities = useCallback(async () => {
     if (!category) return;
 
     setLoading(true);
@@ -167,7 +154,20 @@ const CategoryFacilitiesModal: React.FC<CategoryFacilitiesModalProps> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [category]);
+
+  // Disable body scroll when modal is open
+  useEffect(() => {
+    if (isOpen && category) {
+      document.body.style.overflow = "hidden";
+      fetchFacilities();
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen, category, fetchFacilities]);
 
   if (!isOpen || !category) return null;
 
@@ -274,7 +274,7 @@ const CategoryFacilitiesModal: React.FC<CategoryFacilitiesModalProps> = ({
                       {/* Location */}
                       {facility.gedung && (
                         <div className="flex items-center gap-1.5 text-xs font-medium text-gray-500 mb-3">
-                          {(facility.gedung as any).nama_gedung}
+                          {facility.gedung.nama_gedung}
                         </div>
                       )}
 

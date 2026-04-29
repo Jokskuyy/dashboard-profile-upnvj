@@ -481,7 +481,7 @@ const AssetsSection: React.FC = () => {
               key={asset.id}
               onClick={() => {
                 if (asset.clickable) {
-                  if ((asset as any).isBuildings) {
+                  if ("isBuildings" in asset && asset.isBuildings) {
                     handleBuildingsClick();
                   } else if (asset.category) {
                     handleCategoryClick(asset.category);

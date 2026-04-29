@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Users,
   Award,
@@ -54,11 +54,11 @@ const Dashboard: React.FC = () => {
     }
   };
   const basePath = import.meta.env.BASE_URL;
-  const heroImages = [
+  const heroImages = useMemo(() => [
     `${basePath}hero1.jpg`,
     `${basePath}hero2.jpg`,
     "https://assets.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p3/63/2024/12/07/IMG_20241207_150258-1141876672.jpg",
-  ];
+  ], [basePath]);
 
   // Auto-play carousel
   useEffect(() => {
@@ -67,7 +67,7 @@ const Dashboard: React.FC = () => {
     }, 5000); // Change slide every 5 seconds
 
     return () => clearInterval(timer);
-  }, []);
+  }, [heroImages.length]);
 
   const nextSlide = () => {
     const newSlide = (currentSlide + 1) % heroImages.length;

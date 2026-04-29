@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "../../contexts/LanguageContext";
 import {
   MapPin,
@@ -53,12 +53,12 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
-  const [unityInstance, setUnityInstance] = useState<UnityInstance | null>(null);
+  const unityInstanceRef = useRef<UnityInstance | null>(null);
   const [webglSupported, setWebglSupported] = useState<boolean>(true);
 
   // Unity WebGL configuration - using compressed files
   const basePath = import.meta.env.BASE_URL;
-  const unityConfig = {
+  const unityConfig = useMemo(() => ({
     dataUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.data.br`,
     frameworkUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.framework.js.br`,
     codeUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.wasm.br`,
@@ -68,7 +68,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
     productVersion: "0.1.0",
     showBanner: unityShowBanner,
     matchWebGLToCanvasSize: true,
-  };
+  }), [basePath]);
 
   // Check WebGL support
   const checkWebGLSupport = (): boolean => {
@@ -76,7 +76,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       const canvas = document.createElement('canvas');
       const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
       return !!gl;
-    } catch (e) {
+    } catch {
       return false;
     }
   };
@@ -156,7 +156,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
 
         console.log("Unity instance created successfully");
         if (timeoutId) clearTimeout(timeoutId);
-        setUnityInstance(instance);
+        unityInstanceRef.current = instance;
         window.unityInstance = instance;
         setIsLoading(false);
       } catch (err) {
@@ -183,15 +183,15 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
 
     return () => {
       // Cleanup Unity instance
-      if (unityInstance) {
+      if (unityInstanceRef.current) {
         try {
-          unityInstance.Quit();
+          unityInstanceRef.current.Quit();
         } catch (err) {
           console.error("Error cleaning up Unity instance:", err);
         }
       }
     };
-  }, []);
+  }, [basePath, unityConfig]);
 
   if (error) {
     return (

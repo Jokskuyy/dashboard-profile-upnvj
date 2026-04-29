@@ -262,7 +262,7 @@ const fetchProfessors = async (): Promise<Professor[]> => {
         } else {
           expertiseArray = [dosen.program_studi?.nama_prodi || ""];
         }
-      } catch (e) {
+      } catch {
         // If not valid JSON, use program studi name as fallback
         expertiseArray = [dosen.program_studi?.nama_prodi || ""];
       }
@@ -703,7 +703,7 @@ export const createProfessor = async (
     if (data.kompetensi) {
       expertiseArray = JSON.parse(data.kompetensi);
     }
-  } catch (e) {
+  } catch {
     expertiseArray = [];
   }
 
@@ -776,7 +776,7 @@ export const updateProfessor = async (
     if (data.kompetensi) {
       expertiseArray = JSON.parse(data.kompetensi);
     }
-  } catch (e) {
+  } catch {
     expertiseArray = [];
   }
 

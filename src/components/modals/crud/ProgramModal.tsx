@@ -77,7 +77,7 @@ export default function ProgramModal({
         id_akreditasi: firstAccreditationId,
       });
     }
-  }, [program, isOpen]);
+  }, [program, isOpen, faculties, accreditations]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

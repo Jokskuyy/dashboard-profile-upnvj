@@ -66,7 +66,7 @@ export default function StudentModal({
         id_prodi: defaultProdiId,
       });
     }
-  }, [student, isOpen]);
+  }, [student, isOpen, programs]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

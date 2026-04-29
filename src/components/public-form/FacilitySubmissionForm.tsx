@@ -117,11 +117,6 @@ export default function FacilitySubmissionForm() {
   >([]);
   const [checkingDuplicate, setCheckingDuplicate] = useState(false);
 
-  useEffect(() => {
-    fetchBuildings();
-    fetchExistingFacilities();
-  }, []);
-
   // Generate preview when file changes
   useEffect(() => {
     if (photoFile) {
@@ -138,7 +133,7 @@ export default function FacilitySubmissionForm() {
     }
   }, [formData.foto_url, photoMode]);
 
-  const fetchBuildings = async () => {
+  const fetchBuildings = useCallback(async () => {
     try {
       setLoadingBuildings(true);
       const { data, error } = await supabase
@@ -152,9 +147,9 @@ export default function FacilitySubmissionForm() {
     } finally {
       setLoadingBuildings(false);
     }
-  };
+  }, [showError]);
 
-  const fetchExistingFacilities = async () => {
+  const fetchExistingFacilities = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from("fasilitas")
@@ -164,7 +159,12 @@ export default function FacilitySubmissionForm() {
     } catch {
       // Non-critical — duplicate check will still work against queue
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchBuildings();
+    fetchExistingFacilities();
+  }, [fetchBuildings, fetchExistingFacilities]);
 
   /** Check if facility name+gedung+lantai already exists in DB or local queue */
   const isDuplicate = useCallback(

@@ -57,7 +57,7 @@ export default function ProfessorModal({
         if (professor.kompetensi) {
           expertiseArray = JSON.parse(professor.kompetensi);
         }
-      } catch (e) {
+      } catch {
         // If not JSON, treat as comma-separated string
         expertiseArray = professor.kompetensi
           ? professor.kompetensi.split(",").map((s) => s.trim())
@@ -95,7 +95,7 @@ export default function ProfessorModal({
         id_gs: "",
       });
     }
-  }, [professor, isOpen]);
+  }, [professor, isOpen, programs]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
