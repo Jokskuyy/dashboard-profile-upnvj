@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { MapPin, ExternalLink, Building, Navigation } from "lucide-react";
+import { MapPin, ExternalLink, Navigation, Building, Compass } from "lucide-react";
 import { useLanguage } from "../../../contexts/LanguageContext";
-import CampusMapViewer from '../../campus-map/CampusMapViewer';
-import { getPreloadStatus, onPreloadProgress, type PreloadStatus } from "../../../utils/unityPreloader";
+import CampusMapViewer from "../../campus-map/CampusMapViewer";
+import {
+  getPreloadStatus,
+  onPreloadProgress,
+  type PreloadStatus,
+} from "../../../utils/unityPreloader";
 
 const CampusMapSection: React.FC = () => {
   const { t } = useLanguage();
   const [showViewer, setShowViewer] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [_cacheStatus, setCacheStatus] = useState<PreloadStatus>(getPreloadStatus());
+  const [_cacheStatus, setCacheStatus] = useState<PreloadStatus>(
+    getPreloadStatus(),
+  );
 
-  // Check if we're on GitHub Pages - Unity WebGL doesn't work there due to Brotli compression
-  const isGitHubPages = window.location.hostname.includes('github.io');
+  const isGitHubPages = window.location.hostname.includes("github.io");
 
-  // Subscribe to pre-cache progress
   useEffect(() => {
     const unsubscribe = onPreloadProgress((progress) => {
       setCacheStatus(progress.status);
@@ -25,22 +29,22 @@ const CampusMapSection: React.FC = () => {
 
   const handleOpenCampusMap = async () => {
     if (isGitHubPages) {
-      alert('Unity WebGL campus map is not available on GitHub Pages due to Brotli compression limitations. Please view on local development or alternative hosting platform.');
+      alert(
+        "Unity WebGL campus map is not available on GitHub Pages due to Brotli compression limitations.",
+      );
       return;
     }
     setShowViewer(true);
   };
 
-  // On mobile, enter fullscreen + landscape as soon as viewer is shown
-  // This runs from the setState triggered by a user gesture, so it's allowed
   useEffect(() => {
     if (!showViewer) return;
     const isMobile =
-      /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-      window.innerWidth < 768;
+      /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      ) || window.innerWidth < 768;
     if (!isMobile) return;
 
-    // Small delay to let the viewer render
     const timer = setTimeout(async () => {
       const el = viewerWrapperRef.current;
       if (!el) return;
@@ -62,14 +66,22 @@ const CampusMapSection: React.FC = () => {
   const toggleFullscreen = () => {
     if (isFullscreen && document.fullscreenElement) {
       document.exitFullscreen().catch(() => {});
-      try { (screen.orientation as any).unlock?.(); } catch {}
+      try {
+        (screen.orientation as any).unlock?.();
+      } catch {
+        /* empty */
+      }
     }
     setIsFullscreen(!isFullscreen);
   };
 
+  // ── Active viewer mode ──
   if (showViewer) {
     return (
-      <div ref={viewerWrapperRef} className={`bg-white rounded-lg shadow-md ${isFullscreen ? "fixed inset-0 z-50" : ""}`}>
+      <div
+        ref={viewerWrapperRef}
+        className={`bg-white rounded-2xl shadow-lg overflow-hidden ${isFullscreen ? "fixed inset-0 z-50 rounded-none" : ""}`}
+      >
         <CampusMapViewer
           isFullscreen={isFullscreen}
           onToggleFullscreen={toggleFullscreen}
@@ -82,7 +94,7 @@ const CampusMapSection: React.FC = () => {
         {!isFullscreen && (
           <div className="p-4 border-t bg-gray-50 flex justify-between items-center">
             <div className="text-sm text-gray-600">
-              {t("unity3DInteractiveCampusMap")} - {t("useMouseToNavigate")}
+              {t("unity3DInteractiveCampusMap")} — {t("useMouseToNavigate")}
             </div>
             <button
               onClick={() => setShowViewer(false)}
@@ -96,75 +108,97 @@ const CampusMapSection: React.FC = () => {
     );
   }
 
+  // ── Preview card ──
+  const features = [
+    {
+      icon: Navigation,
+      color: "text-emerald-600",
+      bg: "bg-emerald-50",
+      border: "border-emerald-100",
+      title: t("interactiveNavigation"),
+      desc: t("navigateThroughCampus3D"),
+    },
+    {
+      icon: Building,
+      color: "text-[#2C5F2D]",
+      bg: "bg-green-50",
+      border: "border-green-100",
+      title: t("buildingInformation"),
+      desc: t("detailedFacilityInfo"),
+    },
+    {
+      icon: Compass,
+      color: "text-teal-600",
+      bg: "bg-teal-50",
+      border: "border-teal-100",
+      title: t("unityWebGL"),
+      desc: t("highQuality3DRendering"),
+    },
+  ];
+
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h3 className="text-xl font-bold text-gray-900 flex items-center">
-            <MapPin className="w-6 h-6 mr-2 text-red-600" />
-            {t("campusMapTitle")}
-          </h3>
-          <p className="text-gray-600 mt-1">{t("campusMapSubtitle")}</p>
+    <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-white">
+      {/* Card Header — green accent bar */}
+      <div className="bg-gradient-to-r from-[#2C5F2D] to-[#3d7a3e] px-6 sm:px-8 py-5">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/20">
+            <MapPin className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h3 className="text-lg sm:text-xl font-bold text-white">
+              {t("campusMapTitle")}
+            </h3>
+            <p className="text-sm text-white/70">{t("campusMapSubtitle")}</p>
+          </div>
         </div>
       </div>
 
-      <div className="bg-[#E8F0E8] rounded-lg p-8 text-center">
-        <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Building className="w-8 h-8 text-red-600" />
+      {/* Card Body */}
+      <div className="p-6 sm:p-8">
+        {/* Feature Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-8">
+          {features.map((f, i) => (
+            <div
+              key={i}
+              className={`rounded-xl p-4 ${f.bg} border ${f.border} hover:shadow-md transition-all duration-300`}
+            >
+              <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center mb-3 shadow-sm">
+                <f.icon className={`w-[18px] h-[18px] ${f.color}`} />
+              </div>
+              <p className="font-semibold text-gray-800 text-sm mb-0.5">
+                {f.title}
+              </p>
+              <p className="text-gray-500 text-xs leading-relaxed">{f.desc}</p>
+            </div>
+          ))}
         </div>
 
-        <h4 className="text-lg font-semibold text-gray-900 mb-2">
-          {t("campusMap3D")}
-        </h4>
+        {/* CTA */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <button
+            onClick={handleOpenCampusMap}
+            disabled={isGitHubPages}
+            className={`group inline-flex items-center gap-2 px-6 py-3 font-semibold rounded-xl transition-all duration-200 shadow-md ${
+              isGitHubPages
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-[#2C5F2D] text-white hover:bg-[#245025] hover:shadow-lg hover:shadow-green-900/15 hover:scale-[1.02] active:scale-[0.98]"
+            }`}
+          >
+            <ExternalLink className="w-[18px] h-[18px]" />
+            {t("launchUnityMap")}
+          </button>
 
-        <p className="text-gray-600 mb-6">
-          {t("interactiveUnityWebGLExperience")}
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-sm">
-          <div className="bg-white rounded-lg p-4">
-            <Navigation className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-            <p className="font-medium text-gray-900">{t("interactiveNavigation")}</p>
-            <p className="text-gray-600">{t("navigateThroughCampus3D")}</p>
-          </div>
-          <div className="bg-white rounded-lg p-4">
-            <Building className="w-6 h-6 text-green-600 mx-auto mb-2" />
-            <p className="font-medium text-gray-900">{t("buildingInformation")}</p>
-            <p className="text-gray-600">{t("detailedFacilityInfo")}</p>
-          </div>
-          <div className="bg-white rounded-lg p-4">
-            <MapPin className="w-6 h-6 text-purple-600 mx-auto mb-2" />
-            <p className="font-medium text-gray-900">{t("unityWebGL")}</p>
-            <p className="text-gray-600">{t("highQuality3DRendering")}</p>
-          </div>
+          <span className="text-xs text-gray-400">{t("unityWebGLBuild")}</span>
         </div>
-
-        <button
-          onClick={handleOpenCampusMap}
-          disabled={isGitHubPages}
-          className={`inline-flex items-center px-6 py-3 font-semibold rounded-lg transition-colors shadow-lg ${
-            isGitHubPages
-              ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
-              : 'bg-red-600 text-white hover:bg-red-700'
-          }`}
-        >
-          <ExternalLink className="w-5 h-5 mr-2" />
-          {t("launchUnityMap")}
-        </button>
 
         {isGitHubPages && (
-          <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <p className="text-sm text-yellow-800">
-              WARNING: Unity WebGL is not available on GitHub Pages due to Brotli compression limitations.
-              <br />
-              Please view on local development environment.
+          <div className="mt-5 p-3 bg-amber-50 border border-amber-200 rounded-xl">
+            <p className="text-xs text-amber-700">
+              ⚠️ Unity WebGL is not available on GitHub Pages due to Brotli
+              compression limitations.
             </p>
           </div>
         )}
-
-        <div className="mt-4 text-xs text-gray-500">
-          {t("unityWebGLBuild")}
-        </div>
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
 import {
-  Award,
   MapPin,
   Package,
   ChevronLeft,
@@ -8,8 +7,7 @@ import {
 } from "lucide-react";
 import { KPICardSkeleton, SectionSkeleton } from "../common/SkeletonLoader";
 import { useLanguage } from "../../contexts/LanguageContext";
-import { useDashboard, useStats } from "../../contexts/DashboardContext";
-import KPICard from "./KPICard";
+import { useDashboard } from "../../contexts/DashboardContext";
 import {
   AccreditationSection,
   CampusMapSection,
@@ -21,7 +19,6 @@ import { trackClick, trackCarousel } from "../analytics/trackingHelpers";
 const Dashboard: React.FC = () => {
   const { t } = useLanguage();
   const { loading } = useDashboard();
-  const stats = useStats();
 
   // Carousel state
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -261,47 +258,16 @@ const Dashboard: React.FC = () => {
           </>
         )}
 
-        {/* KPI Overview - Only show when data is loaded */}
-        {!loading && stats && (
-          <>
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                {t("kpi")}
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <KPICard
-                  title={t("accreditation")}
-                  value={stats.activeAccreditations}
-                  subtitle={t("activePrograms")}
-                  icon={Award}
-                  color="gold"
-                />
-                <KPICard
-                  title={t("totalAssets")}
-                  value={stats.totalAssets}
-                  subtitle={t("campusFacilities")}
-                  icon={Package}
-                  color="slate"
-                />
-                <KPICard
-                  title={t("campusMap")}
-                  value="3D"
-                  subtitle={t("interactiveMap")}
-                  icon={MapPin}
-                  color="brown"
-                />
-              </div>
+        {/* Sections — show when data is loaded */}
+        {!loading && (
+          <div className="space-y-8">
+            <div id="campus-map-section">
+              <CampusMapSection />
             </div>
-            {/* Detailed Sections */}
-            <div className="space-y-8">
-              <div id="campus-map-section">
-                <CampusMapSection />
-              </div>
-              <div>
-                <AccreditationSection />
-              </div>
+            <div>
+              <AccreditationSection />
             </div>
-          </>
+          </div>
         )}
       </div>
     </div>

@@ -273,7 +273,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
     >
       {/* Header - hidden in fullscreen */}
       {!isFullscreen && !isMobileLandscape && (
-        <div className="bg-linear-to-r from-blue-600 to-blue-700 p-4">
+        <div className="bg-gradient-to-r from-[#2C5F2D] to-[#3d7a3e] p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
@@ -281,7 +281,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-white">{t("campusMapTitle")}</h3>
-                <p className="text-blue-100 text-sm">{t("interactive3DCampusLayout")}</p>
+                <p className="text-green-100 text-sm">{t("interactive3DCampusLayout")}</p>
               </div>
             </div>
             {onToggleFullscreen && (
@@ -305,11 +305,11 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         {isLoading && (
           <div className="absolute inset-0 bg-gray-100 flex items-center justify-center z-10">
             <div className="text-center">
-              <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <div className="w-12 h-12 border-4 border-[#2C5F2D] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
               <p className="text-gray-600 font-medium">{t("loadingCampusMap")}</p>
               <div className="w-48 h-2 bg-gray-200 rounded-full mx-auto mt-2">
                 <div
-                  className="h-full bg-blue-500 rounded-full transition-all duration-300"
+                  className="h-full bg-[#2C5F2D] rounded-full transition-all duration-300"
                   style={{ width: `${loadingProgress}%` }}
                 ></div>
               </div>
@@ -324,7 +324,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
           className={`w-full h-full ${isLoading ? "opacity-0" : "opacity-100"} transition-opacity duration-500`}
           style={{
             display: "block",
-            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            background: "linear-gradient(135deg, #2C5F2D 0%, #3d7a3e 100%)",
           }}
           tabIndex={-1}
         />
