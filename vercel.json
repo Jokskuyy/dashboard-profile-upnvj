@@ -1,16 +1,26 @@
 {
   "headers": [
     {
-      "source": "/api/(.*)",
+      "source": "/unity-builds/downloads/prototipe/Build/prototipe.framework.js.br",
       "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET, OPTIONS" },
-        { "key": "Cache-Control", "value": "s-maxage=60, stale-while-revalidate=300" }
+        { "key": "Content-Encoding", "value": "br" },
+        { "key": "Content-Type", "value": "application/javascript" },
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     },
     {
-      "source": "/unity-builds/(.*)",
+      "source": "/unity-builds/downloads/prototipe/Build/prototipe.wasm.br",
       "headers": [
+        { "key": "Content-Encoding", "value": "br" },
+        { "key": "Content-Type", "value": "application/wasm" },
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/unity-builds/downloads/prototipe/Build/prototipe.data.br",
+      "headers": [
+        { "key": "Content-Encoding", "value": "br" },
+        { "key": "Content-Type", "value": "application/octet-stream" },
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     },
@@ -21,7 +31,7 @@
       ]
     },
     {
-      "source": "/((?!unity-builds).*)",
+      "source": "/(.*)",
       "headers": [
         { "key": "X-Frame-Options", "value": "DENY" },
         { "key": "X-Content-Type-Options", "value": "nosniff" },
@@ -33,7 +43,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!api|assets|unity-builds|data|favicon|logoupnvj).*)",
+      "source": "/((?!assets|unity-builds|data|favicon|logoupnvj).*)",
       "destination": "/index.html"
     }
   ]
