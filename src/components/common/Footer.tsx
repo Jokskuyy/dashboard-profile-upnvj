@@ -95,7 +95,7 @@ const Footer: React.FC = () => {
               <img
                 src="https://new-fik.upnvj.ac.id/wp-content/uploads/2021/02/logo-fik-transparant.png"
                 alt="Fakultas Ilmu Komputer UPN Veteran Jakarta"
-                className="h-9 object-contain"
+                className="h-10 object-contain"
               />
             </a>
 

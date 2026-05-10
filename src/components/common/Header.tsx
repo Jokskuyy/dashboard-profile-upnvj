@@ -39,32 +39,21 @@ const Header: React.FC = () => {
               isScrolled ? "py-3" : "py-4"
             }`}
           >
-            {/* Logo Section */}
-            <div className="flex items-center space-x-4 group">
+            {/* Logo */}
+            <a
+              href="https://new-fik.upnvj.ac.id/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center group"
+            >
               <img
-                src={logoUpnvj}
-                alt="UPNVJ Logo"
-                className={`object-contain transition-all duration-300 transform group-hover:scale-110 ${
-                  isScrolled ? "w-10 h-10" : "w-12 h-12"
+                src="https://new-fik.upnvj.ac.id/wp-content/uploads/2021/02/logo-fik-transparant.png"
+                alt="Fakultas Ilmu Komputer UPN Veteran Jakarta"
+                className={`object-contain transition-all duration-300 group-hover:brightness-110 ${
+                  isScrolled ? "h-8" : "h-10"
                 }`}
               />
-              <div className="hidden md:block">
-                <h1
-                  className={`font-bold text-white drop-shadow-lg leading-tight transition-all duration-300 ${
-                    isScrolled ? "text-lg" : "text-xl"
-                  }`}
-                >
-                  {t("universityShort")}
-                </h1>
-                <p
-                  className={`text-yellow-200 drop-shadow transition-all duration-300 ${
-                    isScrolled ? "text-xs" : "text-sm"
-                  }`}
-                >
-                  {t("heroDescription").split(" • ")[0]}
-                </p>
-              </div>
-            </div>
+            </a>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-1">
