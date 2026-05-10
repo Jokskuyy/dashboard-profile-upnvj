@@ -1,30 +1,70 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../contexts/LanguageContext";
 import LanguageToggle from "./LanguageToggle";
-import logoUpnvj from "../../assets/images/logoupnvj.webp";
-import { Menu, X, Home, MapPin, Package } from "lucide-react";
+import { Menu, X, Home, MapPin, Package, KeyRound } from "lucide-react";
+
+const NAV_ITEMS = [
+  { id: "home", labelKey: "home", icon: Home },
+  { id: "assets-section", labelKey: "assets", icon: Package },
+  { id: "campus-map-section", labelKey: "campusMap", icon: MapPin },
+] as const;
 
 const Header: React.FC = () => {
   const { t } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
+  // Track scroll position for header shrink + active section
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+
+      // Determine active section based on scroll position
+      const scrollY = window.scrollY + 120;
+      let current = "home";
+      for (const item of NAV_ITEMS) {
+        if (item.id === "home") continue;
+        const el = document.getElementById(item.id);
+        if (el && el.offsetTop <= scrollY) {
+          current = item.id;
+        }
+      }
+      setActiveSection(current);
     };
-    window.addEventListener("scroll", handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "center" });
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
+  const scrollToSection = useCallback(
+    (sectionId: string) => {
+      if (sectionId === "home") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const headerOffset = 80; // fixed header height + breathing room
+          const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({
+            top: elementPosition - headerOffset,
+            behavior: "smooth",
+          });
+        }
+      }
       setIsMobileMenuOpen(false);
-    }
-  };
+    },
+    [],
+  );
 
   return (
     <>
@@ -57,68 +97,44 @@ const Header: React.FC = () => {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-1">
-              {[
-                { id: "home", label: t("home"), icon: Home },
-                {
-                  id: "assets-section",
-                  label: t("totalAssets"),
-                  icon: Package,
-                },
-                {
-                  id: "campus-map-section",
-                  label: t("campusMap"),
-                  icon: MapPin,
-                },
-              ].map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    if (item.id === "home") {
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                    } else {
-                      scrollToSection(item.id);
-                    }
-                  }}
-                  className="flex items-center space-x-2 px-4 py-2 rounded-xl font-medium text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300"
-                >
-                  <item.icon className="w-4 h-4" />
-                  <span className="text-sm">{item.label}</span>
-                </button>
-              ))}
+              {NAV_ITEMS.map((item) => {
+                const isActive = activeSection === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
+                      isActive
+                        ? "text-white bg-white/15"
+                        : "text-white/80 hover:text-white hover:bg-white/10"
+                    }`}
+                  >
+                    <item.icon className="w-4 h-4" />
+                    <span className="text-sm">{t(item.labelKey)}</span>
+                  </button>
+                );
+              })}
             </nav>
 
             {/* Right Section */}
-            <div className="flex items-center space-x-4">
-              {/* Admin Login Link */}
+            <div className="flex items-center space-x-3">
+              {/* Admin Login Link (desktop) */}
               <Link
                 to="/login"
                 className="hidden sm:flex items-center space-x-2 px-4 py-2 rounded-xl font-medium text-white/90 hover:text-white hover:bg-white/10 transition-all duration-300"
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
-                  />
-                </svg>
+                <KeyRound className="w-4 h-4" />
                 <span className="text-sm">Admin</span>
               </Link>
 
               {/* Language Toggle */}
-              <div className="transition-all duration-300">
-                <LanguageToggle />
-              </div>
+              <LanguageToggle />
 
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="lg:hidden p-2 rounded-xl text-white hover:bg-white/10 transition-all duration-300"
+                aria-label="Toggle menu"
               >
                 {isMobileMenuOpen ? (
                   <X className="w-6 h-6" />
@@ -131,7 +147,7 @@ const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* Mobile Navigation Menu */}
+      {/* ─── Mobile Navigation Drawer ─── */}
       <div
         className={`fixed inset-0 z-40 lg:hidden transition-all duration-300 ${
           isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
@@ -143,65 +159,111 @@ const Header: React.FC = () => {
           onClick={() => setIsMobileMenuOpen(false)}
         />
 
-        {/* Menu Panel */}
+        {/* Slide-in Panel */}
         <div
-          className={`absolute top-0 right-0 w-72 sm:w-80 h-full bg-[#2C5F2D] shadow-2xl transform transition-transform duration-300 ${
+          className={`absolute top-0 right-0 w-[280px] h-full bg-[#2C5F2D] shadow-2xl transform transition-transform duration-300 ease-out flex flex-col ${
             isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <div className="p-6 pt-20">
-            <nav className="space-y-2">
-              {[
-                { id: "home", label: t("home"), icon: Home },
-                {
-                  id: "assets-section",
-                  label: t("assets"),
-                  icon: Package,
-                },
-                {
-                  id: "campus-map-section",
-                  label: t("campusMap"),
-                  icon: MapPin,
-                },
-              ].map((item, index) => (
+          {/* Panel Header with close button */}
+          <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-white/15">
+            <a
+              href="https://new-fik.upnvj.ac.id/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="https://new-fik.upnvj.ac.id/wp-content/uploads/2021/02/logo-fik-transparant.png"
+                alt="FIK UPNVJ"
+                className="h-7 object-contain"
+              />
+            </a>
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="p-2 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-colors"
+              aria-label="Close menu"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Navigation Links */}
+          <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
+            {NAV_ITEMS.map((item, index) => {
+              const isActive = activeSection === item.id;
+              return (
                 <button
                   key={item.id}
-                  onClick={() => {
-                    if (item.id === "home") {
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                      setIsMobileMenuOpen(false);
-                    } else {
-                      scrollToSection(item.id);
-                    }
-                  }}
-                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-white hover:bg-white/10 transition-all duration-300 fade-in-up stagger-${
-                    index + 1
+                  onClick={() => scrollToSection(item.id)}
+                  style={{ animationDelay: `${index * 60}ms` }}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all duration-200 ${
+                    isMobileMenuOpen ? "animate-fadeSlideIn" : ""
+                  } ${
+                    isActive
+                      ? "text-white bg-white/15 shadow-sm"
+                      : "text-white/80 hover:text-white hover:bg-white/10"
                   }`}
                 >
-                  <item.icon className="w-5 h-5" />
-                  <span>{item.label}</span>
+                  <div
+                    className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                      isActive
+                        ? "bg-yellow-400/25 border border-yellow-300/30"
+                        : "bg-white/10"
+                    }`}
+                  >
+                    <item.icon
+                      className={`w-4 h-4 ${isActive ? "text-yellow-300" : "text-white/70"}`}
+                    />
+                  </div>
+                  <span className="text-sm">{t(item.labelKey)}</span>
+                  {isActive && (
+                    <div className="ml-auto w-1.5 h-1.5 bg-yellow-400 rounded-full" />
+                  )}
                 </button>
-              ))}
-            </nav>
+              );
+            })}
 
-            <div className="mt-8 pt-6 border-t border-white/20">
-              <div className="text-center">
-                <img
-                  src={logoUpnvj}
-                  alt="UPNVJ Logo"
-                  className="w-16 h-16 mx-auto mb-3 object-contain"
-                />
-                <h3 className="text-lg font-bold text-white mb-1">
-                  {t("universityShort")}
-                </h3>
-                <p className="text-sm text-yellow-200">
-                  {t("footer.excellenceSince1996")}
-                </p>
+            {/* Admin link (mobile) */}
+            <Link
+              to="/login"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200"
+              style={{ animationDelay: `${NAV_ITEMS.length * 60}ms` }}
+            >
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-white/10">
+                <KeyRound className="w-4 h-4 text-white/70" />
               </div>
-            </div>
+              <span className="text-sm">Admin Panel</span>
+            </Link>
+          </nav>
+
+          {/* Bottom Branding */}
+          <div className="px-5 py-4 border-t border-white/15">
+            <p className="text-[11px] text-white/40 text-center leading-relaxed">
+              Fakultas Ilmu Komputer
+              <br />
+              UPN Veteran Jakarta
+            </p>
           </div>
         </div>
       </div>
+
+      {/* Keyframe for fade-slide animation */}
+      <style>{`
+        @keyframes fadeSlideIn {
+          from {
+            opacity: 0;
+            transform: translateX(12px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        .animate-fadeSlideIn {
+          animation: fadeSlideIn 0.3s ease-out both;
+        }
+      `}</style>
     </>
   );
 };
