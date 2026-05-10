@@ -1,47 +1,80 @@
 /**
- * @deprecated This service is deprecated. Tracking is now handled by Umami Analytics.
- * - Pageviews: Automatically tracked by Umami script (injected in Analytics.tsx)
- * - Custom events: Use trackingHelpers.ts which calls window.umami.track()
- * - Data retrieval: Use umamiService.ts which queries /api/analytics/* endpoints
+ * Web Analytics Tracking Service
  *
- * This file is kept for reference only. The Supabase `web_analytics_log` table
- * retains historical data but no new data is inserted.
+ * Tracks page views by inserting records into the Supabase `web_analytics_log` table.
+ * Each visit records: visitor fingerprint hash, page path, device type, and timestamp.
  */
 
-// Web Tracking Service with Supabase (DEPRECATED - replaced by Umami)
+import { supabase } from "../../lib/supabase";
 
-import logger from "../../utils/logger";
-
-/** @deprecated Use Umami auto-tracking instead */
-export const trackPageView = async (_page: string) => {
-  logger.log(
-    "[DEPRECATED] trackPageView called — Umami handles this automatically",
-  );
+// Simple device detection
+const getDeviceType = (): string => {
+  const ua = navigator.userAgent.toLowerCase();
+  if (/tablet|ipad|playbook|silk/i.test(ua)) return "Tablet";
+  if (/mobile|iphone|ipod|android|blackberry|opera mini|iemobile/i.test(ua))
+    return "Mobile";
+  return "Desktop";
 };
 
-/** @deprecated Use trackingHelpers.ts (which uses window.umami.track) instead */
-export const trackEvent = async (
-  _eventName: string,
-  _eventData?: Record<string, unknown>,
-) => {
-  logger.log("[DEPRECATED] trackEvent called — use trackingHelpers.ts instead");
+// Generate a simple visitor hash (not personally identifiable)
+const getVisitorHash = (): string => {
+  const raw = [
+    navigator.userAgent,
+    screen.width + "x" + screen.height,
+    Intl.DateTimeFormat().resolvedOptions().timeZone,
+    navigator.language,
+  ].join("|");
+
+  // Simple hash function (djb2)
+  let hash = 5381;
+  for (let i = 0; i < raw.length; i++) {
+    hash = (hash * 33) ^ raw.charCodeAt(i);
+  }
+  return "v_" + Math.abs(hash).toString(36);
 };
 
-/** @deprecated Use umamiService.ts getAnalyticsSummary() instead */
-export const getAnalytics = async (_days: number = 7) => {
-  logger.log("[DEPRECATED] getAnalytics called — use umamiService.ts instead");
-  return {
-    success: false,
-    totalVisitors: 0,
-    totalPageViews: 0,
-    dailyStats: [],
-    deviceStats: { desktop: 0, mobile: 0, tablet: 0 },
-  };
+// Debounce: don't track same page within 5 seconds
+let lastTrackedPage = "";
+let lastTrackedTime = 0;
+
+/**
+ * Track a page view — inserts a record into web_analytics_log.
+ * Called automatically on route changes.
+ */
+export const trackPageView = async (pagePath?: string): Promise<void> => {
+  try {
+    const page = pagePath || window.location.pathname;
+    const now = Date.now();
+
+    // Debounce: skip if same page tracked within 5 seconds
+    if (page === lastTrackedPage && now - lastTrackedTime < 5000) {
+      return;
+    }
+
+    lastTrackedPage = page;
+    lastTrackedTime = now;
+
+    const { error } = await supabase.from("web_analytics_log").insert({
+      visitor_hash: getVisitorHash(),
+      page_path: page,
+      device_type: getDeviceType(),
+    });
+
+    if (error) {
+      // Silently fail — tracking should never break the app
+      if (import.meta.env.DEV) {
+        console.warn("Analytics tracking error:", error.message);
+      }
+    }
+  } catch {
+    // Silently fail
+  }
 };
 
-/** @deprecated Umami auto-tracks on script load, no init needed */
-export const initTracking = () => {
-  logger.log(
-    "[DEPRECATED] initTracking called — Umami handles this automatically",
-  );
+/**
+ * Initialize tracking — call once on app mount.
+ * Tracks the initial page load.
+ */
+export const initTracking = (): void => {
+  trackPageView();
 };

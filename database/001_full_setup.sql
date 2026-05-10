@@ -51,7 +51,8 @@ CREATE TABLE public.gedung (
     nama_gedung VARCHAR(255) NOT NULL UNIQUE,
     deskripsi_gedung TEXT,
     lokasi TEXT,
-    jumlah_lantai INT DEFAULT 1
+    jumlah_lantai INT DEFAULT 1,
+    foto_url VARCHAR(255)
 );
 COMMENT ON TABLE public.gedung IS 'Data gedung/bangunan di kampus UPNVJ';
 
@@ -218,9 +219,11 @@ CREATE POLICY prodi_auth_delete ON public.program_studi
     FOR DELETE TO authenticated USING (true);
 
 -- === WEB ANALYTICS LOG ===
--- Siapa saja bisa insert (tracking), hanya admin bisa baca
+-- Siapa saja bisa insert (tracking) dan baca (public dashboard)
 CREATE POLICY analytics_anon_insert ON public.web_analytics_log
     FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY analytics_anon_select ON public.web_analytics_log
+    FOR SELECT TO anon USING (true);
 CREATE POLICY analytics_auth_insert ON public.web_analytics_log
     FOR INSERT TO authenticated WITH CHECK (true);
 CREATE POLICY analytics_auth_select ON public.web_analytics_log
@@ -244,7 +247,58 @@ CREATE POLICY admin_users_auth_update ON public.admin_users
 
 
 -- ==================================================
--- PHASE 6: VERIFY
+-- PHASE 6: ADMIN AUTH FUNCTIONS (pgcrypto)
+-- ==================================================
+
+-- Enable pgcrypto for bcrypt hashing
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+-- Function: Hash a plain-text password (untuk seed/insert admin baru)
+-- Usage: SELECT hash_password('mypassword123');
+CREATE OR REPLACE FUNCTION public.hash_password(plain_password TEXT)
+RETURNS TEXT
+LANGUAGE sql
+SECURITY DEFINER
+AS $$
+  SELECT crypt(plain_password, gen_salt('bf', 10));
+$$;
+
+-- Function: Verify a password against stored hash (untuk login)
+-- Usage: SELECT verify_admin_login('admin', 'mypassword123');
+-- Returns: admin row jika valid, empty jika salah
+CREATE OR REPLACE FUNCTION public.verify_admin_login(
+  input_username TEXT,
+  input_password TEXT
+)
+RETURNS TABLE(
+  id INT,
+  username VARCHAR,
+  nama_lengkap VARCHAR,
+  role VARCHAR
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    a.id,
+    a.username,
+    a.nama_lengkap,
+    a.role
+  FROM public.admin_users a
+  WHERE a.username = input_username
+    AND a.password_hash = crypt(input_password, a.password_hash);
+END;
+$$;
+
+-- Grant execute to anon (needed for login before auth)
+GRANT EXECUTE ON FUNCTION public.hash_password(TEXT) TO authenticated;
+GRANT EXECUTE ON FUNCTION public.verify_admin_login(TEXT, TEXT) TO anon, authenticated;
+
+
+-- ==================================================
+-- PHASE 7: VERIFY
 -- ==================================================
 
 -- Cek RLS status

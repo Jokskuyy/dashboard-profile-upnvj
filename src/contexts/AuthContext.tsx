@@ -93,13 +93,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       if (error) {
         console.error('Login error:', error.message);
-        console.error('Full error:', error);
         
-        // Better error messages
         if (error.message.includes('Invalid login credentials')) {
           return {
             success: false,
-            message: "Username atau password salah. Pastikan email di Supabase: " + email,
+            message: "Username atau password salah.",
           };
         }
         
@@ -116,14 +114,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         };
       }
 
-      // Set admin data from session
+      // Fetch admin profile from admin_users table
+      let adminProfile = null;
+      try {
+        const { data: profileData } = await supabase
+          .from('admin_users')
+          .select('id, username, nama_lengkap, role')
+          .eq('username', username)
+          .single();
+        
+        if (profileData) {
+          adminProfile = profileData;
+        }
+      } catch (profileError) {
+        console.warn('Could not fetch admin profile from admin_users:', profileError);
+      }
+
+      // Set admin data — prioritize admin_users table, fallback to Supabase Auth metadata
       if (data.session) {
         setAdmin({
           id: data.user.id,
-          username: username,
-          fullName: data.user.user_metadata?.full_name || username,
+          username: adminProfile?.username || username,
+          fullName: adminProfile?.nama_lengkap || data.user.user_metadata?.full_name || username,
           email: email,
-          role: data.user.user_metadata?.role || 'admin',
+          role: adminProfile?.role || data.user.user_metadata?.role || 'admin',
           lastLogin: data.user.last_sign_in_at || new Date().toISOString(),
         });
       }

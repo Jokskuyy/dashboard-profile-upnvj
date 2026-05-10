@@ -573,7 +573,7 @@ INSERT INTO public.admin_users
 VALUES
 (
 'admin',
-'$2b$10$examplehashedpassword',
+hash_password('admin123'),
 'Administrator UPNVJ',
 'superadmin'
 );
@@ -583,11 +583,67 @@ VALUES
 -- =========================================
 
 INSERT INTO public.web_analytics_log
-(visitor_hash, page_path, device_type)
+(visitor_hash, page_path, device_type, visited_at)
 VALUES
-('visitor_demo_001', '/', 'Desktop'),
-('visitor_demo_002', '/fakultas', 'Mobile'),
-('visitor_demo_003', '/gedung/ki-hadjar-dewantara', 'Desktop');
+-- 14 days of realistic seed data
+('v_a1b2c3', '/', 'Desktop', NOW() - INTERVAL '1 day'),
+('v_a1b2c3', '/admin', 'Desktop', NOW() - INTERVAL '1 day'),
+('v_d4e5f6', '/', 'Mobile', NOW() - INTERVAL '1 day'),
+('v_g7h8i9', '/', 'Desktop', NOW() - INTERVAL '1 day'),
+('v_j0k1l2', '/', 'Tablet', NOW() - INTERVAL '1 day'),
+
+('v_a1b2c3', '/', 'Desktop', NOW() - INTERVAL '2 days'),
+('v_m3n4o5', '/', 'Mobile', NOW() - INTERVAL '2 days'),
+('v_p6q7r8', '/', 'Desktop', NOW() - INTERVAL '2 days'),
+('v_p6q7r8', '/login', 'Desktop', NOW() - INTERVAL '2 days'),
+
+('v_s9t0u1', '/', 'Mobile', NOW() - INTERVAL '3 days'),
+('v_v2w3x4', '/', 'Desktop', NOW() - INTERVAL '3 days'),
+('v_y5z6a7', '/', 'Mobile', NOW() - INTERVAL '3 days'),
+('v_y5z6a7', '/input-data', 'Mobile', NOW() - INTERVAL '3 days'),
+('v_b8c9d0', '/', 'Desktop', NOW() - INTERVAL '3 days'),
+
+('v_e1f2g3', '/', 'Desktop', NOW() - INTERVAL '4 days'),
+('v_h4i5j6', '/', 'Mobile', NOW() - INTERVAL '4 days'),
+('v_k7l8m9', '/', 'Tablet', NOW() - INTERVAL '4 days'),
+
+('v_n0o1p2', '/', 'Desktop', NOW() - INTERVAL '5 days'),
+('v_q3r4s5', '/', 'Mobile', NOW() - INTERVAL '5 days'),
+('v_t6u7v8', '/', 'Desktop', NOW() - INTERVAL '5 days'),
+('v_w9x0y1', '/', 'Desktop', NOW() - INTERVAL '5 days'),
+('v_z2a3b4', '/', 'Mobile', NOW() - INTERVAL '5 days'),
+
+('v_c5d6e7', '/', 'Desktop', NOW() - INTERVAL '6 days'),
+('v_f8g9h0', '/', 'Mobile', NOW() - INTERVAL '6 days'),
+
+('v_i1j2k3', '/', 'Desktop', NOW() - INTERVAL '7 days'),
+('v_l4m5n6', '/', 'Mobile', NOW() - INTERVAL '7 days'),
+('v_o7p8q9', '/', 'Desktop', NOW() - INTERVAL '7 days'),
+('v_r0s1t2', '/', 'Tablet', NOW() - INTERVAL '7 days'),
+
+('v_u3v4w5', '/', 'Desktop', NOW() - INTERVAL '8 days'),
+('v_x6y7z8', '/', 'Mobile', NOW() - INTERVAL '8 days'),
+
+('v_a9b0c1', '/', 'Desktop', NOW() - INTERVAL '9 days'),
+('v_d2e3f4', '/', 'Mobile', NOW() - INTERVAL '9 days'),
+('v_g5h6i7', '/', 'Desktop', NOW() - INTERVAL '9 days'),
+
+('v_j8k9l0', '/', 'Desktop', NOW() - INTERVAL '10 days'),
+('v_m1n2o3', '/', 'Mobile', NOW() - INTERVAL '10 days'),
+
+('v_p4q5r6', '/', 'Desktop', NOW() - INTERVAL '11 days'),
+('v_s7t8u9', '/', 'Mobile', NOW() - INTERVAL '11 days'),
+('v_v0w1x2', '/', 'Desktop', NOW() - INTERVAL '11 days'),
+
+('v_y3z4a5', '/', 'Desktop', NOW() - INTERVAL '12 days'),
+('v_b6c7d8', '/', 'Mobile', NOW() - INTERVAL '12 days'),
+
+('v_e9f0g1', '/', 'Desktop', NOW() - INTERVAL '13 days'),
+('v_h2i3j4', '/', 'Mobile', NOW() - INTERVAL '13 days'),
+('v_k5l6m7', '/', 'Tablet', NOW() - INTERVAL '13 days'),
+
+('v_n8o9p0', '/', 'Desktop', NOW() - INTERVAL '14 days'),
+('v_q1r2s3', '/', 'Mobile', NOW() - INTERVAL '14 days');
 
 -- =========================================
 -- INSERT AUDIT LOG SAMPLE

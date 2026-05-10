@@ -1,23 +1,14 @@
 /**
- * Umami Analytics Service
+ * Analytics Data Service (Supabase-native)
  *
- * Fetches analytics data from the Express API proxy (/api/analytics/*),
- * which in turn queries the self-hosted Umami instance.
- *
- * Replaces the old Supabase-based trackingService for data retrieval.
- * Tracking (pageviews, events) is now handled by the Umami script automatically.
+ * Reads analytics data directly from the `web_analytics_log` table in Supabase.
+ * Replaces the previous Umami/Express proxy implementation.
  */
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001";
-
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  timestamp: string;
-}
+import { supabase } from "../../lib/supabase";
 
 // =============================================
-// Types matching Umami API responses
+// Types (kept identical to previous interface)
 // =============================================
 
 export interface AnalyticsStats {
@@ -61,63 +52,161 @@ export interface AnalyticsSummary {
 }
 
 // =============================================
-// API Fetch Helpers
+// Helpers
 // =============================================
 
-async function fetchApi<T>(
-  endpoint: string,
-  params?: Record<string, string>,
-): Promise<T | null> {
-  try {
-    const url = new URL(`${API_BASE}${endpoint}`);
-    if (params) {
-      Object.entries(params).forEach(([key, value]) => {
-        if (value) url.searchParams.set(key, value);
-      });
-    }
+/** Parse range string (e.g. "7d", "14d", "30d", "90d") to a Date */
+const getRangeStart = (range: string): Date => {
+  const days =
+    range === "90d" ? 90 : range === "30d" ? 30 : range === "14d" ? 14 : 7;
+  const start = new Date();
+  start.setDate(start.getDate() - days);
+  start.setHours(0, 0, 0, 0);
+  return start;
+};
 
-    const response = await fetch(url.toString());
-    if (!response.ok) {
-      if (import.meta.env.DEV) {
-        console.error(
-          `Analytics API error: ${response.status} ${response.statusText}`,
-        );
-      }
-      return null;
-    }
-
-    const json: ApiResponse<T> = await response.json();
-    return json.success ? json.data : null;
-  } catch (error) {
-    if (import.meta.env.DEV) {
-      console.error(`Analytics API fetch failed:`, error);
-    }
-    return null;
-  }
-}
+const getDaysFromRange = (range: string): number => {
+  return range === "90d" ? 90 : range === "30d" ? 30 : range === "14d" ? 14 : 7;
+};
 
 // =============================================
 // Public API Functions
 // =============================================
 
 /**
- * Get summary analytics for the public dashboard.
- * Includes: stats, daily trends, device breakdown, bounce rate, trend %.
+ * Get summary analytics for the dashboard.
+ * Queries web_analytics_log directly.
  */
 export async function getAnalyticsSummary(
   range: string = "14d",
 ): Promise<AnalyticsSummary | null> {
-  return fetchApi<AnalyticsSummary>("/api/analytics/summary", { range });
+  try {
+    const days = getDaysFromRange(range);
+    const startDate = getRangeStart(range);
+    const startISO = startDate.toISOString();
+
+    // Previous period for trend calculation
+    const prevStart = new Date(startDate);
+    prevStart.setDate(prevStart.getDate() - days);
+    const prevStartISO = prevStart.toISOString();
+
+    // Fetch all records in the date range
+    const { data: currentData, error: currentError } = await supabase
+      .from("web_analytics_log")
+      .select("visitor_hash, page_path, device_type, visited_at")
+      .gte("visited_at", startISO)
+      .order("visited_at", { ascending: true });
+
+    if (currentError) {
+      console.error("Analytics query error:", currentError);
+      return null;
+    }
+
+    const records = currentData || [];
+
+    // Fetch previous period for trend
+    const { data: prevData } = await supabase
+      .from("web_analytics_log")
+      .select("visitor_hash")
+      .gte("visited_at", prevStartISO)
+      .lt("visited_at", startISO);
+
+    const prevRecords = prevData || [];
+
+    // Calculate stats
+    const totalPageViews = records.length;
+    const uniqueVisitors = new Set(records.map((r) => r.visitor_hash)).size;
+    const prevUniqueVisitors = new Set(prevRecords.map((r) => r.visitor_hash)).size;
+
+    // Trend percentage
+    let trend = 0;
+    if (prevUniqueVisitors > 0) {
+      trend =
+        ((uniqueVisitors - prevUniqueVisitors) / prevUniqueVisitors) * 100;
+    }
+
+    // Daily stats
+    const dailyMap = new Map<
+      string,
+      { pageViews: number; visitors: Set<string> }
+    >();
+
+    // Initialize all days in range
+    for (let i = 0; i < days; i++) {
+      const d = new Date(startDate);
+      d.setDate(d.getDate() + i);
+      const key = d.toISOString().split("T")[0];
+      dailyMap.set(key, { pageViews: 0, visitors: new Set() });
+    }
+
+    records.forEach((r) => {
+      const dateKey = new Date(r.visited_at).toISOString().split("T")[0];
+      const entry = dailyMap.get(dateKey);
+      if (entry) {
+        entry.pageViews++;
+        if (r.visitor_hash) entry.visitors.add(r.visitor_hash);
+      }
+    });
+
+    const dailyStats = Array.from(dailyMap.entries()).map(([date, data]) => ({
+      date,
+      pageViews: data.pageViews,
+      visitors: data.visitors.size,
+    }));
+
+    // Device stats
+    const deviceCount = { desktop: 0, mobile: 0, tablet: 0 };
+    records.forEach((r) => {
+      const dt = (r.device_type || "").toLowerCase();
+      if (dt === "desktop") deviceCount.desktop++;
+      else if (dt === "mobile") deviceCount.mobile++;
+      else if (dt === "tablet") deviceCount.tablet++;
+      else deviceCount.desktop++; // default
+    });
+
+    const totalDevices =
+      deviceCount.desktop + deviceCount.mobile + deviceCount.tablet || 1;
+    const deviceStats = {
+      desktop: Math.round((deviceCount.desktop / totalDevices) * 100),
+      mobile: Math.round((deviceCount.mobile / totalDevices) * 100),
+      tablet: Math.round((deviceCount.tablet / totalDevices) * 100),
+    };
+
+    return {
+      totalVisitors: uniqueVisitors,
+      totalPageViews,
+      totalVisits: uniqueVisitors, // approximation
+      bounces: 0,
+      totalTime: 0,
+      bounceRate: 0,
+      avgVisitDuration: 0,
+      trend: Math.round(trend * 10) / 10,
+      days,
+      dailyStats,
+      deviceStats,
+    };
+  } catch (error) {
+    console.error("Error fetching analytics summary:", error);
+    return null;
+  }
 }
 
 /**
- * Get detailed stats (pageviews, visitors, visits, bounces, totaltime).
- * Each stat includes current value and previous period value for comparison.
+ * Get detailed stats.
  */
 export async function getAnalyticsStats(
   range: string = "7d",
 ): Promise<AnalyticsStats | null> {
-  return fetchApi<AnalyticsStats>("/api/analytics/stats", { range });
+  const summary = await getAnalyticsSummary(range);
+  if (!summary) return null;
+
+  return {
+    pageviews: { value: summary.totalPageViews, prev: 0 },
+    visitors: { value: summary.totalVisitors, prev: 0 },
+    visits: { value: summary.totalVisits, prev: 0 },
+    bounces: { value: 0, prev: 0 },
+    totaltime: { value: 0, prev: 0 },
+  };
 }
 
 /**
@@ -125,45 +214,83 @@ export async function getAnalyticsStats(
  */
 export async function getAnalyticsPageviews(
   range: string = "7d",
-  unit: string = "day",
+  _unit: string = "day",
 ): Promise<AnalyticsPageviews | null> {
-  return fetchApi<AnalyticsPageviews>("/api/analytics/pageviews", {
-    range,
-    unit,
-  });
+  const summary = await getAnalyticsSummary(range);
+  if (!summary) return null;
+
+  return {
+    pageviews: summary.dailyStats.map((d) => ({ t: d.date, y: d.pageViews })),
+    sessions: summary.dailyStats.map((d) => ({ t: d.date, y: d.visitors })),
+  };
 }
 
 /**
- * Get number of currently active visitors.
+ * Get number of currently active visitors (visited in last 5 minutes).
  */
 export async function getActiveVisitors(): Promise<number> {
-  const data = await fetchApi<{ visitors: number }>("/api/analytics/active");
-  return data?.visitors || 0;
+  try {
+    const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+
+    const { data, error } = await supabase
+      .from("web_analytics_log")
+      .select("visitor_hash")
+      .gte("visited_at", fiveMinAgo);
+
+    if (error) return 0;
+
+    const unique = new Set((data || []).map((r) => r.visitor_hash));
+    return unique.size;
+  } catch {
+    return 0;
+  }
 }
 
 /**
  * Get metrics breakdown by type.
- * @param type - 'device' | 'browser' | 'os' | 'country' | 'url' | 'referrer' | 'event'
  */
 export async function getAnalyticsMetrics(
   type: string = "device",
   range: string = "7d",
   limit: string = "10",
 ): Promise<AnalyticsMetric[] | null> {
-  const data = await fetchApi<{ data: AnalyticsMetric[] } | AnalyticsMetric[]>(
-    "/api/analytics/metrics",
-    { type, range, limit },
-  );
+  try {
+    const startISO = getRangeStart(range).toISOString();
+    const limitNum = parseInt(limit) || 10;
 
-  // Handle both wrapped and unwrapped responses
-  if (Array.isArray(data)) return data;
-  if (data && "data" in data) return data.data;
-  return null;
+    const { data, error } = await supabase
+      .from("web_analytics_log")
+      .select("page_path, device_type, visitor_hash")
+      .gte("visited_at", startISO);
+
+    if (error || !data) return null;
+
+    const countMap = new Map<string, number>();
+
+    data.forEach((r) => {
+      let key = "";
+      if (type === "url") key = r.page_path || "/";
+      else if (type === "device") key = r.device_type || "Desktop";
+      else if (type === "event") return; // no events in this model
+      else key = r.page_path || "/";
+
+      countMap.set(key, (countMap.get(key) || 0) + 1);
+    });
+
+    const sorted = Array.from(countMap.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, limitNum)
+      .map(([x, y]) => ({ x, y }));
+
+    return sorted;
+  } catch {
+    return null;
+  }
 }
 
 /**
- * Get custom events data.
+ * Get custom events data (placeholder — not applicable for Supabase-native).
  */
-export async function getAnalyticsEvents(range: string = "7d") {
-  return fetchApi("/api/analytics/events", { range });
+export async function getAnalyticsEvents(_range: string = "7d") {
+  return [];
 }
