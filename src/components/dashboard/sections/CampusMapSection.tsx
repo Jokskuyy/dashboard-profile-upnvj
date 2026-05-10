@@ -1,15 +1,25 @@
-import React, { useState } from "react";
-import { MapPin, ExternalLink, Building, Navigation } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { MapPin, ExternalLink, Building, Navigation, CheckCircle, Loader2 } from "lucide-react";
 import { useLanguage } from "../../../contexts/LanguageContext";
 import CampusMapViewer from '../../campus-map/CampusMapViewer';
+import { getPreloadStatus, onPreloadProgress, type PreloadStatus } from "../../../utils/unityPreloader";
 
 const CampusMapSection: React.FC = () => {
   const { t } = useLanguage();
   const [showViewer, setShowViewer] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [cacheStatus, setCacheStatus] = useState<PreloadStatus>(getPreloadStatus());
 
   // Check if we're on GitHub Pages - Unity WebGL doesn't work there due to Brotli compression
   const isGitHubPages = window.location.hostname.includes('github.io');
+
+  // Subscribe to pre-cache progress
+  useEffect(() => {
+    const unsubscribe = onPreloadProgress((progress) => {
+      setCacheStatus(progress.status);
+    });
+    return unsubscribe;
+  }, []);
 
   const handleOpenCampusMap = () => {
     if (isGitHubPages) {
@@ -103,6 +113,24 @@ const CampusMapSection: React.FC = () => {
           <ExternalLink className="w-5 h-5 mr-2" />
           {t("launchUnityMap")}
         </button>
+
+        {/* Pre-cache status indicator */}
+        {!isGitHubPages && cacheStatus !== "idle" && (
+          <div className="mt-3 flex items-center justify-center gap-1.5 text-xs">
+            {cacheStatus === "loading" && (
+              <>
+                <Loader2 className="w-3 h-3 text-blue-500 animate-spin" />
+                <span className="text-blue-600">Mempersiapkan aset 3D...</span>
+              </>
+            )}
+            {cacheStatus === "cached" && (
+              <>
+                <CheckCircle className="w-3 h-3 text-green-500" />
+                <span className="text-green-600">Aset 3D siap — loading akan lebih cepat</span>
+              </>
+            )}
+          </div>
+        )}
 
         {isGitHubPages && (
           <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">

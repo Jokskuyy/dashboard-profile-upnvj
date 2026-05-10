@@ -38,6 +38,9 @@ credentials/
 database/insert-dummy-data.sql
 database/schema.sql
 *.sql
+# But track the clean setup files
+!database/001_full_setup.sql
+!database/002_seed_data.sql
 
 # Editor directories and files
 .vscode/*
