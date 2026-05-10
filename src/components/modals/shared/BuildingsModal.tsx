@@ -14,6 +14,7 @@ interface Building {
   deskripsi_gedung?: string;
   lokasi?: string;
   jumlah_lantai?: number;
+  foto_url?: string;
   facilities: Facility[];
 }
 
@@ -51,6 +52,7 @@ const BuildingsModal: React.FC<BuildingsModalProps> = ({ isOpen, onClose }) => {
           deskripsi_gedung,
           lokasi,
           jumlah_lantai,
+          foto_url,
           fasilitas (
             id,
             nama_fasilitas,
@@ -68,6 +70,7 @@ const BuildingsModal: React.FC<BuildingsModalProps> = ({ isOpen, onClose }) => {
         deskripsi_gedung: b.deskripsi_gedung,
         lokasi: b.lokasi,
         jumlah_lantai: b.jumlah_lantai,
+        foto_url: b.foto_url,
         facilities: b.fasilitas || [],
       }));
 
@@ -80,8 +83,9 @@ const BuildingsModal: React.FC<BuildingsModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  // Get the first available photo from a building's facilities
+  // Use building's own foto_url, fallback to first facility photo
   const getBuildingCover = (building: Building): string | null => {
+    if (building.foto_url) return building.foto_url;
     const withPhoto = (building.facilities || []).find((f) => f.foto_url);
     return withPhoto?.foto_url || null;
   };
