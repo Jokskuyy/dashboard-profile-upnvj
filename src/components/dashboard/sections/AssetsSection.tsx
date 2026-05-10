@@ -102,7 +102,7 @@ const AssetsSection: React.FC = () => {
             }
           }
 
-          setFacilityCounts(counts);
+          setFacilityCounts(counts as typeof facilityCounts);
         }
 
         // Fetch fasilitas featured (Auditorium dan Lab penting) untuk display

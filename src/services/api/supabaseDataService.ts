@@ -118,8 +118,7 @@ const FACULTY_MAPPING: Record<string, FacultyInfo> = {
   },
 };
 
-const _unsupportedLegacyTableError = (feature: string) =>
-  new Error(`${feature} tidak tersedia pada schema database saat ini.`);
+
 
 /**
  * Fetch faculties data from Supabase

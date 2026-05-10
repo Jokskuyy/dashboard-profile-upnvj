@@ -30,7 +30,7 @@ export default function ProgramsTable({
     const matchesLevel = selectedLevel === "Semua" || p.level === selectedLevel;
     const matchesSearch =
       !search ||
-      p.name.toLowerCase().includes(search.toLowerCase()) ||
+      p.name?.toLowerCase().includes(search.toLowerCase()) ||
       p.faculty?.toLowerCase().includes(search.toLowerCase());
     return matchesLevel && matchesSearch;
   });
