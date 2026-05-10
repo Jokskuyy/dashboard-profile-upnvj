@@ -98,17 +98,6 @@ const Dashboard: React.FC = () => {
         <div className="relative z-10 h-full flex items-center pt-16">
           <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-16 w-full">
             <div className="max-w-2xl">
-              {/* Logo */}
-              <div
-                className="mb-6 hero-fade-up"
-                style={{ animationDelay: "0ms" }}
-              >
-                <img
-                  src={`${basePath}logoupnvj.webp`}
-                  alt="UPNVJ Logo"
-                  className="w-12 h-12 sm:w-14 sm:h-14 object-contain drop-shadow-2xl"
-                />
-              </div>
 
               {/* Main Headline */}
               <h1

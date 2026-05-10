@@ -88,9 +88,11 @@ const Footer: React.FC = () => {
           <div>
             {/* Logo */}
             <a
-              href="https://new-fik.upnvj.ac.id/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
               className="inline-block mb-5"
             >
               <img

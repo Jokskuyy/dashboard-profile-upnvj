@@ -82,9 +82,11 @@ const Header: React.FC = () => {
           >
             {/* Logo */}
             <a
-              href="https://new-fik.upnvj.ac.id/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
               className="flex items-center group"
             >
               <img
@@ -169,9 +171,12 @@ const Header: React.FC = () => {
           {/* Panel Header with close button */}
           <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-white/15">
             <a
-              href="https://new-fik.upnvj.ac.id/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                setIsMobileMenuOpen(false);
+              }}
             >
               <img
                 src={logoUpnvjText}
