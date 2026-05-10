@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Plus, Package, Edit2, Trash2, RefreshCw } from "lucide-react";
+import { Plus, Package, Edit2, Trash2, RefreshCw, Search } from "lucide-react";
 import { supabase } from "../../../lib/supabase";
 import type { FacilityData } from "../../../services/api/supabaseDataService";
 import { usePagination } from "../hooks/usePagination";
@@ -26,6 +26,7 @@ export default function FacilitiesTable({
   const [facilities, setFacilities] = useState<FacilityRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedType, setSelectedType] = useState<string>("Semua");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetchFacilities();
@@ -36,15 +37,13 @@ export default function FacilitiesTable({
       setLoading(true);
       const { data, error } = await supabase
         .from("fasilitas")
-        .select(
-          `
+        .select(`
           *,
           gedung (
             id,
             nama_gedung
           )
-        `,
-        )
+        `)
         .order("tipe_fasilitas", { ascending: true })
         .order("nama_fasilitas", { ascending: true });
 
@@ -57,47 +56,49 @@ export default function FacilitiesTable({
     }
   };
 
-  // Get unique facility types for filtering
+  // Unique types for filter
   const facilityTypes = [
     "Semua",
     ...new Set(facilities.map((f) => f.tipe_fasilitas)),
   ];
 
-  // Filter facilities by selected type
-  const filteredFacilities =
-    selectedType === "Semua"
-      ? facilities
-      : facilities.filter((f) => f.tipe_fasilitas === selectedType);
+  // Filter by type + search
+  const filteredFacilities = facilities.filter((f) => {
+    const matchesType = selectedType === "Semua" || f.tipe_fasilitas === selectedType;
+    const matchesSearch =
+      !search ||
+      f.nama_fasilitas.toLowerCase().includes(search.toLowerCase()) ||
+      f.gedung?.nama_gedung?.toLowerCase().includes(search.toLowerCase());
+    return matchesType && matchesSearch;
+  });
 
-  // Group facilities by type for display
-  const facilitiesByType = filteredFacilities.reduce(
-    (acc, facility) => {
-      const type = facility.tipe_fasilitas || "Lainnya";
-      if (!acc[type]) {
-        acc[type] = [];
-      }
-      acc[type].push(facility);
-      return acc;
-    },
-    {} as Record<string, FacilityRow[]>,
-  );
-
-  const typeKeys = Object.keys(facilitiesByType);
-
+  // Paginate flat list of filtered facilities
   const {
     currentPage,
     totalPages,
     startIndex,
     endIndex,
     pageNumbers,
+    paginate,
     goToNext,
     goToPrev,
     isFirstPage,
     isLastPage,
     setCurrentPage,
-  } = usePagination({ totalItems: typeKeys.length });
+  } = usePagination<FacilityRow>({ totalItems: filteredFacilities.length, itemsPerPage: 10 });
 
-  const currentTypes = typeKeys.slice(startIndex, endIndex);
+  const currentItems = paginate(filteredFacilities);
+
+  // Reset page when filter changes
+  const handleFilterChange = (value: string) => {
+    setSelectedType(value);
+    setCurrentPage(1);
+  };
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+    setCurrentPage(1);
+  };
 
   if (loading) {
     return (
@@ -109,144 +110,173 @@ export default function FacilitiesTable({
 
   return (
     <div>
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-5">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Daftar Fasilitas</h2>
+          <h2 className="text-lg font-bold text-slate-900">Daftar Fasilitas</h2>
           <p className="text-sm text-slate-500">
-            {filteredFacilities.length} fasilitas terdaftar
-            {selectedType !== "Semua" && ` dalam kategori ${selectedType}`}
+            {filteredFacilities.length} fasilitas
+            {selectedType !== "Semua" && ` — ${selectedType}`}
           </p>
         </div>
-        <div className="flex gap-3">
-          <select
-            value={selectedType}
-            onChange={(e) => {
-              setSelectedType(e.target.value);
-              setCurrentPage(1);
-            }}
-            className="px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-          >
-            {facilityTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-          <button
-            onClick={onAdd}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg shadow-emerald-500/20 flex items-center gap-2 transition-all active:scale-95"
-          >
-            <Plus className="w-4 h-4" />
-            Tambah Fasilitas
-          </button>
+        <button
+          onClick={onAdd}
+          className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl font-semibold text-sm shadow-sm flex items-center gap-2 transition-colors active:scale-[0.98] w-full sm:w-auto justify-center"
+        >
+          <Plus className="w-4 h-4" />
+          Tambah Fasilitas
+        </button>
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-col sm:flex-row gap-2 mb-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <input
+            type="text"
+            placeholder="Cari nama fasilitas atau gedung..."
+            value={search}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            className="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          />
+        </div>
+        <select
+          value={selectedType}
+          onChange={(e) => handleFilterChange(e.target.value)}
+          className="px-3 py-2 border border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-transparent sm:w-48"
+        >
+          {facilityTypes.map((type) => (
+            <option key={type} value={type}>{type}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden sm:block border border-slate-200 rounded-xl overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left min-w-[600px]">
+            <thead>
+              <tr className="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-400 font-semibold">
+                <th className="px-5 py-3">Nama</th>
+                <th className="px-5 py-3">Tipe</th>
+                <th className="px-5 py-3">Gedung</th>
+                <th className="px-5 py-3 text-center w-20">Aksi</th>
+              </tr>
+            </thead>
+            <tbody className="text-sm divide-y divide-slate-100">
+              {currentItems.map((facility) => (
+                <tr key={facility.id} className="hover:bg-slate-50/50 transition-colors">
+                  <td className="px-5 py-3">
+                    <p className="font-medium text-slate-900">{facility.nama_fasilitas}</p>
+                    {facility.deskripsi_fasilitas && (
+                      <p className="text-xs text-slate-400 truncate max-w-xs mt-0.5">
+                        {facility.deskripsi_fasilitas}
+                      </p>
+                    )}
+                  </td>
+                  <td className="px-5 py-3">
+                    <span className="inline-block px-2.5 py-1 text-xs font-medium rounded-full bg-emerald-50 text-emerald-700">
+                      {facility.tipe_fasilitas}
+                    </span>
+                  </td>
+                  <td className="px-5 py-3 text-slate-500">
+                    {facility.gedung?.nama_gedung || "—"}
+                  </td>
+                  <td className="px-5 py-3">
+                    <div className="flex items-center justify-center gap-1">
+                      <button
+                        onClick={() => onEdit(facility)}
+                        className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+                        title="Edit"
+                      >
+                        <Edit2 className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => onDelete(facility)}
+                        className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                        title="Hapus"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <div className="space-y-4">
-        {currentTypes.map((type) => {
-          const typeFacilities = facilitiesByType[type];
-          return (
-            <div
-              key={type}
-              className="border border-slate-200 rounded-2xl overflow-hidden bg-white/50"
-            >
-              <div className="bg-slate-50/50 px-6 py-4 border-b border-slate-200">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center">
-                    <Package className="w-6 h-6 text-emerald-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-slate-900 text-lg">{type}</h4>
-                    <p className="text-sm text-slate-500">
-                      {typeFacilities.length} fasilitas
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="bg-slate-50/30 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-semibold">
-                      <th className="px-6 py-3">Nama Fasilitas</th>
-                      <th className="px-6 py-3">Deskripsi</th>
-                      <th className="px-6 py-3">Gedung</th>
-                      <th className="px-6 py-3 text-center">Warna</th>
-                      <th className="px-6 py-3 text-center">Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-sm divide-y divide-slate-100">
-                    {typeFacilities.map((facility) => (
-                      <tr
-                        key={facility.id}
-                        className="hover:bg-slate-50 group transition-colors"
-                      >
-                        <td className="px-6 py-4 text-slate-900 font-medium">
-                          {facility.nama_fasilitas}
-                        </td>
-                        <td className="px-6 py-4 text-slate-600 max-w-md truncate">
-                          {facility.deskripsi_fasilitas || "-"}
-                        </td>
-                        <td className="px-6 py-4 text-slate-600">
-                          {facility.gedung?.nama_gedung || "-"}
-                        </td>
-                        <td className="px-6 py-4 text-center">
-                          <span
-                            className={`inline-block w-6 h-6 rounded-full bg-${facility.color || "gray"}-500`}
-                            title={facility.color || "gray"}
-                          ></span>
-                        </td>
-                        <td className="px-6 py-4 text-center">
-                          <div className="flex items-center justify-center gap-1">
-                            <button
-                              onClick={() => onEdit(facility)}
-                              className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
-                            >
-                              <Edit2 className="w-4 h-4" />
-                            </button>
-                            <button
-                              onClick={() => onDelete(facility)}
-                              className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+      {/* Mobile card view */}
+      <div className="sm:hidden space-y-2">
+        {currentItems.map((facility) => (
+          <div
+            key={facility.id}
+            className="border border-slate-200 rounded-xl p-3 flex items-center justify-between gap-3"
+          >
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-slate-900 truncate">
+                {facility.nama_fasilitas}
+              </p>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="inline-block px-2 py-0.5 text-[11px] font-medium rounded-full bg-emerald-50 text-emerald-700">
+                  {facility.tipe_fasilitas}
+                </span>
+                <span className="text-xs text-slate-400">
+                  {facility.gedung?.nama_gedung || "—"}
+                </span>
               </div>
             </div>
-          );
-        })}
+            <div className="flex items-center gap-1 shrink-0">
+              <button
+                onClick={() => onEdit(facility)}
+                className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg"
+              >
+                <Edit2 className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => onDelete(facility)}
+                className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
 
+      {/* Empty state */}
       {filteredFacilities.length === 0 && !loading && (
-        <div className="text-center py-12 text-slate-500">
-          <Package className="w-16 h-16 mx-auto mb-4 opacity-30" />
-          <p className="text-lg font-semibold">Tidak ada fasilitas</p>
-          <p className="text-sm">
-            {selectedType === "Semua"
-              ? "Belum ada fasilitas yang terdaftar"
-              : `Tidak ada fasilitas dengan tipe ${selectedType}`}
+        <div className="text-center py-12 text-slate-400">
+          <Package className="w-14 h-14 mx-auto mb-3 opacity-30" />
+          <p className="font-semibold">Tidak ada fasilitas</p>
+          <p className="text-sm mt-1">
+            {search
+              ? `Tidak ditemukan untuk "${search}"`
+              : selectedType === "Semua"
+                ? "Belum ada fasilitas yang terdaftar"
+                : `Tidak ada fasilitas tipe ${selectedType}`}
           </p>
         </div>
       )}
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        startIndex={startIndex}
-        endIndex={endIndex}
-        totalItems={typeKeys.length}
-        pageNumbers={pageNumbers}
-        onPageChange={setCurrentPage}
-        onNext={goToNext}
-        onPrev={goToPrev}
-        isFirstPage={isFirstPage}
-        isLastPage={isLastPage}
-        itemLabel="kategori"
-      />
+      {/* Pagination */}
+      {filteredFacilities.length > 0 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          startIndex={startIndex}
+          endIndex={endIndex}
+          totalItems={filteredFacilities.length}
+          pageNumbers={pageNumbers}
+          onPageChange={setCurrentPage}
+          onNext={goToNext}
+          onPrev={goToPrev}
+          isFirstPage={isFirstPage}
+          isLastPage={isLastPage}
+          itemLabel="fasilitas"
+        />
+      )}
     </div>
   );
 }
