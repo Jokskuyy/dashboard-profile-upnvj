@@ -195,7 +195,7 @@ const fetchPrograms = async (): Promise<ProgramData[]> => {
         nama_prodi: prodi.nama_prodi,
         jenjang: prodi.jenjang as "D3" | "S1" | "S2" | "S3",
         id_fakultas: prodi.id_fakultas,
-        akreditasi: (prodi as Record<string, unknown>).akreditasi as string | undefined,
+        akreditasi: (prodi as unknown as Record<string, unknown>).akreditasi as string | undefined,
         name: prodi.nama_prodi,
         level: prodi.jenjang as "D3" | "S1" | "S2" | "S3",
         faculty,
@@ -572,7 +572,7 @@ export interface FacilityData {
   tipe_fasilitas: string;
   id_gedung: number;
   color: string;
-  lantai?: number;
+  lantai?: number | null;
   foto_url?: string;
 }
 

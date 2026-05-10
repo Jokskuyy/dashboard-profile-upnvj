@@ -112,7 +112,7 @@ export default function ProgramModal({
           program.jenjang || program.level || "Sarjana",
         id_fakultas: fakultasId,
         akreditasi:
-          (program as Record<string, unknown>).akreditasi as string || "",
+          (program as unknown as Record<string, unknown>).akreditasi as string || "",
       });
     } else {
       setFormData({ ...INITIAL_FORM });
