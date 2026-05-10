@@ -114,24 +114,6 @@ const CampusMapSection: React.FC = () => {
           {t("launchUnityMap")}
         </button>
 
-        {/* Pre-cache status indicator */}
-        {!isGitHubPages && cacheStatus !== "idle" && (
-          <div className="mt-3 flex items-center justify-center gap-1.5 text-xs">
-            {cacheStatus === "loading" && (
-              <>
-                <Loader2 className="w-3 h-3 text-blue-500 animate-spin" />
-                <span className="text-blue-600">Mempersiapkan aset 3D...</span>
-              </>
-            )}
-            {cacheStatus === "cached" && (
-              <>
-                <CheckCircle className="w-3 h-3 text-green-500" />
-                <span className="text-green-600">Aset 3D siap — loading akan lebih cepat</span>
-              </>
-            )}
-          </div>
-        )}
-
         {isGitHubPages && (
           <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
             <p className="text-sm text-yellow-800">
