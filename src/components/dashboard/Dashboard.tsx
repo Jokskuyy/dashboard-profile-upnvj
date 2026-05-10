@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
 import {
-  MapPin,
-  Package,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
