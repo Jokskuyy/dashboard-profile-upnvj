@@ -47,7 +47,6 @@ declare global {
 const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   isFullscreen = false,
   onToggleFullscreen,
-  onClose: _onClose,
 }) => {
   const { t } = useLanguage();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -59,31 +58,6 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const [webglSupported, setWebglSupported] = useState<boolean>(true);
   const [isMobileLandscape, setIsMobileLandscape] = useState(false);
 
-  // Detect mobile device
-  const _isMobile =
-    /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-    window.innerWidth < 768;
-
-  // Enter fullscreen + lock landscape on mobile
-  const _enterMobileFullscreen = async () => {
-    const container = containerRef.current;
-    if (!container) return;
-    try {
-      if (container.requestFullscreen) {
-        await container.requestFullscreen();
-      } else if ((container as any).webkitRequestFullscreen) {
-        await (container as any).webkitRequestFullscreen();
-      }
-      try {
-        await (screen.orientation as any).lock("landscape");
-      } catch {
-        // Orientation lock not supported
-      }
-      setIsMobileLandscape(true);
-    } catch {
-      setIsMobileLandscape(true);
-    }
-  };
 
   // Exit mobile fullscreen
   const exitMobileFullscreen = async () => {
