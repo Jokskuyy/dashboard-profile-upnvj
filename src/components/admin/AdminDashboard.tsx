@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import {
   Package,
   BookOpen,
-  Building2,
   RefreshCw,
   TrendingUp,
   LogOut,
@@ -255,9 +254,11 @@ export default function AdminDashboard() {
             <div className="flex justify-between items-center h-16">
               {/* Logo */}
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-lg bg-emerald-600 flex items-center justify-center text-white shadow-md">
-                  <Building2 className="w-5 h-5" />
-                </div>
+                <img
+                  src="/logoupnvj.webp"
+                  alt="Logo UPNVJ"
+                  className="w-9 h-9 object-contain"
+                />
                 <div className="leading-tight">
                   <span className="block text-sm font-bold text-slate-900">UPNVJ</span>
                   <span className="block text-[11px] text-slate-400">Admin Portal</span>

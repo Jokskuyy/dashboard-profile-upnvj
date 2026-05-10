@@ -246,7 +246,7 @@ const Dashboard: React.FC = () => {
         {!loading && stats && (
           <>
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-[#2C5F2D] mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">
                 {t("kpi")}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -275,12 +275,12 @@ const Dashboard: React.FC = () => {
             </div>
             {/* Detailed Sections */}
 
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-              <div className="xl:col-span-2">
-                <AccreditationSection />
-              </div>
+            <div className="space-y-8">
               <div id="campus-map-section">
                 <CampusMapSection />
+              </div>
+              <div>
+                <AccreditationSection />
               </div>
             </div>
           </>

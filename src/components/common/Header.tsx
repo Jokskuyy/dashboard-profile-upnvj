@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "../../contexts/LanguageContext";
 import LanguageToggle from "./LanguageToggle";
 import logoUpnvj from "../../assets/images/logoupnvj.webp";
-import { Menu, X, Home, Users, Award, MapPin, Package } from "lucide-react";
+import { Menu, X, Home, MapPin, Package } from "lucide-react";
 
 const Header: React.FC = () => {
   const { t } = useLanguage();
@@ -70,12 +70,6 @@ const Header: React.FC = () => {
             <nav className="hidden lg:flex items-center space-x-1">
               {[
                 { id: "home", label: t("home"), icon: Home },
-                {
-                  id: "professors-section",
-                  label: t("professors"),
-                  icon: Users,
-                },
-                { id: "students-section", label: t("students"), icon: Award },
                 {
                   id: "assets-section",
                   label: t("totalAssets"),
@@ -170,12 +164,6 @@ const Header: React.FC = () => {
             <nav className="space-y-2">
               {[
                 { id: "home", label: t("home"), icon: Home },
-                {
-                  id: "professors-section",
-                  label: t("professors"),
-                  icon: Users,
-                },
-                { id: "students-section", label: t("students"), icon: Award },
                 {
                   id: "assets-section",
                   label: t("assets"),
