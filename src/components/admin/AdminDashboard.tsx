@@ -8,6 +8,7 @@ import {
   LogOut,
   X,
   Menu,
+  ClipboardList,
 } from "lucide-react";
 import {
   fetchDashboardData,
@@ -30,10 +31,11 @@ import Toast, { type ToastType } from "../common/Toast";
 import AdminTrafficAnalytics from "./analytics/AdminTrafficAnalytics";
 import FacilitiesTable from "./tables/FacilitiesTable";
 import ProgramsTable from "./tables/ProgramsTable";
+import AuditLogTable from "./tables/AuditLogTable";
 import { useAuth } from "../../contexts/AuthContext";
 import "./admin.css";
 
-type TabType = "assets" | "programs" | "analytics";
+type TabType = "assets" | "programs" | "analytics" | "audit";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -187,6 +189,7 @@ export default function AdminDashboard() {
     { id: "assets" as const, label: "Fasilitas", icon: Package, count: data?.assets.length },
     { id: "programs" as const, label: "Program Studi", icon: BookOpen, count: data?.programs.length },
     { id: "analytics" as const, label: "Analytics", icon: TrendingUp },
+    { id: "audit" as const, label: "Audit Log", icon: ClipboardList },
   ];
 
   // ── Loading state ─────────────────────────────────
@@ -425,6 +428,7 @@ export default function AdminDashboard() {
                 />
               )}
               {activeTab === "analytics" && <AdminTrafficAnalytics />}
+              {activeTab === "audit" && <AuditLogTable />}
             </div>
           </div>
         </main>
