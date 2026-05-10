@@ -56,7 +56,6 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const unityInstanceRef = useRef<UnityInstance | null>(null);
   const [webglSupported, setWebglSupported] = useState<boolean>(true);
   const [isMobileLandscape, setIsMobileLandscape] = useState(false);
-  const [showMobilePrompt, setShowMobilePrompt] = useState(false);
 
   // Detect mobile device
   const isMobile =
@@ -207,11 +206,6 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         unityInstanceRef.current = instance;
         window.unityInstance = instance;
         setIsLoading(false);
-
-        // Show fullscreen prompt on mobile (can't auto-trigger without user gesture)
-        if (isMobile) {
-          setShowMobilePrompt(true);
-        }
       } catch (err) {
         console.error("Failed to load Unity WebGL build:", err);
         if (timeoutId) clearTimeout(timeoutId);
@@ -301,46 +295,31 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         isFullscreen || isMobileLandscape ? "fixed inset-0 z-50 rounded-none" : ""
       }`}
     >
-      {/* Header */}
-      <div className="bg-linear-to-r from-blue-600 to-blue-700 p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
-              <MapPin className="w-5 h-5 text-white" />
+      {/* Header - hidden in fullscreen */}
+      {!isFullscreen && !isMobileLandscape && (
+        <div className="bg-linear-to-r from-blue-600 to-blue-700 p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                <MapPin className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-white">{t("campusMapTitle")}</h3>
+                <p className="text-blue-100 text-sm">{t("interactive3DCampusLayout")}</p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-lg font-semibold text-white">{t("campusMapTitle")}</h3>
-              <p className="text-blue-100 text-sm">{t("interactive3DCampusLayout")}</p>
-            </div>
-          </div>
-
-          {/* Controls */}
-          <div className="flex items-center space-x-2">
-            {isMobileLandscape && (
-              <button
-                onClick={exitMobileFullscreen}
-                className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-                title="Exit Fullscreen"
-              >
-                <Minimize2 className="w-4 h-4 text-white" />
-              </button>
-            )}
-            {onToggleFullscreen && !isMobileLandscape && (
+            {onToggleFullscreen && (
               <button
                 onClick={onToggleFullscreen}
                 className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-                title={isFullscreen ? t("exitFullscreen") : t("enterFullscreen")}
+                title={t("enterFullscreen")}
               >
-                {isFullscreen ? (
-                  <Minimize2 className="w-4 h-4 text-white" />
-                ) : (
-                  <Maximize2 className="w-4 h-4 text-white" />
-                )}
+                <Maximize2 className="w-4 h-4 text-white" />
               </button>
             )}
           </div>
         </div>
-      </div>
+      )}
 
       {/* Unity WebGL Canvas Container */}
       <div
@@ -374,20 +353,21 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
           tabIndex={-1}
         />
 
-        {/* Mobile fullscreen prompt */}
-        {showMobilePrompt && !isMobileLandscape && (
-          <div className="absolute inset-0 z-20 flex items-end justify-center pb-6 pointer-events-none">
-            <button
-              onClick={() => {
-                setShowMobilePrompt(false);
-                enterMobileFullscreen();
-              }}
-              className="pointer-events-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-lg animate-bounce flex items-center gap-2"
-            >
-              <Maximize2 className="w-5 h-5" />
-              Tap untuk Layar Penuh
-            </button>
-          </div>
+        {/* Floating minimize button in fullscreen */}
+        {(isFullscreen || isMobileLandscape) && !isLoading && (
+          <button
+            onClick={() => {
+              if (isMobileLandscape) {
+                exitMobileFullscreen();
+              } else if (onToggleFullscreen) {
+                onToggleFullscreen();
+              }
+            }}
+            className="absolute top-3 right-3 z-20 p-2 bg-black/20 hover:bg-black/40 rounded-lg transition-all duration-300 opacity-40 hover:opacity-100"
+            title={t("exitFullscreen")}
+          >
+            <Minimize2 className="w-5 h-5 text-white" />
+          </button>
         )}
       </div>
 
