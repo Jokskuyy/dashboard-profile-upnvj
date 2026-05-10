@@ -21,7 +21,9 @@ const CampusMapSection: React.FC = () => {
     return unsubscribe;
   }, []);
 
-  const handleOpenCampusMap = () => {
+  const viewerWrapperRef = React.useRef<HTMLDivElement>(null);
+
+  const handleOpenCampusMap = async () => {
     if (isGitHubPages) {
       alert('Unity WebGL campus map is not available on GitHub Pages due to Brotli compression limitations. Please view on local development or alternative hosting platform.');
       return;
@@ -29,13 +31,41 @@ const CampusMapSection: React.FC = () => {
     setShowViewer(true);
   };
 
+  // On mobile, enter fullscreen + landscape as soon as viewer is shown
+  // This runs from the setState triggered by a user gesture, so it's allowed
+  useEffect(() => {
+    if (!showViewer) return;
+    const isMobile =
+      /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+      window.innerWidth < 768;
+    if (!isMobile) return;
+
+    // Small delay to let the viewer render
+    const timer = setTimeout(async () => {
+      const el = viewerWrapperRef.current;
+      if (!el) return;
+      try {
+        if (el.requestFullscreen) {
+          await el.requestFullscreen();
+        } else if ((el as any).webkitRequestFullscreen) {
+          await (el as any).webkitRequestFullscreen();
+        }
+        await (screen.orientation as any).lock?.("landscape");
+      } catch {
+        // Fullscreen/orientation lock may fail
+      }
+      setIsFullscreen(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [showViewer]);
+
   const toggleFullscreen = () => {
     setIsFullscreen(!isFullscreen);
   };
 
   if (showViewer) {
     return (
-      <div className="bg-white rounded-lg shadow-md">
+      <div ref={viewerWrapperRef} className={`bg-white rounded-lg shadow-md ${isFullscreen ? "fixed inset-0 z-50" : ""}`}>
         <CampusMapViewer
           isFullscreen={isFullscreen}
           onToggleFullscreen={toggleFullscreen}
