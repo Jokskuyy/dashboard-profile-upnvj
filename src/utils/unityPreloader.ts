@@ -7,7 +7,7 @@
  * is near-instant (only initialization time, no download wait).
  *
  * Strategy: "Pre-cache, don't pre-init"
- * - Downloads .wasm.br, .data.br, .framework.js.br, .loader.js
+ * - Downloads .wasm, .data, .framework.js, .loader.js
  * - Does NOT initialize Unity (no CPU/GPU/RAM usage until user clicks)
  * - Uses low-priority fetch (requestIdleCallback) to avoid blocking UI
  * - Falls back to setTimeout if requestIdleCallback is unavailable
@@ -37,9 +37,9 @@ function getUnityFileUrls(): string[] {
 
   return [
     `${buildPath}/prototipe.loader.js`,
-    `${buildPath}/prototipe.framework.js.br`,
-    `${buildPath}/prototipe.wasm.br`,
-    `${buildPath}/prototipe.data.br`,
+    `${buildPath}/prototipe.framework.js`,
+    `${buildPath}/prototipe.wasm`,
+    `${buildPath}/prototipe.data`,
   ];
 }
 

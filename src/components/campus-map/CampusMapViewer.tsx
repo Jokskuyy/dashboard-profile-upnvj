@@ -59,9 +59,9 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   // Unity WebGL configuration - using compressed files
   const basePath = import.meta.env.BASE_URL;
   const unityConfig = useMemo(() => ({
-    dataUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.data.br`,
-    frameworkUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.framework.js.br`,
-    codeUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.wasm.br`,
+    dataUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.data`,
+    frameworkUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.framework.js`,
+    codeUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.wasm`,
     streamingAssetsUrl: "StreamingAssets",
     companyName: "DefaultCompany",
     productName: "Proposal",
