@@ -362,9 +362,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
               if (isMobileLandscape) {
                 exitMobileFullscreen();
               }
-              if (onClose) {
-                onClose();
-              } else if (onToggleFullscreen) {
+              if (onToggleFullscreen) {
                 onToggleFullscreen();
               }
             }}

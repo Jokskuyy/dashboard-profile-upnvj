@@ -60,6 +60,10 @@ const CampusMapSection: React.FC = () => {
   }, [showViewer]);
 
   const toggleFullscreen = () => {
+    if (isFullscreen && document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+      try { (screen.orientation as any).unlock?.(); } catch {}
+    }
     setIsFullscreen(!isFullscreen);
   };
 
