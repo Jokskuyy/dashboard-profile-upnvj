@@ -77,56 +77,30 @@ const AssetsSection: React.FC = () => {
           .select("tipe_fasilitas");
 
         if (!countError && allFacilities) {
-          const counts = {
-            laboratorium: allFacilities.filter(
-              (f) =>
-                f.tipe_fasilitas === "Laboratorium" ||
-                f.tipe_fasilitas?.toLowerCase().includes("lab"),
-            ).length,
-            perpustakaan: allFacilities.filter(
-              (f) =>
-                f.tipe_fasilitas === "Perpustakaan" ||
-                f.tipe_fasilitas?.toLowerCase().includes("perpustakaan") ||
-                f.tipe_fasilitas?.toLowerCase().includes("ruang baca"),
-            ).length,
-            ruangKuliah: allFacilities.filter(
-              (f) =>
-                f.tipe_fasilitas === "Ruang Kuliah" ||
-                f.tipe_fasilitas?.toLowerCase().includes("ruang kuliah") ||
-                f.tipe_fasilitas?.toLowerCase().includes("ruang kelas"),
-            ).length,
-            auditorium: allFacilities.filter(
-              (f) =>
-                f.tipe_fasilitas === "Auditorium" ||
-                f.tipe_fasilitas?.toLowerCase().includes("auditorium") ||
-                f.tipe_fasilitas?.toLowerCase().includes("aula"),
-            ).length,
-            olahraga: allFacilities.filter(
-              (f) =>
-                f.tipe_fasilitas === "Olahraga" ||
-                f.tipe_fasilitas?.toLowerCase().includes("olahraga") ||
-                f.tipe_fasilitas?.toLowerCase().includes("sport"),
-            ).length,
-            kesehatan: allFacilities.filter(
-              (f) =>
-                f.tipe_fasilitas === "Kesehatan" ||
-                f.tipe_fasilitas?.toLowerCase().includes("kesehatan") ||
-                f.tipe_fasilitas?.toLowerCase().includes("klinik"),
-            ).length,
-            ibadah: allFacilities.filter(
-              (f) =>
-                f.tipe_fasilitas === "Ibadah" ||
-                f.tipe_fasilitas?.toLowerCase().includes("ibadah") ||
-                f.tipe_fasilitas?.toLowerCase().includes("masjid") ||
-                f.tipe_fasilitas?.toLowerCase().includes("musholla"),
-            ).length,
-            kantin: allFacilities.filter(
-              (f) =>
-                f.tipe_fasilitas === "Kantin" ||
-                f.tipe_fasilitas?.toLowerCase().includes("kantin") ||
-                f.tipe_fasilitas?.toLowerCase().includes("food"),
-            ).length,
+          const categoryMatchers: Record<keyof typeof counts, string[]> = {
+            laboratorium:  ["lab"],
+            perpustakaan:  ["perpustakaan", "ruang baca"],
+            ruangKuliah:   ["ruang kuliah", "ruang kelas"],
+            auditorium:    ["auditorium", "aula"],
+            olahraga:      ["olahraga", "sport"],
+            kesehatan:     ["kesehatan", "klinik"],
+            ibadah:        ["ibadah", "masjid", "musholla"],
+            kantin:        ["kantin", "food"],
           };
+
+          const counts = Object.fromEntries(
+            Object.keys(categoryMatchers).map((key) => [key, 0])
+          ) as Record<keyof typeof categoryMatchers, number>;
+
+          for (const f of allFacilities) {
+            const tipe = f.tipe_fasilitas?.toLowerCase() ?? "";
+            for (const [key, keywords] of Object.entries(categoryMatchers)) {
+              if (keywords.some((kw) => tipe.includes(kw))) {
+                counts[key as keyof typeof counts]++;
+              }
+            }
+          }
+
           setFacilityCounts(counts);
         }
 
@@ -146,7 +120,8 @@ const AssetsSection: React.FC = () => {
               id,
               nama_gedung,
               lokasi,
-              deskripsi_gedung
+              deskripsi_gedung,
+              foto_url
             )
           `,
             )
