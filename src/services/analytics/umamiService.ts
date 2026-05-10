@@ -55,6 +55,14 @@ export interface AnalyticsSummary {
 // Helpers
 // =============================================
 
+/** Format Date as YYYY-MM-DD in LOCAL timezone (avoids UTC shift) */
+const toLocalDateStr = (d: Date): string => {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+};
+
 /** Parse range string (e.g. "7d", "14d", "30d", "90d") to a Date */
 const getRangeStart = (range: string): Date => {
   const days =
@@ -131,16 +139,18 @@ export async function getAnalyticsSummary(
       { pageViews: number; visitors: Set<string> }
     >();
 
-    // Initialize all days in range
-    for (let i = 0; i < days; i++) {
-      const d = new Date(startDate);
-      d.setDate(d.getDate() + i);
-      const key = d.toISOString().split("T")[0];
+    // Initialize all days in range (from startDate up to today inclusive)
+    const today = new Date();
+    today.setHours(23, 59, 59, 999);
+    const cursor = new Date(startDate);
+    while (cursor <= today) {
+      const key = toLocalDateStr(cursor);
       dailyMap.set(key, { pageViews: 0, visitors: new Set() });
+      cursor.setDate(cursor.getDate() + 1);
     }
 
     records.forEach((r) => {
-      const dateKey = new Date(r.visited_at).toISOString().split("T")[0];
+      const dateKey = toLocalDateStr(new Date(r.visited_at));
       const entry = dailyMap.get(dateKey);
       if (entry) {
         entry.pageViews++;
