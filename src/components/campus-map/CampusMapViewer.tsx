@@ -56,6 +56,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const unityInstanceRef = useRef<UnityInstance | null>(null);
   const [webglSupported, setWebglSupported] = useState<boolean>(true);
   const [isMobileLandscape, setIsMobileLandscape] = useState(false);
+  const [showMobilePrompt, setShowMobilePrompt] = useState(false);
 
   // Detect mobile device
   const isMobile =
@@ -207,9 +208,9 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         window.unityInstance = instance;
         setIsLoading(false);
 
-        // Auto fullscreen + landscape on mobile
+        // Show fullscreen prompt on mobile (can't auto-trigger without user gesture)
         if (isMobile) {
-          enterMobileFullscreen();
+          setShowMobilePrompt(true);
         }
       } catch (err) {
         console.error("Failed to load Unity WebGL build:", err);
@@ -372,6 +373,22 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
           }}
           tabIndex={-1}
         />
+
+        {/* Mobile fullscreen prompt */}
+        {showMobilePrompt && !isMobileLandscape && (
+          <div className="absolute inset-0 z-20 flex items-end justify-center pb-6 pointer-events-none">
+            <button
+              onClick={() => {
+                setShowMobilePrompt(false);
+                enterMobileFullscreen();
+              }}
+              className="pointer-events-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-lg animate-bounce flex items-center gap-2"
+            >
+              <Maximize2 className="w-5 h-5" />
+              Tap untuk Layar Penuh
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Info Panel */}
