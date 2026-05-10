@@ -25,43 +25,36 @@ const Dashboard: React.FC = () => {
 
   // Carousel state
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" ? window.innerWidth < 1024 : false
+
+  const basePath = import.meta.env.BASE_URL;
+  const heroImages = useMemo(
+    () => [
+      `${basePath}hero1.jpg`,
+      `${basePath}hero2.jpg`,
+      "https://assets.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p3/63/2024/12/07/IMG_20241207_150258-1141876672.jpg",
+    ],
+    [basePath],
   );
 
-  // Check if mobile/tablet on mount and resize (< 1024px = lg breakpoint)
-  useEffect(() => {
-    const checkMobile = () => {
-      const mobile = window.innerWidth < 1024; // lg breakpoint for tablets too
-      setIsMobile(mobile);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  // Scroll to section function
+  // Scroll to section with header offset
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "center" });
+      const headerOffset = 80;
+      const elementPosition =
+        element.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({
+        top: elementPosition - headerOffset,
+        behavior: "smooth",
+      });
     }
   };
-  const basePath = import.meta.env.BASE_URL;
-  const heroImages = useMemo(() => [
-    `${basePath}hero1.jpg`,
-    `${basePath}hero2.jpg`,
-    "https://assets.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p3/63/2024/12/07/IMG_20241207_150258-1141876672.jpg",
-  ], [basePath]);
 
   // Auto-play carousel
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
-    }, 5000); // Change slide every 5 seconds
-
+    }, 5000);
     return () => clearInterval(timer);
   }, [heroImages.length]);
 
@@ -72,22 +65,24 @@ const Dashboard: React.FC = () => {
   };
 
   const prevSlide = () => {
-    const newSlide = (currentSlide - 1 + heroImages.length) % heroImages.length;
+    const newSlide =
+      (currentSlide - 1 + heroImages.length) % heroImages.length;
     setCurrentSlide(newSlide);
     trackCarousel("prev", newSlide);
   };
 
   return (
     <div className="overflow-x-hidden">
-      {/* Simple Hero Section with Carousel - Responsive Height */}
-      <div className="relative overflow-hidden h-[90vh] pt-20 w-full">
-        {/* Image Carousel */}
-        {/* Image Carousel */}
+      {/* ─── Hero Section ─── */}
+      <div className="relative overflow-hidden h-[92vh] min-h-[560px] w-full">
+        {/* Image Carousel with subtle zoom */}
         {heroImages.map((image, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? "opacity-100" : "opacity-0"
+            className={`absolute inset-0 transition-all duration-[1200ms] ease-in-out ${
+              index === currentSlide
+                ? "opacity-100 scale-100"
+                : "opacity-0 scale-105"
             }`}
           >
             <img
@@ -95,60 +90,88 @@ const Dashboard: React.FC = () => {
               alt={`UPNVJ Campus ${index + 1}`}
               className="w-full h-full object-cover"
             />
-            {/* Dark Overlay for Readability */}
-            <div className="absolute inset-0 bg-black/60"></div>
           </div>
         ))}
 
-        {/* Hero Content Overlay */}
-        <div className="relative z-10 h-full flex items-center">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-16 w-full">
-            <div className="max-w-3xl">
+        {/* Gradient overlays for depth */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/35 to-black/70 z-[1]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent z-[1]" />
+
+        {/* Hero Content */}
+        <div className="relative z-10 h-full flex items-center pt-16">
+          <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-16 w-full">
+            <div className="max-w-2xl">
               {/* Logo */}
-              <div className="mb-6 sm:mb-8">
+              <div
+                className="mb-6 hero-fade-up"
+                style={{ animationDelay: "0ms" }}
+              >
                 <img
                   src={`${basePath}logoupnvj.webp`}
                   alt="UPNVJ Logo"
-                  className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 object-contain drop-shadow-2xl"
+                  className="w-12 h-12 sm:w-14 sm:h-14 object-contain drop-shadow-2xl"
                 />
               </div>
 
-              {/* University Name */}
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 sm:mb-4 drop-shadow-lg">
-                {t("universityShort")}
+              {/* Main Headline */}
+              <h1
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-extrabold text-white leading-[1.1] mb-4 hero-fade-up"
+                style={{ animationDelay: "120ms" }}
+              >
+                {t("universityName")}
               </h1>
 
-              <div className="h-1 sm:h-1.5 w-24 sm:w-32 bg-linear-to-r from-yellow-400 to-yellow-600 rounded-full mb-4 sm:mb-6"></div>
+              {/* Accent Line */}
+              <div
+                className="mb-5 hero-fade-up"
+                style={{ animationDelay: "200ms" }}
+              >
+                <div className="h-1 w-16 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full" />
+              </div>
 
-              <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-white/95 mb-4 sm:mb-6 drop-shadow-md">
-                {t("universityName")}
-              </h2>
-
-              <p className="text-base sm:text-lg md:text-xl text-white/90 mb-3 sm:mb-4 drop-shadow-md leading-relaxed">
-                {t("internationalProfile")}
+              {/* Subtitle */}
+              <p
+                className="text-white/75 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl hero-fade-up"
+                style={{ animationDelay: "300ms" }}
+              >
+                {t("universityMission").length > 140
+                  ? t("universityMission").slice(0, 140) + "..."
+                  : t("universityMission")}
               </p>
 
-              <p className="text-sm sm:text-base md:text-lg text-white/80 mb-6 sm:mb-8 drop-shadow leading-relaxed max-w-2xl">
-                {t("heroDescription")}
-              </p>
-
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
+              {/* CTA Buttons */}
+              <div
+                className="flex flex-col sm:flex-row gap-3 hero-fade-up"
+                style={{ animationDelay: "420ms" }}
+              >
                 <button
                   onClick={() => {
                     trackClick("explore-programs-hero");
                     scrollToSection("assets-section");
                   }}
-                  className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-[#2C5F2D] font-bold rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 text-sm sm:text-base"
+                  className="group px-7 py-3.5 bg-white text-[#2C5F2D] font-bold rounded-xl shadow-lg hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 text-sm sm:text-base flex items-center justify-center gap-2"
                 >
                   {t("explorePrograms")}
+                  <svg
+                    className="w-4 h-4 group-hover:translate-x-0.5 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2.5}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
                 </button>
                 <button
                   onClick={() => {
                     trackClick("virtual-tour-hero");
                     scrollToSection("campus-map-section");
                   }}
-                  className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-white text-white font-bold rounded-lg sm:rounded-xl hover:bg-white/15 transition-all duration-200 text-sm sm:text-base"
+                  className="px-7 py-3.5 bg-white/10 backdrop-blur-sm border border-white/25 text-white font-bold rounded-xl hover:bg-white/20 hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 text-sm sm:text-base"
                 >
                   {t("virtualTour")}
                 </button>
@@ -157,40 +180,24 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Navigation Arrows - Responsive positioning (mobile/tablet bottom, desktop center) */}
+        {/* Carousel Arrows — CSS responsive */}
         <button
-          onClick={() => {
-            prevSlide();
-          }}
-          className="absolute z-20 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-12 lg:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:scale-110"
-          style={{
-            left: isMobile ? "0.5rem" : "1.5rem",
-            bottom: isMobile ? "1rem" : "auto",
-            top: isMobile ? "auto" : "50%",
-            transform: isMobile ? "none" : "translateY(-50%)",
-            transition: "all 300ms",
-          }}
+          onClick={prevSlide}
+          className="absolute z-20 left-3 lg:left-6 bottom-5 lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 bg-white/15 hover:bg-white/25 backdrop-blur-md rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/10"
+          aria-label="Previous slide"
         >
-          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+          <ChevronLeft className="w-5 h-5 text-white" />
         </button>
         <button
-          onClick={() => {
-            nextSlide();
-          }}
-          className="absolute z-20 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-12 lg:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:scale-110"
-          style={{
-            right: isMobile ? "0.5rem" : "1.5rem",
-            bottom: isMobile ? "1rem" : "auto",
-            top: isMobile ? "auto" : "50%",
-            transform: isMobile ? "none" : "translateY(-50%)",
-            transition: "all 300ms",
-          }}
+          onClick={nextSlide}
+          className="absolute z-20 right-3 lg:right-6 bottom-5 lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 bg-white/15 hover:bg-white/25 backdrop-blur-md rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/10"
+          aria-label="Next slide"
         >
-          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+          <ChevronRight className="w-5 h-5 text-white" />
         </button>
 
         {/* Slide Indicators */}
-        <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex space-x-2 sm:space-x-3">
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
           {heroImages.map((_, index) => (
             <button
               key={index}
@@ -198,17 +205,29 @@ const Dashboard: React.FC = () => {
                 setCurrentSlide(index);
                 trackCarousel("indicator", index);
               }}
-              className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+              className={`rounded-full transition-all duration-500 ${
                 index === currentSlide
-                  ? "bg-white w-6 sm:w-8"
-                  : "bg-white/50 hover:bg-white/75"
+                  ? "w-8 h-2 bg-white"
+                  : "w-2 h-2 bg-white/40 hover:bg-white/60"
               }`}
+              aria-label={`Slide ${index + 1}`}
             />
           ))}
         </div>
       </div>
 
-      {/* Content Container */}
+      {/* Hero entrance animation */}
+      <style>{`
+        @keyframes heroFadeUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-fade-up {
+          animation: heroFadeUp 0.7s ease-out both;
+        }
+      `}</style>
+
+      {/* ─── Content Container ─── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Traffic Overview */}
         <TrafficOverview />
@@ -274,7 +293,6 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
             {/* Detailed Sections */}
-
             <div className="space-y-8">
               <div id="campus-map-section">
                 <CampusMapSection />

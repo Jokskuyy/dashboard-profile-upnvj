@@ -9,6 +9,7 @@ import {
   Clock,
 } from "lucide-react";
 import { useLanguage } from "../../contexts/LanguageContext";
+import logoUpnvjText from "../../assets/images/logo-upnvj-text.webp";
 
 const Footer: React.FC = () => {
   const { t } = useLanguage();
@@ -93,9 +94,9 @@ const Footer: React.FC = () => {
               className="inline-block mb-5"
             >
               <img
-                src="https://new-fik.upnvj.ac.id/wp-content/uploads/2021/02/logo-fik-transparant.png"
-                alt="Fakultas Ilmu Komputer UPN Veteran Jakarta"
-                className="h-10 object-contain"
+                src={logoUpnvjText}
+                alt="UPN Veteran Jakarta"
+                className="h-14 object-contain"
               />
             </a>
 

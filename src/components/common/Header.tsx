@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../contexts/LanguageContext";
 import LanguageToggle from "./LanguageToggle";
+import logoUpnvjText from "../../assets/images/logo-upnvj-text.webp";
 import { Menu, X, Home, MapPin, Package, KeyRound } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -87,10 +88,10 @@ const Header: React.FC = () => {
               className="flex items-center group"
             >
               <img
-                src="https://new-fik.upnvj.ac.id/wp-content/uploads/2021/02/logo-fik-transparant.png"
-                alt="Fakultas Ilmu Komputer UPN Veteran Jakarta"
+                src={logoUpnvjText}
+                alt="UPN Veteran Jakarta"
                 className={`object-contain transition-all duration-300 group-hover:brightness-110 ${
-                  isScrolled ? "h-8" : "h-10"
+                  isScrolled ? "h-12" : "h-14"
                 }`}
               />
             </a>
@@ -173,9 +174,9 @@ const Header: React.FC = () => {
               rel="noopener noreferrer"
             >
               <img
-                src="https://new-fik.upnvj.ac.id/wp-content/uploads/2021/02/logo-fik-transparant.png"
-                alt="FIK UPNVJ"
-                className="h-7 object-contain"
+                src={logoUpnvjText}
+                alt="UPNVJ"
+                className="h-11 object-contain"
               />
             </a>
             <button
