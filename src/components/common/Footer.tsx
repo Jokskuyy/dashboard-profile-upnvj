@@ -17,39 +17,18 @@ const Footer: React.FC = () => {
   const { t } = useLanguage();
 
   return (
-    <footer className="relative overflow-hidden">
-      {/* Background with gradient and pattern */}
-      <div className="absolute inset-0 bg-linear-to-br from-[#1B4332] via-[#2C5F2D] to-[#1B5E20]">
-        <div className="absolute inset-0 opacity-10">
-          <div
-            className="w-full h-full"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            }}
-          />
-        </div>
-
-        {/* Floating decorative elements */}
-        <div className="absolute top-10 right-10 w-32 h-32 bg-yellow-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div
-          className="absolute bottom-20 left-10 w-24 h-24 bg-green-500/10 rounded-full blur-2xl animate-pulse"
-          style={{ animationDelay: "2s" }}
-        ></div>
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <footer className="bg-[#2C5F2D]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
           {/* University Info - Large Section */}
           <div className="lg:col-span-5">
             <div className="flex items-center space-x-3 md:space-x-4 mb-4 md:mb-6">
-              <div className="w-12 h-12 md:w-16 md:h-16 bg-white/10 backdrop-blur-lg rounded-2xl flex items-center justify-center border border-white/20">
-                <img
+              <img
                   src={logoUpnvj}
                   alt="UPNVJ Logo"
-                  className="w-8 h-8 md:w-10 md:h-10 object-contain"
+                  className="w-12 h-12 md:w-16 md:h-16 object-contain"
                 />
-              </div>
               <div>
                 <h3 className="text-xl md:text-2xl font-bold text-white">
                   {t("universityShort")}
@@ -79,7 +58,7 @@ const Footer: React.FC = () => {
                 <a
                   key={index}
                   href={social.href}
-                  className={`w-10 h-10 md:w-12 md:h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/20 text-white/70 ${social.color} transition-all duration-300 transform hover:scale-110 hover:bg-white/20`}
+                  className={`w-10 h-10 md:w-12 md:h-12 bg-white/10 rounded-xl flex items-center justify-center border border-white/15 text-white/70 ${social.color} transition-all duration-200 hover:bg-white/20`}
                 >
                   <social.icon className="w-4 h-4 md:w-5 md:h-5" />
                 </a>

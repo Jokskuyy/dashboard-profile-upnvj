@@ -100,7 +100,7 @@ const Dashboard: React.FC = () => {
               className="w-full h-full object-cover"
             />
             {/* Dark Overlay for Readability */}
-            <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/50 to-black/30"></div>
+            <div className="absolute inset-0 bg-black/60"></div>
           </div>
         ))}
 
@@ -143,7 +143,7 @@ const Dashboard: React.FC = () => {
                     trackClick("explore-programs-hero");
                     scrollToSection("students-section");
                   }}
-                  className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-[#2C5F2D] font-bold rounded-lg sm:rounded-xl shadow-xl hover:shadow-2xl hover:bg-yellow-50 transition-all duration-300 transform hover:scale-105 text-sm sm:text-base"
+                  className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-[#2C5F2D] font-bold rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 text-sm sm:text-base"
                 >
                   {t("explorePrograms")}
                 </button>
@@ -152,7 +152,7 @@ const Dashboard: React.FC = () => {
                     trackClick("virtual-tour-hero");
                     scrollToSection("campus-map-section");
                   }}
-                  className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-white text-white font-bold rounded-lg sm:rounded-xl backdrop-blur-sm hover:bg-white/20 transition-all duration-300 text-sm sm:text-base"
+                  className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-white text-white font-bold rounded-lg sm:rounded-xl hover:bg-white/15 transition-all duration-200 text-sm sm:text-base"
                 >
                   {t("virtualTour")}
                 </button>
@@ -250,7 +250,7 @@ const Dashboard: React.FC = () => {
         {!loading && stats && (
           <>
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              <h2 className="text-2xl font-bold text-[#2C5F2D] mb-6">
                 {t("kpi")}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -259,35 +259,35 @@ const Dashboard: React.FC = () => {
                   value={stats.totalProfessors}
                   subtitle={t("qualifiedEducators")}
                   icon={Users}
-                  color="blue"
+                  color="green"
                 />
                 <KPICard
                   title={t("students")}
                   value={stats.totalStudents.toLocaleString()}
                   subtitle={t("activeEnrollment")}
                   icon={GraduationCap}
-                  color="green"
+                  color="teal"
                 />
                 <KPICard
                   title={t("accreditation")}
                   value={stats.activeAccreditations}
                   subtitle={t("activePrograms")}
                   icon={Award}
-                  color="purple"
+                  color="gold"
                 />
                 <KPICard
                   title={t("totalAssets")}
                   value={stats.totalAssets}
                   subtitle={t("campusFacilities")}
                   icon={Package}
-                  color="red"
+                  color="slate"
                 />
                 <KPICard
                   title={t("campusMap")}
                   value="3D"
                   subtitle={t("interactiveMap")}
                   icon={MapPin}
-                  color="orange"
+                  color="brown"
                 />
               </div>
             </div>

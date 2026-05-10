@@ -233,7 +233,7 @@ const AssetsSection: React.FC = () => {
       category: {
         name: "Laboratorium",
         icon: "biotech",
-        color: "bg-linear-to-r from-purple-600 to-blue-600",
+        color: "bg-[#2C5F2D]",
         filter: "Laboratorium",
       },
     },
@@ -251,7 +251,7 @@ const AssetsSection: React.FC = () => {
       category: {
         name: "Perpustakaan & Ruang Baca",
         icon: "local_library",
-        color: "bg-linear-to-r from-emerald-600 to-green-600",
+        color: "bg-[#1B4332]",
         filter: "Perpustakaan",
       },
     },
@@ -269,7 +269,7 @@ const AssetsSection: React.FC = () => {
       category: {
         name: "Ruang Kuliah",
         icon: "school",
-        color: "bg-linear-to-r from-amber-600 to-orange-600",
+        color: "bg-amber-700",
         filter: "Ruang Kuliah",
       },
     },
@@ -287,7 +287,7 @@ const AssetsSection: React.FC = () => {
       category: {
         name: "Auditorium & Aula",
         icon: "theater_comedy",
-        color: "bg-linear-to-r from-purple-600 to-pink-600",
+        color: "bg-slate-700",
         filter: "Auditorium",
       },
     },
@@ -305,7 +305,7 @@ const AssetsSection: React.FC = () => {
       category: {
         name: "Fasilitas Olahraga",
         icon: "sports_soccer",
-        color: "bg-linear-to-r from-indigo-600 to-blue-600",
+        color: "bg-teal-700",
         filter: "Olahraga",
       },
     },
@@ -323,7 +323,7 @@ const AssetsSection: React.FC = () => {
       category: {
         name: "Fasilitas Kesehatan",
         icon: "medical_services",
-        color: "bg-linear-to-r from-red-600 to-pink-600",
+        color: "bg-red-700",
         filter: "Kesehatan",
       },
     },
@@ -341,7 +341,7 @@ const AssetsSection: React.FC = () => {
       category: {
         name: "Fasilitas Ibadah",
         icon: "mosque",
-        color: "bg-linear-to-r from-violet-600 to-purple-600",
+        color: "bg-purple-700",
         filter: "Ibadah",
       },
     },
