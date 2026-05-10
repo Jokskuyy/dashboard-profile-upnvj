@@ -55,26 +55,83 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const [error, setError] = useState<string | null>(null);
   const unityInstanceRef = useRef<UnityInstance | null>(null);
   const [webglSupported, setWebglSupported] = useState<boolean>(true);
+  const [isMobileLandscape, setIsMobileLandscape] = useState(false);
 
-  // Unity WebGL configuration - using compressed files
+  // Detect mobile device
+  const isMobile =
+    /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+    window.innerWidth < 768;
+
+  // Enter fullscreen + lock landscape on mobile
+  const enterMobileFullscreen = async () => {
+    const container = containerRef.current;
+    if (!container) return;
+    try {
+      if (container.requestFullscreen) {
+        await container.requestFullscreen();
+      } else if ((container as any).webkitRequestFullscreen) {
+        await (container as any).webkitRequestFullscreen();
+      }
+      try {
+        await (screen.orientation as any).lock("landscape");
+      } catch {
+        // Orientation lock not supported
+      }
+      setIsMobileLandscape(true);
+    } catch {
+      setIsMobileLandscape(true);
+    }
+  };
+
+  // Exit mobile fullscreen
+  const exitMobileFullscreen = async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      (screen.orientation as any).unlock?.();
+    } catch {
+      // ignore
+    }
+    setIsMobileLandscape(false);
+  };
+
+  // Listen for fullscreen exit (back button, etc.)
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement && isMobileLandscape) {
+        setIsMobileLandscape(false);
+        try {
+          (screen.orientation as any).unlock?.();
+        } catch {
+          // ignore
+        }
+      }
+    };
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, [isMobileLandscape]);
+
+  // Unity WebGL configuration
   const basePath = import.meta.env.BASE_URL;
-  const unityConfig = useMemo(() => ({
-    dataUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.data`,
-    frameworkUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.framework.js`,
-    codeUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.wasm`,
-    streamingAssetsUrl: "StreamingAssets",
-    companyName: "DefaultCompany",
-    productName: "Proposal",
-    productVersion: "0.1.0",
-    showBanner: unityShowBanner,
-    matchWebGLToCanvasSize: true,
-  }), [basePath]);
+  const unityConfig = useMemo(
+    () => ({
+      dataUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.data`,
+      frameworkUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.framework.js`,
+      codeUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.wasm`,
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "DefaultCompany",
+      productName: "Proposal",
+      productVersion: "0.1.0",
+      showBanner: unityShowBanner,
+      matchWebGLToCanvasSize: true,
+    }),
+    [basePath],
+  );
 
   // Check WebGL support
   const checkWebGLSupport = (): boolean => {
     try {
-      const canvas = document.createElement('canvas');
-      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      const canvas = document.createElement("canvas");
+      const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
       return !!gl;
     } catch {
       return false;
@@ -83,18 +140,17 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
 
   function unityShowBanner(msg: string, type: string) {
     console.log(`[Unity ${type}]: ${msg}`);
-    if (type === 'error') {
+    if (type === "error") {
       setError(msg);
     }
   }
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | null = null;
-    
+
     const loadUnityBuild = async () => {
       if (!canvasRef.current || !containerRef.current) return;
 
-      // Check WebGL support first
       if (!checkWebGLSupport()) {
         setWebglSupported(false);
         setError("WebGL is not supported on this device. Please use a modern browser with WebGL enabled.");
@@ -106,26 +162,22 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         setIsLoading(true);
         setError(null);
 
-        // Add timeout for loading
         timeoutId = setTimeout(() => {
           setError("Loading timeout. The file may be too large or your connection is slow. Please try again later.");
           setIsLoading(false);
-        }, 60000); // 60 second timeout
+        }, 120000); // 120 second timeout
 
-        // Set canvas dimensions explicitly
         const canvas = canvasRef.current;
         const container = containerRef.current;
         canvas.width = container.clientWidth || 960;
         canvas.height = container.clientHeight || 600;
 
-        // First, dynamically load the Unity loader script - use BASE_URL for GitHub Pages
         const loaderUrl = `${basePath}unity-builds/downloads/prototipe/Build/prototipe.loader.js`;
-        
+
         if (!window.createUnityInstance) {
           console.log("Loading Unity WebGL loader...");
-          
           await new Promise<void>((resolve, reject) => {
-            const script = document.createElement('script');
+            const script = document.createElement("script");
             script.src = loaderUrl;
             script.async = true;
             script.onload = () => {
@@ -145,35 +197,35 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
 
         console.log("Creating Unity instance with config:", unityConfig);
 
-        // Load Unity instance with progress tracking
-        const instance = await window.createUnityInstance(
-          canvas,
-          unityConfig,
-          (progress: number) => {
-            setLoadingProgress(Math.round(progress * 100));
-          }
-        );
+        const instance = await window.createUnityInstance(canvas, unityConfig, (progress: number) => {
+          setLoadingProgress(Math.round(progress * 100));
+        });
 
         console.log("Unity instance created successfully");
         if (timeoutId) clearTimeout(timeoutId);
         unityInstanceRef.current = instance;
         window.unityInstance = instance;
         setIsLoading(false);
+
+        // Auto fullscreen + landscape on mobile
+        if (isMobile) {
+          enterMobileFullscreen();
+        }
       } catch (err) {
         console.error("Failed to load Unity WebGL build:", err);
         if (timeoutId) clearTimeout(timeoutId);
-        
+
         let errorMessage = "Failed to load campus map";
         if (err instanceof Error) {
-          if (err.message.includes('memory')) {
+          if (err.message.includes("memory")) {
             errorMessage = "Not enough memory to load the map. Please close other tabs and try again.";
-          } else if (err.message.includes('network') || err.message.includes('Failed to fetch')) {
+          } else if (err.message.includes("network") || err.message.includes("Failed to fetch")) {
             errorMessage = "Network error. Please check your internet connection and try again.";
           } else {
             errorMessage = err.message;
           }
         }
-        
+
         setError(errorMessage);
         setIsLoading(false);
       }
@@ -182,13 +234,17 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
     loadUnityBuild();
 
     return () => {
-      // Cleanup Unity instance
       if (unityInstanceRef.current) {
         try {
           unityInstanceRef.current.Quit();
         } catch (err) {
           console.error("Error cleaning up Unity instance:", err);
         }
+      }
+      try {
+        (screen.orientation as any).unlock?.();
+      } catch {
+        // ignore
       }
     };
   }, [basePath, unityConfig]);
@@ -200,19 +256,13 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <MapPin className="w-8 h-8 text-red-600" />
           </div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">
-            {t("campusMapUnavailable")}
-          </h3>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">{t("campusMapUnavailable")}</h3>
           <p className="text-gray-600 mb-4">{error}</p>
-          
+
           {!webglSupported && (
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-              <h4 className="font-medium text-yellow-800 mb-2">
-                ⚠️ WebGL Not Supported
-              </h4>
-              <p className="text-sm text-yellow-700">
-                Your browser or device doesn't support WebGL. Try:
-              </p>
+              <h4 className="font-medium text-yellow-800 mb-2">⚠️ WebGL Not Supported</h4>
+              <p className="text-sm text-yellow-700">Your browser or device doesn't support WebGL. Try:</p>
               <ul className="text-sm text-yellow-700 space-y-1 text-left mt-2 ml-4 list-disc">
                 <li>Update your browser to the latest version</li>
                 <li>Enable hardware acceleration in browser settings</li>
@@ -221,11 +271,9 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
               </ul>
             </div>
           )}
-          
+
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="font-medium text-blue-800 mb-2">
-              💡 Troubleshooting Tips:
-            </h4>
+            <h4 className="font-medium text-blue-800 mb-2">💡 Troubleshooting Tips:</h4>
             <ul className="text-sm text-blue-700 space-y-1 text-left ml-4 list-disc">
               <li>Ensure you have a stable internet connection (80+ MB download)</li>
               <li>Close other tabs to free up memory</li>
@@ -233,7 +281,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
               <li>Clear browser cache and reload the page</li>
             </ul>
           </div>
-          
+
           <button
             onClick={() => window.location.reload()}
             className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -249,7 +297,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
     <div
       ref={containerRef}
       className={`bg-white rounded-xl shadow-lg overflow-hidden ${
-        isFullscreen ? "fixed inset-0 z-50 rounded-none" : ""
+        isFullscreen || isMobileLandscape ? "fixed inset-0 z-50 rounded-none" : ""
       }`}
     >
       {/* Header */}
@@ -260,24 +308,27 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
               <MapPin className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-white">
-                {t("campusMapTitle")}
-              </h3>
-              <p className="text-blue-100 text-sm">
-                {t("interactive3DCampusLayout")}
-              </p>
+              <h3 className="text-lg font-semibold text-white">{t("campusMapTitle")}</h3>
+              <p className="text-blue-100 text-sm">{t("interactive3DCampusLayout")}</p>
             </div>
           </div>
 
           {/* Controls */}
-          {onToggleFullscreen && (
-            <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2">
+            {isMobileLandscape && (
+              <button
+                onClick={exitMobileFullscreen}
+                className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
+                title="Exit Fullscreen"
+              >
+                <Minimize2 className="w-4 h-4 text-white" />
+              </button>
+            )}
+            {onToggleFullscreen && !isMobileLandscape && (
               <button
                 onClick={onToggleFullscreen}
                 className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-                title={
-                  isFullscreen ? t("exitFullscreen") : t("enterFullscreen")
-                }
+                title={isFullscreen ? t("exitFullscreen") : t("enterFullscreen")}
               >
                 {isFullscreen ? (
                   <Minimize2 className="w-4 h-4 text-white" />
@@ -285,16 +336,15 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
                   <Maximize2 className="w-4 h-4 text-white" />
                 )}
               </button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
       {/* Unity WebGL Canvas Container */}
       <div
         id="unity-container"
-        ref={containerRef}
-        className={`relative ${isFullscreen ? "h-full" : "h-96 lg:h-[500px]"}`}
+        className={`relative ${isFullscreen || isMobileLandscape ? "h-full" : "h-96 lg:h-[500px]"}`}
       >
         {isLoading && (
           <div className="absolute inset-0 bg-gray-100 flex items-center justify-center z-10">
@@ -315,9 +365,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         <canvas
           ref={canvasRef}
           id="unity-canvas"
-          className={`w-full h-full ${
-            isLoading ? "opacity-0" : "opacity-100"
-          } transition-opacity duration-500`}
+          className={`w-full h-full ${isLoading ? "opacity-0" : "opacity-100"} transition-opacity duration-500`}
           style={{
             display: "block",
             background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
@@ -327,7 +375,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       </div>
 
       {/* Info Panel */}
-      {!isLoading && !error && (
+      {!isLoading && !error && !isMobileLandscape && (
         <div className="bg-gray-50 p-4 border-t">
           <div className="flex items-center justify-between text-sm text-gray-600">
             <div className="flex items-center space-x-6">
