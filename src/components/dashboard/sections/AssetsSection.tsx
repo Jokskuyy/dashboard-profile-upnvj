@@ -77,9 +77,7 @@ const AssetsSection: React.FC = () => {
           .select("tipe_fasilitas");
 
         if (!countError && allFacilities) {
-          type CategoryKey = "laboratorium" | "perpustakaan" | "ruangKuliah" | "auditorium" | "olahraga" | "kesehatan" | "ibadah" | "kantin";
-
-          const categoryMatchers: Record<CategoryKey, string[]> = {
+          const categoryMatchers: Record<string, string[]> = {
             laboratorium:  ["lab"],
             perpustakaan:  ["perpustakaan", "ruang baca"],
             ruangKuliah:   ["ruang kuliah", "ruang kelas"],
@@ -90,15 +88,17 @@ const AssetsSection: React.FC = () => {
             kantin:        ["kantin", "food"],
           };
 
-          const counts: Record<CategoryKey, number> = Object.fromEntries(
-            Object.keys(categoryMatchers).map((key) => [key, 0])
-          ) as Record<CategoryKey, number>;
+          const counts: Record<string, number> = {};
+          for (const key of Object.keys(categoryMatchers)) {
+            counts[key] = 0;
+          }
 
           for (const f of allFacilities) {
             const tipe = f.tipe_fasilitas?.toLowerCase() ?? "";
             for (const [key, keywords] of Object.entries(categoryMatchers)) {
-              if ((keywords as string[]).some((kw: string) => tipe.includes(kw))) {
-                counts[key as CategoryKey]++;
+              if (keywords.some((kw: string) => tipe.includes(kw))) {
+                counts[key]++;
+              }
             }
           }
 
