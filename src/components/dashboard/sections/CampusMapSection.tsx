@@ -69,6 +69,10 @@ const CampusMapSection: React.FC = () => {
         <CampusMapViewer
           isFullscreen={isFullscreen}
           onToggleFullscreen={toggleFullscreen}
+          onClose={() => {
+            setShowViewer(false);
+            setIsFullscreen(false);
+          }}
         />
 
         {!isFullscreen && (

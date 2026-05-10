@@ -11,6 +11,7 @@ import {
 interface CampusMapViewerProps {
   isFullscreen?: boolean;
   onToggleFullscreen?: () => void;
+  onClose?: () => void;
 }
 
 /** Minimal type for Unity WebGL instance (no official @types available) */
@@ -46,6 +47,7 @@ declare global {
 const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   isFullscreen = false,
   onToggleFullscreen,
+  onClose,
 }) => {
   const { t } = useLanguage();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -359,6 +361,9 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
             onClick={() => {
               if (isMobileLandscape) {
                 exitMobileFullscreen();
+              }
+              if (onClose) {
+                onClose();
               } else if (onToggleFullscreen) {
                 onToggleFullscreen();
               }
