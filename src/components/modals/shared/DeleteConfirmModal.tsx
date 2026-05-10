@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { AlertTriangle, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { AlertTriangle, X, Loader2, Trash2 } from "lucide-react";
 
 interface DeleteConfirmModalProps {
   isOpen: boolean;
@@ -18,79 +18,113 @@ export default function DeleteConfirmModal({
   message,
   itemName,
 }: DeleteConfirmModalProps) {
+  const [loading, setLoading] = useState(false);
+
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      setLoading(false);
     } else {
       document.body.style.overflow = "unset";
     }
-
     return () => {
       document.body.style.overflow = "unset";
     };
   }, [isOpen]);
 
   const handleConfirm = async () => {
-    await onConfirm();
-    onClose();
+    setLoading(true);
+    try {
+      await onConfirm();
+    } catch (err) {
+      console.error("Delete error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isOpen) return null;
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-hidden"
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-hidden"
       style={{ touchAction: "none" }}
       onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          onClose();
-        }
+        if (e.target === e.currentTarget && !loading) onClose();
       }}
     >
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full">
-        {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-              <AlertTriangle className="w-5 h-5 text-red-600" />
+      <div
+        className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden"
+        style={{ animation: "modalIn 0.2s ease-out" }}
+      >
+        {/* ─── Header ─────────────────────────────────── */}
+        <div className="relative px-6 py-5 border-b border-slate-100">
+          <div className="absolute inset-0 bg-gradient-to-r from-red-50 via-rose-50/50 to-transparent" />
+          <div className="relative flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center">
+                <AlertTriangle className="w-5 h-5 text-red-600 animate-pulse" />
+              </div>
+              <h2 className="text-lg font-bold text-slate-900">{title}</h2>
             </div>
-            <h2 className="text-xl font-bold text-gray-900">{title}</h2>
+            <button
+              onClick={onClose}
+              disabled={loading}
+              className="p-2 hover:bg-slate-100 rounded-xl transition-colors disabled:opacity-50"
+            >
+              <X className="w-5 h-5 text-slate-400" />
+            </button>
           </div>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <X className="w-5 h-5 text-gray-500" />
-          </button>
         </div>
 
-        {/* Body */}
+        {/* ─── Body ───────────────────────────────────── */}
         <div className="p-6">
-          <p className="text-gray-600 mb-2">{message}</p>
+          <p className="text-sm text-slate-600 leading-relaxed">{message}</p>
           {itemName && (
-            <p className="font-semibold text-gray-900 bg-gray-100 px-4 py-2 rounded-lg">
-              {itemName}
-            </p>
+            <div className="mt-3 px-4 py-2.5 bg-red-50 border border-red-100 rounded-xl">
+              <p className="font-semibold text-sm text-red-900 break-words">
+                {itemName}
+              </p>
+            </div>
           )}
         </div>
 
-        {/* Footer */}
-        <div className="px-6 py-4 bg-gray-50 rounded-b-2xl flex gap-3">
+        {/* ─── Footer ─────────────────────────────────── */}
+        <div className="flex items-center gap-3 px-6 py-4 border-t border-slate-100 bg-slate-50/80">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+            disabled={loading}
+            className="flex-1 px-4 py-2.5 text-sm font-semibold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors disabled:opacity-50"
           >
             Batal
           </button>
           <button
             onClick={handleConfirm}
-            className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+            disabled={loading}
+            className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-red-600 rounded-xl hover:bg-red-700 transition-all shadow-lg shadow-red-500/20 disabled:opacity-50 flex items-center justify-center gap-2"
           >
-            Hapus
+            {loading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Menghapus...
+              </>
+            ) : (
+              <>
+                <Trash2 className="w-4 h-4" />
+                Hapus
+              </>
+            )}
           </button>
         </div>
       </div>
+
+      <style>{`
+        @keyframes modalIn {
+          from { opacity: 0; transform: scale(0.95) translateY(10px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }

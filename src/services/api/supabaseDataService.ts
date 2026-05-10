@@ -48,6 +48,7 @@ interface ProgramStudiUpdateData {
   nama_prodi?: string;
   jenjang?: string;
   id_fakultas?: number;
+  akreditasi?: string | null;
 }
 
 // ===== Export Types =====
@@ -190,7 +191,11 @@ const fetchPrograms = async (): Promise<ProgramData[]> => {
       const facultyInfo = FACULTY_MAPPING[faculty];
 
       return {
-        id: prodi.id.toString(),
+        id: prodi.id,
+        nama_prodi: prodi.nama_prodi,
+        jenjang: prodi.jenjang as "D3" | "S1" | "S2" | "S3",
+        id_fakultas: prodi.id_fakultas,
+        akreditasi: (prodi as Record<string, unknown>).akreditasi as string | undefined,
         name: prodi.nama_prodi,
         level: prodi.jenjang as "D3" | "S1" | "S2" | "S3",
         faculty,
@@ -430,13 +435,23 @@ export const createProgram = async (
     fakultasId = fakultas.id;
   }
 
+  const insertPayload: Record<string, unknown> = {
+    nama_prodi: program.nama_prodi || program.name,
+    jenjang: program.jenjang || program.level,
+    id_fakultas: fakultasId || 1,
+  };
+  // Include akreditasi if present
+  if ((program as Record<string, unknown>).akreditasi !== undefined) {
+    insertPayload.akreditasi = (program as Record<string, unknown>).akreditasi;
+  }
+
+  // Debug: log the exact payload being sent
+  console.log("[createProgram] Input:", JSON.stringify(program));
+  console.log("[createProgram] Payload:", JSON.stringify(insertPayload));
+
   const { data, error } = await supabase
     .from("program_studi")
-    .insert({
-      nama_prodi: program.nama_prodi || program.name,
-      jenjang: program.jenjang || program.level,
-      id_fakultas: fakultasId || 1,
-    })
+    .insert(insertPayload)
     .select(
       `
       *,
@@ -447,7 +462,10 @@ export const createProgram = async (
     )
     .single();
 
-  if (error) throw error;
+  if (error) {
+    console.error("[createProgram] Supabase error:", JSON.stringify(error));
+    throw error;
+  }
 
   // Audit log (fire-and-forget)
   logCreate("program_studi", data.id.toString(), data);
@@ -485,6 +503,10 @@ export const updateProgram = async (
   if (program.jenjang || program.level)
     updateData.jenjang = program.jenjang || program.level;
   if (program.id_fakultas) updateData.id_fakultas = program.id_fakultas;
+  // Include akreditasi if present
+  if ((program as Record<string, unknown>).akreditasi !== undefined) {
+    updateData.akreditasi = (program as Record<string, unknown>).akreditasi as string | null;
+  }
 
   const { data, error } = await supabase
     .from("program_studi")
@@ -594,9 +616,27 @@ export const updateFacility = async (
     .eq("id", id)
     .single();
 
+  // Strip non-column fields (e.g. nested join objects like `gedung`)
+  // Only send actual DB column fields to Supabase
+  const updatePayload: Record<string, unknown> = {};
+  const validColumns = [
+    "nama_fasilitas",
+    "deskripsi_fasilitas",
+    "tipe_fasilitas",
+    "id_gedung",
+    "color",
+    "lantai",
+    "foto_url",
+  ];
+  for (const key of validColumns) {
+    if (key in facility) {
+      updatePayload[key] = (facility as Record<string, unknown>)[key];
+    }
+  }
+
   const { data, error } = await supabase
     .from("fasilitas")
-    .update(facility)
+    .update(updatePayload)
     .eq("id", id)
     .select()
     .single();

@@ -109,6 +109,17 @@ export default function AdminDashboard() {
     }
   };
 
+  // ── Error message helper ────────────────────────────
+  const getErrorMessage = (err: unknown, fallback: string): string => {
+    const error = err as { code?: string; message?: string; status?: number };
+    // PostgreSQL 23505 = unique_violation (409 Conflict)
+    if (error?.code === "23505" || error?.status === 409) {
+      return "Program studi dengan kombinasi nama, jenjang, dan fakultas yang sama sudah ada.";
+    }
+    if (error?.message) return error.message;
+    return fallback;
+  };
+
   // ── CRUD: Programs ────────────────────────────────
   const handleSaveProgram = async (
     program: Omit<ProgramData, "id"> | ProgramData,
@@ -122,9 +133,10 @@ export default function AdminDashboard() {
         showToast("Program studi baru berhasil ditambahkan", "success");
       }
       await loadData();
+      setProgramModal({ isOpen: false });
     } catch (err) {
       console.error("Error saving program:", err);
-      showToast("Gagal menyimpan data program studi", "error");
+      showToast(getErrorMessage(err, "Gagal menyimpan data program studi"), "error");
       throw err;
     }
   };
@@ -145,7 +157,7 @@ export default function AdminDashboard() {
       setFacilityModal({ isOpen: false });
     } catch (err) {
       console.error("Error saving facility:", err);
-      showToast("Gagal menyimpan fasilitas", "error");
+      showToast(getErrorMessage(err, "Gagal menyimpan fasilitas"), "error");
       throw err;
     }
   };
@@ -229,8 +241,6 @@ export default function AdminDashboard() {
         onClose={() => setProgramModal({ isOpen: false })}
         onSave={handleSaveProgram}
         program={programModal.program}
-        faculties={faculties}
-        accreditations={data?.accreditations || []}
       />
       <FacilityModal
         isOpen={facilityModal.isOpen}

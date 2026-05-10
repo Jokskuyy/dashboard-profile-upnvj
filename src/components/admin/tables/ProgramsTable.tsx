@@ -110,7 +110,6 @@ export default function ProgramsTable({
                 <th className="px-5 py-3">Nama Program</th>
                 <th className="px-5 py-3">Jenjang</th>
                 <th className="px-5 py-3">Fakultas</th>
-                <th className="px-5 py-3 text-right">Mahasiswa</th>
                 <th className="px-5 py-3 text-center w-20">Aksi</th>
               </tr>
             </thead>
@@ -124,9 +123,6 @@ export default function ProgramsTable({
                     </span>
                   </td>
                   <td className="px-5 py-3 text-slate-500">{program.faculty}</td>
-                  <td className="px-5 py-3 text-slate-900 text-right font-bold">
-                    {(program.students || 0).toLocaleString()}
-                  </td>
                   <td className="px-5 py-3">
                     <div className="flex items-center justify-center gap-1">
                       <button
