@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MapPin, ExternalLink, Building, Navigation, CheckCircle, Loader2 } from "lucide-react";
+import { MapPin, ExternalLink, Building, Navigation } from "lucide-react";
 import { useLanguage } from "../../../contexts/LanguageContext";
 import CampusMapViewer from '../../campus-map/CampusMapViewer';
 import { getPreloadStatus, onPreloadProgress, type PreloadStatus } from "../../../utils/unityPreloader";
@@ -8,7 +8,7 @@ const CampusMapSection: React.FC = () => {
   const { t } = useLanguage();
   const [showViewer, setShowViewer] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [cacheStatus, setCacheStatus] = useState<PreloadStatus>(getPreloadStatus());
+  const [_cacheStatus, setCacheStatus] = useState<PreloadStatus>(getPreloadStatus());
 
   // Check if we're on GitHub Pages - Unity WebGL doesn't work there due to Brotli compression
   const isGitHubPages = window.location.hostname.includes('github.io');

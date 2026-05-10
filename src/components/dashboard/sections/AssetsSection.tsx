@@ -77,7 +77,9 @@ const AssetsSection: React.FC = () => {
           .select("tipe_fasilitas");
 
         if (!countError && allFacilities) {
-          const categoryMatchers: Record<keyof typeof counts, string[]> = {
+          type CategoryKey = "laboratorium" | "perpustakaan" | "ruangKuliah" | "auditorium" | "olahraga" | "kesehatan" | "ibadah" | "kantin";
+
+          const categoryMatchers: Record<CategoryKey, string[]> = {
             laboratorium:  ["lab"],
             perpustakaan:  ["perpustakaan", "ruang baca"],
             ruangKuliah:   ["ruang kuliah", "ruang kelas"],
@@ -88,16 +90,15 @@ const AssetsSection: React.FC = () => {
             kantin:        ["kantin", "food"],
           };
 
-          const counts = Object.fromEntries(
+          const counts: Record<CategoryKey, number> = Object.fromEntries(
             Object.keys(categoryMatchers).map((key) => [key, 0])
-          ) as Record<keyof typeof categoryMatchers, number>;
+          ) as Record<CategoryKey, number>;
 
           for (const f of allFacilities) {
             const tipe = f.tipe_fasilitas?.toLowerCase() ?? "";
             for (const [key, keywords] of Object.entries(categoryMatchers)) {
-              if (keywords.some((kw) => tipe.includes(kw))) {
-                counts[key as keyof typeof counts]++;
-              }
+              if ((keywords as string[]).some((kw: string) => tipe.includes(kw))) {
+                counts[key as CategoryKey]++;
             }
           }
 
@@ -445,9 +446,6 @@ const AssetsSection: React.FC = () => {
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <span className="material-symbols-outlined text-[#2C5F2D]">
-              account_balance
-            </span>
             {t("assetsTitle")}
           </h2>
           <p className="text-sm text-gray-500">{t("clickToViewDetail")}</p>
@@ -508,9 +506,6 @@ const AssetsSection: React.FC = () => {
       <section>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <span className="material-symbols-outlined text-[#2C5F2D]">
-              star
-            </span>
             {t("featuredAuditoriumsLabs")}
           </h2>
           <div className="flex gap-2">

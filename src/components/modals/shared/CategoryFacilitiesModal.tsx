@@ -31,7 +31,7 @@ const CategoryFacilitiesModal: React.FC<CategoryFacilitiesModalProps> = ({
   isOpen,
   onClose,
   category,
-  onFacilityClick,
+  onFacilityClick: _onFacilityClick,
 }) => {
   const [facilities, setFacilities] = useState<Facility[]>([]);
   const [loading, setLoading] = useState(false);
