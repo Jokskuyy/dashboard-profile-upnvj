@@ -102,6 +102,8 @@ NULL
 -- INSERT FASILITAS
 -- =========================================
 
+-- FEB
+
 INSERT INTO public.fasilitas
 (nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, color, lantai, foto_url, id_gedung)
 VALUES
@@ -244,6 +246,261 @@ VALUES
     NULL,
     'https://feb.upnvj.ac.id/struktur-organisasi/',
     1
+);
+
+-- FK
+INSERT INTO public.fasilitas
+(nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, color, lantai, foto_url, id_gedung)
+VALUES
+
+(
+    'Laboratorium Biologi Molekuler',
+    'Laboratorium penelitian dan praktikum biologi molekuler Fakultas Kedokteran.',
+    'Laboratorium',
+    'green',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Laboratorium Biokimia',
+    'Laboratorium untuk praktikum dan penelitian bidang biokimia.',
+    'Laboratorium',
+    'emerald',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Laboratorium Patologi Klinik',
+    'Laboratorium pembelajaran dan penelitian patologi klinik.',
+    'Laboratorium',
+    'red',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Laboratorium Mikrobiologi',
+    'Laboratorium untuk pembelajaran mikrobiologi kedokteran.',
+    'Laboratorium',
+    'lime',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Laboratorium Parasitologi',
+    'Laboratorium pembelajaran dan penelitian parasitologi.',
+    'Laboratorium',
+    'yellow',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Laboratorium Farmakologi',
+    'Laboratorium untuk praktik dan penelitian farmakologi.',
+    'Laboratorium',
+    'orange',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Laboratorium Farmasi',
+    'Fasilitas laboratorium untuk kegiatan pendidikan farmasi.',
+    'Laboratorium',
+    'amber',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Laboratorium Histologi',
+    'Laboratorium praktikum histologi mahasiswa kedokteran.',
+    'Laboratorium',
+    'pink',
+    NULL,
+    'https://fk.upnvj.ac.id/mengenal-fasilitas-pendidikan-kesehatan-di-fakultas-kedokteran-upn-veteran-jakarta/',
+    2
+),
+
+(
+    'Laboratorium Anatomi',
+    'Laboratorium anatomi untuk pembelajaran struktur tubuh manusia.',
+    'Laboratorium',
+    'rose',
+    NULL,
+    'https://fk.upnvj.ac.id/mengenal-fasilitas-pendidikan-kesehatan-di-fakultas-kedokteran-upn-veteran-jakarta/',
+    2
+),
+
+(
+    'Laboratorium Fisiologi',
+    'Laboratorium pembelajaran fisiologi tubuh manusia.',
+    'Laboratorium',
+    'cyan',
+    NULL,
+    'https://fk.upnvj.ac.id/mengenal-fasilitas-pendidikan-kesehatan-di-fakultas-kedokteran-upn-veteran-jakarta/',
+    2
+),
+
+(
+    'Laboratorium Patologi Anatomi',
+    'Laboratorium pembelajaran patologi anatomi.',
+    'Laboratorium',
+    'purple',
+    NULL,
+    'https://fk.upnvj.ac.id/mengenal-fasilitas-pendidikan-kesehatan-di-fakultas-kedokteran-upn-veteran-jakarta/',
+    2
+),
+
+(
+    'Skills Lab',
+    'Laboratorium keterampilan klinik untuk simulasi tindakan medis dan OSCE.',
+    'Laboratorium',
+    'blue',
+    NULL,
+    'https://fk.upnvj.ac.id/pusat-osce/',
+    2
+),
+
+(
+    'OSCE Center',
+    'Pusat ujian Objective Structured Clinical Examination mahasiswa kedokteran.',
+    'Laboratorium',
+    'indigo',
+    NULL,
+    'https://fk.upnvj.ac.id/pusat-osce/',
+    2
+),
+
+(
+    'Perpustakaan FK',
+    'Perpustakaan Fakultas Kedokteran dengan fasilitas e-library dan internet.',
+    'Perpustakaan',
+    'sky',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Laboratorium Komputer',
+    'Laboratorium komputer dengan akses internet untuk program research dan pembelajaran.',
+    'Laboratorium Komputer',
+    'gray',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Auditorium FK',
+    'Auditorium Fakultas Kedokteran untuk seminar dan kegiatan akademik.',
+    'Aula',
+    'red',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Ruang Tutorial',
+    'Ruang diskusi kelompok kecil untuk proses belajar mahasiswa kedokteran.',
+    'Akademik',
+    'teal',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Ruang Introduction',
+    'Ruang pembelajaran umum berkapasitas besar untuk mahasiswa.',
+    'Akademik',
+    'slate',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Medical Education Unit',
+    'Unit pengembangan pendidikan kedokteran FK UPNVJ.',
+    'Administrasi',
+    'violet',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Medical Research Unit',
+    'Unit penelitian medis Fakultas Kedokteran.',
+    'Penelitian',
+    'fuchsia',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Medical Assessment Unit',
+    'Unit evaluasi dan asesmen pendidikan kedokteran.',
+    'Administrasi',
+    'stone',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Medical Quality Assurance',
+    'Unit penjaminan mutu pendidikan Fakultas Kedokteran.',
+    'Administrasi',
+    'zinc',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'UPNVJ Medical e-Library',
+    'Perpustakaan elektronik Fakultas Kedokteran dengan akses digital dan WiFi.',
+    'Perpustakaan',
+    'blue',
+    NULL,
+    'https://fk.upnvj.ac.id/gedung-perkuliahan/',
+    2
+),
+
+(
+    'Rumah Sakit Mini',
+    'Fasilitas simulasi layanan kesehatan dan pembelajaran klinis.',
+    'Laboratorium',
+    'red',
+    NULL,
+    'https://fk.upnvj.ac.id/peresmian-gedung-upnvj-merce-fakultas-kedokteran-upn-veteran-jakarta/',
+    2
+),
+
+(
+    'Laboratorium Hiperbarik',
+    'Laboratorium khusus fasilitas hiperbarik untuk pendidikan dan penelitian medis.',
+    'Laboratorium',
+    'blue',
+    NULL,
+    'https://fk.upnvj.ac.id/peresmian-gedung-upnvj-merce-fakultas-kedokteran-upn-veteran-jakarta/',
+    2
 );
 
 -- =========================================

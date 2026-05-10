@@ -7,6 +7,7 @@ interface Facility {
   deskripsi_fasilitas?: string;
   tipe_fasilitas: string;
   color?: string;
+  foto_url?: string;
   gedung?: {
     id: number;
     nama_gedung: string;
@@ -50,6 +51,7 @@ const CategoryFacilitiesModal: React.FC<CategoryFacilitiesModalProps> = ({
           deskripsi_fasilitas,
           tipe_fasilitas,
           color,
+          foto_url,
           gedung:id_gedung (
             id,
             nama_gedung,
@@ -176,156 +178,106 @@ const CategoryFacilitiesModal: React.FC<CategoryFacilitiesModalProps> = ({
     onClose();
   };
 
-  // Helper to get facility image
-  const getFacilityImage = () => {
-    return `https://images.unsplash.com/photo-1562774053-701939374585?w=800&auto=format&fit=crop&q=60`;
-  };
-
   return (
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 w-screen h-screen bg-gray-900/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black/50 transition-opacity"
         onClick={onClose}
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          width: "100vw",
-          height: "100vh",
-          zIndex: 10000,
-        }}
+        style={{ zIndex: 10000 }}
       />
 
       {/* Modal */}
       <div
-        className="fixed inset-0 w-screen h-screen flex items-center justify-center p-4 lg:p-8"
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          width: "100vw",
-          height: "100vh",
-          zIndex: 10001,
-        }}
+        className="fixed inset-0 flex items-center justify-center p-4 lg:p-8"
+        style={{ zIndex: 10001 }}
       >
         <div
-          className="w-full max-w-[1400px] h-[90vh] flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200"
+          className="w-full max-w-3xl max-h-[85vh] flex flex-col bg-white rounded-xl shadow-xl overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="bg-[#336940] text-white px-6 py-5 md:px-8 flex justify-between items-center shrink-0 shadow-md z-20">
-            <div className="flex items-center gap-4">
-              <div>
-                <h1 className="text-xl font-bold tracking-tight text-white">
-                  {category.name}
-                </h1>
-                <p className="text-white text-xs md:text-sm">
-                  {loading
-                    ? "Loading..."
-                    : `${facilities.length} facilities available`}
-                </p>
-              </div>
+          <div className="bg-[#2C5F2D] text-white px-6 py-4 flex justify-between items-center shrink-0">
+            <div>
+              <h2 className="text-lg font-semibold">{category.name}</h2>
+              <p className="text-white/70 text-xs mt-0.5">
+                {loading
+                  ? "Memuat data..."
+                  : `${facilities.length} fasilitas tersedia`}
+              </p>
             </div>
             <button
               onClick={onClose}
-              aria-label="Close modal"
-              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-800 transition-colors text-white hover:text-white text-2xl font-light outline-none focus:outline-none"
+              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/15 transition-colors text-white"
             >
-              ×
+              <span className="material-icons-round text-xl">close</span>
             </button>
           </div>
 
           {/* Body */}
-          <div className="flex-1 overflow-y-auto custom-scrollbar bg-gray-50 p-6 md:p-8">
+          <div className="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-6">
             {loading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div className="space-y-3">
+                {[1, 2, 3, 4].map((i) => (
                   <div
                     key={i}
-                    className="animate-pulse bg-gray-200 h-96 rounded-xl"
-                  ></div>
+                    className="animate-pulse bg-gray-200 h-20 rounded-lg"
+                  />
                 ))}
               </div>
             ) : facilities.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              <div className="space-y-2">
                 {facilities.map((facility) => (
-                  <article
+                  <button
                     key={facility.id}
-                    className="flex flex-col bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl border border-gray-200 transition-all duration-300 group cursor-pointer"
+                    className="w-full text-left bg-white rounded-lg border border-gray-200 p-4 hover:border-[#2C5F2D]/40 hover:shadow-sm transition-all duration-150 group"
                     onClick={() => handleFacilityClick(facility)}
                   >
-                    {/* Image */}
-                    <div className="relative h-48 overflow-hidden">
-                      <img
-                        alt={facility.nama_fasilitas}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                        src={getFacilityImage()}
-                      />
-                      <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-60"></div>
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-gray-900 text-sm group-hover:text-[#2C5F2D] transition-colors">
+                          {facility.nama_fasilitas}
+                        </h3>
+                        {facility.gedung && (
+                          <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                            <span className="material-icons-round text-xs">location_on</span>
+                            {facility.gedung.nama_gedung}
+                          </p>
+                        )}
+                        {facility.deskripsi_fasilitas && (
+                          <p className="text-xs text-gray-400 mt-1.5 line-clamp-1">
+                            {facility.deskripsi_fasilitas}
+                          </p>
+                        )}
+                      </div>
+                      <span className="material-icons-round text-gray-300 group-hover:text-[#2C5F2D] transition-colors text-lg shrink-0 mt-0.5">
+                        chevron_right
+                      </span>
                     </div>
-
-                    {/* Content */}
-                    <div className="p-5 flex flex-col flex-1">
-                      {/* Location */}
-                      {facility.gedung && (
-                        <div className="flex items-center gap-1.5 text-xs font-medium text-gray-500 mb-3">
-                          {facility.gedung.nama_gedung}
-                        </div>
-                      )}
-
-                      {/* Title */}
-                      <h3 className="text-lg font-bold text-gray-900 mb-2 leading-snug line-clamp-2">
-                        {facility.nama_fasilitas}
-                      </h3>
-
-                      {/* Description */}
-                      <p className="text-sm text-gray-600 line-clamp-2 mb-6 flex-1">
-                        {facility.deskripsi_fasilitas ||
-                          "No description available"}
-                      </p>
-                    </div>
-                  </article>
+                  </button>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 text-gray-500">
-                <span className="material-icons text-6xl mb-4 block opacity-20">
+              <div className="text-center py-16 text-gray-400">
+                <span className="material-symbols-outlined text-5xl mb-3 block">
                   {category.icon}
                 </span>
-                <p>No facilities available in this category</p>
+                <p className="text-sm">Belum ada fasilitas dalam kategori ini</p>
               </div>
             )}
           </div>
 
           {/* Footer */}
-          <div className="bg-white border-t border-gray-200 p-4 md:p-6 flex justify-end items-center shrink-0 z-10 shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.05)]">
+          <div className="bg-white border-t border-gray-200 px-6 py-3 flex justify-end shrink-0">
             <button
               onClick={onClose}
-              className="px-6 py-2.5 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 font-medium transition-colors text-sm flex items-center gap-2 outline-none focus:outline-none"
+              className="px-5 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 font-medium transition-colors text-sm"
             >
-              × Close Window
+              Tutup
             </button>
           </div>
         </div>
       </div>
-
-      <style>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: #cbd5e1;
-          border-radius: 20px;
-        }
-      `}</style>
     </>
   );
 };

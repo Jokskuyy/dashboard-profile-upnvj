@@ -1,24 +1,6 @@
 // Language types
 export type Language = "id" | "en";
 
-// KPI data types
-export interface Professor {
-  id: number;
-  nidn: string;
-  nama_dosen: string;
-  email: string;
-  jabatan_fungsional: string;
-  id_prodi: number;
-  id_scopus?: string;
-  id_gs?: string;
-  id_sinta?: string;
-  kompetensi?: string;
-  // Virtual fields for display
-  name?: string; // Alias for nama_dosen
-  title?: string; // Alias for jabatan_fungsional
-  faculty?: string; // From join with program_studi
-  expertise?: string[]; // Parsed from kompetensi JSON string
-}
 
 export interface Accreditation {
   id: number;
@@ -33,20 +15,6 @@ export interface Accreditation {
   validUntil?: string;
 }
 
-export interface StudentData {
-  id?: number;
-  nim?: string;
-  nama_mahasiswa?: string;
-  angkatan?: number;
-  status?: string;
-  id_prodi?: number;
-  // Virtual fields for aggregation display
-  faculty?: string;
-  totalStudents?: number;
-  undergraduate?: number;
-  graduate?: number;
-  postgraduate?: number;
-}
 
 // Program Study types
 export interface ProgramData {
@@ -82,15 +50,6 @@ export interface Fakultas {
   id_gedung_utama?: number;
 }
 
-// Database Mahasiswa type (for Supabase)
-export interface Mahasiswa {
-  id: number;
-  nim: string;
-  nama_mahasiswa: string;
-  angkatan: number;
-  status: string;
-  id_prodi: number;
-}
 
 // Database Akreditasi type (for Supabase)
 export interface AkreditasiDB {

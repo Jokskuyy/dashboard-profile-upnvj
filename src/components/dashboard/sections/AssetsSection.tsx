@@ -20,6 +20,7 @@ interface FacilityDetail {
   deskripsi_fasilitas?: string;
   tipe_fasilitas: string;
   color?: string;
+  foto_url?: string;
   gedung?: Building;
 }
 
@@ -140,6 +141,7 @@ const AssetsSection: React.FC = () => {
             deskripsi_fasilitas,
             tipe_fasilitas,
             color,
+            foto_url,
             gedung:id_gedung (
               id,
               nama_gedung,
@@ -475,7 +477,7 @@ const AssetsSection: React.FC = () => {
           </h2>
           <p className="text-sm text-gray-500">{t("clickToViewDetail")}</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
           {assets.map((asset) => (
             <div
               key={asset.id}
@@ -488,35 +490,35 @@ const AssetsSection: React.FC = () => {
                   }
                 }
               }}
-              className={`bg-white p-5 rounded-2xl shadow-sm border border-gray-200 transition-all ${
+              className={`bg-white rounded-xl border border-gray-200 overflow-hidden transition-all duration-200 ${
                 asset.clickable
-                  ? "cursor-pointer hover:shadow-lg hover:border-[#2C5F2D] hover:-translate-y-1"
+                  ? "cursor-pointer hover:shadow-md hover:border-[#2C5F2D]/40"
                   : ""
               }`}
             >
-              <div className="flex items-start justify-between mb-4">
+              <div className="p-4">
                 <div
-                  className={`w-12 h-12 ${asset.iconBg} rounded-xl flex items-center justify-center ${asset.iconColor}`}
+                  className={`w-10 h-10 ${asset.iconBg} rounded-lg flex items-center justify-center ${asset.iconColor} mb-3`}
                 >
-                  <span className="material-symbols-outlined text-3xl">
+                  <span className="material-symbols-outlined text-xl">
                     {asset.icon}
                   </span>
                 </div>
-              </div>
-              <h3 className="font-bold text-gray-900 mb-1 line-clamp-1">
-                {asset.title}
-              </h3>
-              <div className="flex items-end justify-between">
-                <span className="text-gray-500 text-sm">{asset.unit}</span>
-                <span className="text-2xl font-bold text-gray-900">
-                  {asset.count}
-                </span>
+                <h3 className="font-semibold text-gray-900 text-sm truncate">
+                  {asset.title}
+                </h3>
+                <div className="flex items-baseline gap-1.5 mt-1">
+                  <span className="text-2xl font-bold text-gray-900">
+                    {asset.count === "0" ? "—" : asset.count}
+                  </span>
+                  <span className="text-xs text-gray-400">{asset.unit}</span>
+                </div>
               </div>
               {asset.clickable && (
-                <div className="mt-3 pt-3 border-t border-gray-200">
-                  <span className="text-xs text-[#2C5F2D] font-semibold flex items-center gap-1">
+                <div className="px-4 py-2.5 bg-gray-50 border-t border-gray-100">
+                  <span className="text-xs text-[#2C5F2D] font-medium flex items-center gap-1">
                     <span className="material-icons-round text-sm">
-                      visibility
+                      arrow_forward
                     </span>
                     {t("viewAllAssets")}
                   </span>
@@ -559,7 +561,7 @@ const AssetsSection: React.FC = () => {
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {facilitiesData.map((facility) => {
-            const facilityImage = getFacilityImage(
+            const facilityImage = facility.foto_url || getFacilityImage(
               facility.nama_fasilitas,
               facility.tipe_fasilitas,
             );
@@ -568,36 +570,38 @@ const AssetsSection: React.FC = () => {
               <div
                 key={facility.id}
                 onClick={() => handleFacilityClick(facility)}
-                className="w-[280px] shrink-0 bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex flex-col group cursor-pointer hover:shadow-lg hover:border-[#2C5F2D] transition-all"
+                className="w-[280px] shrink-0 bg-white rounded-xl border border-gray-200 overflow-hidden flex flex-col group cursor-pointer hover:shadow-md hover:border-[#2C5F2D]/40 transition-all duration-200"
               >
-                <div className="h-40 overflow-hidden bg-gray-100 relative">
+                <div className="h-36 overflow-hidden bg-gray-100 relative">
                   <img
                     alt={facility.nama_fasilitas}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     src={facilityImage}
                     onError={(e) => {
                       (e.target as HTMLImageElement).src =
                         "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?w=400&q=80";
                     }}
                   />
+                  <span className="absolute top-2 left-2 px-2 py-0.5 bg-[#2C5F2D] text-white text-[10px] font-medium rounded">
+                    {facility.tipe_fasilitas}
+                  </span>
                 </div>
-                <div className="p-4 flex flex-col h-[180px]">
-                  <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 h-12 leading-6">
+                <div className="p-4 flex flex-col flex-1">
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1.5 line-clamp-2 leading-snug">
                     {facility.nama_fasilitas}
                   </h3>
-                  <p className="text-xs text-gray-500 mb-3 line-clamp-3 flex-1 leading-relaxed">
-                    {facility.deskripsi_fasilitas?.substring(0, 120) ||
+                  <p className="text-xs text-gray-500 mb-3 line-clamp-2 flex-1 leading-relaxed">
+                    {facility.deskripsi_fasilitas?.substring(0, 100) ||
                       t("modernFacilityDescription")}
-                    ...
                   </p>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       handleFacilityClick(facility);
                     }}
-                    className="w-full py-2 rounded-xl border border-gray-200 text-xs font-semibold text-gray-700 hover:bg-[#2C5F2D] hover:text-white hover:border-[#2C5F2D] transition-colors flex items-center justify-center gap-1.5"
+                    className="w-full py-2 rounded-lg bg-gray-50 border border-gray-200 text-xs font-medium text-gray-600 hover:bg-[#2C5F2D] hover:text-white hover:border-[#2C5F2D] transition-colors flex items-center justify-center gap-1"
                   >
-                    {t("viewDetails")}{" "}
+                    {t("viewDetails")}
                     <span className="material-icons-round text-sm">
                       arrow_forward
                     </span>

@@ -2,9 +2,7 @@ import { supabase } from "../../lib/supabase";
 import { retryWithBackoff } from "../../utils/retry";
 import { logCreate, logUpdate, logDelete } from "./auditLogService";
 import type {
-  Professor,
   Accreditation,
-  StudentData,
   AssetCategory,
   ProgramData,
   DepartmentData,
@@ -63,9 +61,7 @@ export interface FacultyInfo {
 
 export interface DashboardData {
   lastUpdated: string;
-  professors: Professor[];
   accreditations: Accreditation[];
-  students: StudentData[];
   assets: AssetCategory[];
   programs: ProgramData[];
   departments: DepartmentData[];
@@ -162,27 +158,12 @@ export const fetchFaculties = async (): Promise<FacultyInfo[]> => {
   }
 };
 
-/**
- * Fetch professors from Supabase
- */
-const fetchProfessors = async (): Promise<Professor[]> => {
-  // Schema terbaru tidak memiliki tabel `dosen`.
-  return [];
-};
+
 
 /**
- * Fetch accreditations from Supabase
+ * Fetch accreditations - schema terbaru tidak memiliki tabel akreditasi
  */
 const fetchAccreditations = async (): Promise<Accreditation[]> => {
-  // Schema terbaru tidak memiliki tabel `akreditasi` atau kolom `id_akreditasi`.
-  return [];
-};
-
-/**
- * Fetch students data by faculty from Supabase
- */
-const fetchStudents = async (): Promise<StudentData[]> => {
-  // Schema terbaru tidak memiliki tabel `mahasiswa`.
   return [];
 };
 
@@ -342,16 +323,12 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
   try {
     const fetchWithRetry = async () => {
       const [
-        professors,
         accreditations,
-        students,
         assets,
         programs,
         departments,
       ] = await Promise.all([
-        fetchProfessors(),
         fetchAccreditations(),
-        fetchStudents(),
         fetchAssets(),
         fetchPrograms(),
         fetchDepartments(),
@@ -359,9 +336,7 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
 
       return {
         lastUpdated: new Date().toISOString(),
-        professors,
         accreditations,
-        students,
         assets,
         programs,
         departments,
@@ -389,9 +364,7 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
     // Return empty data structure if all retries fail
     return {
       lastUpdated: new Date().toISOString(),
-      professors: [],
       accreditations: [],
-      students: [],
       assets: [],
       programs: [],
       departments: [],
@@ -411,29 +384,18 @@ export const clearCache = () => {
  * Get total statistics
  */
 export const getTotalStats = (data: DashboardData) => {
-  const totalStudents = data.students.reduce(
-    (sum, faculty) =>
-      sum +
-      ((faculty.undergraduate || 0) +
-        (faculty.postgraduate || 0) +
-        (faculty.graduate || 0)),
-    0,
-  );
-
   const totalAssets = data.assets.reduce(
     (sum, category) => sum + category.details.length,
     0,
   );
 
   const facultyNames = new Set(
-    [...data.students, ...data.programs, ...data.departments]
+    [...data.programs, ...data.departments]
       .map((item) => item.faculty)
       .filter((faculty): faculty is string => Boolean(faculty)),
   );
 
   return {
-    totalProfessors: data.professors.length,
-    totalStudents,
     activeAccreditations: data.accreditations.filter(
       (a) => a.status === "active",
     ).length,
@@ -446,71 +408,7 @@ export const getTotalStats = (data: DashboardData) => {
 // CRUD OPERATIONS
 // ============================================
 
-// ===== PROFESSORS CRUD =====
 
-export const createProfessor = async (
-  _professor: Omit<Professor, "id">,
-): Promise<Professor> => {
-  clearCache();
-  throw unsupportedLegacyTableError("Data dosen");
-};
-
-export const updateProfessor = async (
-  _id: string,
-  _professor: Partial<Professor>,
-): Promise<Professor> => {
-  clearCache();
-  throw unsupportedLegacyTableError("Data dosen");
-};
-
-export const deleteProfessor = async (_id: string): Promise<void> => {
-  clearCache();
-  throw unsupportedLegacyTableError("Data dosen");
-};
-
-// ===== ACCREDITATIONS CRUD =====
-
-export const createAccreditation = async (
-  _accreditation: Omit<Accreditation, "id">,
-): Promise<Accreditation> => {
-  clearCache();
-  throw unsupportedLegacyTableError("Data akreditasi");
-};
-
-export const updateAccreditation = async (
-  _id: string,
-  _accreditation: Partial<Accreditation>,
-): Promise<Accreditation> => {
-  clearCache();
-  throw unsupportedLegacyTableError("Data akreditasi");
-};
-
-export const deleteAccreditation = async (_id: string): Promise<void> => {
-  clearCache();
-  throw unsupportedLegacyTableError("Data akreditasi");
-};
-
-// ===== STUDENTS CRUD =====
-
-export const createStudentData = async (
-  _student: Omit<StudentData, "id">,
-): Promise<StudentData> => {
-  clearCache();
-  throw unsupportedLegacyTableError("Data mahasiswa");
-};
-
-export const updateStudentData = async (
-  _id: string,
-  _student: Partial<StudentData>,
-): Promise<StudentData> => {
-  clearCache();
-  throw unsupportedLegacyTableError("Data mahasiswa");
-};
-
-export const deleteStudentData = async (_id: string): Promise<void> => {
-  clearCache();
-  throw unsupportedLegacyTableError("Data mahasiswa");
-};
 
 // ===== PROGRAMS CRUD =====
 

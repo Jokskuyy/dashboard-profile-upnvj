@@ -1,9 +1,7 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Users,
   Award,
-  GraduationCap,
   Package,
   BookOpen,
   Building2,
@@ -19,15 +17,6 @@ import {
   saveDashboardData,
   clearCache,
   getTotalStats,
-  createProfessor,
-  updateProfessor,
-  deleteProfessor,
-  createAccreditation,
-  updateAccreditation,
-  deleteAccreditation,
-  createStudentData,
-  updateStudentData,
-  deleteStudentData,
   createProgram,
   updateProgram,
   deleteProgram,
@@ -39,40 +28,24 @@ import {
   type FacilityData,
 } from "../../services/api/dataService";
 import type {
-  Professor,
-  Accreditation,
-  StudentData,
   ProgramData,
 } from "../../types";
-import ProfessorModal from "../modals/crud/ProfessorModal";
-import AccreditationModal from "../modals/crud/AccreditationModal";
-import StudentModal from "../modals/crud/StudentModal";
 import ProgramModal from "../modals/crud/ProgramModal";
 import FacilityModal from "../modals/crud/FacilityModal";
 import DeleteConfirmModal from "../modals/shared/DeleteConfirmModal";
 import Toast, { type ToastType } from "../common/Toast";
 import AdminTrafficAnalytics from "./analytics/AdminTrafficAnalytics";
-import ProfessorsTable from "./tables/ProfessorsTable";
-import AccreditationsTable from "./tables/AccreditationsTable";
-import StudentsTable from "./tables/StudentsTable";
 import FacilitiesTable from "./tables/FacilitiesTable";
 import ProgramsTable from "./tables/ProgramsTable";
 import { useAuth } from "../../contexts/AuthContext";
 import "./admin.css";
 
-type TabType =
-  | "professors"
-  | "accreditations"
-  | "students"
-  | "assets"
-  | "programs"
-  | "analytics";
-
+type TabType = "assets" | "programs" | "analytics";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const { logout, admin } = useAuth();
-  const [activeTab, setActiveTab] = useState<TabType>("professors");
+  const [activeTab, setActiveTab] = useState<TabType>("assets");
   const [data, setData] = useState<DashboardData | null>(null);
   const [faculties, setFaculties] = useState<FacultyInfo[]>([]);
   const [loading, setLoading] = useState(true);
@@ -80,21 +53,6 @@ export default function AdminDashboard() {
   const [error, setError] = useState<string | null>(null);
 
   // Modal states
-  const [professorModal, setProfessorModal] = useState<{
-    isOpen: boolean;
-    professor?: Professor;
-  }>({ isOpen: false });
-
-  const [accreditationModal, setAccreditationModal] = useState<{
-    isOpen: boolean;
-    accreditation?: Accreditation;
-  }>({ isOpen: false });
-
-  const [studentModal, setStudentModal] = useState<{
-    isOpen: boolean;
-    student?: StudentData;
-  }>({ isOpen: false });
-
   const [programModal, setProgramModal] = useState<{
     isOpen: boolean;
     program?: ProgramData;
@@ -109,7 +67,6 @@ export default function AdminDashboard() {
     isOpen: boolean;
     type?: string;
     id?: string | number;
-    facultyId?: string;
     name?: string;
   }>({ isOpen: false });
 
@@ -158,41 +115,13 @@ export default function AdminDashboard() {
     }
   };
 
-  // Professor CRUD handlers
-  const handleSaveProfessor = async (
-    professor: Omit<Professor, "id"> | Professor,
-  ) => {
-    try {
-      if ("id" in professor) {
-        // Update existing
-        await updateProfessor(professor.id.toString(), professor);
-        showToast("Data dosen berhasil diupdate", "success");
-      } else {
-        // Create new
-        await createProfessor(professor);
-        showToast("Dosen baru berhasil ditambahkan", "success");
-      }
-      await loadData(); // Reload data
-    } catch (error) {
-      console.error("Error saving professor:", error);
-      showToast("Gagal menyimpan data dosen", "error");
-      throw error;
-    }
-  };
-
   const handleDeleteConfirm = async () => {
     if (!deleteModal.type) return;
 
     try {
-      if (deleteModal.type === "professor" && deleteModal.id) {
-        await deleteProfessor(deleteModal.id.toString());
-        showToast("Dosen berhasil dihapus", "success");
-      } else if (deleteModal.type === "accreditation" && deleteModal.id) {
+      if (deleteModal.type === "accreditation" && deleteModal.id) {
         await deleteAccreditation(deleteModal.id.toString());
         showToast("Akreditasi berhasil dihapus", "success");
-      } else if (deleteModal.type === "student" && deleteModal.facultyId) {
-        await deleteStudentData(deleteModal.facultyId);
-        showToast("Data mahasiswa berhasil dihapus", "success");
       } else if (deleteModal.type === "program" && deleteModal.id) {
         await deleteProgram(deleteModal.id.toString());
         showToast("Program studi berhasil dihapus", "success");
@@ -201,7 +130,7 @@ export default function AdminDashboard() {
         showToast("Fasilitas berhasil dihapus", "success");
       }
 
-      await loadData(); // Reload data
+      await loadData();
       setDeleteModal({ isOpen: false });
     } catch (error) {
       console.error("Error deleting:", error);
@@ -209,50 +138,7 @@ export default function AdminDashboard() {
     }
   };
 
-  // Accreditation CRUD handlers
-  const handleSaveAccreditation = async (
-    accreditation: Omit<Accreditation, "id"> | Accreditation,
-  ) => {
-    try {
-      if ("id" in accreditation) {
-        await updateAccreditation(accreditation.id.toString(), accreditation);
-        showToast("Data akreditasi berhasil diupdate", "success");
-      } else {
-        await createAccreditation(accreditation);
-        showToast("Akreditasi baru berhasil ditambahkan", "success");
-      }
-      await loadData();
-    } catch (error) {
-      console.error("Error saving accreditation:", error);
-      showToast("Gagal menyimpan data akreditasi", "error");
-      throw error;
-    }
-  };
 
-  // Student CRUD handlers
-  const handleSaveStudent = async (student: StudentData) => {
-    try {
-      // Check if student data for this faculty already exists
-      const existing = data?.students.find(
-        (s) => s.faculty === student.faculty,
-      );
-
-      if (existing) {
-        // Update existing - use faculty as identifier
-        await updateStudentData(student.faculty || "", student);
-        showToast("Data mahasiswa berhasil diupdate", "success");
-      } else {
-        // Create new
-        await createStudentData(student);
-        showToast("Data mahasiswa berhasil ditambahkan", "success");
-      }
-      await loadData();
-    } catch (error) {
-      console.error("Error saving student data:", error);
-      showToast("Gagal menyimpan data mahasiswa", "error");
-      throw error;
-    }
-  };
 
   // Program CRUD handlers
   const handleSaveProgram = async (
@@ -274,7 +160,7 @@ export default function AdminDashboard() {
     }
   };
 
-  // Facility CRUD handlers (replacing asset handlers)
+  // Facility CRUD handlers
   const handleSaveFacility = async (
     facility: Omit<FacilityData, "id"> | FacilityData,
   ) => {
@@ -317,24 +203,6 @@ export default function AdminDashboard() {
 
   const tabs = [
     {
-      id: "professors",
-      label: "Dosen",
-      icon: Users,
-      count: data?.professors.length,
-    },
-    {
-      id: "accreditations",
-      label: "Akreditasi",
-      icon: Award,
-      count: data?.accreditations.length,
-    },
-    {
-      id: "students",
-      label: "Mahasiswa",
-      icon: GraduationCap,
-      count: data?.students.length,
-    },
-    {
       id: "assets",
       label: "Fasilitas",
       icon: Package,
@@ -346,6 +214,7 @@ export default function AdminDashboard() {
       icon: BookOpen,
       count: data?.programs.length,
     },
+
     {
       id: "analytics",
       label: "Analytics",
@@ -399,29 +268,6 @@ export default function AdminDashboard() {
         )}
 
         {/* Modals */}
-        <ProfessorModal
-          isOpen={professorModal.isOpen}
-          onClose={() => setProfessorModal({ isOpen: false })}
-          onSave={handleSaveProfessor}
-          professor={professorModal.professor}
-          faculties={faculties}
-          programs={data?.programs || []}
-        />
-
-        <AccreditationModal
-          isOpen={accreditationModal.isOpen}
-          onClose={() => setAccreditationModal({ isOpen: false })}
-          onSave={handleSaveAccreditation}
-          accreditation={accreditationModal.accreditation}
-        />
-
-        <StudentModal
-          isOpen={studentModal.isOpen}
-          onClose={() => setStudentModal({ isOpen: false })}
-          onSave={handleSaveStudent}
-          student={studentModal.student}
-          programs={data?.programs || []}
-        />
 
         <ProgramModal
           isOpen={programModal.isOpen}
@@ -454,7 +300,7 @@ export default function AdminDashboard() {
             <div className="flex justify-between items-center h-20">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30">
-                  <GraduationCap className="w-6 h-6" />
+                  <Building2 className="w-6 h-6" />
                 </div>
                 <div>
                   <span className="block text-lg font-bold tracking-tight leading-none text-slate-900">
@@ -527,50 +373,12 @@ export default function AdminDashboard() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
               <div>
                 <h1 className="text-3xl font-bold text-slate-900 mb-2">
-                  Selamat Datang, Admin Ganteng Muach
+                  Selamat Datang, Admin
                 </h1>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-              <div className="glass-panel p-5 rounded-2xl flex flex-col items-start gap-4 hover:-translate-y-1 transition-transform duration-300 shadow-sm">
-                <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                  <Users className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-slate-500 text-sm font-medium mb-1">
-                    Total Dosen
-                  </p>
-                  <h3 className="text-3xl font-bold text-slate-900">
-                    {stats.totalProfessors}
-                  </h3>
-                </div>
-              </div>
-              <div className="glass-panel p-5 rounded-2xl flex flex-col items-start gap-4 hover:-translate-y-1 transition-transform duration-300 shadow-sm">
-                <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                  <GraduationCap className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-slate-500 text-sm font-medium mb-1">
-                    Total Mahasiswa
-                  </p>
-                  <h3 className="text-3xl font-bold text-slate-900">
-                    {stats.totalStudents.toLocaleString()}
-                  </h3>
-                </div>
-              </div>
-              <div className="glass-panel p-5 rounded-2xl flex flex-col items-start gap-4 hover:-translate-y-1 transition-transform duration-300 shadow-sm">
-                <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-                  <Award className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-slate-500 text-sm font-medium mb-1">
-                    Akreditasi Aktif
-                  </p>
-                  <h3 className="text-3xl font-bold text-slate-900">
-                    {stats.activeAccreditations}
-                  </h3>
-                </div>
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+
               <div className="glass-panel p-5 rounded-2xl flex flex-col items-start gap-4 hover:-translate-y-1 transition-transform duration-300 shadow-sm">
                 <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
                   <Package className="w-6 h-6" />
@@ -633,89 +441,12 @@ export default function AdminDashboard() {
                       )}
                     </button>
                   );
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id as TabType)}
-                      className={`flex items-center gap-2 px-6 py-4 text-sm font-medium whitespace-nowrap transition-colors border-b-2 ${
-                        activeTab === tab.id
-                          ? "border-blue-600 text-blue-600"
-                          : "border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300"
-                      }`}
-                    >
-                      <Icon className="w-4 h-4" />
-                      {tab.label}
-                      {tab.count !== undefined && (
-                        <span
-                          className={`px-2 py-0.5 rounded-full text-xs ${
-                            activeTab === tab.id
-                              ? "bg-blue-100 text-blue-700"
-                              : "bg-gray-100 text-gray-600"
-                          }`}
-                        >
-                          {tab.count}
-                        </span>
-                      )}
-                    </button>
-                  );
                 })}
               </nav>
             </div>
 
             {/* Tab Content */}
             <div className="p-6 bg-white/40">
-              {activeTab === "professors" && data && (
-                <ProfessorsTable
-                  professors={data.professors}
-                  faculties={faculties}
-                  onAdd={() => setProfessorModal({ isOpen: true })}
-                  onEdit={(professor) =>
-                    setProfessorModal({ isOpen: true, professor })
-                  }
-                  onDelete={(professor) =>
-                    setDeleteModal({
-                      isOpen: true,
-                      type: "professor",
-                      id: professor.id.toString(),
-                      name: professor.nama_dosen || professor.name || "Unknown",
-                    })
-                  }
-                />
-              )}
-              {activeTab === "accreditations" && data && (
-                <AccreditationsTable
-                  accreditations={data.accreditations}
-                  onAdd={() => setAccreditationModal({ isOpen: true })}
-                  onEdit={(accreditation) =>
-                    setAccreditationModal({ isOpen: true, accreditation })
-                  }
-                  onDelete={(accreditation) =>
-                    setDeleteModal({
-                      isOpen: true,
-                      type: "accreditation",
-                      id: accreditation.id.toString(),
-                      name: `${accreditation.program} - ${accreditation.level}`,
-                    })
-                  }
-                />
-              )}
-              {activeTab === "students" && data && (
-                <StudentsTable
-                  students={data.students}
-                  onAdd={() => setStudentModal({ isOpen: true })}
-                  onEdit={(student) =>
-                    setStudentModal({ isOpen: true, student })
-                  }
-                  onDelete={(student) =>
-                    setDeleteModal({
-                      isOpen: true,
-                      type: "student",
-                      facultyId: student.faculty,
-                      name: student.faculty,
-                    })
-                  }
-                />
-              )}
               {activeTab === "assets" && (
                 <FacilitiesTable
                   onAdd={() => setFacilityModal({ isOpen: true })}

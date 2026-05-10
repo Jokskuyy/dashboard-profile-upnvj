@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import {
-  Users,
   Award,
-  GraduationCap,
   MapPin,
   Package,
   ChevronLeft,
@@ -13,9 +11,7 @@ import { useLanguage } from "../../contexts/LanguageContext";
 import { useDashboard, useStats } from "../../contexts/DashboardContext";
 import KPICard from "./KPICard";
 import {
-  ProfessorsSection,
   AccreditationSection,
-  StudentsSection,
   CampusMapSection,
   AssetsSection,
 } from "./sections";
@@ -141,7 +137,7 @@ const Dashboard: React.FC = () => {
                 <button
                   onClick={() => {
                     trackClick("explore-programs-hero");
-                    scrollToSection("students-section");
+                    scrollToSection("assets-section");
                   }}
                   className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-[#2C5F2D] font-bold rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 text-sm sm:text-base"
                 >
@@ -253,21 +249,7 @@ const Dashboard: React.FC = () => {
               <h2 className="text-2xl font-bold text-[#2C5F2D] mb-6">
                 {t("kpi")}
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                <KPICard
-                  title={t("professors")}
-                  value={stats.totalProfessors}
-                  subtitle={t("qualifiedEducators")}
-                  icon={Users}
-                  color="green"
-                />
-                <KPICard
-                  title={t("students")}
-                  value={stats.totalStudents.toLocaleString()}
-                  subtitle={t("activeEnrollment")}
-                  icon={GraduationCap}
-                  color="teal"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <KPICard
                   title={t("accreditation")}
                   value={stats.activeAccreditations}
@@ -292,17 +274,7 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
             {/* Detailed Sections */}
-            {/* Dosen dan Mahasiswa sejajar */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-              <div id="professors-section">
-                <ProfessorsSection />
-              </div>
-              <div id="students-section">
-                <StudentsSection />
-              </div>
-            </div>
 
-            {/* Akreditasi dan Map sejajar */}
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
               <div className="xl:col-span-2">
                 <AccreditationSection />

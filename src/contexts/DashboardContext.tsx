@@ -72,19 +72,9 @@ export const useDashboard = () => {
 };
 
 // Helper hooks for specific data
-export const useProfessors = () => {
-  const { data } = useDashboard();
-  return data?.professors || [];
-};
-
 export const useAccreditations = () => {
   const { data } = useDashboard();
   return data?.accreditations || [];
-};
-
-export const useStudents = () => {
-  const { data } = useDashboard();
-  return data?.students || [];
 };
 
 export const useAssets = () => {
