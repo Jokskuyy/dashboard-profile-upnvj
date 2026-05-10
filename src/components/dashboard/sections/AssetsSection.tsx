@@ -53,6 +53,7 @@ const AssetsSection: React.FC = () => {
     kesehatan: 0,
     ibadah: 0,
     kantin: 0,
+    administrasi: 0,
   });
 
   // Fetch data real dari Supabase
@@ -75,14 +76,15 @@ const AssetsSection: React.FC = () => {
 
         if (!countError && allFacilities) {
           const categoryMatchers: Record<string, string[]> = {
-            laboratorium:  ["lab"],
+            laboratorium:  ["lab", "penelitian"],
             perpustakaan:  ["perpustakaan", "ruang baca"],
-            ruangKuliah:   ["ruang kuliah", "ruang kelas"],
+            ruangKuliah:   ["ruang kuliah", "ruang kelas", "akademik", "ruang akademik"],
             auditorium:    ["auditorium", "aula"],
             olahraga:      ["olahraga", "sport"],
             kesehatan:     ["kesehatan", "klinik"],
             ibadah:        ["ibadah", "masjid", "musholla"],
             kantin:        ["kantin", "food"],
+            administrasi:  ["administrasi", "sekretariat", "layanan"],
           };
 
           const counts: Record<string, number> = {};
@@ -278,6 +280,24 @@ const AssetsSection: React.FC = () => {
         icon: "mosque",
         color: "bg-purple-700",
         filter: "Ibadah",
+      },
+    },
+    {
+      id: 9,
+      title: t("administrationServices"),
+      icon: "admin_panel_settings",
+      count: facilityCounts.administrasi.toString(),
+      unit: t("facilitiesUnit"),
+      status: t("operational"),
+      statusColor: "bg-slate-100 text-slate-700",
+      iconBg: "bg-slate-50",
+      iconColor: "text-slate-600",
+      clickable: true,
+      category: {
+        name: "Administrasi & Layanan",
+        icon: "admin_panel_settings",
+        color: "bg-slate-700",
+        filter: "Administrasi",
       },
     },
   ];

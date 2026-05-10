@@ -157,6 +157,7 @@ export const translations = {
     sportsFacilities: "Fasilitas Olahraga",
     healthFacilities: "Fasilitas Kesehatan",
     worshipFacilities: "Fasilitas Ibadah",
+    administrationServices: "Administrasi & Layanan",
     cafeteriaFoodCourt: "Kantin & Food Court",
 
     // Featured Section
@@ -357,6 +358,7 @@ export const translations = {
     sportsFacilities: "Sports Facilities",
     healthFacilities: "Health Facilities",
     worshipFacilities: "Worship Facilities",
+    administrationServices: "Administration & Services",
     cafeteriaFoodCourt: "Cafeteria & Food Court",
 
     // Featured Section
