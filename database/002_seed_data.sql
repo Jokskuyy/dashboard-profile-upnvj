@@ -9,7 +9,7 @@
 -- =========================================
 
 INSERT INTO public.gedung 
-(nama_gedung, deskripsi_gedung, lokasi, jumlah_lantai)
+(nama_gedung, deskripsi_gedung, lokasi, jumlah_lantai, url_foto)
 VALUES
 ('Gedung Jenderal Sudirman', 'Gedung rektorat dan pusat administrasi universitas', 'Area depan kampus utama Pondok Labu', 4),
 
@@ -31,15 +31,17 @@ VALUES
 
 ('Gedung RA Kartini', 'Gedung Fakultas Hukum Pascasarjana', 'Klaster Fakultas Hukum', 3),
 
-('Area Parkir UPNVJ Depan', 'Gedung parkir bertingkat untuk kendaraan mahasiswa dan staf', 'Sisi belakang kampus', 4),
+('Gedung Parkir Depan UPNVJ', 'Gedung parkir bertingkat untuk kendaraan mahasiswa dan staf', 'Sisi depan kampus', , 'https://www.upnvj.ac.id/id/files/large/8bc605d9f811bf6fe60a23c2e0626ea0'),
 
-('Area Parkir UPNVJ Belakang', 'Parkir untuk kendaraan mahasiswa dan staf', 'Sisi belakang kampus', 1),
+('Area Parkir Depan UPNVJ', 'Area parkir terbuka untuk kendaraan mahasiswa dan staf', 'Sisi depan kampus', 4, 'https://www.upnvj.ac.id/id/files/thumb/65f06b5d1b2ab2a6603d3018c6c91b43/520'),
 
 ('Gedung Dewi Sartika', 'Gedung Fakultas Ilmu Komputer', 'Klaster Fakultas Ilmu Komputer', 4),
 
-('Lapangan Upacara', 'Tempat upacara dan parkir mobil apabila sedang tidak dipakai', 'Area tengah kampus', 1),
+('Lapangan Upacara', 'Tempat upacara dan parkir mobil apabila sedang tidak dipakai', 'Area tengah kampus', 1, 'https://www.upnvj.ac.id/id/files/thumb/7c60154c9cdad11f95c5d0ef86090f1d/520'),
 
 ('Gedung Kuliah dan Kegiatan Mahasiswa', 'Gedung ruang kuliah dan sekretariat UKM', 'Area belakang kampus', 8);
+
+('Area Parkir Belakang UPNVJ', 'Area parkir terbuka parkir untuk kendaraan mahasiswa dan staf', 'Sisi belakang kampus', 1),
 
 -- =========================================
 -- INSERT FAKULTAS
@@ -66,7 +68,7 @@ VALUES
 
 (
 'Fakultas Ilmu Komputer',
-'Fakultas bidang teknologi informasi dan komputasi',
+'Fakultas bidang teknologi informasi dan komputer',
 'fik@upnvj.ac.id',
 'https://new-fik.upnvj.ac.id',
 6
@@ -115,11 +117,312 @@ INSERT INTO public.fasilitas
 VALUES
 
 (
+    'Ruang Kelas 201',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    2,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas 202',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    2,
+    NULL,
+    7
+),
+
+(
+    'Ruang Dosen Ilmu Ekonomi',
+    'Ruang kerja dosen Program Studi Ilmu Ekonomi FEB.',
+    'Ruang Dosen',
+    'orange',
+    2,
+    NULL,
+    7
+),
+
+(
+    'Ruang Dosen Manajemen Program Sarjana',
+    'Ruang kerja dosen Program Studi Manajemen jenjang sarjana FEB.',
+    'Ruang Dosen',
+    'orange',
+    2,
+    NULL,
+    7
+),
+
+(
+    'Ruang Sekretariat Program Studi Manajemen dan Akuntansi Program Magister',
+    'Ruang administrasi dan sekretariat Program Magister Manajemen dan Akuntansi FEB.',
+    'Ruang Administrasi',
+    'yellow',
+    2,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas 203',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    2,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas 204',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    2,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas 205',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    2,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas 206',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    2,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas 207',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    2,
+    NULL,
+    7
+),
+-- LANTAI 3
+
+(
+    'Ruang Kelas 301',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    3,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas 302',
+    'Laboratorium Ilmu Ekonomi untuk kegiatan praktikum dan pembelajaran mahasiswa FEB.',
+    'Laboratorium',
+    'purple',
+    3,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas 303',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    3,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas 304',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    3,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas 305',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    3,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas 306',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    3,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas 307',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    3,
+    NULL,
+    7
+),
+
+(
+    'Mash Classroom',
+    'Ruang pembelajaran modern untuk kegiatan akademik mahasiswa FEB.',
+    'Ruang Kelas',
+    'cyan',
+    3,
+    NULL,
+    7
+),
+
+(
+    'Laboratorium Akuntansi 2',
+    'Laboratorium untuk kegiatan praktikum akuntansi mahasiswa FEB.',
+    'Laboratorium',
+    'purple',
+    3,
+    NULL,
+    7
+),
+
+-- LANTAI 4
+
+(
+    'Ruang Kelas D.401',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    4,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas D.402',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    4,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas D.403',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    4,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas D.404',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    4,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas C.402',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    4,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas C.403',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    4,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas C.404',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    4,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas C.405',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    4,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas C.406',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    4,
+    NULL,
+    7
+),
+
+(
+    'Ruang Kelas C.407',
+    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang Kelas',
+    'blue',
+    4,
+    NULL,
+    7
+),
+(
+    'Mushola FEB',
+    'Fasilitas mushola untuk kegiatan ibadah mahasiswa FEB.',
+    'Tempat Ibadah',
+    'green',
+    4,
+    NULL,
+    7
+),
+(
     'Mini Company',
     'Fasilitas simulasi perusahaan untuk praktik kewirausahaan dan bisnis mahasiswa FEB.',
     'Laboratorium Bisnis',
     'blue',
-    NULL,
+    3,
     'https://feb.upnvj.ac.id/wp-content/uploads/2024/01/WhatsApp-Image-2022-04-21-at-11.41.31.jpeg',
     7
 ),
@@ -199,7 +502,7 @@ VALUES
     'Ruang kelas khusus program magister Fakultas Ekonomi dan Bisnis.',
     'Ruang Akademik',
     'teal',
-    NULL,
+    2,
     'https://feb.upnvj.ac.id/wp-content/uploads/2025/01/IMG_9968.jpg',
     7
 ),
@@ -721,7 +1024,17 @@ VALUES
 -- GEDUNG KI HADJAR DEWANTARA (id = 6)
 -- =========================
 (
-    'Ruang Kuliah Lantai 2',
+    'Ruang Kuliah 203 Ki Hadjar Dewantara',
+    'Ruang kuliah yang berada di Gedung Ki Hadjar Dewantara lantai 2.',
+    'Ruang Kuliah & Akademik',
+    'yellow',
+    2,
+    NULL,
+    6
+),
+
+(
+    'Ruang Kuliah 202 Ki Hadjar Dewantara',
     'Ruang kuliah yang berada di Gedung Ki Hadjar Dewantara lantai 2.',
     'Ruang Kuliah & Akademik',
     'yellow',
@@ -736,7 +1049,7 @@ VALUES
     'Administrasi & Layanan',
     'gray',
     1,
-    NULL,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/09/WhatsApp-Image-2024-09-26-at-16.06.50-1-1024x768.jpeg',
     6
 ),
 
@@ -746,7 +1059,7 @@ VALUES
     'Administrasi & Layanan',
     'blue',
     3,
-    NULL,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/03/WhatsApp-Image-2024-03-01-at-14.02.56-scaled.jpeg',
     6
 ),
 (
@@ -755,7 +1068,7 @@ VALUES
     'Laboratorium',
     'green',
     NULL,
-    NULL,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Programming-JPG.jpg',
     6
 ),
 (
@@ -764,7 +1077,7 @@ VALUES
     'Perpustakaan & Ruang Baca',
     'brown',
     NULL,
-    NULL,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/01/20241231_104651-scaled.jpg',
     6
 ),
 (
@@ -773,7 +1086,7 @@ VALUES
     'Laboratorium',
     'green',
     NULL,
-    NULL,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Cybersecurity.jpeg',
     6
 ),
 (
@@ -782,7 +1095,7 @@ VALUES
     'Laboratorium',
     'green',
     NULL,
-    NULL,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Data-Mining-dan-Data-Science-JPG.jpg',
     6
 ),
 (
@@ -791,7 +1104,7 @@ VALUES
     'Laboratorium',
     'green',
     NULL,
-    NULL,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Artificial-Intelligence-JPG.jpg',
     6
 ),
 (
@@ -800,7 +1113,7 @@ VALUES
     'Laboratorium',
     'green',
     NULL,
-    NULL,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/WhatsApp-Image-2024-06-11-at-4.05.11-PM.jpeg',
     6
 ),
 (
@@ -809,7 +1122,7 @@ VALUES
     'Laboratorium',
     'green',
     NULL,
-    NULL,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Database.jpeg',
     6
 ),
 (
@@ -818,7 +1131,7 @@ VALUES
     'Laboratorium',
     'green',
     NULL,
-    NULL,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-IoT-JPG.jpg',
     6
 ),
 (
@@ -827,16 +1140,33 @@ VALUES
     'Laboratorium',
     'green',
     NULL,
-    NULL,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-25-at-09.57.29-1-scaled.jpeg',
     6
 ),
+(
+    'Masjid',
+    'Masjid di lingkungan kampus UPNVJ',
+    'Tempat Ibadah',
+    'green',
+    NULL,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/20250326_071225-1024x768.jpg',
+    6
+)
 
 -- =========================
 -- GEDUNG DEWI SARTIKA (id = 13)
 -- =========================
-
 (
-    'Ruang UKM',
+    'Lapangan dan Alat Olahraga FIK',
+    'Fasilitas Olahraga yang terletak di depan Gedung Dewi Sartika lantai 1.',
+    'Olahraga',
+    'orange',
+    1,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/20250326_071558-768x576.jpg',
+    13
+),
+(
+    'Ruang UKM UBV',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
     'Administrasi & Layanan',
     'orange',
@@ -845,7 +1175,42 @@ VALUES
     13
 ),
 (
-    'Ruang BEM',
+    'Ruang UKM Sepak Bola',
+    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Administrasi & Layanan',
+    'orange',
+    1,
+    NULL,
+    13
+),(
+    'Ruang UKM Basket',
+    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Administrasi & Layanan',
+    'orange',
+    1,
+    NULL,
+    13
+),
+(
+    'Ruang UKM UFO',
+    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Administrasi & Layanan',
+    'orange',
+    1,
+    NULL,
+    13
+),
+(
+    'Ruang UKM Catur',
+    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Administrasi & Layanan',
+    'orange',
+    1,
+    NULL,
+    13
+),
+(
+    'Ruang BEM FIK',
     'Ruang kegiatan Badan Eksekutif Mahasiswa di Gedung Dewi Sartika lantai 1.',
     'Administrasi & Layanan',
     'orange',
@@ -854,7 +1219,7 @@ VALUES
     13
 ),
 (
-    'Ruang Kuliah Lantai 2',
+    'Ruang Kuliah 201 Dewi Sartika',
     'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 2.',
     'Ruang Kuliah & Akademik',
     'yellow',
@@ -863,7 +1228,25 @@ VALUES
     13
 ),
 (
-    'Ruang Kuliah Lantai 3',
+    'Ruang Kuliah 202 Dewi Sartika',
+    'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 2.',
+    'Ruang Kuliah & Akademik',
+    'yellow',
+    2,
+    NULL,
+    13
+),
+(
+    'Ruang Kuliah 203 Dewi Sartika',
+    'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 2.',
+    'Ruang Kuliah & Akademik',
+    'yellow',
+    2,
+    NULL,
+    13
+),
+(
+    'Ruang Kuliah 301',
     'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 3.',
     'Ruang Kuliah & Akademik',
     'yellow',
@@ -872,14 +1255,50 @@ VALUES
     13
 ),
 (
-    'Ruang Kuliah Lantai 4',
+    'Ruang Kuliah 302',
+    'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 3.',
+    'Ruang Kuliah & Akademik',
+    'yellow',
+    3,
+    NULL,
+    13
+),
+(
+    'Ruang Kuliah 303',
+    'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 3.',
+    'Ruang Kuliah & Akademik',
+    'yellow',
+    3,
+    NULL,
+    13
+),
+(
+    'Ruang Kuliah 401',
     'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 4.',
     'Ruang Kuliah & Akademik',
     'yellow',
     4,
     NULL,
     13
-);
+),
+(
+    'Ruang Kuliah 402',
+    'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 4.',
+    'Ruang Kuliah & Akademik',
+    'yellow',
+    4,
+    NULL,
+    13
+),
+(
+    'Ruang Kuliah 403',
+    'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 4.',
+    'Ruang Kuliah & Akademik',
+    'yellow',
+    4,
+    NULL,
+    13
+),
 
 -- FH
 INSERT INTO public.fasilitas
@@ -895,7 +1314,7 @@ VALUES
     'Administrasi & Layanan',
     'blue',
     1,
-    NULL,
+    'https://hukum.upnvj.ac.id/wp-content/uploads/2023/11/RUANG-KONSENTRASI-2048x1536.png',
     9
 ),
 (
@@ -904,7 +1323,7 @@ VALUES
     'Administrasi & Layanan',
     'blue',
     2,
-    NULL,
+    'https://hukum.upnvj.ac.id/wp-content/uploads/2021/03/f0fd3420-8e5e-433f-b7b8-2da5e898cb64.png',
     9
 ),
 (
@@ -913,7 +1332,7 @@ VALUES
     'Administrasi & Layanan',
     'blue',
     1,
-    NULL,
+    'https://hukum.upnvj.ac.id/wp-content/uploads/2021/03/54a42329-09bc-48a5-8ae2-0e7e5ee0bb26.png',
     9
 ),
 (
@@ -922,7 +1341,7 @@ VALUES
     'Administrasi & Layanan',
     'blue',
     2,
-    NULL,
+    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/06/IMG_5457.jpg',
     9
 ),
 (
@@ -931,7 +1350,7 @@ VALUES
     'Administrasi & Layanan',
     'purple',
     4,
-    NULL,
+    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/RuangPODCAST-LT-4-768x599-HD.png',
     9
 ),
 (
@@ -940,7 +1359,7 @@ VALUES
     'Ruang Kuliah & Akademik',
     'yellow',
     4,
-    NULL,
+    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/RuangPODCAST-LT-4-768x599-HD.png',
     9
 ),
 (
@@ -949,7 +1368,7 @@ VALUES
     'Ruang Kuliah & Akademik',
     'yellow',
     NULL,
-    NULL,
+    'https://hukum.upnvj.ac.id/wp-content/uploads/2022/06/WhatsApp-Image-2022-06-06-at-11.16.52-1-768x576.jpeg',
     9
 ),
 (
@@ -958,7 +1377,7 @@ VALUES
     'Perpustakaan & Ruang Baca',
     'brown',
     3,
-    NULL,
+    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.19.42.jpeg',
     9
 ),
 (
@@ -967,7 +1386,7 @@ VALUES
     'Laboratorium',
     'green',
     2,
-    NULL,
+    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.20.39.jpeg',
     9
 ),
 (
@@ -976,7 +1395,7 @@ VALUES
     'Administrasi & Layanan',
     'gray',
     1,
-    NULL,
+    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.19.43.jpeg',
     9
 ),
 (
@@ -985,7 +1404,7 @@ VALUES
     'Administrasi & Layanan',
     'gray',
     1,
-    NULL,
+    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.19.43-1.jpeg',
     9
 ),
 
@@ -1261,91 +1680,4 @@ VALUES
 hash_password('admin123'),
 'Administrator UPNVJ',
 'superadmin'
-);
-
--- =========================================
--- INSERT WEB ANALYTICS SAMPLE
--- =========================================
-
-INSERT INTO public.web_analytics_log
-(visitor_hash, page_path, device_type, visited_at)
-VALUES
--- 14 days of realistic seed data
-('v_a1b2c3', '/', 'Desktop', NOW() - INTERVAL '1 day'),
-('v_a1b2c3', '/admin', 'Desktop', NOW() - INTERVAL '1 day'),
-('v_d4e5f6', '/', 'Mobile', NOW() - INTERVAL '1 day'),
-('v_g7h8i9', '/', 'Desktop', NOW() - INTERVAL '1 day'),
-('v_j0k1l2', '/', 'Tablet', NOW() - INTERVAL '1 day'),
-
-('v_a1b2c3', '/', 'Desktop', NOW() - INTERVAL '2 days'),
-('v_m3n4o5', '/', 'Mobile', NOW() - INTERVAL '2 days'),
-('v_p6q7r8', '/', 'Desktop', NOW() - INTERVAL '2 days'),
-('v_p6q7r8', '/login', 'Desktop', NOW() - INTERVAL '2 days'),
-
-('v_s9t0u1', '/', 'Mobile', NOW() - INTERVAL '3 days'),
-('v_v2w3x4', '/', 'Desktop', NOW() - INTERVAL '3 days'),
-('v_y5z6a7', '/', 'Mobile', NOW() - INTERVAL '3 days'),
-('v_y5z6a7', '/input-data', 'Mobile', NOW() - INTERVAL '3 days'),
-('v_b8c9d0', '/', 'Desktop', NOW() - INTERVAL '3 days'),
-
-('v_e1f2g3', '/', 'Desktop', NOW() - INTERVAL '4 days'),
-('v_h4i5j6', '/', 'Mobile', NOW() - INTERVAL '4 days'),
-('v_k7l8m9', '/', 'Tablet', NOW() - INTERVAL '4 days'),
-
-('v_n0o1p2', '/', 'Desktop', NOW() - INTERVAL '5 days'),
-('v_q3r4s5', '/', 'Mobile', NOW() - INTERVAL '5 days'),
-('v_t6u7v8', '/', 'Desktop', NOW() - INTERVAL '5 days'),
-('v_w9x0y1', '/', 'Desktop', NOW() - INTERVAL '5 days'),
-('v_z2a3b4', '/', 'Mobile', NOW() - INTERVAL '5 days'),
-
-('v_c5d6e7', '/', 'Desktop', NOW() - INTERVAL '6 days'),
-('v_f8g9h0', '/', 'Mobile', NOW() - INTERVAL '6 days'),
-
-('v_i1j2k3', '/', 'Desktop', NOW() - INTERVAL '7 days'),
-('v_l4m5n6', '/', 'Mobile', NOW() - INTERVAL '7 days'),
-('v_o7p8q9', '/', 'Desktop', NOW() - INTERVAL '7 days'),
-('v_r0s1t2', '/', 'Tablet', NOW() - INTERVAL '7 days'),
-
-('v_u3v4w5', '/', 'Desktop', NOW() - INTERVAL '8 days'),
-('v_x6y7z8', '/', 'Mobile', NOW() - INTERVAL '8 days'),
-
-('v_a9b0c1', '/', 'Desktop', NOW() - INTERVAL '9 days'),
-('v_d2e3f4', '/', 'Mobile', NOW() - INTERVAL '9 days'),
-('v_g5h6i7', '/', 'Desktop', NOW() - INTERVAL '9 days'),
-
-('v_j8k9l0', '/', 'Desktop', NOW() - INTERVAL '10 days'),
-('v_m1n2o3', '/', 'Mobile', NOW() - INTERVAL '10 days'),
-
-('v_p4q5r6', '/', 'Desktop', NOW() - INTERVAL '11 days'),
-('v_s7t8u9', '/', 'Mobile', NOW() - INTERVAL '11 days'),
-('v_v0w1x2', '/', 'Desktop', NOW() - INTERVAL '11 days'),
-
-('v_y3z4a5', '/', 'Desktop', NOW() - INTERVAL '12 days'),
-('v_b6c7d8', '/', 'Mobile', NOW() - INTERVAL '12 days'),
-
-('v_e9f0g1', '/', 'Desktop', NOW() - INTERVAL '13 days'),
-('v_h2i3j4', '/', 'Mobile', NOW() - INTERVAL '13 days'),
-('v_k5l6m7', '/', 'Tablet', NOW() - INTERVAL '13 days'),
-
-('v_n8o9p0', '/', 'Desktop', NOW() - INTERVAL '14 days'),
-('v_q1r2s3', '/', 'Mobile', NOW() - INTERVAL '14 days');
-
--- =========================================
--- INSERT AUDIT LOG SAMPLE
--- =========================================
-
-INSERT INTO public.audit_logs
-(actor_id, actor_email, action, table_name, record_id, old_data, new_data)
-VALUES
-(
-gen_random_uuid(),
-'admin@upnvj.ac.id',
-'INSERT',
-'gedung',
-'1',
-NULL,
-'{
-  "nama_gedung": "Gedung Jenderal Sudirman",
-  "jumlah_lantai": 4
-}'::jsonb
 );

@@ -82,7 +82,7 @@ const FacilityDetailModal: React.FC<FacilityDetailModalProps> = ({
                 <img
                   src={facility.foto_url}
                   alt={facility.nama_fasilitas}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-56 sm:h-64 object-cover"
                   onError={(e) => {
                     (e.target as HTMLImageElement).style.display = "none";
                   }}

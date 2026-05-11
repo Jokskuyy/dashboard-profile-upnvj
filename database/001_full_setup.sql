@@ -86,7 +86,7 @@ CREATE TABLE public.fasilitas (
     color VARCHAR(50) DEFAULT 'gray',
     lantai INT DEFAULT 1,
     foto_url TEXT,
-    id_gedung INT NOT NULL REFERENCES public.gedung(id) ON DELETE CASCADE
+    id_gedung INT REFERENCES public.gedung(id) ON DELETE SET NULL
 );
 COMMENT ON TABLE public.fasilitas IS 'Fasilitas kampus (lab, perpustakaan, dll)';
 

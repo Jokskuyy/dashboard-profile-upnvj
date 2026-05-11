@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, lazy, Suspense } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -6,13 +6,13 @@ import {
 import { KPICardSkeleton, SectionSkeleton } from "../common/SkeletonLoader";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useDashboard } from "../../contexts/DashboardContext";
-import {
-  AccreditationSection,
-  CampusMapSection,
-  AssetsSection,
-} from "./sections";
-import TrafficOverview from "../analytics/TrafficOverview";
+import CampusMapSection from "./sections/CampusMapSection";
 import { trackClick, trackCarousel } from "../analytics/trackingHelpers";
+
+// Lazy-load below-fold sections to reduce initial bundle size (TBT fix)
+const AccreditationSection = lazy(() => import("./sections/AccreditationSection"));
+const AssetsSection = lazy(() => import("./sections/AssetsSection"));
+const TrafficOverview = lazy(() => import("../analytics/TrafficOverview"));
 
 const Dashboard: React.FC = () => {
   const { t } = useLanguage();
@@ -84,6 +84,8 @@ const Dashboard: React.FC = () => {
               src={image}
               alt={`UPNVJ Campus ${index + 1}`}
               className="w-full h-full object-cover"
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchPriority={index === 0 ? "high" : "auto"}
             />
           </div>
         ))}
@@ -214,12 +216,16 @@ const Dashboard: React.FC = () => {
       {/* ─── Content Container ─── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Traffic Overview */}
-        <TrafficOverview />
+        <Suspense fallback={null}>
+          <TrafficOverview />
+        </Suspense>
 
         {/* Assets Section */}
         {!loading && (
           <div id="assets-section" className="mb-8">
-            <AssetsSection />
+            <Suspense fallback={<SectionSkeleton items={4} />}>
+              <AssetsSection />
+            </Suspense>
           </div>
         )}
 
@@ -252,7 +258,9 @@ const Dashboard: React.FC = () => {
               <CampusMapSection />
             </div>
             <div>
-              <AccreditationSection />
+              <Suspense fallback={<SectionSkeleton items={4} />}>
+                <AccreditationSection />
+              </Suspense>
             </div>
           </div>
         )}
