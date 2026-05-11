@@ -145,7 +145,7 @@ export default function BuildingsTable({
                     {building.jumlah_lantai || "—"}
                   </td>
                   <td className="px-5 py-3 text-center">
-                    {building.url_foto ? (
+                    {building.foto_url ? (
                       <span className="inline-block px-2 py-0.5 text-[11px] font-medium rounded-full bg-blue-50 text-blue-600">
                         Ada
                       </span>

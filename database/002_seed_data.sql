@@ -9,7 +9,7 @@
 -- =========================================
 
 INSERT INTO public.gedung 
-(nama_gedung, deskripsi_gedung, lokasi, jumlah_lantai, url_foto)
+(nama_gedung, deskripsi_gedung, lokasi, jumlah_lantai, foto_url)
 VALUES
 ('Gedung Jenderal Sudirman', 'Gedung rektorat dan pusat administrasi universitas', 'Area depan kampus utama Pondok Labu', 4, 'https://lh3.googleusercontent.com/p/AF1QipNfznFUQmK_jNHYGwvy-PhNWFyakaWDwpbpcChk=s1360-w1360-h1020-rw'),
 
@@ -31,7 +31,7 @@ VALUES
 
 ('Gedung RA Kartini', 'Gedung Fakultas Hukum Pascasarjana', 'Klaster Fakultas Hukum', 3, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFVIJBJOJTg_3lSkBco74Dee_FmZP8EyNMLbUleJAwf-6ZavcUyBtiz8lAimtSVsoqgJq0OKJ1plzSNSrejeDDZ8yMNX13A_a_uW0-Qr4oZzn_kGUmqFO6mYtuwSble9OmiH892Zw=s1360-w1360-h1020-rw'),
 
-('Gedung Parkir Depan UPNVJ', 'Gedung parkir bertingkat untuk kendaraan mahasiswa dan staf', 'Sisi depan kampus', , 'https://www.upnvj.ac.id/id/files/large/8bc605d9f811bf6fe60a23c2e0626ea0'),
+('Gedung Parkir Depan UPNVJ', 'Gedung parkir bertingkat untuk kendaraan mahasiswa dan staf', 'Sisi depan kampus', NULL, 'https://www.upnvj.ac.id/id/files/large/8bc605d9f811bf6fe60a23c2e0626ea0'),
 
 ('Area Parkir Depan UPNVJ', 'Area parkir terbuka untuk kendaraan mahasiswa dan staf', 'Sisi depan kampus', 4, 'https://www.upnvj.ac.id/id/files/thumb/65f06b5d1b2ab2a6603d3018c6c91b43/520'),
 
@@ -39,9 +39,9 @@ VALUES
 
 ('Lapangan Upacara', 'Tempat upacara dan parkir mobil apabila sedang tidak dipakai', 'Area tengah kampus', 1, 'https://www.upnvj.ac.id/id/files/thumb/7c60154c9cdad11f95c5d0ef86090f1d/520'),
 
-('Gedung Kuliah dan Kegiatan Mahasiswa', 'Gedung ruang kuliah dan sekretariat UKM', 'Area belakang kampus', 8);
+('Gedung Kuliah dan Kegiatan Mahasiswa', 'Gedung ruang kuliah dan sekretariat UKM', 'Area belakang kampus', 8),
 
-('Area Parkir Belakang UPNVJ', 'Area parkir terbuka parkir untuk kendaraan mahasiswa dan staf', 'Sisi belakang kampus', 1),
+('Area Parkir Belakang UPNVJ', 'Area parkir terbuka parkir untuk kendaraan mahasiswa dan staf', 'Sisi belakang kampus', 1);
 
 -- =========================================
 -- INSERT FAKULTAS

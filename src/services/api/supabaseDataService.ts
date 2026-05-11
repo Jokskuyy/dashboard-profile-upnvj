@@ -675,7 +675,7 @@ export interface GedungData {
   deskripsi_gedung?: string;
   lokasi?: string;
   jumlah_lantai?: number;
-  url_foto?: string;
+  foto_url?: string;
 }
 
 export const createGedung = async (
@@ -690,7 +690,7 @@ export const createGedung = async (
       deskripsi_gedung: gedung.deskripsi_gedung ?? null,
       lokasi: gedung.lokasi ?? null,
       jumlah_lantai: gedung.jumlah_lantai ?? 1,
-      url_foto: gedung.url_foto ?? null,
+      foto_url: gedung.foto_url ?? null,
     })
     .select()
     .single();
@@ -720,7 +720,7 @@ export const updateGedung = async (
     "deskripsi_gedung",
     "lokasi",
     "jumlah_lantai",
-    "url_foto",
+    "foto_url",
   ];
   for (const key of validColumns) {
     if (key in gedung) {

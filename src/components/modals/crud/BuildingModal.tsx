@@ -14,7 +14,7 @@ const INITIAL_FORM: GedungData = {
   deskripsi_gedung: "",
   lokasi: "",
   jumlah_lantai: 1,
-  url_foto: "",
+  foto_url: "",
 };
 
 export default function BuildingModal({
@@ -37,7 +37,7 @@ export default function BuildingModal({
           deskripsi_gedung: building.deskripsi_gedung || "",
           lokasi: building.lokasi || "",
           jumlah_lantai: building.jumlah_lantai || 1,
-          url_foto: building.url_foto || "",
+          foto_url: building.foto_url || "",
         });
       } else {
         setForm(INITIAL_FORM);
@@ -183,15 +183,15 @@ export default function BuildingModal({
               </label>
               <input
                 type="url"
-                value={form.url_foto}
-                onChange={(e) => setForm({ ...form, url_foto: e.target.value })}
+                value={form.foto_url}
+                onChange={(e) => setForm({ ...form, foto_url: e.target.value })}
                 className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 placeholder="https://example.com/foto-gedung.jpg"
               />
-              {form.url_foto && (
+              {form.foto_url && (
                 <div className="mt-2 rounded-lg overflow-hidden border border-slate-200">
                   <img
-                    src={form.url_foto}
+                    src={form.foto_url}
                     alt="Preview"
                     className="w-full h-32 object-cover"
                     onError={(e) => {

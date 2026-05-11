@@ -122,6 +122,14 @@ const CategoryFacilitiesModal: React.FC<CategoryFacilitiesModalProps> = ({
               f.tipe_fasilitas?.toLowerCase().includes("food"),
           );
           break;
+        case "Administrasi & Layanan":
+          filteredData = filteredData.filter(
+            (f) =>
+              f.tipe_fasilitas?.toLowerCase().includes("administrasi") ||
+              f.tipe_fasilitas?.toLowerCase().includes("sekretariat") ||
+              f.tipe_fasilitas?.toLowerCase().includes("layanan"),
+          );
+          break;
         default:
           if (category.filter) {
             filteredData = filteredData.filter(
