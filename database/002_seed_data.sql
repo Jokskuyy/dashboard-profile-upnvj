@@ -2,7 +2,13 @@
 -- SEEDING DATA UPNVJ PONDOK LABU
 -- =========================================
 -- Jalankan SETELAH 001_full_setup.sql
+-- Aman untuk di-run ulang (akan TRUNCATE dulu)
 -- =========================================
+
+-- =========================================
+-- CLEAN EXISTING DATA (safe re-run)
+-- =========================================
+TRUNCATE public.fasilitas, public.program_studi, public.fakultas, public.gedung RESTART IDENTITY CASCADE;
 
 -- =========================================
 -- INSERT GEDUNG
