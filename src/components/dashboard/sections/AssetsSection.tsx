@@ -4,6 +4,7 @@ import { supabase } from "../../../lib/supabase";
 import FacilityDetailModal from "../../modals/shared/FacilityDetailModal";
 import CategoryFacilitiesModal from "../../modals/shared/CategoryFacilitiesModal";
 import BuildingsModal from "../../modals/shared/BuildingsModal";
+import FacilitySearch from "./FacilitySearch";
 
 // Interface untuk data gedung dan fasilitas
 interface Building {
@@ -331,6 +332,9 @@ const AssetsSection: React.FC = () => {
           </h2>
           <p className="text-sm text-gray-500">{t("clickToViewDetail")}</p>
         </div>
+
+        {/* Facility Search */}
+        <FacilitySearch />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
           {assets.map((asset) => (
             <div

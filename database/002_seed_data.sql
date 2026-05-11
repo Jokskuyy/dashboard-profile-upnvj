@@ -21,7 +21,7 @@ VALUES
 
 ('Gedung Abdul Rahman Saleh', 'Gedung fasilitas pendukung Fakultas Kedokteran dan laboratorium klinis', 'Perbatasan FK dan FISIP', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFN69ll_2oviGvoSVxqOLSXKGitp5YcsG1SwaS98aas0JotI0LcnYEAfpx45ME5h-2dAkd0HeM7EnBRohk848CBtRE0ZnHYrMHnka93pW0URtKOOkbI5F4yht6l-xUfAkwFmeD8=s1360-w1360-h1020-rw'),
 
-('Gedung Ki Hadjar Dewantara', 'Gedung Fakultas Ilmu Komputer dan laboratorium komputer', 'Klaster Fakultas Ilmu Komputer', 4),
+('Gedung Ki Hadjar Dewantara', 'Gedung Fakultas Ilmu Komputer dan laboratorium komputer', 'Klaster Fakultas Ilmu Komputer', 4, NULL),
 
 ('Gedung Moh. Husni Thamrin', 'Gedung Fakultas Ekonomi dan Bisnis', 'Klaster Fakultas Ekonomi dan Bisnis', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGflOIbXcOobrndabRHJSRJAhfL_paxHsrWpeYPkKE9NHoFIUwTfdkHXtt2W5uUkFP0Hw-E2PRVtVgIKR_Cxw5-5QQgu7yWgMIhKnMSstSsAO8sLZWib1D-9up5i4gtRmTFcQJ5UA=s1360-w1360-h1020-rw'),
 
@@ -39,9 +39,9 @@ VALUES
 
 ('Lapangan Upacara', 'Tempat upacara dan parkir mobil apabila sedang tidak dipakai', 'Area tengah kampus', 1, 'https://www.upnvj.ac.id/id/files/thumb/7c60154c9cdad11f95c5d0ef86090f1d/520'),
 
-('Gedung Kuliah dan Kegiatan Mahasiswa', 'Gedung ruang kuliah dan sekretariat UKM', 'Area belakang kampus', 8),
+('Gedung Kuliah dan Kegiatan Mahasiswa', 'Gedung ruang kuliah dan sekretariat UKM', 'Area belakang kampus', 8, NULL),
 
-('Area Parkir Belakang UPNVJ', 'Area parkir terbuka parkir untuk kendaraan mahasiswa dan staf', 'Sisi belakang kampus', 1);
+('Area Parkir Belakang UPNVJ', 'Area parkir terbuka parkir untuk kendaraan mahasiswa dan staf', 'Sisi belakang kampus', 1, NULL);
 
 -- =========================================
 -- INSERT FAKULTAS
