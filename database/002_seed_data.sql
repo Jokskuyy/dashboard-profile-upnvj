@@ -11,31 +11,31 @@
 INSERT INTO public.gedung 
 (nama_gedung, deskripsi_gedung, lokasi, jumlah_lantai, url_foto)
 VALUES
-('Gedung Jenderal Sudirman', 'Gedung rektorat dan pusat administrasi universitas', 'Area depan kampus utama Pondok Labu', 4),
+('Gedung Jenderal Sudirman', 'Gedung rektorat dan pusat administrasi universitas', 'Area depan kampus utama Pondok Labu', 4, 'https://lh3.googleusercontent.com/p/AF1QipNfznFUQmK_jNHYGwvy-PhNWFyakaWDwpbpcChk=s1360-w1360-h1020-rw'),
 
-('Gedung DR. Soetomo', 'Gedung perpustakaan pusat dan laboratorium terpadu universitas', 'Zona pelayanan akademik', 4),
+('Gedung DR. Soepomo', 'Gedung perpustakaan pusat dan laboratorium terpadu universitas', 'Zona pelayanan akademik', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHP4bEdhC5nk1gfOqby_zHT9oKCovBX2WsHIwD4Ov64kpGzirWAW8dfAKBGwftct2ENL5HcPPlCAx6anVa_H3dJUP-RwS9J7x9rKjxL6no_xnjpvSK8dXp5w7IZpr6HFVIi04c2=s1360-w1360-h1020-rw'),
 
-('Gedung Dr. Wahidin Sudiro Husodo', 'Gedung utama Fakultas Kedokteran', 'Klaster Fakultas Kedokteran', 4),
+('Gedung Dr. Wahidin Sudiro Husodo', 'Gedung utama Fakultas Kedokteran', 'Klaster Fakultas Kedokteran', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAH_kJkMUYypSOPQCcHhMvExYp5AYpdDUaaYuG5qitbtoSPj7j8D8SZI-iKz4fTLRCx3gDxFHjYkbk1hjLX_rInT1ZRI85vAprglf9kUut_2XODKNYm9Hy-5_W6R-dc_Ub4km58m5P1nwGhK=s1360-w1360-h1020-rw'),
 
-('Gedung Dr. Cipto Mangunkusumo', 'Gedung penunjang laboratorium dan skills lab Fakultas Kedokteran', 'Klaster Fakultas Kedokteran', 3),
+('Gedung Dr. Cipto Mangunkusumo', 'Gedung penunjang laboratorium dan skills lab Fakultas Kedokteran', 'Klaster Fakultas Kedokteran', 3, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEuafZGrUzwGKAgdCd2ypupHw0fC0nzc3SrnfBaa-n_sdwlt-tRurr-USbmlMVT-eC1-jSCMwObrVcjVKkPEZsU_mnlrQXlS2slOjtx-w71PNaP-xih06I7q3_c722PJKnLnioD=s1360-w1360-h1020-rw'),
 
-('Gedung Abdul Rahman Saleh', 'Gedung fasilitas pendukung Fakultas Kedokteran dan laboratorium klinis', 'Perbatasan FK dan FISIP', 4),
+('Gedung Abdul Rahman Saleh', 'Gedung fasilitas pendukung Fakultas Kedokteran dan laboratorium klinis', 'Perbatasan FK dan FISIP', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFN69ll_2oviGvoSVxqOLSXKGitp5YcsG1SwaS98aas0JotI0LcnYEAfpx45ME5h-2dAkd0HeM7EnBRohk848CBtRE0ZnHYrMHnka93pW0URtKOOkbI5F4yht6l-xUfAkwFmeD8=s1360-w1360-h1020-rw'),
 
 ('Gedung Ki Hadjar Dewantara', 'Gedung Fakultas Ilmu Komputer dan laboratorium komputer', 'Klaster Fakultas Ilmu Komputer', 4),
 
-('Gedung Moh. Husni Thamrin', 'Gedung Fakultas Ekonomi dan Bisnis', 'Klaster Fakultas Ekonomi dan Bisnis', 4),
+('Gedung Moh. Husni Thamrin', 'Gedung Fakultas Ekonomi dan Bisnis', 'Klaster Fakultas Ekonomi dan Bisnis', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGflOIbXcOobrndabRHJSRJAhfL_paxHsrWpeYPkKE9NHoFIUwTfdkHXtt2W5uUkFP0Hw-E2PRVtVgIKR_Cxw5-5QQgu7yWgMIhKnMSstSsAO8sLZWib1D-9up5i4gtRmTFcQJ5UA=s1360-w1360-h1020-rw'),
 
-('Gedung Muhammad Yamin', 'Gedung Fakultas Ilmu Sosial dan Ilmu Politik', 'Klaster FISIP', 2),
+('Gedung Muhammad Yamin', 'Gedung Fakultas Ilmu Sosial dan Ilmu Politik', 'Klaster FISIP', 2, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEMaTEfjms_FZz94oRK6Nh4UDLmVOLEDSE-FbJn9KanlLTV4_3_bFBi-OXyPfdAD-53PM-og8M0fjsQz6afff34paF4v_ZfKKJBgH-cm4auYKTTDmirhOyLP-kULtZdBFEjqvCX=s1360-w1360-h1020-rw'),
 
-('Gedung Yos Sudarso', 'Gedung Fakultas Hukum Program Sarjana', 'Klaster Fakultas Hukum', 4),
+('Gedung Yos Sudarso', 'Gedung Fakultas Hukum Program Sarjana', 'Klaster Fakultas Hukum', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAE4HfluOl3-xKlviPZHoIojU3Ogkeg7CmInvqij6OiLrAFwmG_4StjZZXymXAvXgVcCTSecMM9c7op3c75JD7J_t2X-fcqS8V44malDGnqf6f0AmVJRpJTsPNgpc56vxqWxHRXGCMLlljrl=s1360-w1360-h1020-rw'),
 
-('Gedung RA Kartini', 'Gedung Fakultas Hukum Pascasarjana', 'Klaster Fakultas Hukum', 3),
+('Gedung RA Kartini', 'Gedung Fakultas Hukum Pascasarjana', 'Klaster Fakultas Hukum', 3, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFVIJBJOJTg_3lSkBco74Dee_FmZP8EyNMLbUleJAwf-6ZavcUyBtiz8lAimtSVsoqgJq0OKJ1plzSNSrejeDDZ8yMNX13A_a_uW0-Qr4oZzn_kGUmqFO6mYtuwSble9OmiH892Zw=s1360-w1360-h1020-rw'),
 
 ('Gedung Parkir Depan UPNVJ', 'Gedung parkir bertingkat untuk kendaraan mahasiswa dan staf', 'Sisi depan kampus', , 'https://www.upnvj.ac.id/id/files/large/8bc605d9f811bf6fe60a23c2e0626ea0'),
 
 ('Area Parkir Depan UPNVJ', 'Area parkir terbuka untuk kendaraan mahasiswa dan staf', 'Sisi depan kampus', 4, 'https://www.upnvj.ac.id/id/files/thumb/65f06b5d1b2ab2a6603d3018c6c91b43/520'),
 
-('Gedung Dewi Sartika', 'Gedung Fakultas Ilmu Komputer', 'Klaster Fakultas Ilmu Komputer', 4),
+('Gedung Dewi Sartika', 'Gedung Fakultas Ilmu Komputer', 'Klaster Fakultas Ilmu Komputer', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGa2dHMbS8-UqBc37_gAecDSWVc1uhXSpfA1fjnG0BiIzfb5igOofBUrkgUsKEjST29WRgalK0p17rjAwhap4HGbCIJBscgAfrziBv3apXVDoYNN9YcnKX7mwNCHivCpNLJQekA=s1360-w1360-h1020-rw'),
 
 ('Lapangan Upacara', 'Tempat upacara dan parkir mobil apabila sedang tidak dipakai', 'Area tengah kampus', 1, 'https://www.upnvj.ac.id/id/files/thumb/7c60154c9cdad11f95c5d0ef86090f1d/520'),
 
@@ -555,12 +555,10 @@ VALUES
     NULL,
     'https://feb.upnvj.ac.id/struktur-organisasi/',
     7
-);
+),
 
 -- FK
-INSERT INTO public.fasilitas
-(nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, color, lantai, foto_url, id_gedung)
-VALUES
+
 
 -- =========================
 -- GEDUNG ID 3
@@ -1012,11 +1010,7 @@ VALUES
     4,
     NULL,
     5
-);
-
-INSERT INTO public.fasilitas
-(nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, color, lantai, foto_url, id_gedung)
-VALUES
+),
 
 -- FIK
 
@@ -1151,7 +1145,7 @@ VALUES
     NULL,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/20250326_071225-1024x768.jpg',
     6
-)
+),
 
 -- =========================
 -- GEDUNG DEWI SARTIKA (id = 13)
@@ -1301,9 +1295,6 @@ VALUES
 ),
 
 -- FH
-INSERT INTO public.fasilitas
-(nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, color, lantai, foto_url, id_gedung)
-VALUES
 
 -- =========================
 -- GEDUNG YOS SUDARSO (id = 9)
@@ -1473,13 +1464,10 @@ VALUES
     1,
     NULL,
     10
-);
+),
 
 -- FISIP
 
-INSERT INTO public.fasilitas
-(nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, color, lantai, foto_url, id_gedung)
-VALUES
 
 (
     'Auditorium FISIP',
@@ -1616,68 +1604,104 @@ VALUES
 -- =========================================
 
 -- data prodi
--- data prodi
-INSERT INTO program_studi (id, nama_prodi, jenjang, id_fakultas, akreditasi) VALUES
-(1, 'Perbankan dan Keuangan', 'Vokasi', 2, 'Unggul'),
-(2, 'Akuntansi', 'Vokasi', 2, 'Unggul'),
-(3, 'Manajemen', 'Sarjana', 2, 'Unggul'),
-(4, 'Akuntansi', 'Sarjana', 2, 'Unggul'),
-(5, 'Ekonomi Pembangunan', 'Sarjana', 2, 'Baik Sekali'),
-(6, 'Ekonomi Syariah', 'Sarjana', 2, 'Unggul'),
-(7, 'Manajemen', 'Magister', 2, 'B'),
-(8, 'Akuntansi', 'Magister', 2, 'Baik Sekali');
-INSERT INTO program_studi (id, nama_prodi, jenjang, id_fakultas, akreditasi) VALUES
-(9, 'Kedokteran', 'Sarjana', 1, 'Unggul'),
-(10, 'Farmasi', 'Sarjana', 1, 'Baik Sekali'),
-(11, 'Biologi', 'Sarjana', 1, 'Izin Operasional'),
-(12, 'Pendidikan Profesi Dokter', 'Profesi', 1, 'Unggul'),
-(13, 'Apoteker', 'Profesi', 1, 'Izin Operasional'),
-(14, 'Sains Biomedis', 'Magister', 1, 'Izin Operasional'),
-(15, 'Radiologi', 'Spesialis', 1, 'Izin Operasional');
-INSERT INTO program_studi (id, nama_prodi, jenjang, id_fakultas, akreditasi) VALUES
-(16, 'Sistem Informasi', 'Vokasi', 3, 'B'),
-(17, 'Informatika', 'Sarjana', 3, 'Unggul'),
-(18, 'Sistem Informasi', 'Sarjana', 3, 'Baik Sekali'),
-(19, 'Sains Data', 'Sarjana', 3, 'Ijin Operasional');
-INSERT INTO program_studi (id, nama_prodi, jenjang, id_fakultas, akreditasi) VALUES
-(20, 'Hukum', 'Sarjana', 4, 'Unggul'),
-(21, 'Hukum Bisnis', 'Sarjana', 4, 'Ijin Operasional'),
-(22, 'Hukum', 'Magister', 4, 'Baik Sekali'),
-(23, 'Hukum', 'Doktor', 4, 'Ijin Operasional');
-INSERT INTO program_studi (id, nama_prodi, jenjang, id_fakultas, akreditasi) VALUES
-(24, 'Ilmu Komunikasi', 'Sarjana', 5, 'Unggul'),
-(25, 'Hubungan Internasional', 'Sarjana', 5, 'B'),
-(26, 'Ilmu Politik', 'Sarjana', 5, 'Baik Sekali'),
-(27, 'Sains Informasi', 'Sarjana', 5, 'Baik'),
-(28, 'Kajian Film, Televisi dan Media', 'Sarjana', 5, 'Izin Operasional'),
-(29, 'Hubungan Internasional', 'Magister', 5, 'Baik'),
-(30, 'Ilmu Politik', 'Magister', 5, 'Baik'),
-(31, 'Ilmu Komunikasi', 'Magister', 5, 'Baik Sekali');
-INSERT INTO program_studi (id, nama_prodi, jenjang, id_fakultas, akreditasi) VALUES
-(32, 'Teknik Mesin', 'Sarjana', 6, 'Unggul'),
-(33, 'Teknik Industri', 'Sarjana', 6, 'Unggul'),
-(34, 'Teknik Perkapalan', 'Sarjana', 6, 'Unggul'),
-(35, 'Teknik Elektro', 'Sarjana', 6, 'Unggul');
-INSERT INTO program_studi (id, nama_prodi, jenjang, id_fakultas, akreditasi) VALUES
-(36, 'Keperawatan', 'Vokasi', 7, 'Unggul'),
-(37, 'Fisioterapi', 'Vokasi', 7, 'Unggul'),
-(38, 'Kesehatan Masyarakat', 'Sarjana', 7, 'Unggul'),
-(39, 'Gizi', 'Sarjana', 7, 'Unggul'),
-(40, 'Keperawatan', 'Sarjana', 7, 'Baik Sekali'),
-(41, 'Fisioterapi', 'Sarjana', 7, 'Unggul'),
-(42, 'Pendidikan Profesi Ners', 'Profesi', 7, 'Baik Sekali'),
-(43, 'Kesehatan Masyarakat', 'Magister', 7, 'Baik'),
-(44, 'Keperawatan', 'Magister', 7, 'Ijin Operasional');
--- =========================================
--- INSERT ADMIN USER DEFAULT
--- =========================================
+INSERT INTO program_studi (nama_prodi, jenjang, id_fakultas, akreditasi) VALUES
+('Perbankan dan Keuangan', 'Vokasi', 2, 'Unggul'),
+('Akuntansi', 'Vokasi', 2, 'Unggul'),
+('Manajemen', 'Sarjana', 2, 'Unggul'),
+('Akuntansi', 'Sarjana', 2, 'Unggul'),
+('Ekonomi Pembangunan', 'Sarjana', 2, 'Baik Sekali'),
+('Ekonomi Syariah', 'Sarjana', 2, 'Unggul'),
+('Manajemen', 'Magister', 2, 'B'),
+('Akuntansi', 'Magister', 2, 'Baik Sekali'),
 
-INSERT INTO public.admin_users
-(username, password_hash, nama_lengkap, role)
-VALUES
-(
-'admin',
-hash_password('admin123'),
-'Administrator UPNVJ',
-'superadmin'
-);
+('Kedokteran', 'Sarjana', 1, 'Unggul'),
+('Farmasi', 'Sarjana', 1, 'Baik Sekali'),
+('Biologi', 'Sarjana', 1, 'Izin Operasional'),
+('Pendidikan Profesi Dokter', 'Profesi', 1, 'Unggul'),
+('Apoteker', 'Profesi', 1, 'Izin Operasional'),
+('Sains Biomedis', 'Magister', 1, 'Izin Operasional'),
+('Radiologi', 'Spesialis', 1, 'Izin Operasional'),
+
+('Sistem Informasi', 'Vokasi', 3, 'B'),
+('Informatika', 'Sarjana', 3, 'Unggul'),
+('Sistem Informasi', 'Sarjana', 3, 'Baik Sekali'),
+('Sains Data', 'Sarjana', 3, 'Ijin Operasional'),
+
+('Hukum', 'Sarjana', 4, 'Unggul'),
+('Hukum Bisnis', 'Sarjana', 4, 'Ijin Operasional'),
+('Hukum', 'Magister', 4, 'Baik Sekali'),
+('Hukum', 'Doktor', 4, 'Ijin Operasional'),
+
+('Ilmu Komunikasi', 'Sarjana', 5, 'Unggul'),
+('Hubungan Internasional', 'Sarjana', 5, 'B'),
+('Ilmu Politik', 'Sarjana', 5, 'Baik Sekali'),
+('Sains Informasi', 'Sarjana', 5, 'Baik'),
+('Kajian Film, Televisi dan Media', 'Sarjana', 5, 'Izin Operasional'),
+('Hubungan Internasional', 'Magister', 5, 'Baik'),
+('Ilmu Politik', 'Magister', 5, 'Baik'),
+('Ilmu Komunikasi', 'Magister', 5, 'Baik Sekali'),
+
+('Teknik Mesin', 'Sarjana', 6, 'Unggul'),
+('Teknik Industri', 'Sarjana', 6, 'Unggul'),
+('Teknik Perkapalan', 'Sarjana', 6, 'Unggul'),
+('Teknik Elektro', 'Sarjana', 6, 'Unggul'),
+
+('Keperawatan', 'Vokasi', 7, 'Unggul'),
+('Fisioterapi', 'Vokasi', 7, 'Unggul'),
+('Kesehatan Masyarakat', 'Sarjana', 7, 'Unggul'),
+('Gizi', 'Sarjana', 7, 'Unggul'),
+('Keperawatan', 'Sarjana', 7, 'Baik Sekali'),
+('Fisioterapi', 'Sarjana', 7, 'Unggul'),
+('Pendidikan Profesi Ners', 'Profesi', 7, 'Baik Sekali'),
+('Kesehatan Masyarakat', 'Magister', 7, 'Baik'),
+('Keperawatan', 'Magister', 7, 'Ijin Operasional');INSERT INTO program_studi (nama_prodi, jenjang, id_fakultas, akreditasi) VALUES
+('Perbankan dan Keuangan', 'Vokasi', 2, 'Unggul'),
+('Akuntansi', 'Vokasi', 2, 'Unggul'),
+('Manajemen', 'Sarjana', 2, 'Unggul'),
+('Akuntansi', 'Sarjana', 2, 'Unggul'),
+('Ekonomi Pembangunan', 'Sarjana', 2, 'Baik Sekali'),
+('Ekonomi Syariah', 'Sarjana', 2, 'Unggul'),
+('Manajemen', 'Magister', 2, 'B'),
+('Akuntansi', 'Magister', 2, 'Baik Sekali'),
+
+('Kedokteran', 'Sarjana', 1, 'Unggul'),
+('Farmasi', 'Sarjana', 1, 'Baik Sekali'),
+('Biologi', 'Sarjana', 1, 'Izin Operasional'),
+('Pendidikan Profesi Dokter', 'Profesi', 1, 'Unggul'),
+('Apoteker', 'Profesi', 1, 'Izin Operasional'),
+('Sains Biomedis', 'Magister', 1, 'Izin Operasional'),
+('Radiologi', 'Spesialis', 1, 'Izin Operasional'),
+
+('Sistem Informasi', 'Vokasi', 3, 'B'),
+('Informatika', 'Sarjana', 3, 'Unggul'),
+('Sistem Informasi', 'Sarjana', 3, 'Baik Sekali'),
+('Sains Data', 'Sarjana', 3, 'Ijin Operasional'),
+
+('Hukum', 'Sarjana', 4, 'Unggul'),
+('Hukum Bisnis', 'Sarjana', 4, 'Ijin Operasional'),
+('Hukum', 'Magister', 4, 'Baik Sekali'),
+('Hukum', 'Doktor', 4, 'Ijin Operasional'),
+
+('Ilmu Komunikasi', 'Sarjana', 5, 'Unggul'),
+('Hubungan Internasional', 'Sarjana', 5, 'B'),
+('Ilmu Politik', 'Sarjana', 5, 'Baik Sekali'),
+('Sains Informasi', 'Sarjana', 5, 'Baik'),
+('Kajian Film, Televisi dan Media', 'Sarjana', 5, 'Izin Operasional'),
+('Hubungan Internasional', 'Magister', 5, 'Baik'),
+('Ilmu Politik', 'Magister', 5, 'Baik'),
+('Ilmu Komunikasi', 'Magister', 5, 'Baik Sekali'),
+
+('Teknik Mesin', 'Sarjana', 6, 'Unggul'),
+('Teknik Industri', 'Sarjana', 6, 'Unggul'),
+('Teknik Perkapalan', 'Sarjana', 6, 'Unggul'),
+('Teknik Elektro', 'Sarjana', 6, 'Unggul'),
+
+('Keperawatan', 'Vokasi', 7, 'Unggul'),
+('Fisioterapi', 'Vokasi', 7, 'Unggul'),
+('Kesehatan Masyarakat', 'Sarjana', 7, 'Unggul'),
+('Gizi', 'Sarjana', 7, 'Unggul'),
+('Keperawatan', 'Sarjana', 7, 'Baik Sekali'),
+('Fisioterapi', 'Sarjana', 7, 'Unggul'),
+('Pendidikan Profesi Ners', 'Profesi', 7, 'Baik Sekali'),
+('Kesehatan Masyarakat', 'Magister', 7, 'Baik'),
+('Keperawatan', 'Magister', 7, 'Ijin Operasional');

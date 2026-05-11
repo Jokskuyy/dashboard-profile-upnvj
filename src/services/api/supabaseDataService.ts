@@ -666,3 +666,94 @@ export const deleteFacility = async (id: number): Promise<void> => {
   // Audit log (fire-and-forget)
   logDelete("fasilitas", id.toString(), oldData || {});
 };
+
+// ===== GEDUNG CRUD =====
+
+export interface GedungData {
+  id?: number;
+  nama_gedung: string;
+  deskripsi_gedung?: string;
+  lokasi?: string;
+  jumlah_lantai?: number;
+  url_foto?: string;
+}
+
+export const createGedung = async (
+  gedung: Omit<GedungData, "id">,
+): Promise<GedungData> => {
+  clearCache();
+
+  const { data, error } = await supabase
+    .from("gedung")
+    .insert({
+      nama_gedung: gedung.nama_gedung,
+      deskripsi_gedung: gedung.deskripsi_gedung ?? null,
+      lokasi: gedung.lokasi ?? null,
+      jumlah_lantai: gedung.jumlah_lantai ?? 1,
+      url_foto: gedung.url_foto ?? null,
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+
+  logCreate("gedung", data.id.toString(), data);
+
+  return data;
+};
+
+export const updateGedung = async (
+  id: number,
+  gedung: Partial<GedungData>,
+): Promise<GedungData> => {
+  clearCache();
+
+  const { data: oldData } = await supabase
+    .from("gedung")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  const updatePayload: Record<string, unknown> = {};
+  const validColumns = [
+    "nama_gedung",
+    "deskripsi_gedung",
+    "lokasi",
+    "jumlah_lantai",
+    "url_foto",
+  ];
+  for (const key of validColumns) {
+    if (key in gedung) {
+      updatePayload[key] = (gedung as Record<string, unknown>)[key];
+    }
+  }
+
+  const { data, error } = await supabase
+    .from("gedung")
+    .update(updatePayload)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) throw error;
+
+  logUpdate("gedung", id.toString(), oldData || {}, data);
+
+  return data;
+};
+
+export const deleteGedung = async (id: number): Promise<void> => {
+  clearCache();
+
+  const { data: oldData } = await supabase
+    .from("gedung")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  const { error } = await supabase.from("gedung").delete().eq("id", id);
+
+  if (error) throw error;
+
+  logDelete("gedung", id.toString(), oldData || {});
+};

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import {
   Package,
   BookOpen,
+  Building2,
   RefreshCw,
   TrendingUp,
   LogOut,
@@ -19,23 +20,29 @@ import {
   createFacility,
   updateFacility,
   deleteFacility,
+  createGedung,
+  updateGedung,
+  deleteGedung,
   type DashboardData,
   type FacultyInfo,
   type FacilityData,
+  type GedungData,
 } from "../../services/api/dataService";
 import type { ProgramData } from "../../types";
 import ProgramModal from "../modals/crud/ProgramModal";
 import FacilityModal from "../modals/crud/FacilityModal";
+import BuildingModal from "../modals/crud/BuildingModal";
 import DeleteConfirmModal from "../modals/shared/DeleteConfirmModal";
 import Toast, { type ToastType } from "../common/Toast";
 import AdminTrafficAnalytics from "./analytics/AdminTrafficAnalytics";
+import BuildingsTable from "./tables/BuildingsTable";
 import FacilitiesTable from "./tables/FacilitiesTable";
 import ProgramsTable from "./tables/ProgramsTable";
 import AuditLogTable from "./tables/AuditLogTable";
 import { useAuth } from "../../contexts/AuthContext";
 import "./admin.css";
 
-type TabType = "assets" | "programs" | "analytics" | "audit";
+type TabType = "buildings" | "assets" | "programs" | "analytics" | "audit";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -56,6 +63,11 @@ export default function AdminDashboard() {
   const [facilityModal, setFacilityModal] = useState<{
     isOpen: boolean;
     facility?: FacilityData;
+  }>({ isOpen: false });
+
+  const [buildingModal, setBuildingModal] = useState<{
+    isOpen: boolean;
+    building?: GedungData;
   }>({ isOpen: false });
 
   const [deleteModal, setDeleteModal] = useState<{
@@ -164,6 +176,27 @@ export default function AdminDashboard() {
     }
   };
 
+  // ── CRUD: Buildings ────────────────────────────────
+  const handleSaveBuilding = async (
+    building: Omit<GedungData, "id"> | GedungData,
+  ) => {
+    try {
+      if ("id" in building && building.id) {
+        await updateGedung(building.id, building);
+        showToast("Gedung berhasil diupdate", "success");
+      } else {
+        await createGedung(building);
+        showToast("Gedung baru berhasil ditambahkan", "success");
+      }
+      await loadData();
+      setBuildingModal({ isOpen: false });
+    } catch (err) {
+      console.error("Error saving building:", err);
+      showToast(getErrorMessage(err, "Gagal menyimpan gedung"), "error");
+      throw err;
+    }
+  };
+
   // ── CRUD: Delete ──────────────────────────────────
   const handleDeleteConfirm = async () => {
     if (!deleteModal.type || !deleteModal.id) return;
@@ -175,6 +208,9 @@ export default function AdminDashboard() {
       } else if (deleteModal.type === "facility") {
         await deleteFacility(Number(deleteModal.id));
         showToast("Fasilitas berhasil dihapus", "success");
+      } else if (deleteModal.type === "building") {
+        await deleteGedung(Number(deleteModal.id));
+        showToast("Gedung berhasil dihapus", "success");
       }
       await loadData();
       setDeleteModal({ isOpen: false });
@@ -186,6 +222,7 @@ export default function AdminDashboard() {
 
   // ── Tab config ────────────────────────────────────
   const tabs = [
+    { id: "buildings" as const, label: "Gedung", icon: Building2 },
     { id: "assets" as const, label: "Fasilitas", icon: Package, count: data?.assets.length },
     { id: "programs" as const, label: "Program Studi", icon: BookOpen, count: data?.programs.length },
     { id: "analytics" as const, label: "Analytics", icon: TrendingUp },
@@ -250,6 +287,12 @@ export default function AdminDashboard() {
         onClose={() => setFacilityModal({ isOpen: false })}
         onSave={handleSaveFacility}
         facility={facilityModal.facility}
+      />
+      <BuildingModal
+        isOpen={buildingModal.isOpen}
+        onClose={() => setBuildingModal({ isOpen: false })}
+        onSave={handleSaveBuilding}
+        building={buildingModal.building}
       />
       <DeleteConfirmModal
         isOpen={deleteModal.isOpen}
@@ -397,6 +440,20 @@ export default function AdminDashboard() {
 
             {/* Tab content */}
             <div className="p-4 sm:p-6">
+              {activeTab === "buildings" && (
+                <BuildingsTable
+                  onAdd={() => setBuildingModal({ isOpen: true })}
+                  onEdit={(building) => setBuildingModal({ isOpen: true, building })}
+                  onDelete={(building) =>
+                    setDeleteModal({
+                      isOpen: true,
+                      type: "building",
+                      id: building.id,
+                      name: building.nama_gedung,
+                    })
+                  }
+                />
+              )}
               {activeTab === "assets" && (
                 <FacilitiesTable
                   onAdd={() => setFacilityModal({ isOpen: true })}

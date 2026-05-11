@@ -50,7 +50,6 @@ const AssetsSection: React.FC = () => {
     ruangKuliah: 0,
     auditorium: 0,
     olahraga: 0,
-    kesehatan: 0,
     ibadah: 0,
     kantin: 0,
     administrasi: 0,
@@ -81,7 +80,7 @@ const AssetsSection: React.FC = () => {
             ruangKuliah:   ["ruang kuliah", "ruang kelas", "akademik", "ruang akademik"],
             auditorium:    ["auditorium", "aula"],
             olahraga:      ["olahraga", "sport"],
-            kesehatan:     ["kesehatan", "klinik"],
+
             ibadah:        ["ibadah", "masjid", "musholla"],
             kantin:        ["kantin", "food"],
             administrasi:  ["administrasi", "sekretariat", "layanan"],
@@ -246,24 +245,7 @@ const AssetsSection: React.FC = () => {
         filter: "Olahraga",
       },
     },
-    {
-      id: 7,
-      title: t("healthFacilities"),
-      icon: "medical_services",
-      count: facilityCounts.kesehatan.toString(),
-      unit: t("facilitiesUnit"),
-      status: t("operational"),
-      statusColor: "bg-red-100 text-red-700",
-      iconBg: "bg-red-50",
-      iconColor: "text-red-600",
-      clickable: true,
-      category: {
-        name: "Fasilitas Kesehatan",
-        icon: "medical_services",
-        color: "bg-red-700",
-        filter: "Kesehatan",
-      },
-    },
+
     {
       id: 8,
       title: t("worshipFacilities"),

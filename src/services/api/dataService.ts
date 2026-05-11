@@ -9,6 +9,9 @@ export {
   createFacility,
   updateFacility,
   deleteFacility,
+  createGedung,
+  updateGedung,
+  deleteGedung,
   getTotalStats,
 } from "./supabaseDataService";
 
@@ -16,6 +19,7 @@ export type {
   FacultyInfo,
   DashboardData,
   FacilityData,
+  GedungData,
 } from "./supabaseDataService";
 
 import type { DashboardData } from "./supabaseDataService";

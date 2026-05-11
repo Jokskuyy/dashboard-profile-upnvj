@@ -105,14 +105,6 @@ const CategoryFacilitiesModal: React.FC<CategoryFacilitiesModalProps> = ({
               f.tipe_fasilitas?.toLowerCase().includes("sport"),
           );
           break;
-        case "Fasilitas Kesehatan":
-          filteredData = filteredData.filter(
-            (f) =>
-              f.tipe_fasilitas === "Kesehatan" ||
-              f.tipe_fasilitas?.toLowerCase().includes("kesehatan") ||
-              f.tipe_fasilitas?.toLowerCase().includes("klinik"),
-          );
-          break;
         case "Fasilitas Ibadah":
           filteredData = filteredData.filter(
             (f) =>

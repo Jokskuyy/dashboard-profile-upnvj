@@ -6,7 +6,6 @@ export const FACILITY_TYPES = [
   "Auditorium",
   "Aula",
   "Olahraga",
-  "Kesehatan",
   "Ibadah",
   "Kantin",
   "Studio",
