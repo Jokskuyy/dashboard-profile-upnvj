@@ -26,7 +26,7 @@ const Dashboard: React.FC = () => {
     () => [
       `${basePath}hero1.webp`,
       `${basePath}hero2.webp`,
-      "https://assets.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p3/63/2024/12/07/IMG_20241207_150258-1141876672.jpg",
+      `${basePath}hero3.webp`,
     ],
     [basePath],
   );
