@@ -24,8 +24,8 @@ const Dashboard: React.FC = () => {
   const basePath = import.meta.env.BASE_URL;
   const heroImages = useMemo(
     () => [
-      `${basePath}hero1.jpg`,
-      `${basePath}hero2.jpg`,
+      `${basePath}hero1.webp`,
+      `${basePath}hero2.webp`,
       "https://assets.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p3/63/2024/12/07/IMG_20241207_150258-1141876672.jpg",
     ],
     [basePath],
