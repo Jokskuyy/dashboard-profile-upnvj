@@ -59,3 +59,5 @@ umami-db-data/
 
 # Unity Brotli compressed (use decompressed for Vercel)
 public/unity-builds/**/*.br
+
+lighthouse-*.report.*
