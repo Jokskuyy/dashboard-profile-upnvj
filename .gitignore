@@ -61,3 +61,6 @@ umami-db-data/
 public/unity-builds/**/*.br
 
 lighthouse-*.report.*
+lighthouse-after
+lighthouse-final
+lighthouse-mobile-full

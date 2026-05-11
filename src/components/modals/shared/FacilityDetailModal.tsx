@@ -83,6 +83,8 @@ const FacilityDetailModal: React.FC<FacilityDetailModalProps> = ({
                   src={facility.foto_url}
                   alt={facility.nama_fasilitas}
                   className="w-full h-56 sm:h-64 object-cover"
+                  loading="lazy"
+                  decoding="async"
                   onError={(e) => {
                     (e.target as HTMLImageElement).style.display = "none";
                   }}

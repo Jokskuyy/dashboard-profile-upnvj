@@ -86,6 +86,7 @@ const Dashboard: React.FC = () => {
               className="w-full h-full object-cover"
               loading={index === 0 ? "eager" : "lazy"}
               fetchPriority={index === 0 ? "high" : "auto"}
+              decoding={index === 0 ? "sync" : "async"}
             />
           </div>
         ))}

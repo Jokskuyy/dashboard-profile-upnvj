@@ -29,7 +29,7 @@ function App() {
 
   // Pre-cache Unity WebGL files in background after page settles
   useEffect(() => {
-    scheduleUnityPreload(3000);
+    scheduleUnityPreload(10000);
   }, []);
 
   return (
