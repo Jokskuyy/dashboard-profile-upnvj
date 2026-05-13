@@ -1076,34 +1076,34 @@ VALUES
     'Perpustakaan digital Fakultas Ilmu Komputer yang menyimpan koleksi buku, jurnal, artikel, dan sumber informasi lainnya dalam bentuk digital.',
     'Perpustakaan & Ruang Baca',
     'brown',
-    NULL,
+    1,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/01/20241231_104651-scaled.jpg',
     6
 ),
 (
-    'Lab Cybersecurity dan Networking',
+    'Lab Cybersecurity dan Networking (304)',
     'Pusat praktikum dan penelitian bidang keamanan siber dengan perangkat keras canggih, perangkat lunak keamanan terkini, dan jaringan simulasi serangan siber.',
     'Laboratorium',
     'green',
-    NULL,
+    3,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Cybersecurity.jpeg',
     6
 ),
 (
-    'Lab Big Data dan Data Science',
+    'Lab Big Data dan Data Science(303)',
     'Pusat praktikum dan penelitian dalam bidang penambangan data dan ilmu data dengan komputer berkinerja tinggi dan perangkat lunak analisis data terkini.',
     'Laboratorium',
     'green',
-    NULL,
+    3,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Data-Mining-dan-Data-Science-JPG.jpg',
     6
 ),
 (
-    'Lab Artificial Intelligence dan Robotics',
+    'Lab Artificial Intelligence dan Robotics(302)',
     'Pusat praktikum dan penelitian bidang kecerdasan buatan dengan fasilitas komputer berperforma tinggi, perangkat lunak AI terbaru, big data, dan machine learning.',
     'Laboratorium',
     'green',
-    NULL,
+    3,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Artificial-Intelligence-JPG.jpg',
     6
 ),
@@ -1126,20 +1126,20 @@ VALUES
     6
 ),
 (
-    'Lab Internet of Things',
+    'Lab Internet of Things(401)',
     'Pusat kegiatan praktikum dan penelitian bidang teknologi IoT dengan sensor, mikrokontroler, modul komunikasi nirkabel, dan perangkat lunak pengembangan IoT terkini.',
     'Laboratorium',
     'green',
-    NULL,
+    4,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-IoT-JPG.jpg',
     6
 ),
 (
-    'Lab Software Engineering',
+    'Lab Software Engineering(201)',
     'Pusat praktikum dan penelitian di bidang pemrograman komputer dengan komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.',
     'Laboratorium',
     'green',
-    NULL,
+    2,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-25-at-09.57.29-1-scaled.jpeg',
     6
 ),
@@ -1210,8 +1210,107 @@ VALUES
     13
 ),
 (
+    'Ruang UKM Juijutsu',
+    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Administrasi & Layanan',
+    'orange',
+    1,
+    NULL,
+    13
+),
+(
+    'Ruang UKM Seni tari',
+    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Administrasi & Layanan',
+    'orange',
+    1,
+    NULL,
+    13
+),
+(
+    'Ruang UKM Boxer',
+    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Administrasi & Layanan',
+    'orange',
+    1,
+    NULL,
+    13
+),
+(
+    'Ruang UKM Voli',
+    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Administrasi & Layanan',
+    'orange',
+    1,
+    NULL,
+    13
+),
+(
+    'Ruang UKM Pencak Silat',
+    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Administrasi & Layanan',
+    'orange',
+    1,
+    NULL,
+    13
+),
+(
+    'Ruang UKM MC',
+    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Administrasi & Layanan',
+    'orange',
+    1,
+    NULL,
+    13
+),
+(
+    'Ruang UKM Bulu Tangkis',
+    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Administrasi & Layanan',
+    'orange',
+    1,
+    NULL,
+    13
+),
+(
+    'Ruang UKM Paduan Suara',
+    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Administrasi & Layanan',
+    'orange',
+    1,
+    NULL,
+    13
+),
+(
+    'Ruang UKM Protestan',
+    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Administrasi & Layanan',
+    'orange',
+    1,
+    NULL,
+    13
+),
+(
+    'Ruang UKM Katolik',
+    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Administrasi & Layanan',
+    'orange',
+    1,
+    NULL,
+    13
+),
+(
     'Ruang BEM FIK',
     'Ruang kegiatan Badan Eksekutif Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Administrasi & Layanan',
+    'orange',
+    1,
+    NULL,
+    13
+),
+(
+    'Ruang SENAT FIK',
+    'Ruang kegiatan SENAT Mahasiswa di Gedung Dewi Sartika lantai 1.',
     'Administrasi & Layanan',
     'orange',
     1,
@@ -1360,11 +1459,20 @@ VALUES
     9
 ),
 (
-    'Smartclass Yos Sudarso Lantai 2-3',
-    'Smartclass yang digunakan pada lantai 2 dan 3 Gedung Yos Sudarso.',
+    'Smartclass Yos Sudarso Lantai 2',
+    'Smartclass yang digunakan pada lantai 2 Gedung Yos Sudarso.',
     'Ruang Kuliah & Akademik',
     'yellow',
-    NULL,
+    2,
+    'https://hukum.upnvj.ac.id/wp-content/uploads/2022/06/WhatsApp-Image-2022-06-06-at-11.16.52-1-768x576.jpeg',
+    9
+),
+(
+    'Smartclass Yos Sudarso Lantai 3',
+    'Smartclass yang digunakan pada lantai 3 Gedung Yos Sudarso.',
+    'Ruang Kuliah & Akademik',
+    'yellow',
+    3,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2022/06/WhatsApp-Image-2022-06-06-at-11.16.52-1-768x576.jpeg',
     9
 ),
@@ -1480,9 +1588,9 @@ VALUES
     'Auditorium Fakultas Ilmu Sosial dan Ilmu Politik untuk seminar, kuliah umum, dan kegiatan akademik.',
     'Auditorium & Aula',
     'red',
+    1,
     NULL,
-    NULL,
-    NULL
+    8
 ),
 
 (
@@ -1510,9 +1618,9 @@ VALUES
     'Laboratorium pembelajaran dan penelitian di bidang ilmu politik.',
     'Laboratorium',
     'green',
+    3,
     NULL,
-    NULL,
-    NULL
+    8
 ),
 
 (
@@ -1520,9 +1628,9 @@ VALUES
     'Laboratorium untuk praktikum dan penelitian big data serta analisis data.',
     'Laboratorium',
     'green',
+    4,
     NULL,
-    NULL,
-    NULL
+    8
 ),
 
 (
@@ -1530,9 +1638,9 @@ VALUES
     'Laboratorium fotografi untuk praktikum dan pengembangan keterampilan fotografi mahasiswa.',
     'Laboratorium',
     'green',
+    4,
     NULL,
-    NULL,
-    NULL
+    8
 ),
 
 (
@@ -1550,19 +1658,19 @@ VALUES
     'Laboratorium podcast untuk produksi konten audio digital dan broadcasting.',
     'Laboratorium',
     'green',
+    3,
     NULL,
-    NULL,
-    NULL
+    8
 ),
 
 (
-    'Lab Film dan TV',
+    'Lab Film dan Televisi',
     'Laboratorium produksi film dan televisi untuk mendukung pembelajaran media audiovisual.',
     'Laboratorium',
     'green',
+    4,
     NULL,
-    NULL,
-    NULL
+    8
 ),
 
 (
