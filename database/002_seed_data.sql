@@ -37,9 +37,9 @@ VALUES
 
 ('Gedung RA Kartini', 'Gedung Fakultas Hukum Pascasarjana', 'Klaster Fakultas Hukum', 3, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFVIJBJOJTg_3lSkBco74Dee_FmZP8EyNMLbUleJAwf-6ZavcUyBtiz8lAimtSVsoqgJq0OKJ1plzSNSrejeDDZ8yMNX13A_a_uW0-Qr4oZzn_kGUmqFO6mYtuwSble9OmiH892Zw=s1360-w1360-h1020-rw'),
 
-('Gedung Parkir Depan UPNVJ', 'Gedung parkir bertingkat untuk kendaraan mahasiswa dan staf', 'Sisi depan kampus', NULL, 'https://www.upnvj.ac.id/id/files/large/8bc605d9f811bf6fe60a23c2e0626ea0'),
+('Gedung Parkir Depan UPNVJ', 'Gedung parkir bertingkat untuk kendaraan mahasiswa dan staf', 'Sisi depan kampus', 4, 'https://www.upnvj.ac.id/id/files/large/8bc605d9f811bf6fe60a23c2e0626ea0'),
 
-('Area Parkir Depan UPNVJ', 'Area parkir terbuka untuk kendaraan mahasiswa dan staf', 'Sisi depan kampus', 4, 'https://www.upnvj.ac.id/id/files/thumb/65f06b5d1b2ab2a6603d3018c6c91b43/520'),
+('Area Parkir Depan UPNVJ', 'Area parkir terbuka untuk kendaraan mahasiswa dan staf', 'Sisi depan kampus', NULL, 'https://www.upnvj.ac.id/id/files/thumb/65f06b5d1b2ab2a6603d3018c6c91b43/520'),
 
 ('Gedung Dewi Sartika', 'Gedung Fakultas Ilmu Komputer', 'Klaster Fakultas Ilmu Komputer', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGa2dHMbS8-UqBc37_gAecDSWVc1uhXSpfA1fjnG0BiIzfb5igOofBUrkgUsKEjST29WRgalK0p17rjAwhap4HGbCIJBscgAfrziBv3apXVDoYNN9YcnKX7mwNCHivCpNLJQekA=s1360-w1360-h1020-rw'),
 
