@@ -119,7 +119,7 @@ NULL
 -- FEB
 
 INSERT INTO public.fasilitas
-(nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, lantai, foto_url, id_gedung)
+(nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, lantai, foto_url, id_gedung, unity_object_name)
 VALUES
 
 (
@@ -128,7 +128,8 @@ VALUES
     'Ruang Kelas',
     2,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -137,7 +138,8 @@ VALUES
     'Ruang Kelas',
     2,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -146,7 +148,8 @@ VALUES
     'Ruang Dosen',
     2,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -155,7 +158,8 @@ VALUES
     'Ruang Dosen',
     2,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -164,7 +168,8 @@ VALUES
     'Ruang Administrasi',
     2,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -173,7 +178,8 @@ VALUES
     'Ruang Kelas',
     2,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -182,7 +188,8 @@ VALUES
     'Ruang Kelas',
     2,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -191,7 +198,8 @@ VALUES
     'Ruang Kelas',
     2,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -200,7 +208,8 @@ VALUES
     'Ruang Kelas',
     2,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -209,7 +218,8 @@ VALUES
     'Ruang Kelas',
     2,
     NULL,
-    7
+    7,
+    NULL
 ),
 -- LANTAI 3
 
@@ -219,7 +229,8 @@ VALUES
     'Ruang Kelas',
     3,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -228,7 +239,8 @@ VALUES
     'Laboratorium',
     3,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -237,7 +249,8 @@ VALUES
     'Ruang Kelas',
     3,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -246,7 +259,8 @@ VALUES
     'Ruang Kelas',
     3,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -255,7 +269,8 @@ VALUES
     'Ruang Kelas',
     3,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -264,7 +279,8 @@ VALUES
     'Ruang Kelas',
     3,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -273,7 +289,8 @@ VALUES
     'Ruang Kelas',
     3,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -282,7 +299,8 @@ VALUES
     'Ruang Kelas',
     3,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -291,7 +309,8 @@ VALUES
     'Laboratorium',
     3,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 -- LANTAI 4
@@ -302,7 +321,8 @@ VALUES
     'Ruang Kelas',
     4,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -311,7 +331,8 @@ VALUES
     'Ruang Kelas',
     4,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -320,7 +341,8 @@ VALUES
     'Ruang Kelas',
     4,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -329,7 +351,8 @@ VALUES
     'Ruang Kelas',
     4,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -338,7 +361,8 @@ VALUES
     'Ruang Kelas',
     4,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -347,7 +371,8 @@ VALUES
     'Ruang Kelas',
     4,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -356,7 +381,8 @@ VALUES
     'Ruang Kelas',
     4,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -365,7 +391,8 @@ VALUES
     'Ruang Kelas',
     4,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -374,7 +401,8 @@ VALUES
     'Ruang Kelas',
     4,
     NULL,
-    7
+    7,
+    NULL
 ),
 
 (
@@ -383,7 +411,8 @@ VALUES
     'Ruang Kelas',
     4,
     NULL,
-    7
+    7,
+    NULL
 ),
 (
     'Mushola FEB',
@@ -391,7 +420,8 @@ VALUES
     'Tempat Ibadah',
     4,
     NULL,
-    7
+    7,
+    NULL
 ),
 (
     'Mini Company',
@@ -399,7 +429,8 @@ VALUES
     'Laboratorium Bisnis',
     3,
     'https://feb.upnvj.ac.id/wp-content/uploads/2024/01/WhatsApp-Image-2022-04-21-at-11.41.31.jpeg',
-    7
+    7,
+    NULL
 ),
 
 (
@@ -408,7 +439,8 @@ VALUES
     'Laboratorium Bisnis',
     NULL,
     'https://feb.upnvj.ac.id/wp-content/uploads/2024/01/WhatsApp-Image-2022-04-21-at-11.41.28.jpeg',
-    7
+    7,
+    NULL
 ),
 
 (
@@ -417,7 +449,8 @@ VALUES
     'Laboratorium',
     NULL,
     'https://feb.upnvj.ac.id/wp-content/uploads/2024/01/WhatsApp-Image-2022-04-21-at-11.42.51.jpeg',
-    7
+    7,
+    NULL
 ),
 
 (
@@ -426,7 +459,8 @@ VALUES
     'Pusat Penelitian',
     NULL,
     'https://feb.upnvj.ac.id/wp-content/uploads/2024/02/IMG_6400.jpg',
-    7
+    7,
+    NULL
 ),
 
 (
@@ -435,7 +469,8 @@ VALUES
     'Perpustakaan',
     NULL,
     'https://feb.upnvj.ac.id/wp-content/uploads/2024/02/WhatsApp-Image-2024-02-16-at-10.15.43_b7572c4f.jpg',
-    7
+    7,
+    NULL
 ),
 
 (
@@ -444,7 +479,8 @@ VALUES
     'Area Mahasiswa',
     NULL,
     'https://feb.upnvj.ac.id/wp-content/uploads/2024/01/IMG_4518.jpg',
-    7
+    7,
+    NULL
 ),
 
 (
@@ -453,7 +489,8 @@ VALUES
     'Aula',
     NULL,
     'https://feb.upnvj.ac.id/wp-content/uploads/2024/02/IMG_6394.jpg',
-    7
+    7,
+    NULL
 ),
 
 (
@@ -462,7 +499,8 @@ VALUES
     'Ruang Akademik',
     NULL,
     'https://feb.upnvj.ac.id/wp-content/uploads/2024/02/IMG_6397.jpg',
-    7
+    7,
+    NULL
 ),
 
 (
@@ -471,7 +509,8 @@ VALUES
     'Ruang Akademik',
     2,
     'https://feb.upnvj.ac.id/wp-content/uploads/2025/01/IMG_9968.jpg',
-    7
+    7,
+    NULL
 ),
 
 (
@@ -480,7 +519,8 @@ VALUES
     'Administrasi',
     NULL,
     'https://feb.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2024-05-17-at-14.30.40_dd6f3fff-1.jpg',
-    7
+    7,
+    NULL
 ),
 
 (
@@ -489,7 +529,8 @@ VALUES
     'Ruang Akademik',
     NULL,
     'https://feb.upnvj.ac.id/wp-content/uploads/2025/06/IMG_5228.jpg',
-    7
+    7,
+    NULL
 ),
 
 (
@@ -498,7 +539,8 @@ VALUES
     'Administrasi',
     NULL,
     'https://feb.upnvj.ac.id/wp-content/uploads/2025/06/IMG_5222.jpg',
-    7
+    7,
+    NULL
 ),
 
 (
@@ -507,7 +549,8 @@ VALUES
     'Laboratorium Komputer',
     NULL,
     'https://feb.upnvj.ac.id/struktur-organisasi/',
-    7
+    7,
+    NULL
 ),
 
 (
@@ -516,7 +559,8 @@ VALUES
     'Laboratorium',
     NULL,
     'https://feb.upnvj.ac.id/struktur-organisasi/',
-    7
+    7,
+    NULL
 ),
 
 -- FK
@@ -532,7 +576,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -541,7 +586,8 @@ VALUES
     'Laboratorium',
     1,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -550,7 +596,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -559,7 +606,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -568,7 +616,8 @@ VALUES
     'Administrasi & Layanan',
     2,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -577,7 +626,8 @@ VALUES
     'Administrasi & Layanan',
     2,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -586,7 +636,8 @@ VALUES
     'Administrasi & Layanan',
     2,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -595,7 +646,8 @@ VALUES
     'Administrasi & Layanan',
     2,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -604,7 +656,8 @@ VALUES
     'Administrasi & Layanan',
     2,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -613,7 +666,8 @@ VALUES
     'Administrasi & Layanan',
     2,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -622,7 +676,8 @@ VALUES
     'Administrasi & Layanan',
     2,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -631,7 +686,8 @@ VALUES
     'Laboratorium',
     2,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -640,7 +696,8 @@ VALUES
     'Administrasi & Layanan',
     2,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -649,7 +706,8 @@ VALUES
     'Administrasi & Layanan',
     2,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -658,7 +716,8 @@ VALUES
     'Administrasi & Layanan',
     2,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -667,7 +726,8 @@ VALUES
     'Auditorium & Aula',
     3,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -676,7 +736,8 @@ VALUES
     'Laboratorium',
     3,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -685,7 +746,8 @@ VALUES
     'Laboratorium',
     3,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -694,7 +756,8 @@ VALUES
     'Laboratorium',
     3,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -703,7 +766,8 @@ VALUES
     'Laboratorium',
     3,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 (
@@ -712,7 +776,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     3,
     NULL,
-    3
+    3,
+    NULL
 ),
 
 -- =========================
@@ -725,7 +790,8 @@ VALUES
     'Perpustakaan & Ruang Baca',
     1,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 (
@@ -734,7 +800,8 @@ VALUES
     'Laboratorium',
     1,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 (
@@ -743,7 +810,8 @@ VALUES
     'Laboratorium',
     1,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 (
@@ -752,7 +820,8 @@ VALUES
     'Laboratorium',
     1,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 (
@@ -761,7 +830,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     2,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 (
@@ -770,7 +840,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     2,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 (
@@ -779,7 +850,8 @@ VALUES
     'Laboratorium',
     3,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 (
@@ -788,7 +860,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     3,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 (
@@ -797,7 +870,8 @@ VALUES
     'Laboratorium',
     3,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 (
@@ -806,7 +880,8 @@ VALUES
     'Administrasi & Layanan',
     3,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 (
@@ -815,7 +890,8 @@ VALUES
     'Administrasi & Layanan',
     3,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 (
@@ -824,7 +900,8 @@ VALUES
     'Fasilitas Ibadah',
     3,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 (
@@ -833,7 +910,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     4,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 (
@@ -842,7 +920,8 @@ VALUES
     'Auditorium & Aula',
     4,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 (
@@ -851,7 +930,8 @@ VALUES
     'Auditorium & Aula',
     4,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 (
@@ -860,7 +940,8 @@ VALUES
     'Administrasi & Layanan',
     4,
     NULL,
-    4
+    4,
+    NULL
 ),
 
 -- =========================
@@ -873,7 +954,8 @@ VALUES
     'Laboratorium',
     1,
     NULL,
-    5
+    5,
+    NULL
 ),
 
 (
@@ -882,7 +964,8 @@ VALUES
     'Laboratorium',
     1,
     NULL,
-    5
+    5,
+    NULL
 ),
 
 (
@@ -891,7 +974,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     3,
     NULL,
-    5
+    5,
+    NULL
 ),
 
 (
@@ -900,7 +984,8 @@ VALUES
     'Laboratorium',
     4,
     NULL,
-    5
+    5,
+    NULL
 ),
 
 (
@@ -909,7 +994,8 @@ VALUES
     'Administrasi & Layanan',
     4,
     NULL,
-    5
+    5,
+    NULL
 ),
 
 (
@@ -918,7 +1004,8 @@ VALUES
     'Administrasi & Layanan',
     4,
     NULL,
-    5
+    5,
+    NULL
 ),
 
 (
@@ -927,7 +1014,8 @@ VALUES
     'Administrasi & Layanan',
     4,
     NULL,
-    5
+    5,
+    NULL
 ),
 
 -- FIK
@@ -941,7 +1029,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     2,
     NULL,
-    6
+    6,
+    NULL
 ),
 
 (
@@ -950,7 +1039,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     2,
     NULL,
-    6
+    6,
+    NULL
 ),
 
 (
@@ -959,7 +1049,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/09/WhatsApp-Image-2024-09-26-at-16.06.50-1-1024x768.jpeg',
-    6
+    6,
+    NULL
 ),
 
 (
@@ -968,7 +1059,8 @@ VALUES
     'Administrasi & Layanan',
     3,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/03/WhatsApp-Image-2024-03-01-at-14.02.56-scaled.jpeg',
-    6
+    6,
+    NULL
 ),
 (
     'Lab Immersive dan Multimedia',
@@ -976,7 +1068,8 @@ VALUES
     'Laboratorium',
     NULL,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Programming-JPG.jpg',
-    6
+    6,
+    NULL
 ),
 (
     'Digital Library',
@@ -984,7 +1077,8 @@ VALUES
     'Perpustakaan & Ruang Baca',
     1,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/01/20241231_104651-scaled.jpg',
-    6
+    6,
+    NULL
 ),
 (
     'Lab Cybersecurity dan Networking (304)',
@@ -992,7 +1086,8 @@ VALUES
     'Laboratorium',
     3,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Cybersecurity.jpeg',
-    6
+    6,
+    NULL
 ),
 (
     'Lab Big Data dan Data Science(303)',
@@ -1000,7 +1095,8 @@ VALUES
     'Laboratorium',
     3,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Data-Mining-dan-Data-Science-JPG.jpg',
-    6
+    6,
+    NULL
 ),
 (
     'Lab Artificial Intelligence dan Robotics(302)',
@@ -1008,7 +1104,8 @@ VALUES
     'Laboratorium',
     3,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Artificial-Intelligence-JPG.jpg',
-    6
+    6,
+    NULL
 ),
 (
     'Lab Enterprise System',
@@ -1016,7 +1113,8 @@ VALUES
     'Laboratorium',
     NULL,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/WhatsApp-Image-2024-06-11-at-4.05.11-PM.jpeg',
-    6
+    6,
+    NULL
 ),
 (
     'Lab E-Governance',
@@ -1024,7 +1122,8 @@ VALUES
     'Laboratorium',
     NULL,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Database.jpeg',
-    6
+    6,
+    NULL
 ),
 (
     'Lab Internet of Things(401)',
@@ -1032,7 +1131,8 @@ VALUES
     'Laboratorium',
     4,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-IoT-JPG.jpg',
-    6
+    6,
+    NULL
 ),
 (
     'Lab Software Engineering(201)',
@@ -1040,7 +1140,8 @@ VALUES
     'Laboratorium',
     2,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-25-at-09.57.29-1-scaled.jpeg',
-    6
+    6,
+    NULL
 ),
 (
     'Masjid',
@@ -1048,7 +1149,8 @@ VALUES
     'Tempat Ibadah',
     NULL,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/20250326_071225-1024x768.jpg',
-    6
+    6,
+    NULL
 ),
 
 -- =========================
@@ -1060,7 +1162,8 @@ VALUES
     'Olahraga',
     1,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/20250326_071558-768x576.jpg',
-    13
+    13,
+    NULL
 ),
 (
     'Ruang UKM UBV',
@@ -1068,7 +1171,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang UKM Sepak Bola',
@@ -1083,7 +1187,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang UKM UFO',
@@ -1091,7 +1196,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang UKM Catur',
@@ -1099,7 +1205,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang UKM Juijutsu',
@@ -1107,7 +1214,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang UKM Seni tari',
@@ -1115,7 +1223,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang UKM Boxer',
@@ -1123,7 +1232,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang UKM Voli',
@@ -1131,7 +1241,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang UKM Pencak Silat',
@@ -1139,7 +1250,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang UKM MC',
@@ -1147,7 +1259,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang UKM Bulu Tangkis',
@@ -1155,7 +1268,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang UKM Paduan Suara',
@@ -1163,7 +1277,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang UKM Protestan',
@@ -1171,7 +1286,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang UKM Katolik',
@@ -1179,7 +1295,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang BEM FIK',
@@ -1187,7 +1304,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang SENAT FIK',
@@ -1195,7 +1313,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang Kuliah 201 Dewi Sartika',
@@ -1203,7 +1322,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     2,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang Kuliah 202 Dewi Sartika',
@@ -1211,7 +1331,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     2,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang Kuliah 203 Dewi Sartika',
@@ -1219,7 +1340,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     2,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang Kuliah 301',
@@ -1227,7 +1349,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     3,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang Kuliah 302',
@@ -1235,7 +1358,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     3,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang Kuliah 303',
@@ -1243,7 +1367,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     3,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang Kuliah 401',
@@ -1251,7 +1376,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     4,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang Kuliah 402',
@@ -1259,7 +1385,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     4,
     NULL,
-    13
+    13,
+    NULL
 ),
 (
     'Ruang Kuliah 403',
@@ -1267,7 +1394,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     4,
     NULL,
-    13
+    13,
+    NULL
 ),
 
 -- FH
@@ -1281,7 +1409,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2023/11/RUANG-KONSENTRASI-2048x1536.png',
-    9
+    9,
+    NULL
 ),
 (
     'Ruang Dosen Yos Sudarso Lantai 2',
@@ -1289,7 +1418,8 @@ VALUES
     'Administrasi & Layanan',
     2,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2021/03/f0fd3420-8e5e-433f-b7b8-2da5e898cb64.png',
-    9
+    9,
+    NULL
 ),
 (
     'Ruang Administrasi Yos Sudarso',
@@ -1297,7 +1427,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2021/03/54a42329-09bc-48a5-8ae2-0e7e5ee0bb26.png',
-    9
+    9,
+    NULL
 ),
 (
     'Ruang Rapat Yos Sudarso Lantai 2',
@@ -1305,7 +1436,8 @@ VALUES
     'Administrasi & Layanan',
     2,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2025/06/IMG_5457.jpg',
-    9
+    9,
+    NULL
 ),
 (
     'Ruang Podcast Yos Sudarso',
@@ -1313,7 +1445,8 @@ VALUES
     'Administrasi & Layanan',
     4,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/RuangPODCAST-LT-4-768x599-HD.png',
-    9
+    9,
+    NULL
 ),
 (
     'Ruang Praktik Peradilan Semu',
@@ -1321,7 +1454,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     4,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/RuangPODCAST-LT-4-768x599-HD.png',
-    9
+    9,
+    NULL
 ),
 (
     'Smartclass Yos Sudarso Lantai 2',
@@ -1329,7 +1463,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     2,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2022/06/WhatsApp-Image-2022-06-06-at-11.16.52-1-768x576.jpeg',
-    9
+    9,
+    NULL
 ),
 (
     'Smartclass Yos Sudarso Lantai 3',
@@ -1337,7 +1472,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     3,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2022/06/WhatsApp-Image-2022-06-06-at-11.16.52-1-768x576.jpeg',
-    9
+    9,
+    NULL
 ),
 (
     'Ruang Baca Yos Sudarso',
@@ -1345,7 +1481,8 @@ VALUES
     'Perpustakaan & Ruang Baca',
     3,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.19.42.jpeg',
-    9
+    9,
+    NULL
 ),
 (
     'Lab Perancangan Kontrak',
@@ -1353,7 +1490,8 @@ VALUES
     'Laboratorium',
     2,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.20.39.jpeg',
-    9
+    9,
+    NULL
 ),
 (
     'Selasar Kanan Yos Sudarso',
@@ -1361,7 +1499,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.19.43.jpeg',
-    9
+    9,
+    NULL
 ),
 (
     'Selasar Kiri Yos Sudarso',
@@ -1369,7 +1508,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.19.43-1.jpeg',
-    9
+    9,
+    NULL
 ),
 
 -- =========================
@@ -1381,7 +1521,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     1,
     NULL,
-    10
+    10,
+    NULL
 ),
 (
     'Ruang Kelas Prodi Magister & Doktor RA Kartini',
@@ -1389,7 +1530,8 @@ VALUES
     'Ruang Kuliah & Akademik',
     1,
     NULL,
-    10
+    10,
+    NULL
 ),
 (
     'Ruang Konseling Magister & Doktor',
@@ -1397,7 +1539,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    10
+    10,
+    NULL
 ),
 (
     'Ruang Rapat Magister & Doktor',
@@ -1405,7 +1548,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    10
+    10,
+    NULL
 ),
 (
     'Ruang Tunggu Magister & Doktor',
@@ -1413,7 +1557,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    10
+    10,
+    NULL
 ),
 (
     'Ruang Dosen Magister & Doktor',
@@ -1421,7 +1566,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    10
+    10,
+    NULL
 ),
 (
     'Ruang Administrasi Magister & Doktor',
@@ -1429,7 +1575,8 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    10
+    10,
+    NULL
 ),
 
 -- FISIP
@@ -1441,7 +1588,8 @@ VALUES
     'Auditorium & Aula',
     1,
     NULL,
-    8
+    8,
+    NULL
 ),
 
 (
@@ -1450,6 +1598,7 @@ VALUES
     'Perpustakaan & Ruang Baca',
     2,
     NULL,
+    NULL,
     NULL
 ),
 
@@ -1457,6 +1606,7 @@ VALUES
     'Lab Multimedia',
     'Laboratorium multimedia untuk pembelajaran produksi video, audio, animasi, dan desain grafis.',
     'Laboratorium',
+    NULL,
     NULL,
     NULL,
     NULL
@@ -1468,7 +1618,8 @@ VALUES
     'Laboratorium',
     3,
     NULL,
-    8
+    8,
+    NULL
 ),
 
 (
@@ -1477,7 +1628,8 @@ VALUES
     'Laboratorium',
     4,
     NULL,
-    8
+    8,
+    NULL
 ),
 
 (
@@ -1486,13 +1638,15 @@ VALUES
     'Laboratorium',
     4,
     NULL,
-    8
+    8,
+    NULL
 ),
 
 (
     'Lab Radio',
     'Laboratorium radio untuk praktik penyiaran dan produksi audio.',
     'Laboratorium',
+    NULL,
     NULL,
     NULL,
     NULL
@@ -1504,7 +1658,8 @@ VALUES
     'Laboratorium',
     3,
     NULL,
-    8
+    8,
+    NULL
 ),
 
 (
@@ -1513,13 +1668,15 @@ VALUES
     'Laboratorium',
     4,
     NULL,
-    8
+    8,
+    NULL
 ),
 
 (
     'Lab Diplomasi',
     'Laboratorium diplomasi untuk simulasi dan pembelajaran hubungan internasional.',
     'Laboratorium',
+    NULL,
     NULL,
     NULL,
     NULL
@@ -1531,6 +1688,7 @@ VALUES
     'Ruang Kuliah & Akademik',
     NULL,
     NULL,
+    NULL,
     NULL
 ),
 
@@ -1540,6 +1698,7 @@ VALUES
     'Administrasi & Layanan',
     NULL,
     NULL,
+    NULL,
     NULL
 ),
 
@@ -1547,6 +1706,7 @@ VALUES
     'Ruang Diskusi FISIP',
     'Ruang diskusi mahasiswa untuk kegiatan akademik dan kolaborasi.',
     'Ruang Kuliah & Akademik',
+    NULL,
     NULL,
     NULL,
     NULL
