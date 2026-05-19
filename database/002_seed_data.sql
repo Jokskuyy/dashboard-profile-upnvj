@@ -129,7 +129,7 @@ VALUES
     2,
     NULL,
     7,
-    NULL
+    'mht_201'
 ),
 
 (
@@ -139,7 +139,7 @@ VALUES
     2,
     NULL,
     7,
-    NULL
+    'mht_202'
 ),
 
 (
@@ -179,7 +179,7 @@ VALUES
     2,
     NULL,
     7,
-    NULL
+    'mht_203'
 ),
 
 (
@@ -189,7 +189,7 @@ VALUES
     2,
     NULL,
     7,
-    NULL
+    'mht_204'
 ),
 
 (
@@ -199,7 +199,7 @@ VALUES
     2,
     NULL,
     7,
-    NULL
+    'mht_205'
 ),
 
 (
@@ -209,7 +209,7 @@ VALUES
     2,
     NULL,
     7,
-    NULL
+    'mht_206'
 ),
 
 (
@@ -219,7 +219,7 @@ VALUES
     2,
     NULL,
     7,
-    NULL
+    'mht_207'
 ),
 -- LANTAI 3
 
@@ -230,7 +230,7 @@ VALUES
     3,
     NULL,
     7,
-    NULL
+    'mht_301'
 ),
 
 (
@@ -250,7 +250,7 @@ VALUES
     3,
     NULL,
     7,
-    NULL
+    'mht_303'
 ),
 
 (
@@ -260,7 +260,7 @@ VALUES
     3,
     NULL,
     7,
-    NULL
+    'mht_304'
 ),
 
 (
@@ -270,7 +270,7 @@ VALUES
     3,
     NULL,
     7,
-    NULL
+    'mht_305'
 ),
 
 (
@@ -280,7 +280,7 @@ VALUES
     3,
     NULL,
     7,
-    NULL
+    'mht_306'
 ),
 
 (
@@ -290,7 +290,7 @@ VALUES
     3,
     NULL,
     7,
-    NULL
+    'mht_307'
 ),
 
 (
@@ -1030,7 +1030,7 @@ VALUES
     2,
     NULL,
     6,
-    NULL
+    'khd_203'
 ),
 
 (
@@ -1040,7 +1040,7 @@ VALUES
     2,
     NULL,
     6,
-    NULL
+    'khd_202'
 ),
 
 (
@@ -1071,6 +1071,16 @@ VALUES
     6,
     NULL
 ),
+
+(
+    'Ruang Podcast FIK',
+    'Ruang podcast Fakultas Ilmu Komputer yang dilengkapi dengan peralatan rekaman audio dan video profesional, digunakan untuk produksi konten digital, wawancara, dan kegiatan penyiaran mahasiswa.',
+    'Studio & Produksi Media',
+    1,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/01/20241231_104651-scaled.jpg',
+    6,
+    NULL
+),
 (
     'Digital Library',
     'Perpustakaan digital Fakultas Ilmu Komputer yang menyimpan koleksi buku, jurnal, artikel, dan sumber informasi lainnya dalam bentuk digital.',
@@ -1087,7 +1097,7 @@ VALUES
     3,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Cybersecurity.jpeg',
     6,
-    NULL
+    'khd_304_lab'
 ),
 (
     'Lab Big Data dan Data Science(303)',
@@ -1096,7 +1106,7 @@ VALUES
     3,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Data-Mining-dan-Data-Science-JPG.jpg',
     6,
-    NULL
+    'khd_303_lab'
 ),
 (
     'Lab Artificial Intelligence dan Robotics(302)',
@@ -1105,7 +1115,7 @@ VALUES
     3,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Artificial-Intelligence-JPG.jpg',
     6,
-    NULL
+    'khd_302_lab'
 ),
 (
     'Lab Enterprise System',
@@ -1132,7 +1142,7 @@ VALUES
     4,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-IoT-JPG.jpg',
     6,
-    NULL
+    'khd_401_lab'
 ),
 (
     'Lab Software Engineering(201)',
@@ -1141,7 +1151,7 @@ VALUES
     2,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-25-at-09.57.29-1-scaled.jpeg',
     6,
-    NULL
+    'khd_201_lab'
 ),
 (
     'Masjid',
@@ -1150,7 +1160,7 @@ VALUES
     NULL,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/20250326_071225-1024x768.jpg',
     6,
-    NULL
+    'masjid'
 ),
 
 -- =========================
@@ -1172,7 +1182,7 @@ VALUES
     1,
     NULL,
     13,
-    NULL
+    'ds_ukm_ubv'
 ),
 (
     'Ruang UKM Sepak Bola',
@@ -1180,15 +1190,17 @@ VALUES
     'Administrasi & Layanan',
     1,
     NULL,
-    13
-),(
+    13,
+    'ds_ukm_sepak_bola'
+),
+(
     'Ruang UKM Basket',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
     'Administrasi & Layanan',
     1,
     NULL,
     13,
-    NULL
+    'ds_ukm_basket'
 ),
 (
     'Ruang UKM UFO',
@@ -1197,7 +1209,7 @@ VALUES
     1,
     NULL,
     13,
-    NULL
+    'ds_ukm_ufo'
 ),
 (
     'Ruang UKM Catur',
@@ -1206,7 +1218,7 @@ VALUES
     1,
     NULL,
     13,
-    NULL
+    'ds_ukm_catur'
 ),
 (
     'Ruang UKM Juijutsu',
@@ -1215,7 +1227,7 @@ VALUES
     1,
     NULL,
     13,
-    NULL
+    'ds_ukm_juijutsu'
 ),
 (
     'Ruang UKM Seni tari',
@@ -1224,7 +1236,7 @@ VALUES
     1,
     NULL,
     13,
-    NULL
+    'ds_ukm_seni_tari'
 ),
 (
     'Ruang UKM Boxer',
@@ -1233,7 +1245,7 @@ VALUES
     1,
     NULL,
     13,
-    NULL
+    'ds_ukm_boxer'
 ),
 (
     'Ruang UKM Voli',
@@ -1242,7 +1254,7 @@ VALUES
     1,
     NULL,
     13,
-    NULL
+    'ds_ukm_voli'
 ),
 (
     'Ruang UKM Pencak Silat',
@@ -1251,7 +1263,7 @@ VALUES
     1,
     NULL,
     13,
-    NULL
+    'ds_ukm_pencak_silat'
 ),
 (
     'Ruang UKM MC',
@@ -1260,7 +1272,7 @@ VALUES
     1,
     NULL,
     13,
-    NULL
+    'ds_ukm_mc'
 ),
 (
     'Ruang UKM Bulu Tangkis',
@@ -1269,7 +1281,7 @@ VALUES
     1,
     NULL,
     13,
-    NULL
+    'ds_ukm_bulu_tangkis'
 ),
 (
     'Ruang UKM Paduan Suara',
@@ -1278,7 +1290,7 @@ VALUES
     1,
     NULL,
     13,
-    NULL
+    'ds_ukm_paduan_suara'
 ),
 (
     'Ruang UKM Protestan',
@@ -1287,7 +1299,7 @@ VALUES
     1,
     NULL,
     13,
-    NULL
+    'ds_ukm_protestan'
 ),
 (
     'Ruang UKM Katolik',
@@ -1296,7 +1308,7 @@ VALUES
     1,
     NULL,
     13,
-    NULL
+    'ds_ukm_katolik'
 ),
 (
     'Ruang BEM FIK',
@@ -1305,7 +1317,7 @@ VALUES
     1,
     NULL,
     13,
-    NULL
+    'ds_bem'
 ),
 (
     'Ruang SENAT FIK',
@@ -1314,7 +1326,7 @@ VALUES
     1,
     NULL,
     13,
-    NULL
+    'ds_senat'
 ),
 (
     'Ruang Kuliah 201 Dewi Sartika',
@@ -1323,7 +1335,7 @@ VALUES
     2,
     NULL,
     13,
-    NULL
+    'ds_201'
 ),
 (
     'Ruang Kuliah 202 Dewi Sartika',
@@ -1332,7 +1344,7 @@ VALUES
     2,
     NULL,
     13,
-    NULL
+    'ds_202'
 ),
 (
     'Ruang Kuliah 203 Dewi Sartika',
@@ -1341,7 +1353,7 @@ VALUES
     2,
     NULL,
     13,
-    NULL
+    'ds_203'
 ),
 (
     'Ruang Kuliah 301',
@@ -1350,7 +1362,7 @@ VALUES
     3,
     NULL,
     13,
-    NULL
+    'ds_301'
 ),
 (
     'Ruang Kuliah 302',
@@ -1359,7 +1371,7 @@ VALUES
     3,
     NULL,
     13,
-    NULL
+    'ds_302'
 ),
 (
     'Ruang Kuliah 303',
@@ -1368,7 +1380,7 @@ VALUES
     3,
     NULL,
     13,
-    NULL
+    'ds_303'
 ),
 (
     'Ruang Kuliah 401',
@@ -1377,7 +1389,7 @@ VALUES
     4,
     NULL,
     13,
-    NULL
+    'ds_401'
 ),
 (
     'Ruang Kuliah 402',
@@ -1386,16 +1398,16 @@ VALUES
     4,
     NULL,
     13,
-    NULL
+    'ds_402'
 ),
 (
-    'Ruang Kuliah 403',
+    'Ruang Kuliah 403(mesh room)',
     'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 4.',
     'Ruang Kuliah & Akademik',
     4,
     NULL,
     13,
-    NULL
+    'ds_403_mesh'
 ),
 
 -- FH
@@ -1442,7 +1454,7 @@ VALUES
 (
     'Ruang Podcast Yos Sudarso',
     'Ruang podcast pada lantai 4 Gedung Yos Sudarso.',
-    'Administrasi & Layanan',
+    'Studio & Produksi Media',
     4,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/RuangPODCAST-LT-4-768x599-HD.png',
     9,
@@ -1516,67 +1528,211 @@ VALUES
 -- GEDUNG RA KARTINI (id = 10)
 -- =========================
 (
-    'Ruang Kelas Magister RA Kartini',
+    'Ruang Kelas Magister 101',
     'Ruang kelas program magister pada lantai 1 Gedung RA Kartini.',
     'Ruang Kuliah & Akademik',
     1,
     NULL,
     10,
-    NULL
+    'rak_magister_101'
 ),
 (
-    'Ruang Kelas Prodi Magister & Doktor RA Kartini',
-    'Ruang kelas program magister dan doktor pada lantai 1 Gedung RA Kartini.',
+    'Ruang Kelas Magister 102',
+    'Ruang kelas program magister pada lantai 1 Gedung RA Kartini.',
     'Ruang Kuliah & Akademik',
     1,
     NULL,
     10,
-    NULL
+    'rak_magister_102'
 ),
 (
-    'Ruang Konseling Magister & Doktor',
-    'Ruang konseling program magister dan doktor pada lantai 1 Gedung RA Kartini.',
+    'Ruang Dosen dan Staff Administrasi Prodi Doktor Hukum',
+    'Ruang dosen dan staff administrasi program doktor pada lantai 1 Gedung RA Kartini.',
     'Administrasi & Layanan',
     1,
     NULL,
     10,
-    NULL
+    'rak_dosen_staff_doktor'
 ),
 (
-    'Ruang Rapat Magister & Doktor',
-    'Ruang rapat program magister dan doktor pada lantai 1 Gedung RA Kartini.',
+    'Ruang UPT Pengembangan Karir dan Kewirausahaan',
+    'Ruang UPT Pengembangan Karir dan Kewirausahaan pada lantai 1 Gedung RA Kartini.',
     'Administrasi & Layanan',
     1,
     NULL,
     10,
-    NULL
+    'rak_upt_penkawan'
 ),
 (
-    'Ruang Tunggu Magister & Doktor',
-    'Ruang tunggu program magister dan doktor pada lantai 1 Gedung RA Kartini.',
-    'Administrasi & Layanan',
+    'Ruangan Laboratorium Farmasi Fakultas Kedokteran',
+    'Ruangan Laboratorium Farmasi Fakultas Kedokteran pada lantai 1 Gedung RA Kartini.',
+    'Laboratorium',
     1,
     NULL,
     10,
-    NULL
+    'rak_lab_farmasi'
 ),
 (
-    'Ruang Dosen Magister & Doktor',
-    'Ruang dosen program magister dan doktor pada lantai 1 Gedung RA Kartini.',
-    'Administrasi & Layanan',
-    1,
+    'Ruangan UPA Bahasa',
+    'Ruangan UPA Bahasa pada lantai 2 Gedung RA Kartini.',
+    'Layanan Akademik',
+    2,
     NULL,
     10,
-    NULL
+    'rak_upa_bahasa'
 ),
 (
-    'Ruang Administrasi Magister & Doktor',
-    'Ruang administrasi program magister dan doktor pada lantai 1 Gedung RA Kartini.',
-    'Administrasi & Layanan',
-    1,
+    'Ruangan Guru Besar Fakultas Teknik',
+    'Ruangan guru besar fakultas teknik pada lantai 2 Gedung RA Kartini.',
+    'Layanan Akademik',
+    2,
     NULL,
     10,
-    NULL
+    'rak_guru_besar'
+),
+(
+    'Ruangan Kelas 201',
+    'Ruangan kelas pada lantai 2 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    2,
+    NULL,
+    10,
+    'rak_201'
+),
+(
+    'Ruangan Lab Bahasa dan Ruang ujian',
+    'Ruangan Lab Bahasa dan Ruang ujian pada lantai 2 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    2,
+    NULL,
+    10,
+    'rak_lab_bahasa_ruang_ujian'
+),
+(
+    'Ruangan Diskusi dan Ruang Instruktur',
+    'Ruangan Diskusi dan Ruang Instruktur pada lantai 2 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    2,
+    NULL,
+    10,
+    'rak_diskusi_instruktur'
+),
+(
+    'Ruangan Ujian dan Ruang Sidang Doktor',
+    'Ruangan ujian dan ruang sidang Doktor pada lantai 2 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    2,
+    NULL,
+    10,
+    'rak_ujian_sidang_doktor'
+),
+(
+    'Ruangan Kelas 301',
+    'Ruangan Kelas 301 pada lantai 3 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    3,
+    NULL,
+    10,
+    'rak_301'
+),
+(
+    'Ruangan Kelas 302',
+    'Ruangan 302 pada lantai 3 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    3,
+    NULL,
+    10,
+    'rak_302'
+),
+(
+    'Ruangan 303',
+    'Ruangan 303 pada lantai 3 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    3,
+    NULL,
+    10,
+    'rak_303'
+),
+(
+    'Ruangan 304',
+    'Ruangan 304 pada lantai 3 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    3,
+    NULL,
+    10,
+    'rak_304'
+),
+(
+    'Ruangan Ujian 305',
+    'Ruangan ujian 305 pada lantai 3 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    3,
+    NULL,
+    10,
+    'rak_305'
+),
+(
+    'Ruangan Ujian 306',
+    'Ruangan ujian 306 pada lantai 3 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    3,
+    NULL,
+    10,
+    'rak_306'
+),
+(
+    'Ruangan Ujian 401',
+    'Ruangan ujian 401 pada lantai 4 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    4,
+    NULL,
+    10,
+    'rak_401'
+),
+(
+    'Ruangan Kelas 402',
+    'Ruangan kelas 402 pada lantai 4 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    4,
+    NULL,
+    10,
+    'rak_402'
+),
+(   
+    'Ruangan Kelas 403',
+    'Ruangan kelas 403 pada lantai 4 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    4,
+    NULL,
+    10,
+    'rak_403'
+),
+(   
+    'Ruangan 404',
+    'Ruangan 404 pada lantai 4 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    4,
+    NULL,
+    10,
+    'rak_404'
+),
+(   
+    'Ruangan 405',
+    'Ruangan 405 pada lantai 4 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    4,
+    NULL,
+    10,
+    'rak_405'
+),
+(
+    'Ruangan 406',
+    'Ruangan 406 pada lantai 4 Gedung RA Kartini.',
+    'Ruang Kuliah & Akademik',
+    4,
+    NULL,
+    10,
+    'rak_406'
 ),
 
 -- FISIP
