@@ -10,7 +10,7 @@ import CampusMapSection from "./sections/CampusMapSection";
 import { trackClick, trackCarousel } from "../analytics/trackingHelpers";
 
 // Lazy-load below-fold sections to reduce initial bundle size (TBT fix)
-const AccreditationSection = lazy(() => import("./sections/AccreditationSection"));
+
 const AssetsSection = lazy(() => import("./sections/AssetsSection"));
 const TrafficOverview = lazy(() => import("../analytics/TrafficOverview"));
 
@@ -257,11 +257,6 @@ const Dashboard: React.FC = () => {
           <div className="space-y-8">
             <div id="campus-map-section">
               <CampusMapSection />
-            </div>
-            <div>
-              <Suspense fallback={<SectionSkeleton items={4} />}>
-                <AccreditationSection />
-              </Suspense>
             </div>
           </div>
         )}

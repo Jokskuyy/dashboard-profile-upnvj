@@ -7,6 +7,11 @@ import {
   Mouse,
   MousePointerClick,
 } from "lucide-react";
+import SearchOverlay from "./SearchOverlay";
+import { installUnityKeyboardPatch } from "../../utils/unityKeyboardPatch";
+
+// Install BEFORE Unity framework loads — intercepts keyboard capture
+installUnityKeyboardPatch();
 
 interface CampusMapViewerProps {
   isFullscreen?: boolean;
@@ -90,12 +95,12 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const basePath = import.meta.env.BASE_URL;
   const unityConfig = useMemo(
     () => ({
-      dataUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.data`,
-      frameworkUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.framework.js`,
-      codeUrl: `${basePath}unity-builds/downloads/prototipe/Build/prototipe.wasm`,
+      dataUrl: `${basePath}unity-builds/downloads/prototipe/Build/Downloads.data.brbin`,
+      frameworkUrl: `${basePath}unity-builds/downloads/prototipe/Build/Downloads.framework.js.brbin`,
+      codeUrl: `${basePath}unity-builds/downloads/prototipe/Build/Downloads.wasm.brbin`,
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
-      productName: "Proposal",
+      productName: "Downloads",
       productVersion: "0.1.0",
       showBanner: unityShowBanner,
       matchWebGLToCanvasSize: true,
@@ -148,7 +153,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         canvas.width = container.clientWidth || 960;
         canvas.height = container.clientHeight || 600;
 
-        const loaderUrl = `${basePath}unity-builds/downloads/prototipe/Build/prototipe.loader.js`;
+        const loaderUrl = `${basePath}unity-builds/downloads/prototipe/Build/Downloads.loader.js`;
 
         if (!window.createUnityInstance) {
           console.log("Loading Unity WebGL loader...");
@@ -329,6 +334,9 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
           tabIndex={-1}
         />
 
+        {/* Search overlay */}
+        <SearchOverlay isUnityLoaded={!isLoading && !error} />
+
         {/* Floating minimize button in fullscreen */}
         {(isFullscreen || isMobileLandscape) && !isLoading && (
           <button
@@ -340,10 +348,11 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
                 onToggleFullscreen();
               }
             }}
-            className="absolute top-3 right-3 z-20 p-2 bg-black/20 hover:bg-black/40 rounded-lg transition-all duration-300 opacity-40 hover:opacity-100"
+            className="absolute top-4 right-4 z-20 flex items-center gap-2 px-4 py-2.5 bg-black/70 hover:bg-black/90 backdrop-blur-sm rounded-xl transition-all duration-200 shadow-lg border border-white/10"
             title={t("exitFullscreen")}
           >
-            <Minimize2 className="w-5 h-5 text-white" />
+            <Minimize2 className="w-4 h-4 text-white" />
+            <span className="text-white text-sm font-medium">Minimize</span>
           </button>
         )}
       </div>

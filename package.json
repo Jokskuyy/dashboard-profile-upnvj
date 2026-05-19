@@ -12,7 +12,10 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "anonymize-data": "node scripts/anonymize-data.js",
-    "check-secrets": "git grep -iE '(api[_-]?key|secret|token|password)' -- '*.ts' '*.tsx' '*.js' '*.json' || echo 'No secrets found'"
+    "check-secrets": "git grep -iE '(api[_-]?key|secret|token|password)' -- '*.ts' '*.tsx' '*.js' '*.json' || echo 'No secrets found'",
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
+    "test:report": "npx playwright show-report"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.84.0",
@@ -29,6 +32,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@playwright/test": "^1.60.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
