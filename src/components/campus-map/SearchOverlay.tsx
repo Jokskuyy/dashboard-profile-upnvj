@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Search, X, Navigation, Building2, LayoutGrid } from "lucide-react";
+import { Search, X, Navigation, Building2, LayoutGrid, StopCircle, CornerDownLeft } from "lucide-react";
 import { useBuildingSearch, type SearchResult } from "../../hooks/useBuildingSearch";
 
 interface SearchOverlayProps {
@@ -12,6 +12,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<SearchResult | null>(null);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [isNavigating, setIsNavigating] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -38,19 +39,29 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
         active instanceof HTMLInputElement ||
         active instanceof HTMLTextAreaElement;
 
-      if (e.key === "Enter" && !isInput) {
+      // Enter to focus search (when not navigating)
+      if (e.key === "Enter" && !isInput && !isNavigating) {
         e.preventDefault();
         lockUnityInput();
         inputRef.current?.focus();
+      }
+
+      // Escape to cancel navigation
+      if (e.key === "Escape" && isNavigating) {
+        e.preventDefault();
+        handleCancelNavigation();
       }
     };
 
     window.addEventListener("keydown", handler, true);
     return () => window.removeEventListener("keydown", handler, true);
-  }, [lockUnityInput]);
+  }, [lockUnityInput, isNavigating]);
 
   // Filter results berdasarkan query
   useEffect(() => {
+    // Jangan filter saat sedang navigasi
+    if (isNavigating) return;
+
     if (!query.trim()) {
       setResults([]);
       setIsOpen(false);
@@ -61,7 +72,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
     setResults(filtered);
     setHighlightedIndex(0);
     setIsOpen(true);
-  }, [query, search]);
+  }, [query, search, isNavigating]);
 
   // Tutup dropdown saat klik di luar
   useEffect(() => {
@@ -80,6 +91,8 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
       setQuery(item.label);
       setSelectedItem(item);
       setIsOpen(false);
+      setIsNavigating(true);
+      setResults([]);
       inputRef.current?.blur();
       unlockUnityInput();
 
@@ -94,15 +107,25 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
     [unlockUnityInput]
   );
 
-  const handleClear = useCallback(() => {
+  const handleCancelNavigation = useCallback(() => {
     setQuery("");
     setSelectedItem(null);
     setIsOpen(false);
-    inputRef.current?.focus();
-    lockUnityInput();
+    setIsNavigating(false);
+    setResults([]);
+    unlockUnityInput();
+
     if (window.unityInstance) {
       window.unityInstance.SendMessage("NavigationReceiver", "StopNavigation", "");
     }
+  }, [unlockUnityInput]);
+
+  const handleClearSearch = useCallback(() => {
+    setQuery("");
+    setResults([]);
+    setHighlightedIndex(-1);
+    inputRef.current?.focus();
+    lockUnityInput();
   }, [lockUnityInput]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -132,6 +155,50 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
     ? "Memuat data gedung..."
     : "Cari gedung atau fasilitas... (Enter)";
 
+  // ── NAVIGATING STATE ──
+  // Show a navigation status bar instead of the search input
+  if (isNavigating && selectedItem) {
+    return (
+      <div ref={wrapperRef} className="search-overlay">
+        <div className="search-overlay__nav-bar">
+          {/* Icon + destination info */}
+          <div className="search-overlay__nav-bar-info">
+            <div className="search-overlay__nav-bar-pulse">
+              <Navigation size={14} className="search-overlay__nav-bar-icon" />
+            </div>
+            <div className="search-overlay__nav-bar-text">
+              <span className="search-overlay__nav-bar-label">Navigasi ke</span>
+              <span className="search-overlay__nav-bar-dest">
+                {selectedItem.label}
+                {selectedItem.type === "fasilitas" && selectedItem.sublabel && (
+                  <span className="search-overlay__nav-bar-sublabel"> · {selectedItem.sublabel}</span>
+                )}
+              </span>
+            </div>
+          </div>
+
+          {/* Cancel button */}
+          <button
+            onClick={handleCancelNavigation}
+            className="search-overlay__nav-cancel"
+            aria-label="Batalkan navigasi"
+            id="cancel-navigation-btn"
+          >
+            <StopCircle size={14} />
+            <span>Batalkan</span>
+          </button>
+        </div>
+
+        {/* Keyboard shortcut hint */}
+        <div className="search-overlay__nav-hint">
+          <CornerDownLeft size={10} />
+          <span>Tekan Esc untuk berhenti</span>
+        </div>
+      </div>
+    );
+  }
+
+  // ── SEARCH STATE ──
   return (
     <div ref={wrapperRef} className="search-overlay">
       {/* Search input */}
@@ -155,7 +222,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
         />
         {query && (
           <button
-            onClick={handleClear}
+            onClick={handleClearSearch}
             className="search-overlay__clear-btn"
             aria-label="Hapus pencarian"
           >
@@ -163,26 +230,6 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
           </button>
         )}
       </div>
-
-      {/* Active navigation indicator */}
-      {selectedItem && !isOpen && (
-        <div className="search-overlay__nav-indicator">
-          <Navigation size={12} className="search-overlay__nav-icon" />
-          <span>
-            Navigasi ke {selectedItem.label}
-            {selectedItem.type === "fasilitas" && selectedItem.sublabel && (
-              <span className="search-overlay__nav-sublabel"> ({selectedItem.sublabel})</span>
-            )}
-          </span>
-          <button
-            onClick={handleClear}
-            className="search-overlay__nav-stop"
-            aria-label="Hentikan navigasi"
-          >
-            Berhenti
-          </button>
-        </div>
-      )}
 
       {/* Dropdown results */}
       {isOpen && (
