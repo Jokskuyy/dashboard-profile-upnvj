@@ -7,6 +7,7 @@ import {
   Mouse,
   MousePointerClick,
 } from "lucide-react";
+import SearchOverlay from "./SearchOverlay";
 
 interface CampusMapViewerProps {
   isFullscreen?: boolean;
@@ -328,6 +329,9 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
           }}
           tabIndex={-1}
         />
+
+        {/* Search overlay */}
+        <SearchOverlay isUnityLoaded={!isLoading && !error} />
 
         {/* Floating minimize button in fullscreen */}
         {(isFullscreen || isMobileLandscape) && !isLoading && (
