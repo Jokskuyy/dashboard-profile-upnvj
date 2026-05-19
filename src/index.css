@@ -476,6 +476,12 @@ html {
   background: rgba(44, 95, 45, 0.08);
 }
 
+.search-overlay__item--active,
+.search-overlay__item--active:hover {
+  background: rgba(44, 95, 45, 0.14);
+  color: #1a4a1c;
+}
+
 .search-overlay__item:active {
   background: rgba(44, 95, 45, 0.15);
 }
