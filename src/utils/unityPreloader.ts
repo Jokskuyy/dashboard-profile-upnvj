@@ -37,9 +37,9 @@ function getUnityFileUrls(): string[] {
 
   return [
     `${buildPath}/Downloads.loader.js`,
-    `${buildPath}/Downloads.framework.js.br`,
-    `${buildPath}/Downloads.wasm.br`,
-    `${buildPath}/Downloads.data.br`,
+    `${buildPath}/Downloads.framework.js.brbin`,
+    `${buildPath}/Downloads.wasm.brbin`,
+    `${buildPath}/Downloads.data.brbin`,
   ];
 }
 

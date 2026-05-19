@@ -12,11 +12,11 @@ export default defineConfig(() => ({
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
           if (!req.url) return next();
-          if (req.url.includes('/unity-builds/') && req.url.endsWith('.br')) {
+          if (req.url.includes('/unity-builds/') && req.url.endsWith('.brbin')) {
             res.setHeader('Content-Encoding', 'br');
-            if (req.url.endsWith('.wasm.br')) {
+            if (req.url.endsWith('.wasm.brbin')) {
               res.setHeader('Content-Type', 'application/wasm');
-            } else if (req.url.endsWith('.framework.js.br')) {
+            } else if (req.url.endsWith('.framework.js.brbin')) {
               res.setHeader('Content-Type', 'application/javascript');
             } else {
               res.setHeader('Content-Type', 'application/octet-stream');

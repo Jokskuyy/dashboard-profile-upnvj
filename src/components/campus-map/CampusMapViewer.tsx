@@ -95,9 +95,9 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const basePath = import.meta.env.BASE_URL;
   const unityConfig = useMemo(
     () => ({
-      dataUrl: `${basePath}unity-builds/downloads/prototipe/Build/Downloads.data.br`,
-      frameworkUrl: `${basePath}unity-builds/downloads/prototipe/Build/Downloads.framework.js.br`,
-      codeUrl: `${basePath}unity-builds/downloads/prototipe/Build/Downloads.wasm.br`,
+      dataUrl: `${basePath}unity-builds/downloads/prototipe/Build/Downloads.data.brbin`,
+      frameworkUrl: `${basePath}unity-builds/downloads/prototipe/Build/Downloads.framework.js.brbin`,
+      codeUrl: `${basePath}unity-builds/downloads/prototipe/Build/Downloads.wasm.brbin`,
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "Downloads",

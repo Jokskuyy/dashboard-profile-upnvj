@@ -9,7 +9,7 @@
       ]
     },
     {
-      "source": "/unity-builds/downloads/prototipe/Build/Downloads.framework.js.br",
+      "source": "/unity-builds/downloads/prototipe/Build/Downloads.framework.js.brbin",
       "headers": [
         { "key": "Content-Type", "value": "application/javascript" },
         { "key": "Content-Encoding", "value": "br" },
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "source": "/unity-builds/downloads/prototipe/Build/Downloads.wasm.br",
+      "source": "/unity-builds/downloads/prototipe/Build/Downloads.wasm.brbin",
       "headers": [
         { "key": "Content-Type", "value": "application/wasm" },
         { "key": "Content-Encoding", "value": "br" },
@@ -25,7 +25,7 @@
       ]
     },
     {
-      "source": "/unity-builds/downloads/prototipe/Build/Downloads.data.br",
+      "source": "/unity-builds/downloads/prototipe/Build/Downloads.data.brbin",
       "headers": [
         { "key": "Content-Type", "value": "application/octet-stream" },
         { "key": "Content-Encoding", "value": "br" },
