@@ -1,20 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class BuildingData
-{
-    [Tooltip("Nama tampilan (boleh berubah, untuk debug saja)")]
-    public string buildingName;
-
-    [Tooltip("Nama unik yang dikirim dari JavaScript via SendMessage — harus EXACT MATCH dengan unity_object_name di Supabase")]
-    public string unityObjectName;
-
-    [Tooltip("GameObject target navigasi di scene")]
-    public GameObject buildingObject;
-}
-
+/// <summary>
+/// Daftar gedung yang terdaftar di sistem navigasi.
+/// Unity akan otomatis mencari GameObject berdasarkan unityObjectName di scene —
+/// tidak perlu drag-drop manual di Inspector.
+/// </summary>
 public class BuildingDatabase : MonoBehaviour
 {
-    public List<BuildingData> buildings = new List<BuildingData>();
+    [Tooltip("Daftar unityObjectName — harus EXACT MATCH dengan nama GameObject di Hierarchy DAN unity_object_name di Supabase")]
+    public List<string> unityObjectNames = new List<string>();
 }
