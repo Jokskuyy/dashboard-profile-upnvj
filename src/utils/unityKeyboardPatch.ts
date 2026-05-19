@@ -72,6 +72,47 @@ EventTarget.prototype.addEventListener = function (
 // Mark as patched for debugging
 (document.addEventListener as any).__patched = true;
 
+/**
+ * Pointer Lock Patch
+ *
+ * Unity WebGL calls canvas.requestPointerLock() automatically when
+ * Cursor.lockState = CursorLockMode.Locked is set in C# code.
+ * Browsers require this to happen inside a user gesture (click/keydown).
+ * If Unity calls it outside a gesture (e.g. on scene load, or via
+ * SendMessage), the browser throws NotAllowedError.
+ *
+ * This patch wraps requestPointerLock to silently ignore the error
+ * since the campus map doesn't need FPS-style cursor locking.
+ */
+const originalRequestPointerLock = HTMLElement.prototype.requestPointerLock;
+
+HTMLElement.prototype.requestPointerLock = function (
+  this: HTMLElement,
+  ...args: any[]
+) {
+  try {
+    const result = originalRequestPointerLock.apply(this, args as any);
+    // requestPointerLock may return a Promise in modern browsers
+    if (result && typeof (result as any).catch === "function") {
+      (result as any).catch((err: Error) => {
+        if (err.name === "NotAllowedError") {
+          // Silently ignore — not triggered by user gesture
+          return;
+        }
+        console.warn("[PointerLockPatch] Unexpected error:", err);
+      });
+    }
+    return result;
+  } catch (err: any) {
+    if (err?.name === "NotAllowedError") {
+      // Silently ignore
+      return;
+    }
+    throw err;
+  }
+};
+
 console.log("[UnityKeyboardPatch] Installed — intercepting keyboard/mouse events on document & window");
+console.log("[PointerLockPatch] Installed — suppressing non-gesture pointer lock errors");
 
 export {};
