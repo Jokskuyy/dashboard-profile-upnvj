@@ -348,10 +348,11 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
                 onToggleFullscreen();
               }
             }}
-            className="absolute top-3 right-3 z-20 p-2 bg-black/20 hover:bg-black/40 rounded-lg transition-all duration-300 opacity-40 hover:opacity-100"
+            className="absolute top-4 right-4 z-20 flex items-center gap-2 px-4 py-2.5 bg-black/70 hover:bg-black/90 backdrop-blur-sm rounded-xl transition-all duration-200 shadow-lg border border-white/10"
             title={t("exitFullscreen")}
           >
-            <Minimize2 className="w-5 h-5 text-white" />
+            <Minimize2 className="w-4 h-4 text-white" />
+            <span className="text-white text-sm font-medium">Minimize</span>
           </button>
         )}
       </div>
