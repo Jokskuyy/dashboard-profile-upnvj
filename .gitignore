@@ -41,6 +41,7 @@ database/schema.sql
 # But track the clean setup files
 !database/001_full_setup.sql
 !database/002_seed_data.sql
+!database/003_alter_table.sql
 
 # Editor directories and files
 .vscode/*
