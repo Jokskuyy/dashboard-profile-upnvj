@@ -57,8 +57,7 @@ proxy-server/analytics-data.json
 # Docker volumes (Umami analytics)
 umami-db-data/
 
-# Unity Brotli compressed (use decompressed for Vercel)
-public/unity-builds/**/*.br
+# Unity build files tracked (Brotli compressed)
 
 # Lighthouse reports and temp files
 lighthouse-*
