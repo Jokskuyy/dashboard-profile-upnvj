@@ -36,10 +36,10 @@ function getUnityFileUrls(): string[] {
   const buildPath = `${basePath}unity-builds/downloads/prototipe/Build`;
 
   return [
-    `${buildPath}/Build.loader.js`,
-    `${buildPath}/Build.framework.js.brbin`,
-    `${buildPath}/Build.wasm.brbin`,
-    `${buildPath}/Build.data.brbin`,
+    `${buildPath}/Downloads.loader.js`,
+    `${buildPath}/Downloads.framework.js.brbin`,
+    `${buildPath}/Downloads.wasm.brbin`,
+    `${buildPath}/Downloads.data.brbin`,
   ];
 }
 

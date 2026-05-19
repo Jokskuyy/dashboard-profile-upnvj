@@ -94,9 +94,9 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const basePath = import.meta.env.BASE_URL;
   const unityConfig = useMemo(
     () => ({
-      dataUrl: `${basePath}unity-builds/downloads/prototipe/Build/Build.data.brbin`,
-      frameworkUrl: `${basePath}unity-builds/downloads/prototipe/Build/Build.framework.js.brbin`,
-      codeUrl: `${basePath}unity-builds/downloads/prototipe/Build/Build.wasm.brbin`,
+      dataUrl: `${basePath}unity-builds/downloads/prototipe/Build/Downloads.data.brbin`,
+      frameworkUrl: `${basePath}unity-builds/downloads/prototipe/Build/Downloads.framework.js.brbin`,
+      codeUrl: `${basePath}unity-builds/downloads/prototipe/Build/Downloads.wasm.brbin`,
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "Proposal",
@@ -152,7 +152,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         canvas.width = container.clientWidth || 960;
         canvas.height = container.clientHeight || 600;
 
-        const loaderUrl = `${basePath}unity-builds/downloads/prototipe/Build/Build.loader.js`;
+        const loaderUrl = `${basePath}unity-builds/downloads/prototipe/Build/Downloads.loader.js`;
 
         if (!window.createUnityInstance) {
           console.log("Loading Unity WebGL loader...");
