@@ -12,6 +12,10 @@ public class NavigationReceiver : MonoBehaviour
     public BuildingDatabase database;
     public NavigationGuide navigationGuide;
 
+    [Header("Debug (Editor Only)")]
+    [Tooltip("Isi nama gedung lalu klik kanan → 'Test Navigate To' saat Play Mode")]
+    public string testObjectName = "";
+
     // Cache: unityObjectName (lowercase) → Transform target
     private Dictionary<string, Transform> buildingCache = new Dictionary<string, Transform>();
 
@@ -132,5 +136,54 @@ public class NavigationReceiver : MonoBehaviour
     public void RebuildCache()
     {
         BuildCache();
+    }
+
+    /// <summary>
+    /// TEST: Simulasi SendMessage dari JavaScript.
+    /// Klik kanan komponen → "Test Navigate To" saat Play Mode aktif.
+    /// Gunakan field 'testObjectName' di Inspector untuk mengisi nama gedung.
+    /// </summary>
+    [ContextMenu("Test Navigate To")]
+    private void TestNavigateTo()
+    {
+        if (!Application.isPlaying)
+        {
+            Debug.LogWarning("[DEBUG] Masuk Play Mode dulu sebelum test navigasi.");
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(testObjectName))
+        {
+            Debug.LogWarning("[DEBUG] Isi field 'testObjectName' di Inspector terlebih dahulu.");
+            return;
+        }
+        Debug.Log($"[DEBUG] Mensimulasikan SendMessage → NavigateTo('{testObjectName}')");
+        NavigateTo(testObjectName);
+    }
+
+    /// <summary>
+    /// TEST: Print semua nama yang ada di cache saat ini.
+    /// Berguna untuk verifikasi apakah BuildCache berhasil menemukan semua gedung.
+    /// </summary>
+    [ContextMenu("Print Cache Contents")]
+    private void PrintCacheContents()
+    {
+        if (buildingCache.Count == 0)
+        {
+            Debug.LogWarning("[DEBUG] Cache kosong. Pastikan Play Mode aktif dan BuildingDatabase sudah diassign.");
+            return;
+        }
+        Debug.Log($"[DEBUG] Cache berisi {buildingCache.Count} gedung:");
+        foreach (var kv in buildingCache)
+            Debug.Log($"  - '{kv.Key}' → {kv.Value.name}");
+    }
+
+    /// <summary>
+    /// TEST: Stop navigasi secara manual dari Inspector.
+    /// </summary>
+    [ContextMenu("Test Stop Navigation")]
+    private void TestStopNavigation()
+    {
+        StopNavigation("");
+        Debug.Log("[DEBUG] StopNavigation dipanggil dari Inspector.");
     }
 }

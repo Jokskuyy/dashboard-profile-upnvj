@@ -19,9 +19,21 @@ public class NavigationGuide : MonoBehaviour
     private TMP_Text textComponent;
     private string currentBuildingName;   // Nama asli dari database
 
+    private void Start()
+    {
+        // Validasi referensi wajib saat scene start
+        if (player == null)
+            Debug.LogError("[NavigationGuide] 'player' belum diassign di Inspector!");
+        if (arrow == null)
+            Debug.LogError("[NavigationGuide] 'arrow' belum diassign di Inspector!");
+        if (distanceTextPrefab == null)
+            Debug.LogWarning("[NavigationGuide] 'distanceTextPrefab' belum diassign — TMP label tidak akan muncul.");
+    }
+
     void Update()
     {
         if (currentTarget == null) return;
+        if (player == null || arrow == null) return;
 
         float distance = Vector3.Distance(player.position, currentTarget.position);
 
@@ -62,6 +74,20 @@ public class NavigationGuide : MonoBehaviour
 
     public void StartNavigation(Transform target, string buildingName)
     {
+        Debug.Log($"[NavigationGuide] StartNavigation called → target='{target?.name}', building='{buildingName}'");
+
+        if (target == null)
+        {
+            Debug.LogError("[NavigationGuide] StartNavigation: target Transform is null!");
+            return;
+        }
+
+        if (arrow == null)
+        {
+            Debug.LogError("[NavigationGuide] StartNavigation: 'arrow' belum diassign di Inspector — drag Arrow GameObject ke field ini.");
+            return;
+        }
+
         // Clean up previous text
         if (currentText != null)
         {
@@ -77,20 +103,32 @@ public class NavigationGuide : MonoBehaviour
             target.gameObject.SetActive(true);
 
         arrow.gameObject.SetActive(true);
+        Debug.Log($"[NavigationGuide] Arrow diaktifkan: {arrow.name}");
 
         if (distanceTextPrefab != null)
         {
             currentText = Instantiate(distanceTextPrefab);
             textComponent = currentText.GetComponent<TMP_Text>();
+
+            if (textComponent == null)
+                Debug.LogWarning("[NavigationGuide] distanceTextPrefab tidak punya komponen TMP_Text!");
+            else
+                Debug.Log("[NavigationGuide] TMP label berhasil di-instantiate.");
+        }
+        else
+        {
+            Debug.LogWarning("[NavigationGuide] distanceTextPrefab null — TMP label tidak akan muncul. Assign prefab di Inspector.");
         }
     }
 
     public void StopNavigation()
     {
+        Debug.Log("[NavigationGuide] StopNavigation called.");
         currentTarget = null;
         currentBuildingName = null;
 
-        arrow.gameObject.SetActive(false);
+        if (arrow != null)
+            arrow.gameObject.SetActive(false);
 
         if (currentText != null)
         {
