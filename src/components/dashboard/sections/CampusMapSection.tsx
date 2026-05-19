@@ -37,14 +37,13 @@ const CampusMapSection: React.FC = () => {
     setShowViewer(true);
   };
 
-  // Auto-fullscreen saat viewer dibuka (PC & mobile)
   useEffect(() => {
     if (!showViewer) return;
-
     const isMobile =
       /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent,
       ) || window.innerWidth < 768;
+    if (!isMobile) return;
 
     const timer = setTimeout(async () => {
       const el = viewerWrapperRef.current;
@@ -55,10 +54,7 @@ const CampusMapSection: React.FC = () => {
         } else if ((el as any).webkitRequestFullscreen) {
           await (el as any).webkitRequestFullscreen();
         }
-        // Lock landscape hanya untuk mobile
-        if (isMobile) {
-          await (screen.orientation as any).lock?.("landscape");
-        }
+        await (screen.orientation as any).lock?.("landscape");
       } catch {
         // Fullscreen/orientation lock may fail
       }

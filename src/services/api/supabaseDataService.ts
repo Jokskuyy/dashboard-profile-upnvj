@@ -667,27 +667,6 @@ export const deleteFacility = async (id: number): Promise<void> => {
   logDelete("fasilitas", id.toString(), oldData || {});
 };
 
-// ===== GEDUNG READ (for search bar) =====
-
-/**
- * Fetch list of gedung for search/autocomplete
- * Returns lightweight data: id, nama_gedung, lokasi, jumlah_lantai
- */
-export const fetchGedungList = async (): Promise<GedungData[]> => {
-  try {
-    const { data, error } = await supabase
-      .from("gedung")
-      .select("id, nama_gedung, deskripsi_gedung, lokasi, jumlah_lantai")
-      .order("nama_gedung", { ascending: true });
-
-    if (error) throw error;
-    return data || [];
-  } catch (error) {
-    console.error("Error fetching gedung list:", error);
-    return [];
-  }
-};
-
 // ===== GEDUNG CRUD =====
 
 export interface GedungData {

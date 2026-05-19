@@ -4,29 +4,7 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig(() => ({
-  plugins: [
-    react(),
-    // Middleware: serve Unity Brotli files with correct headers in dev mode
-    {
-      name: 'unity-brotli-headers',
-      configureServer(server) {
-        server.middlewares.use((req, res, next) => {
-          if (!req.url) return next();
-          if (req.url.includes('/unity-builds/') && req.url.endsWith('.brbin')) {
-            res.setHeader('Content-Encoding', 'br');
-            if (req.url.endsWith('.wasm.brbin')) {
-              res.setHeader('Content-Type', 'application/wasm');
-            } else if (req.url.endsWith('.framework.js.brbin')) {
-              res.setHeader('Content-Type', 'application/javascript');
-            } else {
-              res.setHeader('Content-Type', 'application/octet-stream');
-            }
-          }
-          next();
-        });
-      },
-    },
-  ],
+  plugins: [react()],
   // Base path for subdirectory deployment
   base: '/',
   resolve: {
@@ -66,4 +44,3 @@ export default defineConfig(() => ({
   },
   assetsInclude: ['**/*.br', '**/*.data', '**/*.wasm'],
 }))
-
