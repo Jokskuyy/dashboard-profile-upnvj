@@ -1,2 +1,9 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Unity WebGL build artifacts — must remain binary
+*.br binary
+*.wasm binary
+*.data binary
+*.bundle binary
+*.bin binary
