@@ -89,12 +89,12 @@ const originalRequestPointerLock = HTMLElement.prototype.requestPointerLock;
 HTMLElement.prototype.requestPointerLock = function (
   this: HTMLElement,
   ...args: any[]
-) {
+): Promise<void> {
   try {
     const result = originalRequestPointerLock.apply(this, args as any);
     // requestPointerLock may return a Promise in modern browsers
     if (result && typeof (result as any).catch === "function") {
-      (result as any).catch((err: Error) => {
+      return (result as any).catch((err: Error) => {
         if (err.name === "NotAllowedError") {
           // Silently ignore — not triggered by user gesture
           return;
@@ -102,11 +102,11 @@ HTMLElement.prototype.requestPointerLock = function (
         console.warn("[PointerLockPatch] Unexpected error:", err);
       });
     }
-    return result;
+    return result || Promise.resolve();
   } catch (err: any) {
     if (err?.name === "NotAllowedError") {
       // Silently ignore
-      return;
+      return Promise.resolve();
     }
     throw err;
   }
