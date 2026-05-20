@@ -94,13 +94,13 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const basePath = import.meta.env.BASE_URL;
   const unityConfig = useMemo(
     () => ({
-      dataUrl: `${basePath}unity-builds/0.1.1/Build/0.12.data.br`,
-      frameworkUrl: `${basePath}unity-builds/0.1.1/Build/0.12.framework.js.br`,
-      codeUrl: `${basePath}unity-builds/0.1.1/Build/0.12.wasm.br`,
+      dataUrl: `${basePath}unity-builds/0.2.01/Build/0.2.01.data.br`,
+      frameworkUrl: `${basePath}unity-builds/0.2.01/Build/0.2.01.framework.js.br`,
+      codeUrl: `${basePath}unity-builds/0.2.01/Build/0.2.01.wasm.br`,
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "Proposal",
-      productVersion: "0.1.1",
+      productVersion: "0.2.01",
       showBanner: unityShowBanner,
       matchWebGLToCanvasSize: true,
     }),
@@ -152,7 +152,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         canvas.width = container.clientWidth || 960;
         canvas.height = container.clientHeight || 600;
 
-        const loaderUrl = `${basePath}unity-builds/0.1.1/Build/0.12.loader.js`;
+        const loaderUrl = `${basePath}unity-builds/0.2.01/Build/0.2.01.loader.js`;
 
         if (!window.createUnityInstance) {
           console.log("Loading Unity WebGL loader...");

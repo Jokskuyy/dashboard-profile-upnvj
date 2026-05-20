@@ -33,13 +33,13 @@ const listeners: Set<(progress: PreloadProgress) => void> = new Set();
 /** Get the Unity build file URLs based on current BASE_URL */
 function getUnityFileUrls(): string[] {
   const basePath = import.meta.env.BASE_URL || "/";
-  const buildPath = `${basePath}unity-builds/0.1.1/Build`;
+  const buildPath = `${basePath}unity-builds/0.2.01/Build`;
 
   return [
-    `${buildPath}/0.12.loader.js`,
-    `${buildPath}/0.12.framework.js.br`,
-    `${buildPath}/0.12.wasm.br`,
-    `${buildPath}/0.12.data.br`,
+    `${buildPath}/0.2.01.loader.js`,
+    `${buildPath}/0.2.01.framework.js.br`,
+    `${buildPath}/0.2.01.wasm.br`,
+    `${buildPath}/0.2.01.data.br`,
   ];
 }
 
