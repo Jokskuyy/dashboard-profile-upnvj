@@ -406,17 +406,50 @@ export const translations = {
   },
 };
 
-export const getTranslation = (language: Language, key: string): string => {
+export const getTranslation = (
+  language: Language,
+  key: string,
+  params?: Record<string, string | number>
+): string => {
   const keys = key.split(".");
+  
+  // 1. Try to find the translation in the specified language
   let value: unknown = translations[language];
+  let found = true;
 
   for (const k of keys) {
     if (value && typeof value === "object") {
       value = (value as Record<string, unknown>)[k];
     } else {
-      return key;
+      found = false;
+      break;
     }
   }
 
-  return typeof value === "string" ? value : key;
+  // 2. If not found and language is not 'id', try fallback to 'id'
+  if ((!found || typeof value !== "string") && language !== "id") {
+    value = translations["id"];
+    found = true;
+    for (const k of keys) {
+      if (value && typeof value === "object") {
+        value = (value as Record<string, unknown>)[k];
+      } else {
+        found = false;
+        break;
+      }
+    }
+  }
+
+  // 3. If translation is found and is a string, do interpolation if params exist
+  if (found && typeof value === "string") {
+    let result = value;
+    if (params) {
+      for (const [paramKey, paramVal] of Object.entries(params)) {
+        result = result.replace(new RegExp(`\\{${paramKey}\\}`, "g"), String(paramVal));
+      }
+    }
+    return result;
+  }
+
+  return key;
 };
