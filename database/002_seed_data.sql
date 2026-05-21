@@ -897,7 +897,7 @@ VALUES
 (
     'Mushola FK',
     'Fasilitas ibadah untuk mahasiswa dan civitas akademika.',
-    'Fasilitas Ibadah',
+    'Tempat Ibadah',
     3,
     NULL,
     4,
@@ -949,13 +949,22 @@ VALUES
 -- =========================
 
 (
+    'Ruangan Lab Anatomi 1',
+    'Fasilitas departemen anatomi Fakultas Kedokteran.',
+    'Laboratorium',
+    1,
+    NULL,
+    5,
+    'ars_1_lab_anatomi'
+),
+(
     'Departemen Anatomi',
     'Fasilitas departemen anatomi Fakultas Kedokteran.',
     'Laboratorium',
     1,
     NULL,
     5,
-    NULL
+    'ars_anatomi'
 ),
 
 (
@@ -965,9 +974,134 @@ VALUES
     1,
     NULL,
     5,
-    NULL
+    'ars_lab_fisiologi'
 ),
-
+(
+    'Ruang Kelas 201',
+    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang Kuliah & Akademik',
+    2,
+    NULL,
+    5,
+    'ars_201'
+),
+(
+    'Ruangan Gugus Kendali Mutu',
+    'Ruangan untuk kegiatan gugus kendali mutu.',
+    'Administrasi & Layanan',
+    2,
+    NULL,
+    5,
+    'ars_gkm_2'
+),
+(
+    'Ruang Dosen',
+    'Ruangan untuk kegiatan dosen.',
+    'Administrasi & Layanan',
+    2,
+    NULL,
+    5,
+    'ars_dosen'
+),
+(
+    'Ruang Server Wifi',
+    'Ruangan tempat peletakan Server Wifi.',
+    'Administrasi & Layanan',
+    2,
+    NULL,
+    5,
+    'ars_server'
+),
+(
+    'Ruang Mushola',
+    'Ruangan tempat ibadah bagi Mahasiswa & Dosen.',
+    'Tempat Ibadah',
+    2,
+    NULL,
+    5,
+    'ars_mushola'
+),
+(
+    'Ruang Konseling & Bimbingan Karir',
+    'Ruangan tempat Konseling & Bimbingan bagi Mahasiswa.',
+    'Administrasi & Layanan',
+    2,
+    NULL,
+    5,
+    'ars_konseling'
+),
+(
+    'Ruang Kelas 301',
+    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang Kuliah & Akademik',
+    3,
+    NULL,
+    5,
+    'ars_301'
+),
+(
+    'Ruang Kelas 302',
+    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang Kuliah & Akademik',
+    3,
+    NULL,
+    5,
+    'ars_302'
+),
+(
+    'Ruang Kelas 303',
+    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang Kuliah & Akademik',
+    3,
+    NULL,
+    5,
+    'ars_303'
+),
+(
+    'Ruang Kelas 304',
+    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang Kuliah & Akademik',
+    3,
+    NULL,
+    5,
+    'ars_304'
+),
+(
+    'Ruang Kelas 305',
+    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang Kuliah & Akademik',
+    3,
+    NULL,
+    5,
+    'ars_305'
+),
+(
+    'Ruang Kelas 306',
+    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang Kuliah & Akademik',
+    3,
+    NULL,
+    5,
+    'ars_306'
+),
+(
+    'Ruang Kelas 307',
+    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang Kuliah & Akademik',
+    3,
+    NULL,
+    5,
+    'ars_307'
+),
+(
+    'Gudang lantai 3',
+    'Ruang untuk menyimpan barang-barang Fakultas Kedokteran.',
+    'Administrasi & Layanan',
+    3,
+    NULL,
+    5,
+    'ars_3_gudang'
+),
 (
     'Ruang Tutorial Gedung Abdul Rahman Saleh',
     'Tiga ruang tutorial untuk diskusi akademik mahasiswa.',
@@ -977,7 +1111,54 @@ VALUES
     5,
     NULL
 ),
+(
+    'Ruang Kelas 401',
+    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang Kuliah & Akademik',
+    4,
+    NULL,
+    5,
+    'ars_401'
+),
+(
+    'Ruang Kelas 402',
+    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang Kuliah & Akademik',
+    4,
+    NULL,
+    5,
+    'ars_402'
+),
 
+(
+    'Ruang Kelas 403',
+    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang Kuliah & Akademik',
+    4,
+    NULL,
+    5,
+    'ars_403'
+),
+
+(
+    'Ruang Kelas 404',
+    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang Kuliah & Akademik',
+    4,
+    NULL,
+    5,
+    'ars_404'
+),
+
+(
+    'Gudang lantai 4',
+    'Ruang untuk menyimpan barang-barang Fakultas Kedokteran.',
+    'Administrasi & Layanan',
+    4,
+    NULL,
+    5,
+    'ars_4_gudang'
+),
 (
     'OSCE Center FKUPN',
     'Pusat ujian OSCE dengan 24 ruang ujian, control panel, dan gudang manekin.',
