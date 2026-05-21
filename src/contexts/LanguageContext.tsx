@@ -5,7 +5,7 @@ import { getTranslation } from '../utils/translations';
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
+  t: (key: string, params?: Record<string, string | number>) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -38,8 +38,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     localStorage.setItem('upnvj-language', lang);
   }, []);
 
-  const t = useCallback((key: string): string => {
-    return getTranslation(language, key);
+  const t = useCallback((key: string, params?: Record<string, string | number>): string => {
+    return getTranslation(language, key, params);
   }, [language]);
 
   const value = useMemo(
