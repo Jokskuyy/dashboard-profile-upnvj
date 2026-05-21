@@ -133,6 +133,7 @@ COMMENT ON TABLE public.audit_logs IS 'Log audit untuk mencatat aktivitas CRUD a
 
 -- Fakultas & Program Studi
 CREATE INDEX idx_fakultas_nama ON public.fakultas(nama_fakultas);
+CREATE INDEX idx_fakultas_gedung ON public.fakultas(id_gedung_utama);
 CREATE INDEX idx_prodi_fakultas ON public.program_studi(id_fakultas);
 CREATE INDEX idx_prodi_jenjang ON public.program_studi(jenjang);
 
