@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
 import { supabase } from "../lib/supabase";
 
 interface Admin {
@@ -30,7 +30,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [admin, setAdmin] = useState<Admin | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const verifyAuth = async () => {
+  const verifyAuth = useCallback(async () => {
     try {
       // Check Supabase session
       const { data: { session }, error: sessionError } = await supabase.auth.getSession();
@@ -60,7 +60,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     verifyAuth();
@@ -75,9 +75,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [verifyAuth]);
 
-  const login = async (username: string, password: string) => {
+  const login = useCallback(async (username: string, password: string) => {
     try {
       // Convert username to email format for Supabase Auth
       const email = `${username}@admin.upnvj.ac.id`;
@@ -150,28 +150,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         message: error instanceof Error ? error.message : "Terjadi kesalahan. Silakan coba lagi.",
       };
     }
-  };
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
       await supabase.auth.signOut();
       setAdmin(null);
     } catch (error) {
       console.error("Logout failed:", error);
     }
-  };
+  }, []);
+
+  const value = useMemo(
+    () => ({
+      admin,
+      isAuthenticated: !!admin,
+      isLoading,
+      login,
+      logout,
+      verifyAuth,
+    }),
+    [admin, isLoading, login, logout, verifyAuth]
+  );
 
   return (
-    <AuthContext.Provider
-      value={{
-        admin,
-        isAuthenticated: !!admin,
-        isLoading,
-        login,
-        logout,
-        verifyAuth,
-      }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

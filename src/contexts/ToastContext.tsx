@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import React, { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from "react";
 import Toast, { type ToastType } from "../components/common/Toast";
 
 interface ToastMessage {
@@ -52,8 +52,18 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
   }, []);
 
+  const value = useMemo(
+    () => ({
+      showToast,
+      showSuccess,
+      showError,
+      showInfo,
+    }),
+    [showToast, showSuccess, showError, showInfo]
+  );
+
   return (
-    <ToastContext.Provider value={{ showToast, showSuccess, showError, showInfo }}>
+    <ToastContext.Provider value={value}>
       {children}
       <div className="fixed top-4 right-4 z-[60] space-y-2">
         {toasts.map((toast) => (

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
 import {
   fetchDashboardData,
   fetchFaculties,
@@ -26,7 +26,7 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -42,22 +42,25 @@ export const DashboardProvider: React.FC<{ children: React.ReactNode }> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [loadData]);
+
+  const value = useMemo(
+    () => ({
+      data,
+      faculties,
+      loading,
+      error,
+      reload: loadData,
+    }),
+    [data, faculties, loading, error, loadData]
+  );
 
   return (
-    <DashboardContext.Provider
-      value={{
-        data,
-        faculties,
-        loading,
-        error,
-        reload: loadData,
-      }}
-    >
+    <DashboardContext.Provider value={value}>
       {children}
     </DashboardContext.Provider>
   );
