@@ -52,7 +52,8 @@ CREATE TABLE public.gedung (
     deskripsi_gedung TEXT,
     lokasi TEXT,
     jumlah_lantai INT DEFAULT 1,
-    foto_url VARCHAR(255)
+    foto_url VARCHAR(255),
+    unity_object_name TEXT UNIQUE
 );
 COMMENT ON TABLE public.gedung IS 'Data gedung/bangunan di kampus UPNVJ';
 
@@ -86,7 +87,8 @@ CREATE TABLE public.fasilitas (
     color VARCHAR(50) DEFAULT 'gray',
     lantai INT DEFAULT 1,
     foto_url TEXT,
-    id_gedung INT REFERENCES public.gedung(id) ON DELETE SET NULL
+    id_gedung INT REFERENCES public.gedung(id) ON DELETE SET NULL,
+    unity_object_name TEXT UNIQUE
 );
 COMMENT ON TABLE public.fasilitas IS 'Fasilitas kampus (lab, perpustakaan, dll)';
 
@@ -95,6 +97,7 @@ CREATE TABLE public.program_studi (
     nama_prodi VARCHAR(255) NOT NULL,
     jenjang VARCHAR(10) NOT NULL,
     id_fakultas INT NOT NULL REFERENCES public.fakultas(id) ON DELETE CASCADE,
+    akreditasi VARCHAR(50),
     UNIQUE(nama_prodi, jenjang, id_fakultas)
 );
 COMMENT ON TABLE public.program_studi IS 'Program studi yang ada di setiap fakultas';

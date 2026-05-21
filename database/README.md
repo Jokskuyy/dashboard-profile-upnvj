@@ -9,7 +9,7 @@ Jalankan file SQL berikut di **Supabase SQL Editor** secara berurutan:
 database/001_full_setup.sql
 ```
 - Drop semua tabel & policies lama (clean slate)
-- Buat 10 tabel: `akreditasi`, `gedung`, `admin_users`, `fakultas`, `fasilitas`, `program_studi`, `dosen`, `mahasiswa`, `web_analytics_log`, `audit_logs`
+- Buat 7 tabel: `gedung`, `admin_users`, `fakultas`, `fasilitas`, `program_studi`, `web_analytics_log`, `audit_logs`
 - Buat indexes untuk performa
 - Enable RLS pada semua tabel
 - Buat RLS policies tanpa konflik (naming: `{table}_{role}_{operation}`)
