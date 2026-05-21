@@ -268,10 +268,3 @@ Build Unity WebGL saat ini berukuran **~35MB** (compressed), yang terlalu berat 
 ---
 
 *Dokumen ini dibuat pada 4 Mei 2026 sebagai bagian dari evaluasi teknis proyek Dashboard Profil UPNVJ.*
-
-Prioritas	Solusi	Effort	Dampak
-🥇	Optimasi Unity Build Settings (texture, stripping)	Rendah	Bisa kurangi 40-60% size
-🥈	Addressables/Asset Bundles untuk lazy loading	Sedang	Initial load bisa turun ke ~5MB
-🥉	Migrasi ke Three.js/R3F	Tinggi	Load bisa turun ke < 2MB total
-🏅	CDN + Caching headers	Rendah	Repeat visit instan
-Mau saya bantu implementasi solusi yang mana? Kalau mau quick win, saya bisa bantu setup lazy loading + preload hints di sisi React sekarang. Kalau mau solusi jangka panjang, saya bisa bantu arsitektur Three.js/React Three Fiber sebagai pengganti Unity WebGL.

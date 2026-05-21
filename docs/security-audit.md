@@ -1,4 +1,4 @@
-# Audit Lengkap: Dashboard Profile UPNVJ
+# Audit Keamanan & Arsitektur: Dashboard Profile UPNVJ
 
 > Dokumen ini berisi hasil analisis menyeluruh terhadap project **UPNVJ Dashboard** meliputi arsitektur sistem, keamanan, frontend, backend, database, DevOps, dan rekomendasi pengembangan.
 
@@ -71,8 +71,8 @@ Menggunakan React Context API (4 context: Auth, Language, Dashboard, Toast). Tid
 URL dan anon key Supabase ter-hardcode di file yang tracked oleh git. Meskipun anon key bersifat "publik", kombinasi dengan RLS yang terlalu permisif (lihat 3.4) memberikan akses baca ke seluruh data.
 
 ```
-URL: https://aaysacqsibquiulpdzwz.supabase.co
-Key: eyJhbGciOiJIUzI1NiIs... (JWT anon key lengkap)
+URL: https://<your-supabase-project-id>.supabase.co
+Key: <your-supabase-anon-key>
 ```
 
 **Rekomendasi:** Rotate key di Supabase dashboard. Ganti isi file dengan placeholder. Hapus dari git history dengan `git filter-branch` atau BFG Repo-Cleaner.
@@ -640,5 +640,4 @@ Tidak semua temuan negatif. Berikut yang sudah dilakukan dengan baik:
 
 ---
 
-*Dihasilkan pada: 2026-02-11*
-*Analyzer: Claude Code*
+*Dihasilan oleh: Claude Code*

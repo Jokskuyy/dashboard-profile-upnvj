@@ -13,13 +13,13 @@ Tambahkan environment variables berikut di GitHub Repository:
 #### Secret 1: VITE_SUPABASE_URL
 ```
 Name: VITE_SUPABASE_URL
-Value: https://aaysacqsibquiulpdzwz.supabase.co
+Value: <YOUR_SUPABASE_URL>
 ```
 
 #### Secret 2: VITE_SUPABASE_ANON_KEY
 ```
 Name: VITE_SUPABASE_ANON_KEY
-Value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFheXNhY3FzaWJxdWl1bHBkend6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMyNzMyODUsImV4cCI6MjA3ODg0OTI4NX0._oUNMA5Txnuig2glrKFiDH34pakF8AD4iAQx2id4VFw
+Value: <YOUR_SUPABASE_ANON_KEY>
 ```
 
 ### 2. Aktifkan GitHub Pages

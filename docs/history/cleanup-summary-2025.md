@@ -1,7 +1,7 @@
 # Project Cleanup Summary
 
-**Date**: November 23, 2025
-**Status**: Completed
+**Date**: November 23, 2025  
+**Status**: Completed  
 
 ## 1. Files Removed (Redundant/Unused)
 
@@ -129,10 +129,7 @@ dashboard-profile-upnvj/
 │   ├── utils/                  # Utility functions
 │   └── lib/
 │       └── supabase.ts         # Supabase client
-├── PROXY_SERVER_STATUS.md      # Debugging guide (kept)
-└── CLEANUP_SUMMARY.md          # This file
-
-**Removed**: proxy-server/, scripts/, 8 MD docs, SupabaseTest.tsx, staticData.ts, api.ts
+└── docs/                       # Project documentation
 ```
 
 ---
@@ -160,7 +157,6 @@ dashboard-profile-upnvj/
 ## 6. What Was Kept
 
 ### Essential Files
-- `PROXY_SERVER_STATUS.md` - Contains debugging guide and migration info
 - `README.md` - Project readme
 - `.github/workflows/deploy.yml` - CI/CD pipeline
 - All production components and services
@@ -169,7 +165,6 @@ dashboard-profile-upnvj/
 - Supabase integration files
 
 ### Why These Were Kept
-- `PROXY_SERVER_STATUS.md`: Useful debugging reference and migration history
 - Unity builds: Still used for campus map feature
 - `faculties.json`: May be used for frontend filtering
 
