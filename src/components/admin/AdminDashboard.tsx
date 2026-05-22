@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Package,
@@ -34,7 +34,7 @@ import FacilityModal from "../modals/crud/FacilityModal";
 import BuildingModal from "../modals/crud/BuildingModal";
 import DeleteConfirmModal from "../modals/shared/DeleteConfirmModal";
 import Toast, { type ToastType } from "../common/Toast";
-import AdminTrafficAnalytics from "./analytics/AdminTrafficAnalytics";
+const AdminTrafficAnalytics = lazy(() => import("./analytics/AdminTrafficAnalytics"));
 import BuildingsTable from "./tables/BuildingsTable";
 import FacilitiesTable from "./tables/FacilitiesTable";
 import ProgramsTable from "./tables/ProgramsTable";
@@ -484,7 +484,7 @@ export default function AdminDashboard() {
                   }
                 />
               )}
-              {activeTab === "analytics" && <AdminTrafficAnalytics />}
+              {activeTab === "analytics" && <Suspense fallback={<div className="p-8 text-center text-gray-500">Loading analytics...</div>}><AdminTrafficAnalytics /></Suspense>}
               {activeTab === "audit" && <AuditLogTable />}
             </div>
           </div>

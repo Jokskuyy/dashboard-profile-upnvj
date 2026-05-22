@@ -29,6 +29,11 @@ export default defineConfig(() => ({
   ],
   // Base path for subdirectory deployment
   base: '/',
+  preview: {
+    headers: {
+      'Cache-Control': 'public, max-age=31536000, immutable',
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
