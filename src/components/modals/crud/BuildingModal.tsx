@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { X, Save, Loader2 } from "lucide-react";
-import type { GedungData } from "../../../services/api/supabaseDataService";
+import type { GedungData } from "../../../services/api/dataService";
 
 interface BuildingModalProps {
   isOpen: boolean;

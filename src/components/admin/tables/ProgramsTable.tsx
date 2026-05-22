@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Plus, Edit2, Trash2, Search, BookOpen } from "lucide-react";
 import type { ProgramData } from "../../../types";
-import type { FacultyInfo } from "../../../services/api/supabaseDataService";
+import type { FacultyInfo } from "../../../services/api/dataService";
 import { usePagination } from "../hooks/usePagination";
 import Pagination from "../shared/Pagination";
 

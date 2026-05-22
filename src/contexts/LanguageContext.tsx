@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import type { Language } from '../types';
-import { getTranslation } from '../utils/translations';
+import { translationEngine } from '../services/i18n';
 
 interface LanguageContextType {
   language: Language;
@@ -39,7 +39,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   }, []);
 
   const t = useCallback((key: string, params?: Record<string, string | number>): string => {
-    return getTranslation(language, key, params);
+    return translationEngine.translate(language, key, params);
   }, [language]);
 
   const value = useMemo(

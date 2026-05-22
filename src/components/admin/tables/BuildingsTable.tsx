@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Building2, Edit2, Trash2, RefreshCw, Search } from "lucide-react";
 import { supabase } from "../../../lib/supabase";
-import type { GedungData } from "../../../services/api/supabaseDataService";
+import type { GedungData } from "../../../services/api/dataService";
 import { usePagination } from "../hooks/usePagination";
 import Pagination from "../shared/Pagination";
 
