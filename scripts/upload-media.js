@@ -65,8 +65,8 @@ async function ensureBucketExists() {
 
     if (createError) {
       console.error('Gagal membuat bucket:', createError.message);
-      console.log(`Mencoba melanjutkan karena kemungkinan bucket "${BUCKET_NAME}" sudah dibuat secara manual dengan akses PUBLIC.`);
-      return true; // Lanjutkan karena bucket mungkin sudah dibuat secara manual
+      console.log(`Silakan buat bucket secara manual bernama "${BUCKET_NAME}" dengan akses PUBLIC di Dashboard Supabase.`);
+      return false;
     }
     console.log(`Bucket "${BUCKET_NAME}" berhasil dibuat.`);
   } else {
@@ -119,11 +119,12 @@ async function uploadLocalFile(filePath, storagePath) {
 }
 
 /**
- * Mengunduh gambar dari URL internet lalu mengunggahnya ke Supabase Storage
+ * Mengunduh gambar dari URL internet lalu mengunggahnya ke Supabase Storage.
+ * Mendeteksi ekstensi file secara dinamis dari header Content-Type jika tidak ada ekstensi di URL.
  * @param {string} url URL gambar eksternal
- * @param {string} storagePath Path tujuan di bucket (misal: fasilitas/husni thamrin/lab.jpg)
+ * @param {string} storagePathWithoutExt Path tujuan di bucket tanpa ekstensi di ujungnya (misal: 'gedung/gedung_rektorat')
  */
-async function downloadAndUpload(url, storagePath) {
+async function downloadAndUpload(url, storagePathWithoutExt) {
   try {
     console.log(`Mengunduh dari URL: ${url}`);
     const response = await fetch(url);
@@ -132,7 +133,19 @@ async function downloadAndUpload(url, storagePath) {
     const arrayBuffer = await response.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    let contentType = response.headers.get('content-type') || 'image/jpeg';
+    // Deteksi Content-Type secara dinamis
+    const contentType = response.headers.get('content-type') || 'image/jpeg';
+    let ext = '.jpg';
+    if (contentType.includes('image/png')) ext = '.png';
+    else if (contentType.includes('image/webp')) ext = '.webp';
+    else if (contentType.includes('image/gif')) ext = '.gif';
+
+    // Jika target storagePath sudah memiliki ekstensi gambar di ujungnya, pakai itu.
+    // Jika tidak, tambahkan ekstensi yang dideteksi secara dinamis.
+    let storagePath = storagePathWithoutExt;
+    if (!/\.(jpg|jpeg|png|webp|gif)$/i.test(storagePath)) {
+      storagePath += ext;
+    }
 
     console.log(`Mengunggah ke [Bucket: ${BUCKET_NAME}]/${storagePath}...`);
     const { data, error } = await supabase.storage
@@ -186,8 +199,9 @@ async function processLocalFolder(folderPath, targetFolder) {
 }
 
 /**
- * Fungsi untuk mendeteksi URL gambar di file Seed SQL,
- * mendownloadnya, menguploadnya ke Supabase, dan membuat file SQL baru yang terupdate.
+ * Fungsi untuk mendeteksi data di file Seed SQL,
+ * mendownload gambar, me-rename file sesuai nama gedung/fasilitas,
+ * mengupload ke Supabase, dan membuat file SQL baru yang terupdate.
  */
 async function migrateSeedUrls() {
   const seedPath = path.resolve(__dirname, '../database/002_seed_data.sql');
@@ -217,62 +231,68 @@ async function migrateSeedUrls() {
   const gedungSection = seedContent.substring(startGedung, endGedung);
   const fasilitasSection = seedContent.substring(startFasilitas, endFasilitas);
 
-  // Regex pencarian URL gambar umum
-  const urlRegex = /https?:\/\/[^\s"',)]+\.(?:jpg|jpeg|png|webp)(?:\?[^\s"',)]+)?/gi;
-
   const urlMap = {};
 
-  // 1. PROSES GEDUNG URLS
-  console.log('\n--- Memproses URL Gambar Gedung ---');
-  const gedungUrls = [...new Set(gedungSection.match(urlRegex) || [])];
-  console.log(`Menemukan ${gedungUrls.length} gambar gedung.`);
+  // 1. PROSES GEDUNG URLS (DENGAN RE-NAME SESUAI NAMA GEDUNG)
+  console.log('\n--- Memproses & Re-name URL Gambar Gedung ---');
+  
+  // Regex untuk mencocokkan baris gedung: ('Nama Gedung', 'Deskripsi', 'Lokasi', lantai, 'url', 'unity')
+  const gedungRowRegex = /\(\s*'([^']+)'\s*,\s*'[^']*'\s*,\s*'[^']*'\s*,\s*(?:\d+|NULL)\s*,\s*'((?:https?):\/\/[^\s"',)]+)'\s*,\s*(?:'[^']*'|NULL)\s*\)/gi;
+  const gedungMatches = [...gedungSection.matchAll(gedungRowRegex)];
+  
+  console.log(`Menemukan ${gedungMatches.length} baris gedung yang memiliki gambar.`);
 
-  for (let i = 0; i < gedungUrls.length; i++) {
-    const url = gedungUrls[i];
+  for (let i = 0; i < gedungMatches.length; i++) {
+    const match = gedungMatches[i];
+    const gedungName = match[1];
+    const url = match[2];
+
     if (url.includes(supabaseUrl)) continue;
 
-    const parsedUrl = new URL(url);
-    let fileName = path.basename(parsedUrl.pathname);
-    fileName = fileName.replace(/[?#].*$/, '').replace(/[^a-zA-Z0-9.-]/g, '_');
+    // Bersihkan nama gedung untuk dijadikan nama file (lowercase, hilangkan karakter khusus)
+    const cleanGedungName = gedungName.toLowerCase()
+      .replace(/[^a-z0-9]+/g, '_')
+      .replace(/^_+|_+$/g, '');
     
-    // Taruh di folder 'gedung'
+    const fileName = `gedung_${cleanGedungName}`;
     const storagePath = `gedung/${fileName}`;
 
-    console.log(`\n[Gedung ${i + 1}/${gedungUrls.length}]`);
+    console.log(`\n[Gedung ${i + 1}/${gedungMatches.length}] "${gedungName}"`);
     const newUrl = await downloadAndUpload(url, storagePath);
     if (newUrl) {
       urlMap[url] = newUrl;
     }
   }
 
-  // 2. PROSES FASILITAS URLS
-  console.log('\n--- Memproses URL Gambar Fasilitas ---');
+  // 2. PROSES FASILITAS URLS (DENGAN RE-NAME SESUAI NAMA FASILITAS)
+  console.log('\n--- Memproses & Re-name URL Gambar Fasilitas ---');
   
-  // Kita gunakan regex yang mencocokkan URL foto_url diikuti oleh id_gedung untuk mapping subfolder yang tepat
-  // Contoh di SQL: 'https://feb.upnvj.ac.id/...jpg', 7
-  const fasilitasUrlRegex = /'((?:https?):\/\/[^\s"',)]+\.(?:jpg|jpeg|png|webp)(?:\?[^\s"',)]+)?)'\s*,\s*(\d+)/gi;
-  const matches = [...fasilitasSection.matchAll(fasilitasUrlRegex)];
+  // Regex mencocokkan multiline baris fasilitas: ('Nama Fasilitas', 'Deskripsi', 'Tipe', lantai, 'url', id_gedung, 'unity')
+  const fasilitasRowRegex = /\(\s*'([^'\n]+)'\s*,\s*'[^']*'\s*,\s*'[^']*'\s*,\s*(?:\d+|NULL)\s*,\s*'((?:https?):\/\/[^\s"',)]+)'\s*,\s*(\d+)/gi;
+  const fasilitasMatches = [...fasilitasSection.matchAll(fasilitasRowRegex)];
 
-  console.log(`Menemukan ${matches.length} baris fasilitas yang memiliki gambar.`);
+  console.log(`Menemukan ${fasilitasMatches.length} baris fasilitas yang memiliki gambar.`);
 
-  for (let i = 0; i < matches.length; i++) {
-    const match = matches[i];
-    const url = match[1];
-    const idGedung = parseInt(match[2], 10);
+  for (let i = 0; i < fasilitasMatches.length; i++) {
+    const match = fasilitasMatches[i];
+    const fasilitasName = match[1];
+    const url = match[2];
+    const idGedung = parseInt(match[3], 10);
 
     if (url.includes(supabaseUrl)) continue;
 
-    const parsedUrl = new URL(url);
-    let fileName = path.basename(parsedUrl.pathname);
-    fileName = fileName.replace(/[?#].*$/, '').replace(/[^a-zA-Z0-9.-]/g, '_');
+    // Bersihkan nama fasilitas untuk nama file
+    const cleanFasilitasName = fasilitasName.toLowerCase()
+      .replace(/[^a-z0-9]+/g, '_')
+      .replace(/^_+|_+$/g, '');
 
     // Dapatkan nama subfolder gedung berdasarkan mapping ID
     const gedungSubfolder = gedungFolderMap[idGedung] || 'others';
     
-    // Susun path tujuan: fasilitas/[nama_gedung]/[filename]
-    const storagePath = `fasilitas/${gedungSubfolder}/${fileName}`;
+    // Susun path tujuan menggunakan nama fasilitas: fasilitas/[nama_gedung]/[nama_fasilitas]
+    const storagePath = `fasilitas/${gedungSubfolder}/${cleanFasilitasName}`;
 
-    console.log(`\n[Fasilitas ${i + 1}/${matches.length}] (Gedung ID: ${idGedung} -> ${gedungSubfolder})`);
+    console.log(`\n[Fasilitas ${i + 1}/${fasilitasMatches.length}] "${fasilitasName}" (Gedung: ${gedungSubfolder})`);
     const newUrl = await downloadAndUpload(url, storagePath);
     if (newUrl) {
       urlMap[url] = newUrl;
@@ -291,7 +311,7 @@ async function migrateSeedUrls() {
 
   if (replaceCount > 0) {
     fs.writeFileSync(outputPath, updatedContent, 'utf8');
-    console.log(`\nSelesai! Berhasil memigrasi ${replaceCount} gambar.`);
+    console.log(`\nSelesai! Berhasil memigrasi ${replaceCount} gambar dengan nama file yang rapi.`);
     console.log(`File SQL seed terupdate disimpan di: ${outputPath}`);
     console.log('Silakan jalankan file SQL baru ini di Supabase SQL Editor untuk memperbarui database Anda.');
   } else {
