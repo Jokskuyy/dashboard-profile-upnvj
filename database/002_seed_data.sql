@@ -1031,6 +1031,33 @@ VALUES
     'ars_konseling'
 ),
 (
+    'Ruang UKM EOS',
+    'Ruangan untuk kegiatan UKM EOS.',
+    'Administrasi & Layanan',
+    2,
+    NULL,
+    5,
+    'ars_ukm_eos'
+),
+(
+    'Ruang BEM FISIP',
+    'Ruangan untuk kegiatan BEM FISIP.',
+    'Administrasi & Layanan',
+    2,
+    NULL,
+    5,
+    'ars_bem_fisip'
+),
+(
+    'Ruang HIMASIFO',
+    'Ruangan untuk kegiatan HIMASIFO.',
+    'Administrasi & Layanan',
+    2,
+    NULL,
+    5,
+    'ars_himasifo'
+),
+(
     'Ruang Kelas 301',
     'Ruang kelas untuk perkuliahan mahasiswa.',
     'Ruang Kuliah & Akademik',
