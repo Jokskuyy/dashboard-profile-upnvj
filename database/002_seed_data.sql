@@ -428,7 +428,7 @@ VALUES
     'Fasilitas simulasi perusahaan untuk praktik kewirausahaan dan bisnis mahasiswa FEB.',
     'Laboratorium Bisnis',
     3,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/01/WhatsApp-Image-2022-04-21-at-11.41.31.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/WhatsApp-Image-2022-04-21-at-11.41.31.jpeg',
     7,
     NULL
 ),
@@ -438,7 +438,7 @@ VALUES
     'Sistem bisnis universitas yang digunakan untuk pengembangan praktik bisnis dan kewirausahaan mahasiswa.',
     'Laboratorium Bisnis',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/01/WhatsApp-Image-2022-04-21-at-11.41.28.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/WhatsApp-Image-2022-04-21-at-11.41.28.jpeg',
     7,
     NULL
 ),
@@ -448,7 +448,7 @@ VALUES
     'Laboratorium praktik perbankan untuk mahasiswa program studi keuangan dan perbankan.',
     'Laboratorium',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/01/WhatsApp-Image-2022-04-21-at-11.42.51.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/WhatsApp-Image-2022-04-21-at-11.42.51.jpeg',
     7,
     NULL
 ),
@@ -458,7 +458,7 @@ VALUES
     'Fasilitas penelitian dan pengkajian ekonomi serta bisnis untuk dosen dan mahasiswa.',
     'Pusat Penelitian',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/02/IMG_6400.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/IMG_6400.jpg',
     7,
     NULL
 ),
@@ -468,7 +468,7 @@ VALUES
     'Pojok literasi ekonomi dan keuangan hasil kerja sama dengan Bank Indonesia.',
     'Perpustakaan',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/02/WhatsApp-Image-2024-02-16-at-10.15.43_b7572c4f.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/WhatsApp-Image-2024-02-16-at-10.15.43_b7572c4f.jpg',
     7,
     NULL
 ),
@@ -478,7 +478,7 @@ VALUES
     'Area terbuka untuk diskusi, kegiatan mahasiswa, dan interaksi akademik.',
     'Area Mahasiswa',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/01/IMG_4518.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/IMG_4518.jpg',
     7,
     NULL
 ),
@@ -488,7 +488,7 @@ VALUES
     'Aula kegiatan seminar, workshop, dan acara akademik Fakultas Ekonomi dan Bisnis.',
     'Aula',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/02/IMG_6394.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/IMG_6394.jpg',
     7,
     NULL
 ),
@@ -498,7 +498,7 @@ VALUES
     'Ruang perkuliahan reguler untuk kegiatan belajar mengajar mahasiswa FEB.',
     'Ruang Akademik',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/02/IMG_6397.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/IMG_6397.jpg',
     7,
     NULL
 ),
@@ -508,7 +508,7 @@ VALUES
     'Ruang kelas khusus program magister Fakultas Ekonomi dan Bisnis.',
     'Ruang Akademik',
     2,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2025/01/IMG_9968.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/IMG_9968.jpg',
     7,
     NULL
 ),
@@ -518,7 +518,7 @@ VALUES
     'Ruang administrasi dan pelayanan akademik program magister FEB.',
     'Administrasi',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2024-05-17-at-14.30.40_dd6f3fff-1.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/WhatsApp-Image-2024-05-17-at-14.30.40_dd6f3fff-1.jpg',
     7,
     NULL
 ),
@@ -528,7 +528,7 @@ VALUES
     'Ruang pembelajaran untuk program doktoral di lingkungan FEB.',
     'Ruang Akademik',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2025/06/IMG_5228.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/IMG_5228.jpg',
     7,
     NULL
 ),
@@ -538,7 +538,7 @@ VALUES
     'Fasilitas administrasi dan layanan akademik program doktoral FEB.',
     'Administrasi',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2025/06/IMG_5222.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/IMG_5222.jpg',
     7,
     NULL
 ),
@@ -1048,7 +1048,7 @@ VALUES
     'Selasar pada lantai 1 Gedung Ki Hadjar Dewantara.',
     'Administrasi & Layanan',
     1,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/09/WhatsApp-Image-2024-09-26-at-16.06.50-1-1024x768.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/WhatsApp-Image-2024-09-26-at-16.06.50-1-1024x768.jpeg',
     6,
     NULL
 ),
@@ -1058,7 +1058,7 @@ VALUES
     'Ruang sekretariat laboratorium yang berfungsi sebagai pusat administrasi dan koordinasi kegiatan laboratorium.',
     'Administrasi & Layanan',
     3,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/03/WhatsApp-Image-2024-03-01-at-14.02.56-scaled.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/WhatsApp-Image-2024-03-01-at-14.02.56-scaled.jpeg',
     6,
     NULL
 ),
@@ -1067,7 +1067,7 @@ VALUES
     'Pusat praktikum dan penelitian di bidang pemrograman komputer dengan fasilitas komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.',
     'Laboratorium',
     NULL,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Programming-JPG.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/Lab-Programming-JPG.jpg',
     6,
     NULL
 ),
@@ -1077,7 +1077,7 @@ VALUES
     'Ruang podcast Fakultas Ilmu Komputer yang dilengkapi dengan peralatan rekaman audio dan video profesional, digunakan untuk produksi konten digital, wawancara, dan kegiatan penyiaran mahasiswa.',
     'Studio & Produksi Media',
     1,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/01/20241231_104651-scaled.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/20241231_104651-scaled.jpg',
     6,
     NULL
 ),
@@ -1086,7 +1086,7 @@ VALUES
     'Perpustakaan digital Fakultas Ilmu Komputer yang menyimpan koleksi buku, jurnal, artikel, dan sumber informasi lainnya dalam bentuk digital.',
     'Perpustakaan & Ruang Baca',
     1,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/01/20241231_104651-scaled.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/20241231_104651-scaled.jpg',
     6,
     NULL
 ),
@@ -1095,7 +1095,7 @@ VALUES
     'Pusat praktikum dan penelitian bidang keamanan siber dengan perangkat keras canggih, perangkat lunak keamanan terkini, dan jaringan simulasi serangan siber.',
     'Laboratorium',
     3,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Cybersecurity.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/Lab-Cybersecurity.jpeg',
     6,
     'khd_304_lab'
 ),
@@ -1104,7 +1104,7 @@ VALUES
     'Pusat praktikum dan penelitian dalam bidang penambangan data dan ilmu data dengan komputer berkinerja tinggi dan perangkat lunak analisis data terkini.',
     'Laboratorium',
     3,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Data-Mining-dan-Data-Science-JPG.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/Lab-Data-Mining-dan-Data-Science-JPG.jpg',
     6,
     'khd_303_lab'
 ),
@@ -1113,7 +1113,7 @@ VALUES
     'Pusat praktikum dan penelitian bidang kecerdasan buatan dengan fasilitas komputer berperforma tinggi, perangkat lunak AI terbaru, big data, dan machine learning.',
     'Laboratorium',
     3,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Artificial-Intelligence-JPG.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/Lab-Artificial-Intelligence-JPG.jpg',
     6,
     'khd_302_lab'
 ),
@@ -1122,7 +1122,7 @@ VALUES
     'Pusat praktikum dan penelitian bidang intelijen bisnis dengan komputer berperforma tinggi, perangkat lunak analitik terkini, dan platform visualisasi data.',
     'Laboratorium',
     NULL,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/WhatsApp-Image-2024-06-11-at-4.05.11-PM.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/WhatsApp-Image-2024-06-11-at-4.05.11-PM.jpeg',
     6,
     NULL
 ),
@@ -1131,7 +1131,7 @@ VALUES
     'Pusat praktikum dan penelitian bidang manajemen basis data dengan komputer berperforma tinggi dan perangkat lunak database terkini seperti SQL Server, Oracle, dan MySQL.',
     'Laboratorium',
     NULL,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Database.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/Lab-Database.jpeg',
     6,
     NULL
 ),
@@ -1140,7 +1140,7 @@ VALUES
     'Pusat kegiatan praktikum dan penelitian bidang teknologi IoT dengan sensor, mikrokontroler, modul komunikasi nirkabel, dan perangkat lunak pengembangan IoT terkini.',
     'Laboratorium',
     4,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-IoT-JPG.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/Lab-IoT-JPG.jpg',
     6,
     'khd_401_lab'
 ),
@@ -1149,7 +1149,7 @@ VALUES
     'Pusat praktikum dan penelitian di bidang pemrograman komputer dengan komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.',
     'Laboratorium',
     2,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-25-at-09.57.29-1-scaled.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/WhatsApp-Image-2025-03-25-at-09.57.29-1-scaled.jpeg',
     6,
     'khd_201_lab'
 ),
@@ -1158,7 +1158,7 @@ VALUES
     'Masjid di lingkungan kampus UPNVJ',
     'Tempat Ibadah',
     NULL,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/20250326_071225-1024x768.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/20250326_071225-1024x768.jpg',
     6,
     'masjid'
 ),
@@ -1171,7 +1171,7 @@ VALUES
     'Fasilitas Olahraga yang terletak di depan Gedung Dewi Sartika lantai 1.',
     'Olahraga',
     1,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/20250326_071558-768x576.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/dewi%20sartika/20250326_071558-768x576.jpg',
     13,
     NULL
 ),
@@ -1420,7 +1420,7 @@ VALUES
     'Ruang dosen pada lantai 1 Gedung Yos Sudarso.',
     'Administrasi & Layanan',
     1,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2023/11/RUANG-KONSENTRASI-2048x1536.png',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/RUANG-KONSENTRASI-2048x1536.png',
     9,
     NULL
 ),
@@ -1429,7 +1429,7 @@ VALUES
     'Ruang dosen pada lantai 2 Gedung Yos Sudarso.',
     'Administrasi & Layanan',
     2,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2021/03/f0fd3420-8e5e-433f-b7b8-2da5e898cb64.png',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/f0fd3420-8e5e-433f-b7b8-2da5e898cb64.png',
     9,
     NULL
 ),
@@ -1438,7 +1438,7 @@ VALUES
     'Ruang administrasi pada Gedung Yos Sudarso.',
     'Administrasi & Layanan',
     1,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2021/03/54a42329-09bc-48a5-8ae2-0e7e5ee0bb26.png',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/54a42329-09bc-48a5-8ae2-0e7e5ee0bb26.png',
     9,
     NULL
 ),
@@ -1447,7 +1447,7 @@ VALUES
     'Ruang rapat pada lantai 2 Gedung Yos Sudarso.',
     'Administrasi & Layanan',
     2,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/06/IMG_5457.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/IMG_5457.jpg',
     9,
     NULL
 ),
@@ -1456,7 +1456,7 @@ VALUES
     'Ruang podcast pada lantai 4 Gedung Yos Sudarso.',
     'Studio & Produksi Media',
     4,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/RuangPODCAST-LT-4-768x599-HD.png',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/RuangPODCAST-LT-4-768x599-HD.png',
     9,
     NULL
 ),
@@ -1465,7 +1465,7 @@ VALUES
     'Ruang praktik peradilan semu pada lantai 4 Gedung Yos Sudarso.',
     'Ruang Kuliah & Akademik',
     4,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/RuangPODCAST-LT-4-768x599-HD.png',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/RuangPODCAST-LT-4-768x599-HD.png',
     9,
     NULL
 ),
@@ -1474,7 +1474,7 @@ VALUES
     'Smartclass yang digunakan pada lantai 2 Gedung Yos Sudarso.',
     'Ruang Kuliah & Akademik',
     2,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2022/06/WhatsApp-Image-2022-06-06-at-11.16.52-1-768x576.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/WhatsApp-Image-2022-06-06-at-11.16.52-1-768x576.jpeg',
     9,
     NULL
 ),
@@ -1483,7 +1483,7 @@ VALUES
     'Smartclass yang digunakan pada lantai 3 Gedung Yos Sudarso.',
     'Ruang Kuliah & Akademik',
     3,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2022/06/WhatsApp-Image-2022-06-06-at-11.16.52-1-768x576.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/WhatsApp-Image-2022-06-06-at-11.16.52-1-768x576.jpeg',
     9,
     NULL
 ),
@@ -1492,7 +1492,7 @@ VALUES
     'Ruang baca pada lantai 3 Gedung Yos Sudarso.',
     'Perpustakaan & Ruang Baca',
     3,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.19.42.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/WhatsApp-Image-2025-01-14-at-09.19.42.jpeg',
     9,
     NULL
 ),
@@ -1501,7 +1501,7 @@ VALUES
     'Laboratorium perancangan kontrak pada lantai 2 Gedung Yos Sudarso.',
     'Laboratorium',
     2,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.20.39.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/WhatsApp-Image-2025-01-14-at-09.20.39.jpeg',
     9,
     NULL
 ),
@@ -1510,7 +1510,7 @@ VALUES
     'Selasar kanan pada lantai 1 Gedung Yos Sudarso.',
     'Administrasi & Layanan',
     1,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.19.43.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/WhatsApp-Image-2025-01-14-at-09.19.43.jpeg',
     9,
     NULL
 ),
@@ -1519,7 +1519,7 @@ VALUES
     'Selasar kiri pada lantai 1 Gedung Yos Sudarso.',
     'Administrasi & Layanan',
     1,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.19.43-1.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/WhatsApp-Image-2025-01-14-at-09.19.43-1.jpeg',
     9,
     NULL
 ),
@@ -2245,5 +2245,5 @@ VALUES
 ('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'update', 'gedung', '17', '{"id":17,"lokasi":"","url_foto":"","nama_gedung":"asdasd","jumlah_lantai":1,"deskripsi_gedung":"asd"}'::jsonb, '{"id":17,"lokasi":"sss","url_foto":"","nama_gedung":"asdasd","jumlah_lantai":1,"deskripsi_gedung":"asd"}'::jsonb, '2026-05-11T02:41:53.690881'),
 ('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'delete', 'gedung', '17', '{"id":17,"lokasi":"sss","url_foto":"","nama_gedung":"asdasd","jumlah_lantai":1,"deskripsi_gedung":"asd"}'::jsonb, NULL, '2026-05-11T02:41:56.804048'),
 ('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'create', 'fasilitas', '204', NULL, '{"id":204,"color":"gray","lantai":1,"foto_url":"","id_gedung":14,"nama_fasilitas":"sdassad","tipe_fasilitas":"Laboratorium","deskripsi_fasilitas":"asd"}'::jsonb, '2026-05-11T04:22:02.913079'),
-('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'delete', 'fasilitas', '106', '{"id":106,"color":"pink","lantai":null,"foto_url":"https://feb.upnvj.ac.id/wp-content/uploads/2025/06/IMG_5222.jpg","id_gedung":7,"nama_fasilitas":"Sekretariat Doktoral","tipe_fasilitas":"Administrasi","deskripsi_fasilitas":"Fasilitas administrasi dan layanan akademik program doktoral FEB."}'::jsonb, NULL, '2026-05-11T04:22:06.983021');
+('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'delete', 'fasilitas', '106', '{"id":106,"color":"pink","lantai":null,"foto_url":"https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/IMG_5222.jpg","id_gedung":7,"nama_fasilitas":"Sekretariat Doktoral","tipe_fasilitas":"Administrasi","deskripsi_fasilitas":"Fasilitas administrasi dan layanan akademik program doktoral FEB."}'::jsonb, NULL, '2026-05-11T04:22:06.983021');
 
