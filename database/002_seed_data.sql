@@ -124,7 +124,7 @@ VALUES
 
 (
     'Ruang Kelas 201',
-    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang kelas perkuliahan mahasiswa Fakultas Ekonomi dan Bisnis di Gedung Moh. Husni Thamrin lantai 2, dilengkapi proyektor, papan tulis, dan AC untuk kenyamanan kegiatan belajar mengajar.',
     'Ruang Kelas',
     2,
     NULL,
@@ -134,7 +134,7 @@ VALUES
 
 (
     'Ruang Kelas 202',
-    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang kelas perkuliahan mahasiswa Fakultas Ekonomi dan Bisnis di Gedung Moh. Husni Thamrin lantai 2, digunakan untuk berbagai mata kuliah program sarjana dan magister FEB.',
     'Ruang Kelas',
     2,
     NULL,
@@ -174,7 +174,7 @@ VALUES
 
 (
     'Ruang Kelas 203',
-    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang kelas perkuliahan mahasiswa FEB di lantai 2, dilengkapi fasilitas multimedia dan kapasitas memadai untuk mendukung perkuliahan ekonomi, bisnis, dan manajemen.',
     'Ruang Kelas',
     2,
     NULL,
@@ -184,7 +184,7 @@ VALUES
 
 (
     'Ruang Kelas 204',
-    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang kelas perkuliahan mahasiswa FEB di lantai 2, digunakan untuk kuliah reguler dengan fasilitas proyektor dan sistem audio yang mendukung presentasi akademik.',
     'Ruang Kelas',
     2,
     NULL,
@@ -194,7 +194,7 @@ VALUES
 
 (
     'Ruang Kelas 205',
-    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang kelas perkuliahan mahasiswa FEB di lantai 2, digunakan untuk kegiatan belajar mengajar dengan fasilitas lengkap termasuk proyektor, papan tulis, dan AC.',
     'Ruang Kelas',
     2,
     NULL,
@@ -204,7 +204,7 @@ VALUES
 
 (
     'Ruang Kelas 206',
-    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang kelas perkuliahan mahasiswa FEB di lantai 2, digunakan untuk perkuliahan reguler mata kuliah program sarjana maupun magister FEB UPNVJ.',
     'Ruang Kelas',
     2,
     NULL,
@@ -214,7 +214,7 @@ VALUES
 
 (
     'Ruang Kelas 207',
-    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang kelas perkuliahan mahasiswa FEB di lantai 2, dilengkapi tata ruang yang mendukung diskusi kelompok dan presentasi untuk mengakomodasi berbagai metode pembelajaran aktif.',
     'Ruang Kelas',
     2,
     NULL,
@@ -225,7 +225,7 @@ VALUES
 
 (
     'Ruang Kelas 301',
-    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang kelas perkuliahan mahasiswa Fakultas Ekonomi dan Bisnis di Gedung Moh. Husni Thamrin lantai 3, dilengkapi fasilitas multimedia dan sistem AC untuk kenyamanan perkuliahan.',
     'Ruang Kelas',
     3,
     NULL,
@@ -245,7 +245,7 @@ VALUES
 
 (
     'Ruang Kelas 303',
-    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang kelas perkuliahan mahasiswa FEB di lantai 3, digunakan untuk kegiatan belajar mengajar berbagai mata kuliah program sarjana FEB dengan fasilitas proyektor dan papan tulis.',
     'Ruang Kelas',
     3,
     NULL,
@@ -255,7 +255,7 @@ VALUES
 
 (
     'Ruang Kelas 304',
-    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang kelas perkuliahan mahasiswa FEB di lantai 3, dilengkapi perangkat audio-visual dan kapasitas memadai untuk mendukung perkuliahan ekonomi, akuntansi, dan manajemen.',
     'Ruang Kelas',
     3,
     NULL,
@@ -265,7 +265,7 @@ VALUES
 
 (
     'Ruang Kelas 305',
-    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang kelas perkuliahan mahasiswa FEB di lantai 3, digunakan untuk kegiatan kuliah reguler dengan sistem multimedia terintegrasi untuk presentasi dan diskusi akademik.',
     'Ruang Kelas',
     3,
     NULL,
@@ -275,7 +275,7 @@ VALUES
 
 (
     'Ruang Kelas 306',
-    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang kelas perkuliahan mahasiswa FEB di lantai 3, digunakan untuk berbagai mata kuliah dengan fasilitas proyektor, papan tulis, dan tempat duduk yang nyaman.',
     'Ruang Kelas',
     3,
     NULL,
@@ -285,7 +285,7 @@ VALUES
 
 (
     'Ruang Kelas 307',
-    'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
+    'Ruang kelas perkuliahan mahasiswa FEB di lantai 3, dilengkapi fasilitas lengkap untuk mendukung proses pembelajaran aktif, presentasi kelompok, dan diskusi mata kuliah.',
     'Ruang Kelas',
     3,
     NULL,
@@ -569,30 +569,47 @@ VALUES
 -- =========================
 -- GEDUNG ID 3
 -- =========================
-
 (
-    'Ruang Dosen FK UPNVJ',
-    'Ruang kerja dan aktivitas dosen Fakultas Kedokteran UPNVJ.',
+    'Ruang Ilmu Kesehatan Matra (UPNVERI)',
+    'Ruang pelayanan dan administrasi bidang Ilmu Kesehatan Matra (UPNVERI) yang mengelola program pendidikan terkait kesehatan militer dan ketahanan fisik dalam kondisi ekstrem, sebagai bagian dari kekhasan Fakultas Kedokteran UPNVJ yang berciri bela negara.',
     'Administrasi & Layanan',
     1,
     NULL,
     3,
-    NULL
+    'wsh_upnveri'
+),
+(
+    'Ruang Medical Quality Assurance (MQA) UPNVERI',
+    'Ruang penjaminan mutu pendidikan kedokteran yang bertanggung jawab memantau, mengevaluasi, dan meningkatkan standar kualitas proses akademik serta layanan pendidikan di Fakultas Kedokteran UPNVJ sesuai regulasi nasional dan internasional.',
+    'Administrasi & Layanan',
+    1,
+    NULL,
+    3,
+    'wsh_mqa'
+),
+(
+    'Ruang Dosen FK UPNVJ',
+    'Ruang kerja bersama dosen Fakultas Kedokteran UPNVJ yang dilengkapi meja kerja, fasilitas komputer, dan area konsultasi dengan mahasiswa.',
+    'Administrasi & Layanan',
+    1,
+    NULL,
+    3,
+    'wsh_fk_dosen'
 ),
 
 (
     'Pusat Stemcell & Tissue Engineering Research Centre',
-    'Pusat kegiatan penelitian sel punca dan rekayasa jaringan.',
+    'Pusat riset unggulan FK UPNVJ di bidang sel punca (stem cell) dan rekayasa jaringan (tissue engineering), mendukung penelitian biomedis terkini untuk pengembangan terapi regeneratif.',
     'Laboratorium',
     1,
     NULL,
     3,
-    NULL
+    'wsh_stemcell'
 ),
 
 (
     'Ruang Akreditasi FK UPNVJ',
-    'Ruang pengelolaan administrasi dan dokumen akreditasi Fakultas Kedokteran.',
+    'Ruang pengelolaan dan penyimpanan dokumen akreditasi Fakultas Kedokteran, termasuk koordinasi persiapan visitasi BAN-PT/LAMPTKes dan pengelolaan borang akreditasi program studi.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -602,27 +619,27 @@ VALUES
 
 (
     'Ruang BEM FK UPNVJ',
-    'Ruang organisasi mahasiswa BEM Fakultas Kedokteran.',
+    'Ruang sekretariat Badan Eksekutif Mahasiswa Fakultas Kedokteran sebagai pusat koordinasi kegiatan kemahasiswaan, pengabdian masyarakat, dan kegiatan sosial-akademik mahasiswa FK.',
     'Administrasi & Layanan',
     1,
     NULL,
     3,
-    NULL
+    'wsh_bem_fk'
 ),
 
 (
     'Ruang Dekan FK UPNVJ',
-    'Ruang kerja Dekan Fakultas Kedokteran.',
+    'Ruang kerja resmi Dekan Fakultas Kedokteran UPNVJ, digunakan untuk kegiatan pimpinan, audiensi tamu, dan pengambilan keputusan strategis fakultas.',
     'Administrasi & Layanan',
     2,
     NULL,
     3,
-    NULL
+    'wsh_dekan'
 ),
 
 (
     'Ruang Wakil Dekan Bidang Akademik',
-    'Ruang kerja Wakil Dekan bidang akademik.',
+    'Ruang kerja Wakil Dekan I Bidang Akademik FK UPNVJ, bertanggung jawab atas pengelolaan kurikulum, penjadwalan, dan pengembangan mutu akademik program studi.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -632,7 +649,7 @@ VALUES
 
 (
     'Ruang Wakil Dekan Bidang Umum dan Keuangan',
-    'Ruang kerja Wakil Dekan bidang umum dan keuangan.',
+    'Ruang kerja Wakil Dekan II Bidang Umum dan Keuangan FK UPNVJ, mengurus pengelolaan anggaran, aset, dan sumber daya manusia di lingkungan fakultas.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -642,7 +659,7 @@ VALUES
 
 (
     'Ruang Wakil Dekan Bidang Kemahasiswaan dan Kerjasama',
-    'Ruang kerja Wakil Dekan bidang kemahasiswaan dan kerjasama.',
+    'Ruang kerja Wakil Dekan III Bidang Kemahasiswaan dan Kerjasama FK UPNVJ, mengelola pembinaan mahasiswa, kegiatan ekstrakurikuler, beasiswa, serta kerja sama dengan institusi lain.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -652,7 +669,7 @@ VALUES
 
 (
     'Ruang Sekretariat Tata Usaha FK UPNVJ',
-    'Ruang sekretariat tata usaha Fakultas Kedokteran.',
+    'Pusat layanan administrasi dan tata usaha Fakultas Kedokteran, menangani surat-menyurat, legalisir dokumen akademik, dan layanan administrasi bagi mahasiswa serta dosen.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -662,7 +679,7 @@ VALUES
 
 (
     'Ruang Administrasi Keuangan FK UPNVJ',
-    'Ruang administrasi keuangan Fakultas Kedokteran.',
+    'Ruang pengelolaan keuangan Fakultas Kedokteran, meliputi pembayaran biaya pendidikan, pengelolaan anggaran operasional, dan pelaporan keuangan fakultas.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -672,7 +689,7 @@ VALUES
 
 (
     'Medical Education Unit (MEU)',
-    'Unit pengembangan pendidikan kedokteran.',
+    'Unit yang bertanggung jawab atas pengembangan dan inovasi kurikulum pendidikan kedokteran, pelatihan metode pembelajaran berbasis masalah (PBL), dan evaluasi mutu pendidikan FK.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -682,7 +699,7 @@ VALUES
 
 (
     'Medical Research Unit (MRU)',
-    'Unit penelitian medis Fakultas Kedokteran.',
+    'Unit yang mengelola dan memfasilitasi kegiatan penelitian medis dosen dan mahasiswa FK, mulai dari penyusunan proposal, etik penelitian, hingga publikasi hasil riset di jurnal ilmiah.',
     'Laboratorium',
     2,
     NULL,
@@ -692,7 +709,7 @@ VALUES
 
 (
     'Medical Assessment Unit (MAU)',
-    'Unit evaluasi dan asesmen pendidikan medis.',
+    'Unit yang bertanggung jawab merancang dan mengelola sistem evaluasi dan asesmen kompetensi mahasiswa kedokteran, termasuk ujian tulis, OSCE, dan ujian kompetensi dokter.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -702,7 +719,7 @@ VALUES
 
 (
     'Medical Quality Assurance (MQA)',
-    'Unit penjaminan mutu pendidikan medis.',
+    'Unit penjaminan mutu internal FK yang memantau dan mengevaluasi standar proses pendidikan, penelitian, dan pengabdian masyarakat agar sesuai dengan standar nasional dan internasional pendidikan kedokteran.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -712,7 +729,7 @@ VALUES
 
 (
     'Ruang Rapat Dekan dan Fakultas Kedokteran',
-    'Ruang rapat untuk kegiatan pimpinan dan fakultas.',
+    'Ruang rapat resmi yang digunakan untuk pertemuan pimpinan fakultas, rapat koordinasi departemen, serta rapat bersama tamu dan mitra institusi FK UPNVJ.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -722,7 +739,7 @@ VALUES
 
 (
     'Auditorium Fakultas Kedokteran',
-    'Auditorium dengan kapasitas sekitar 200 orang.',
+    'Auditorium berkapasitas sekitar 200 orang, digunakan untuk kegiatan seminar ilmiah, wisuda profesi dokter, kuliah umum, dan berbagai acara akademik berskala besar FK UPNVJ.',
     'Auditorium & Aula',
     3,
     NULL,
@@ -732,7 +749,7 @@ VALUES
 
 (
     'Laboratorium Biologi Molekuler',
-    'Laboratorium untuk praktikum dan penelitian biologi molekuler.',
+    'Laboratorium canggih untuk praktikum dan penelitian di bidang biologi molekuler, mencakup teknik PCR, elektroforesis, kloning gen, dan analisis DNA/RNA untuk keperluan akademik dan riset medis.',
     'Laboratorium',
     3,
     NULL,
@@ -742,7 +759,7 @@ VALUES
 
 (
     'Laboratorium Biokimia',
-    'Laboratorium untuk kegiatan praktikum biokimia.',
+    'Laboratorium untuk praktikum mata kuliah biokimia, dilengkapi peralatan spektrofotometer, sentrifuge, dan reagen kimia untuk analisis enzim, metabolit, dan komponen biokimia tubuh manusia.',
     'Laboratorium',
     3,
     NULL,
@@ -752,7 +769,7 @@ VALUES
 
 (
     'Laboratorium Patologi Klinik',
-    'Laboratorium untuk kegiatan patologi klinik.',
+    'Laboratorium untuk praktikum pemeriksaan laboratorium klinik, meliputi hematologi, kimia darah, urinalisis, dan mikrobiologi, sebagai bekal kompetensi diagnostik mahasiswa kedokteran.',
     'Laboratorium',
     3,
     NULL,
@@ -762,7 +779,7 @@ VALUES
 
 (
     'Laboratorium IKK/IKM',
-    'Laboratorium Ilmu Kesehatan Komunitas dan Ilmu Kesehatan Masyarakat.',
+    'Laboratorium Ilmu Kesehatan Komunitas dan Ilmu Kesehatan Masyarakat, digunakan untuk analisis data epidemiologi, survei kesehatan, dan penelitian berbasis komunitas sebagai penerapan kedokteran keluarga dan preventif.',
     'Laboratorium',
     3,
     NULL,
@@ -772,7 +789,7 @@ VALUES
 
 (
     'Ruang Diskusi FK',
-    'Ruang diskusi akademik mahasiswa dan dosen.',
+    'Ruang diskusi terbuka untuk kegiatan tutorial Problem Based Learning (PBL), diskusi kelompok kecil mahasiswa, dan konsultasi akademik antara mahasiswa dengan dosen pembimbing.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -786,7 +803,7 @@ VALUES
 
 (
     'Perpustakaan FK UPNVJ',
-    'Perpustakaan dengan fasilitas ruang baca, e-library, WiFi, hotspot, dan layanan internet.',
+    'Perpustakaan khusus Fakultas Kedokteran yang dilengkapi ruang baca, koleksi buku teks kedokteran, e-library, akses jurnal internasional, koneksi WiFi/hotspot, dan layanan internet untuk mendukung kegiatan akademik dan penelitian.',
     'Perpustakaan & Ruang Baca',
     1,
     NULL,
@@ -796,7 +813,7 @@ VALUES
 
 (
     'Laboratorium Komputer FK',
-    'Laboratorium komputer dengan 150 komputer terhubung internet.',
+    'Laboratorium komputer Fakultas Kedokteran yang dilengkapi 150 unit komputer terhubung internet, digunakan untuk ujian berbasis komputer (CBT), e-learning, dan praktikum berbasis teknologi informasi kesehatan.',
     'Laboratorium',
     1,
     NULL,
@@ -806,7 +823,7 @@ VALUES
 
 (
     'Laboratorium Histologi',
-    'Laboratorium Departemen Histologi.',
+    'Laboratorium Departemen Histologi untuk praktikum pengamatan jaringan tubuh menggunakan mikroskop, meliputi identifikasi sel, jaringan epitel, jaringan ikat, otot, dan saraf secara preparat histologis.',
     'Laboratorium',
     1,
     NULL,
@@ -816,7 +833,7 @@ VALUES
 
 (
     'Laboratorium Patologi Anatomi',
-    'Laboratorium Departemen Patologi Anatomi.',
+    'Laboratorium Departemen Patologi Anatomi untuk praktikum dan penelitian pemeriksaan jaringan dan sel secara makroskopik dan mikroskopik, mendukung diagnosis penyakit berbasis pemeriksaan patologi.',
     'Laboratorium',
     1,
     NULL,
@@ -826,7 +843,7 @@ VALUES
 
 (
     'Ruang Tutorial FK',
-    'Enam belas ruang diskusi kelompok untuk proses tutorial mahasiswa.',
+    'Terdiri dari 16 ruang diskusi kelompok kecil yang digunakan dalam proses pembelajaran berbasis masalah (Problem Based Learning/PBL), tempat mahasiswa berdiskusi dipandu seorang tutor dosen.',
     'Ruang Kuliah & Akademik',
     2,
     NULL,
@@ -836,7 +853,7 @@ VALUES
 
 (
     'Ruang Tutor Meeting',
-    'Ruang observasi dan monitoring pelaksanaan tutorial.',
+    'Ruang khusus untuk pertemuan dan koordinasi antar tutor dosen, serta digunakan untuk observasi dan monitoring proses jalannya tutorial secara langsung.',
     'Ruang Kuliah & Akademik',
     2,
     NULL,
@@ -846,7 +863,7 @@ VALUES
 
 (
     'Skills Lab FK',
-    'Laboratorium keterampilan klinik dengan ruang coaching dan station OSCE.',
+    'Laboratorium keterampilan klinis yang dilengkapi ruang coaching, mannequin, dan station OSCE (Objective Structured Clinical Examination) untuk melatih mahasiswa dalam prosedur klinis seperti pemeriksaan fisik, pemasangan infus, dan tindakan medis dasar.',
     'Laboratorium',
     3,
     NULL,
@@ -856,7 +873,7 @@ VALUES
 
 (
     'Ruang Introduction A dan B',
-    'Ruang pengenalan pembelajaran berkapasitas 75–100 mahasiswa.',
+    'Dua ruang pengenalan pembelajaran berkapasitas 75–100 mahasiswa, digunakan untuk briefing sebelum kegiatan praktikum, pengarahan materi blok, dan kuliah pengantar topik medis.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -866,7 +883,7 @@ VALUES
 
 (
     'Gudang Mannequin Skills Lab',
-    'Gudang penyimpanan mannequin keterampilan medis.',
+    'Gudang penyimpanan mannequin dan alat peraga keterampilan medis yang digunakan dalam praktikum Skills Lab, termasuk boneka simulasi, phantom, dan perlengkapan tindakan klinis.',
     'Laboratorium',
     3,
     NULL,
@@ -876,7 +893,7 @@ VALUES
 
 (
     'Ruang Administrasi Skills Lab',
-    'Ruang administrasi kegiatan skills lab.',
+    'Ruang pengelolaan jadwal, pendaftaran, dan administrasi kegiatan Skills Lab, termasuk koordinasi pelaksanaan ujian OSCE dan peminjaman alat keterampilan medis.',
     'Administrasi & Layanan',
     3,
     NULL,
@@ -886,7 +903,7 @@ VALUES
 
 (
     'Ruang Instruktur Skills Lab',
-    'Ruang instruktur kegiatan skills lab.',
+    'Ruang persiapan dan istirahat instruktur Skills Lab, digunakan untuk koordinasi teknis sebelum praktikum dan evaluasi pelaksanaan kegiatan keterampilan klinis mahasiswa.',
     'Administrasi & Layanan',
     3,
     NULL,
@@ -896,7 +913,7 @@ VALUES
 
 (
     'Mushola FK',
-    'Fasilitas ibadah untuk mahasiswa dan civitas akademika.',
+    'Fasilitas ibadah sholat bagi mahasiswa, dosen, dan staf civitas akademika Fakultas Kedokteran, dilengkapi tempat wudhu dan perlengkapan ibadah.',
     'Tempat Ibadah',
     3,
     NULL,
@@ -906,7 +923,7 @@ VALUES
 
 (
     'Ruang Lecture A dan B',
-    'Dua ruang kuliah berkapasitas sekitar 190 orang.',
+    'Dua ruang kuliah berkapasitas sekitar 190 orang, dilengkapi LCD proyektor, sistem audio, dan tempat duduk bertingkat, digunakan untuk kuliah pleno dan perkuliahan skala besar mahasiswa FK.',
     'Ruang Kuliah & Akademik',
     4,
     NULL,
@@ -916,7 +933,7 @@ VALUES
 
 (
     'Ruang Seminar FK',
-    'Ruang seminar dengan kapasitas sekitar 40 orang.',
+    'Ruang seminar berkapasitas sekitar 40 orang, digunakan untuk presentasi hasil penelitian, seminar proposal tesis, seminar ilmiah dosen, dan kegiatan diskusi akademik terbatas di lingkungan FK.',
     'Auditorium & Aula',
     4,
     NULL,
@@ -926,7 +943,7 @@ VALUES
 
 (
     'Hall FK',
-    'Hall pendukung perluasan ruang lecture.',
+    'Area hall yang berfungsi sebagai ruang tunggu dan area pendukung perluasan Ruang Lecture, digunakan untuk pameran poster ilmiah, registrasi peserta acara, dan kegiatan informal akademik.',
     'Auditorium & Aula',
     4,
     NULL,
@@ -936,7 +953,7 @@ VALUES
 
 (
     'Ruang Transit Dosen',
-    'Ruang transit dan istirahat dosen.',
+    'Ruang transit dan istirahat dosen yang digunakan sebagai tempat persiapan sebelum mengajar, menyimpan barang, serta berdiskusi singkat antar dosen sebelum atau setelah kegiatan perkuliahan.',
     'Administrasi & Layanan',
     4,
     NULL,
@@ -950,7 +967,7 @@ VALUES
 
 (
     'Ruangan Lab Anatomi 1',
-    'Fasilitas departemen anatomi Fakultas Kedokteran.',
+    'Laboratorium anatomi Departemen Anatomi Fakultas Kedokteran, digunakan untuk praktikum identifikasi struktur tubuh manusia menggunakan kadaver, model anatomi, dan atlas, sebagai dasar ilmu kedokteran klinik.',
     'Laboratorium',
     1,
     NULL,
@@ -959,17 +976,25 @@ VALUES
 ),
 (
     'Departemen Anatomi',
-    'Fasilitas departemen anatomi Fakultas Kedokteran.',
+    'Ruang kantor dan koordinasi Departemen Anatomi FK UPNVJ, tempat dosen anatomi berkegiatan, menyimpan referensi, menyusun materi ajar, dan melakukan riset di bidang ilmu anatomi manusia.',
     'Laboratorium',
     1,
     NULL,
     5,
     'ars_anatomi'
 ),
-
+(
+    'Ruangan Badan Pengelola Usaha (BPU)',
+    'Ruang kantor Badan Pengelola Usaha (BPU) UPNVJ yang bertanggung jawab mengelola aset dan unit usaha komersial universitas guna mendukung kemandirian finansial institusi.',
+    'Administrasi & Layanan',
+    1,
+    NULL,
+    5,
+    'ars_bpu'
+),
 (
     'Departemen Fisiologi',
-    'Fasilitas departemen fisiologi Fakultas Kedokteran.',
+    'Ruang kantor dan koordinasi Departemen Fisiologi FK UPNVJ, tempat dosen fisiologi berdiskusi, menyusun kurikulum, dan melakukan riset tentang fungsi dan mekanisme kerja sistem tubuh manusia.',
     'Laboratorium',
     1,
     NULL,
@@ -978,7 +1003,7 @@ VALUES
 ),
 (
     'Ruang Kelas 201',
-    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang kelas perkuliahan mahasiswa Fakultas Kedokteran di Gedung Abdul Rahman Saleh lantai 2, dilengkapi proyektor, papan tulis, dan tempat duduk untuk proses belajar mengajar.',
     'Ruang Kuliah & Akademik',
     2,
     NULL,
@@ -987,7 +1012,7 @@ VALUES
 ),
 (
     'Ruangan Gugus Kendali Mutu',
-    'Ruangan untuk kegiatan gugus kendali mutu.',
+    'Ruang koordinasi tim Gugus Kendali Mutu (GKM) yang bertugas memantau dan meningkatkan standar mutu akademik dan non-akademik di lingkungan Gedung Abdul Rahman Saleh FK UPNVJ.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -996,7 +1021,7 @@ VALUES
 ),
 (
     'Ruang Dosen',
-    'Ruangan untuk kegiatan dosen.',
+    'Ruang kerja bersama dosen FK UPNVJ di Gedung Abdul Rahman Saleh, digunakan untuk persiapan mengajar, bimbingan akademik mahasiswa, dan kegiatan akademik dosen sehari-hari.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -1005,7 +1030,7 @@ VALUES
 ),
 (
     'Ruang Server Wifi',
-    'Ruangan tempat peletakan Server Wifi.',
+    'Ruang teknis penyimpanan perangkat server dan infrastruktur jaringan Wi-Fi kampus, bertanggung jawab menjaga konektivitas internet di seluruh area Gedung Abdul Rahman Saleh.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -1014,7 +1039,7 @@ VALUES
 ),
 (
     'Ruang Mushola',
-    'Ruangan tempat ibadah bagi Mahasiswa & Dosen.',
+    'Fasilitas tempat ibadah sholat bagi mahasiswa dan dosen di Gedung Abdul Rahman Saleh, dilengkapi tempat wudhu, sajadah, dan mukena untuk kenyamanan beribadah selama kegiatan kampus.',
     'Tempat Ibadah',
     2,
     NULL,
@@ -1023,7 +1048,7 @@ VALUES
 ),
 (
     'Ruang Konseling & Bimbingan Karir',
-    'Ruangan tempat Konseling & Bimbingan bagi Mahasiswa.',
+    'Ruang layanan konseling psikologis dan bimbingan perencanaan karir bagi mahasiswa, difasilitasi konselor profesional untuk membantu mahasiswa mengatasi permasalahan akademik, personal, dan mempersiapkan masa depan karir.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -1032,7 +1057,7 @@ VALUES
 ),
 (
     'Ruang UKM EOS',
-    'Ruangan untuk kegiatan UKM EOS.',
+    'Ruang sekretariat Unit Kegiatan Mahasiswa EOS (Equator of Science) FK UPNVJ, digunakan sebagai pusat koordinasi kegiatan ilmiah, penelitian, dan kompetisi akademik mahasiswa kedokteran.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -1041,7 +1066,7 @@ VALUES
 ),
 (
     'Ruang BEM FISIP',
-    'Ruangan untuk kegiatan BEM FISIP.',
+    'Ruang sekretariat Badan Eksekutif Mahasiswa FISIP yang berada di Gedung Abdul Rahman Saleh, digunakan untuk koordinasi program kerja, rapat, dan kegiatan kemahasiswaan FISIP.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -1050,7 +1075,7 @@ VALUES
 ),
 (
     'Ruang HIMASIFO',
-    'Ruangan untuk kegiatan HIMASIFO.',
+    'Ruang sekretariat Himpunan Mahasiswa Sistem Informasi (HIMASIFO) UPNVJ, berfungsi sebagai pusat koordinasi kegiatan organisasi, program kerja, dan pengembangan mahasiswa Sistem Informasi.',
     'Administrasi & Layanan',
     2,
     NULL,
@@ -1059,7 +1084,7 @@ VALUES
 ),
 (
     'Ruang Kelas 301',
-    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang kelas perkuliahan untuk mahasiswa Fakultas Kedokteran di Gedung Abdul Rahman Saleh lantai 3, dilengkapi proyektor, papan tulis, dan AC untuk kenyamanan belajar mengajar.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1068,7 +1093,7 @@ VALUES
 ),
 (
     'Ruang Kelas 302',
-    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang kelas perkuliahan untuk mahasiswa Fakultas Kedokteran di Gedung Abdul Rahman Saleh lantai 3, dilengkapi proyektor, papan tulis, dan AC untuk kenyamanan belajar mengajar.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1077,7 +1102,7 @@ VALUES
 ),
 (
     'Ruang Kelas 303',
-    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang kelas perkuliahan untuk mahasiswa Fakultas Kedokteran di Gedung Abdul Rahman Saleh lantai 3, dilengkapi proyektor, papan tulis, dan AC untuk kenyamanan belajar mengajar.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1086,7 +1111,7 @@ VALUES
 ),
 (
     'Ruang Kelas 304',
-    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang kelas perkuliahan untuk mahasiswa Fakultas Kedokteran di Gedung Abdul Rahman Saleh lantai 3, dilengkapi proyektor, papan tulis, dan AC untuk kenyamanan belajar mengajar.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1095,7 +1120,7 @@ VALUES
 ),
 (
     'Ruang Kelas 305',
-    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang kelas perkuliahan untuk mahasiswa Fakultas Kedokteran di Gedung Abdul Rahman Saleh lantai 3, dilengkapi proyektor, papan tulis, dan AC untuk kenyamanan belajar mengajar.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1104,7 +1129,7 @@ VALUES
 ),
 (
     'Ruang Kelas 306',
-    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang kelas perkuliahan untuk mahasiswa Fakultas Kedokteran di Gedung Abdul Rahman Saleh lantai 3, dilengkapi proyektor, papan tulis, dan AC untuk kenyamanan belajar mengajar.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1113,7 +1138,7 @@ VALUES
 ),
 (
     'Ruang Kelas 307',
-    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang kelas perkuliahan untuk mahasiswa Fakultas Kedokteran di Gedung Abdul Rahman Saleh lantai 3, dilengkapi proyektor, papan tulis, dan AC untuk kenyamanan belajar mengajar.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1122,7 +1147,7 @@ VALUES
 ),
 (
     'Gudang lantai 3',
-    'Ruang untuk menyimpan barang-barang Fakultas Kedokteran.',
+    'Gudang penyimpanan peralatan, perlengkapan laboratorium, dan inventaris Fakultas Kedokteran yang berlokasi di lantai 3 Gedung Abdul Rahman Saleh.',
     'Administrasi & Layanan',
     3,
     NULL,
@@ -1131,7 +1156,7 @@ VALUES
 ),
 (
     'Ruang Tutorial Gedung Abdul Rahman Saleh',
-    'Tiga ruang tutorial untuk diskusi akademik mahasiswa.',
+    'Tiga ruang tutorial untuk kegiatan diskusi kelompok kecil dalam metode PBL (Problem Based Learning), digunakan mahasiswa FK bersama tutor dosen untuk membahas kasus dan skenario klinis.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1140,7 +1165,7 @@ VALUES
 ),
 (
     'Ruang Kelas 401',
-    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang kelas perkuliahan untuk mahasiswa Fakultas Kedokteran di Gedung Abdul Rahman Saleh lantai 4, dilengkapi fasilitas audio-visual dan tempat duduk yang memadai.',
     'Ruang Kuliah & Akademik',
     4,
     NULL,
@@ -1149,7 +1174,7 @@ VALUES
 ),
 (
     'Ruang Kelas 402',
-    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang kelas perkuliahan untuk mahasiswa Fakultas Kedokteran di Gedung Abdul Rahman Saleh lantai 4, dilengkapi fasilitas audio-visual dan tempat duduk yang memadai.',
     'Ruang Kuliah & Akademik',
     4,
     NULL,
@@ -1159,7 +1184,7 @@ VALUES
 
 (
     'Ruang Kelas 403',
-    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang kelas perkuliahan untuk mahasiswa Fakultas Kedokteran di Gedung Abdul Rahman Saleh lantai 4, dilengkapi fasilitas audio-visual dan tempat duduk yang memadai.',
     'Ruang Kuliah & Akademik',
     4,
     NULL,
@@ -1169,7 +1194,7 @@ VALUES
 
 (
     'Ruang Kelas 404',
-    'Ruang kelas untuk perkuliahan mahasiswa.',
+    'Ruang kelas perkuliahan untuk mahasiswa Fakultas Kedokteran di Gedung Abdul Rahman Saleh lantai 4, dilengkapi fasilitas audio-visual dan tempat duduk yang memadai.',
     'Ruang Kuliah & Akademik',
     4,
     NULL,
@@ -1179,7 +1204,7 @@ VALUES
 
 (
     'Gudang lantai 4',
-    'Ruang untuk menyimpan barang-barang Fakultas Kedokteran.',
+    'Gudang penyimpanan peralatan dan perlengkapan OSCE Center serta inventaris FK yang berlokasi di lantai 4 Gedung Abdul Rahman Saleh.',
     'Administrasi & Layanan',
     4,
     NULL,
@@ -1188,7 +1213,7 @@ VALUES
 ),
 (
     'OSCE Center FKUPN',
-    'Pusat ujian OSCE dengan 24 ruang ujian, control panel, dan gudang manekin.',
+    'Pusat ujian OSCE (Objective Structured Clinical Examination) berstandar nasional dengan 24 ruang ujian, ruang control panel, dan gudang manekin, digunakan untuk asesmen kompetensi klinis mahasiswa kedokteran secara komprehensif.',
     'Laboratorium',
     4,
     NULL,
@@ -1198,7 +1223,7 @@ VALUES
 
 (
     'Ruang Alumni I',
-    'Ruang kegiatan alumni Fakultas Kedokteran.',
+    'Ruang kegiatan dan pertemuan alumni Fakultas Kedokteran UPNVJ, digunakan untuk networking, seminar alumni, dan koordinasi Ikatan Alumni (IKA) FK UPNVJ.',
     'Administrasi & Layanan',
     4,
     NULL,
@@ -1208,7 +1233,7 @@ VALUES
 
 (
     'Ruang Peserta Alumni FK UPNVJ',
-    'Ruang peserta alumni Fakultas Kedokteran UPNVJ.',
+    'Ruang yang diperuntukkan bagi peserta dan anggota alumni FK UPNVJ untuk berkumpul, berdiskusi, dan mengikuti berbagai kegiatan yang diselenggarakan oleh ikatan alumni fakultas.',
     'Administrasi & Layanan',
     4,
     NULL,
@@ -1218,7 +1243,7 @@ VALUES
 
 (
     'Ruang Komisi Etik',
-    'Ruang kegiatan komisi etik Fakultas Kedokteran.',
+    'Ruang kegiatan Komisi Etik Penelitian Kesehatan FK UPNVJ, bertugas melakukan telaah etik terhadap protokol penelitian yang melibatkan subjek manusia sesuai standar etika penelitian biomedis nasional dan internasional.',
     'Administrasi & Layanan',
     4,
     NULL,
@@ -1233,7 +1258,7 @@ VALUES
 -- =========================
 (
     'Ruang Kuliah 203 Ki Hadjar Dewantara',
-    'Ruang kuliah yang berada di Gedung Ki Hadjar Dewantara lantai 2.',
+    'Ruang perkuliahan mahasiswa Fakultas Ilmu Komputer di Gedung Ki Hadjar Dewantara lantai 2, dilengkapi proyektor, papan tulis digital, dan kapasitas tempat duduk yang memadai untuk pembelajaran teori dan praktikum.',
     'Ruang Kuliah & Akademik',
     2,
     NULL,
@@ -1243,7 +1268,7 @@ VALUES
 
 (
     'Ruang Kuliah 202 Ki Hadjar Dewantara',
-    'Ruang kuliah yang berada di Gedung Ki Hadjar Dewantara lantai 2.',
+    'Ruang perkuliahan mahasiswa Fakultas Ilmu Komputer di Gedung Ki Hadjar Dewantara lantai 2, digunakan untuk kuliah teori maupun diskusi kelompok dengan fasilitas multimedia yang terintegrasi.',
     'Ruang Kuliah & Akademik',
     2,
     NULL,
@@ -1253,7 +1278,7 @@ VALUES
 
 (
     'Selasar Lantai 1',
-    'Selasar pada lantai 1 Gedung Ki Hadjar Dewantara.',
+    'Area selasar terbuka di lantai 1 Gedung Ki Hadjar Dewantara yang digunakan sebagai ruang tunggu, area transit mahasiswa, dan lokasi berbagai pameran atau kegiatan informal Fakultas Ilmu Komputer.',
     'Administrasi & Layanan',
     1,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/09/WhatsApp-Image-2024-09-26-at-16.06.50-1-1024x768.jpeg',
@@ -1385,7 +1410,7 @@ VALUES
 ),
 (
     'Ruang UKM UBV',
-    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang sekretariat Unit Kegiatan Mahasiswa UBV (Unit Beladiri Veteran) di Gedung Dewi Sartika, digunakan untuk koordinasi latihan, rapat anggota, dan kegiatan bela diri mahasiswa UPNVJ.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1394,7 +1419,7 @@ VALUES
 ),
 (
     'Ruang UKM Sepak Bola',
-    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang sekretariat UKM Sepak Bola UPNVJ di Gedung Dewi Sartika, digunakan untuk rapat anggota, perencanaan program latihan, dan persiapan kompetisi sepak bola antar universitas.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1403,7 +1428,7 @@ VALUES
 ),
 (
     'Ruang UKM Basket',
-    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang sekretariat UKM Basket UPNVJ di Gedung Dewi Sartika, digunakan untuk koordinasi program latihan, strategi pertandingan, dan administrasi tim basket mahasiswa.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1412,7 +1437,7 @@ VALUES
 ),
 (
     'Ruang UKM UFO',
-    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang sekretariat UKM UFO (Unit Film dan Fotografi) UPNVJ, digunakan untuk koordinasi produksi film pendek, fotografi, dan berbagai kegiatan kreatif media visual mahasiswa.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1421,7 +1446,7 @@ VALUES
 ),
 (
     'Ruang UKM Catur',
-    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang sekretariat UKM Catur UPNVJ, digunakan untuk latihan, turnamen catur internal, dan persiapan kompetisi catur tingkat regional dan nasional.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1430,7 +1455,7 @@ VALUES
 ),
 (
     'Ruang UKM Juijutsu',
-    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang sekretariat UKM Jujitsu UPNVJ, digunakan untuk koordinasi jadwal latihan seni bela diri jujitsu dan persiapan kejuaraan bela diri mahasiswa.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1439,7 +1464,7 @@ VALUES
 ),
 (
     'Ruang UKM Seni tari',
-    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang sekretariat UKM Seni Tari UPNVJ, digunakan untuk koordinasi latihan tari tradisional dan modern, serta persiapan pentas seni dan perlombaan tingkat nasional.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1448,7 +1473,7 @@ VALUES
 ),
 (
     'Ruang UKM Boxer',
-    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang sekretariat UKM Tinju/Boxing UPNVJ, digunakan untuk koordinasi program latihan tinju, jadwal sparring, dan persiapan kompetisi bela diri tingkat mahasiswa.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1457,7 +1482,7 @@ VALUES
 ),
 (
     'Ruang UKM Voli',
-    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang sekretariat UKM Voli UPNVJ, digunakan untuk koordinasi jadwal latihan bola voli dan persiapan pertandingan antar universitas.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1466,7 +1491,7 @@ VALUES
 ),
 (
     'Ruang UKM Pencak Silat',
-    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang sekretariat UKM Pencak Silat UPNVJ, sebagai pusat koordinasi latihan pencak silat dan pengembangan atlet mahasiswa untuk kompetisi regional dan nasional.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1475,7 +1500,7 @@ VALUES
 ),
 (
     'Ruang UKM MC',
-    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang sekretariat UKM Master of Ceremony (MC) UPNVJ, digunakan untuk pelatihan public speaking, teknik pembawa acara, dan koordinasi kegiatan seremonial universitas.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1484,7 +1509,7 @@ VALUES
 ),
 (
     'Ruang UKM Bulu Tangkis',
-    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang sekretariat UKM Bulu Tangkis UPNVJ, digunakan untuk koordinasi program latihan bulu tangkis dan persiapan kejuaraan antar mahasiswa dan universitas.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1493,7 +1518,7 @@ VALUES
 ),
 (
     'Ruang UKM Paduan Suara',
-    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang sekretariat UKM Paduan Suara UPNVJ, digunakan untuk latihan vokal, persiapan pentas musik, dan koordinasi kegiatan paduan suara dalam acara resmi universitas dan kompetisi paduan suara.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1502,7 +1527,7 @@ VALUES
 ),
 (
     'Ruang UKM Protestan',
-    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang persekutuan dan kegiatan keagamaan mahasiswa Kristen Protestan UPNVJ, digunakan untuk ibadah, doa bersama, dan berbagai kegiatan rohani mahasiswa.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1511,7 +1536,7 @@ VALUES
 ),
 (
     'Ruang UKM Katolik',
-    'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang persekutuan dan kegiatan keagamaan mahasiswa Katolik UPNVJ, digunakan untuk kegiatan rohani, doa bersama, retret, dan pembinaan iman mahasiswa Katolik.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1520,7 +1545,7 @@ VALUES
 ),
 (
     'Ruang BEM FIK',
-    'Ruang kegiatan Badan Eksekutif Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang sekretariat Badan Eksekutif Mahasiswa Fakultas Ilmu Komputer di Gedung Dewi Sartika, sebagai pusat koordinasi program kerja, rapat kabinet, dan kegiatan kemahasiswaan FIK UPNVJ.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1529,7 +1554,7 @@ VALUES
 ),
 (
     'Ruang SENAT FIK',
-    'Ruang kegiatan SENAT Mahasiswa di Gedung Dewi Sartika lantai 1.',
+    'Ruang kerja Senat Mahasiswa Fakultas Ilmu Komputer di Gedung Dewi Sartika, digunakan untuk sidang legislatif mahasiswa, penyusunan aturan kemahasiswaan, dan pengawasan program BEM FIK.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1538,7 +1563,7 @@ VALUES
 ),
 (
     'Ruang Kuliah 201 Dewi Sartika',
-    'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 2.',
+    'Ruang kuliah reguler mahasiswa Fakultas Ilmu Komputer di Gedung Dewi Sartika lantai 2, dilengkapi proyektor, papan tulis, AC, dan tempat duduk nyaman untuk proses belajar mengajar.',
     'Ruang Kuliah & Akademik',
     2,
     NULL,
@@ -1547,7 +1572,7 @@ VALUES
 ),
 (
     'Ruang Kuliah 202 Dewi Sartika',
-    'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 2.',
+    'Ruang kuliah reguler mahasiswa Fakultas Ilmu Komputer di Gedung Dewi Sartika lantai 2, digunakan untuk perkuliahan teori, presentasi, dan diskusi kelompok dengan fasilitas multimedia.',
     'Ruang Kuliah & Akademik',
     2,
     NULL,
@@ -1556,7 +1581,7 @@ VALUES
 ),
 (
     'Ruang Kuliah 203 Dewi Sartika',
-    'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 2.',
+    'Ruang kuliah reguler mahasiswa Fakultas Ilmu Komputer di Gedung Dewi Sartika lantai 2, digunakan untuk perkuliahan dan diskusi dengan sistem tata letak fleksibel yang mendukung metode pembelajaran aktif.',
     'Ruang Kuliah & Akademik',
     2,
     NULL,
@@ -1565,7 +1590,7 @@ VALUES
 ),
 (
     'Ruang Kuliah 301',
-    'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 3.',
+    'Ruang kuliah mahasiswa Fakultas Ilmu Komputer di Gedung Dewi Sartika lantai 3, dilengkapi fasilitas proyektor dan papan tulis untuk mendukung perkuliahan teori dan praktikum dasar.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1574,7 +1599,7 @@ VALUES
 ),
 (
     'Ruang Kuliah 302',
-    'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 3.',
+    'Ruang kuliah mahasiswa Fakultas Ilmu Komputer di Gedung Dewi Sartika lantai 3, digunakan untuk perkuliahan dengan kapasitas memadai dan fasilitas multimedia yang mendukung pembelajaran berbasis teknologi.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1583,7 +1608,7 @@ VALUES
 ),
 (
     'Ruang Kuliah 303',
-    'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 3.',
+    'Ruang kuliah mahasiswa Fakultas Ilmu Komputer di Gedung Dewi Sartika lantai 3, dilengkapi perangkat presentasi dan konektivitas internet untuk mendukung pembelajaran berbasis digital.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1592,7 +1617,7 @@ VALUES
 ),
 (
     'Ruang Kuliah 401',
-    'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 4.',
+    'Ruang kuliah mahasiswa Fakultas Ilmu Komputer di Gedung Dewi Sartika lantai 4, dilengkapi fasilitas lengkap untuk mendukung perkuliahan teori dan presentasi mahasiswa.',
     'Ruang Kuliah & Akademik',
     4,
     NULL,
@@ -1601,7 +1626,7 @@ VALUES
 ),
 (
     'Ruang Kuliah 402',
-    'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 4.',
+    'Ruang kuliah mahasiswa Fakultas Ilmu Komputer di Gedung Dewi Sartika lantai 4, digunakan untuk perkuliahan reguler dengan fasilitas proyektor, papan tulis, dan AC.',
     'Ruang Kuliah & Akademik',
     4,
     NULL,
@@ -1610,7 +1635,7 @@ VALUES
 ),
 (
     'Ruang Kuliah 403(mesh room)',
-    'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 4.',
+    'Ruang kuliah inovatif dengan konsep Mesh Room di Gedung Dewi Sartika lantai 4, dirancang dengan tata ruang fleksibel dan teknologi digital interaktif untuk mendukung pembelajaran kolaboratif mahasiswa FIK.',
     'Ruang Kuliah & Akademik',
     4,
     NULL,
@@ -1625,7 +1650,7 @@ VALUES
 -- =========================
 (
     'Ruang Dosen Yos Sudarso Lantai 1',
-    'Ruang dosen pada lantai 1 Gedung Yos Sudarso.',
+    'Ruang kerja dosen Fakultas Hukum di Gedung Yos Sudarso lantai 1, digunakan sebagai tempat konsultasi mahasiswa dengan dosen, persiapan bahan ajar, dan kegiatan akademik dosen sehari-hari.',
     'Administrasi & Layanan',
     1,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2023/11/RUANG-KONSENTRASI-2048x1536.png',
@@ -1634,7 +1659,7 @@ VALUES
 ),
 (
     'Ruang Dosen Yos Sudarso Lantai 2',
-    'Ruang dosen pada lantai 2 Gedung Yos Sudarso.',
+    'Ruang kerja dosen Fakultas Hukum di Gedung Yos Sudarso lantai 2, dilengkapi fasilitas kerja individual dan area diskusi untuk bimbingan penelitian hukum dan penulisan skripsi mahasiswa.',
     'Administrasi & Layanan',
     2,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2021/03/f0fd3420-8e5e-433f-b7b8-2da5e898cb64.png',
@@ -1643,7 +1668,7 @@ VALUES
 ),
 (
     'Ruang Administrasi Yos Sudarso',
-    'Ruang administrasi pada Gedung Yos Sudarso.',
+    'Ruang administrasi akademik Fakultas Hukum UPNVJ di Gedung Yos Sudarso, melayani kebutuhan administrasi mahasiswa seperti surat keterangan aktif, transkrip nilai, dan layanan akademik lainnya.',
     'Administrasi & Layanan',
     1,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2021/03/54a42329-09bc-48a5-8ae2-0e7e5ee0bb26.png',
@@ -1652,7 +1677,7 @@ VALUES
 ),
 (
     'Ruang Rapat Yos Sudarso Lantai 2',
-    'Ruang rapat pada lantai 2 Gedung Yos Sudarso.',
+    'Ruang rapat resmi Fakultas Hukum di Gedung Yos Sudarso lantai 2, digunakan untuk rapat dosen, koordinasi program studi, dan pertemuan dengan mitra atau tamu institusi.',
     'Administrasi & Layanan',
     2,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2025/06/IMG_5457.jpg',
@@ -1661,7 +1686,7 @@ VALUES
 ),
 (
     'Ruang Podcast Yos Sudarso',
-    'Ruang podcast pada lantai 4 Gedung Yos Sudarso.',
+    'Studio podcast Fakultas Hukum di lantai 4 Gedung Yos Sudarso, dilengkapi peralatan rekaman audio-video profesional untuk produksi konten hukum digital, wawancara pakar, dan siaran akademik mahasiswa hukum.',
     'Studio & Produksi Media',
     4,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/RuangPODCAST-LT-4-768x599-HD.png',
@@ -1670,7 +1695,7 @@ VALUES
 ),
 (
     'Ruang Praktik Peradilan Semu',
-    'Ruang praktik peradilan semu pada lantai 4 Gedung Yos Sudarso.',
+    'Ruang simulasi persidangan (moot court) Fakultas Hukum di lantai 4 Gedung Yos Sudarso, dirancang menyerupai ruang sidang pengadilan untuk melatih mahasiswa dalam praktik beracara, debat hukum, dan kompetisi peradilan semu.',
     'Ruang Kuliah & Akademik',
     4,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/RuangPODCAST-LT-4-768x599-HD.png',
@@ -1679,7 +1704,7 @@ VALUES
 ),
 (
     'Smartclass Yos Sudarso Lantai 2',
-    'Smartclass yang digunakan pada lantai 2 Gedung Yos Sudarso.',
+    'Ruang kelas cerdas (smartclass) di lantai 2 Gedung Yos Sudarso, dilengkapi teknologi pembelajaran interaktif berbasis digital, papan tulis elektronik, dan sistem konektivitas nirkabel untuk perkuliahan hukum modern.',
     'Ruang Kuliah & Akademik',
     2,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2022/06/WhatsApp-Image-2022-06-06-at-11.16.52-1-768x576.jpeg',
@@ -1688,7 +1713,7 @@ VALUES
 ),
 (
     'Smartclass Yos Sudarso Lantai 3',
-    'Smartclass yang digunakan pada lantai 3 Gedung Yos Sudarso.',
+    'Ruang kelas cerdas (smartclass) di lantai 3 Gedung Yos Sudarso, digunakan untuk perkuliahan berbasis teknologi dengan sistem presentasi interaktif dan akses materi digital secara real-time.',
     'Ruang Kuliah & Akademik',
     3,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2022/06/WhatsApp-Image-2022-06-06-at-11.16.52-1-768x576.jpeg',
@@ -1697,7 +1722,7 @@ VALUES
 ),
 (
     'Ruang Baca Yos Sudarso',
-    'Ruang baca pada lantai 3 Gedung Yos Sudarso.',
+    'Ruang baca Fakultas Hukum di lantai 3 Gedung Yos Sudarso, menyediakan koleksi literatur hukum, jurnal ilmiah, peraturan perundang-undangan, dan buku referensi untuk mendukung penelitian mahasiswa dan dosen.',
     'Perpustakaan & Ruang Baca',
     3,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.19.42.jpeg',
@@ -1706,7 +1731,7 @@ VALUES
 ),
 (
     'Lab Perancangan Kontrak',
-    'Laboratorium perancangan kontrak pada lantai 2 Gedung Yos Sudarso.',
+    'Laboratorium perancangan kontrak di lantai 2 Gedung Yos Sudarso, digunakan untuk praktikum drafting kontrak hukum bisnis, perjanjian internasional, dan simulasi negosiasi kontrak komersial oleh mahasiswa hukum.',
     'Laboratorium',
     2,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.20.39.jpeg',
@@ -1715,7 +1740,7 @@ VALUES
 ),
 (
     'Selasar Kanan Yos Sudarso',
-    'Selasar kanan pada lantai 1 Gedung Yos Sudarso.',
+    'Area selasar di sisi kanan lantai 1 Gedung Yos Sudarso, berfungsi sebagai ruang sirkulasi, tempat interaksi mahasiswa, dan area menunggu di antara kegiatan perkuliahan.',
     'Administrasi & Layanan',
     1,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.19.43.jpeg',
@@ -1724,7 +1749,7 @@ VALUES
 ),
 (
     'Selasar Kiri Yos Sudarso',
-    'Selasar kiri pada lantai 1 Gedung Yos Sudarso.',
+    'Area selasar di sisi kiri lantai 1 Gedung Yos Sudarso, digunakan sebagai koridor penghubung antar ruang dan area mahasiswa untuk berdiskusi atau menunggu jadwal perkuliahan.',
     'Administrasi & Layanan',
     1,
     'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.19.43-1.jpeg',
@@ -1737,7 +1762,7 @@ VALUES
 -- =========================
 (
     'Ruang Kelas Magister 101',
-    'Ruang kelas program magister pada lantai 1 Gedung RA Kartini.',
+    'Ruang kuliah program Magister Hukum di Gedung RA Kartini lantai 1, dilengkapi fasilitas multimedia dan tata ruang yang mendukung diskusi ilmiah mendalam sesuai kebutuhan pembelajaran pascasarjana.',
     'Ruang Kuliah & Akademik',
     1,
     NULL,
@@ -1746,7 +1771,7 @@ VALUES
 ),
 (
     'Ruang Kelas Magister 102',
-    'Ruang kelas program magister pada lantai 1 Gedung RA Kartini.',
+    'Ruang kuliah program Magister Hukum di Gedung RA Kartini lantai 1, digunakan untuk perkuliahan pascasarjana dengan kapasitas yang mendukung kegiatan seminar dan diskusi hukum intensif.',
     'Ruang Kuliah & Akademik',
     1,
     NULL,
@@ -1755,7 +1780,7 @@ VALUES
 ),
 (
     'Ruang Dosen dan Staff Administrasi Prodi Doktor Hukum',
-    'Ruang dosen dan staff administrasi program doktor pada lantai 1 Gedung RA Kartini.',
+    'Ruang kerja dosen dan staf administrasi Program Doktor Hukum FH UPNVJ di Gedung RA Kartini lantai 1, sebagai pusat koordinasi akademik dan pelayanan administrasi program doktoral.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1764,7 +1789,7 @@ VALUES
 ),
 (
     'Ruang UPT Pengembangan Karir dan Kewirausahaan',
-    'Ruang UPT Pengembangan Karir dan Kewirausahaan pada lantai 1 Gedung RA Kartini.',
+    'Ruang Unit Pelaksana Teknis (UPT) Pengembangan Karir dan Kewirausahaan UPNVJ di Gedung RA Kartini, menyediakan layanan bimbingan karir, pelatihan wirausaha, penempatan kerja, dan informasi magang bagi mahasiswa.',
     'Administrasi & Layanan',
     1,
     NULL,
@@ -1773,7 +1798,7 @@ VALUES
 ),
 (
     'Ruangan Laboratorium Farmasi Fakultas Kedokteran',
-    'Ruangan Laboratorium Farmasi Fakultas Kedokteran pada lantai 1 Gedung RA Kartini.',
+    'Laboratorium Farmasi Fakultas Kedokteran UPNVJ di Gedung RA Kartini lantai 1, digunakan untuk praktikum farmasetika, farmakokinetika, dan analisis sediaan obat bagi mahasiswa program studi farmasi.',
     'Laboratorium',
     1,
     NULL,
@@ -1782,7 +1807,7 @@ VALUES
 ),
 (
     'Ruangan UPA Bahasa',
-    'Ruangan UPA Bahasa pada lantai 2 Gedung RA Kartini.',
+    'Ruang Unit Pelaksana Akademik (UPA) Bahasa UPNVJ di Gedung RA Kartini lantai 2, mengelola program pembelajaran bahasa asing (Inggris, Arab, Mandarin, dll.) dan tes kemampuan bahasa bagi seluruh mahasiswa UPNVJ.',
     'Layanan Akademik',
     2,
     NULL,
@@ -1791,7 +1816,7 @@ VALUES
 ),
 (
     'Ruangan Guru Besar Fakultas Teknik',
-    'Ruangan guru besar fakultas teknik pada lantai 2 Gedung RA Kartini.',
+    'Ruang kerja Guru Besar (Profesor) Fakultas Teknik UPNVJ di Gedung RA Kartini lantai 2, digunakan untuk kegiatan penelitian, penulisan karya ilmiah, bimbingan doktoral, dan konsultasi akademik tingkat lanjut.',
     'Layanan Akademik',
     2,
     NULL,
@@ -1800,7 +1825,7 @@ VALUES
 ),
 (
     'Ruangan Kelas 201',
-    'Ruangan kelas pada lantai 2 Gedung RA Kartini.',
+    'Ruang kuliah di Gedung RA Kartini lantai 2, digunakan untuk perkuliahan Program Magister atau kegiatan akademik pascasarjana yang membutuhkan ruang dengan kapasitas sedang.',
     'Ruang Kuliah & Akademik',
     2,
     NULL,
@@ -1809,7 +1834,7 @@ VALUES
 ),
 (
     'Ruangan Lab Bahasa dan Ruang ujian',
-    'Ruangan Lab Bahasa dan Ruang ujian pada lantai 2 Gedung RA Kartini.',
+    'Ruang Laboratorium Bahasa dan Ruang Ujian UPA Bahasa di Gedung RA Kartini lantai 2, dilengkapi perangkat audio-visual untuk praktikum mendengarkan, berbicara, dan pelaksanaan tes kemampuan bahasa asing mahasiswa.',
     'Ruang Kuliah & Akademik',
     2,
     NULL,
@@ -1818,7 +1843,7 @@ VALUES
 ),
 (
     'Ruangan Diskusi dan Ruang Instruktur',
-    'Ruangan Diskusi dan Ruang Instruktur pada lantai 2 Gedung RA Kartini.',
+    'Ruang diskusi kelompok dan ruang instruktur di Gedung RA Kartini lantai 2, digunakan untuk bimbingan akademik, konsultasi pengajaran, dan persiapan instruktur sebelum kegiatan pembelajaran.',
     'Ruang Kuliah & Akademik',
     2,
     NULL,
@@ -1827,7 +1852,7 @@ VALUES
 ),
 (
     'Ruangan Ujian dan Ruang Sidang Doktor',
-    'Ruangan ujian dan ruang sidang Doktor pada lantai 2 Gedung RA Kartini.',
+    'Ruang ujian komprehensif dan ruang sidang disertasi program Doktor Hukum FH UPNVJ di Gedung RA Kartini lantai 2, dirancang formal untuk pelaksanaan ujian akhir dan sidang terbuka promosi doktor.',
     'Ruang Kuliah & Akademik',
     2,
     NULL,
@@ -1836,7 +1861,7 @@ VALUES
 ),
 (
     'Ruangan Kelas 301',
-    'Ruangan Kelas 301 pada lantai 3 Gedung RA Kartini.',
+    'Ruang kuliah program pascasarjana di Gedung RA Kartini lantai 3, dilengkapi fasilitas pembelajaran modern untuk mendukung perkuliahan magister dan doktoral hukum.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1845,7 +1870,7 @@ VALUES
 ),
 (
     'Ruangan Kelas 302',
-    'Ruangan 302 pada lantai 3 Gedung RA Kartini.',
+    'Ruang kuliah dan kegiatan akademik di Gedung RA Kartini lantai 3, digunakan untuk perkuliahan pascasarjana dengan kapasitas memadai dan fasilitas presentasi.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1854,7 +1879,7 @@ VALUES
 ),
 (
     'Ruangan 303',
-    'Ruangan 303 pada lantai 3 Gedung RA Kartini.',
+    'Ruang multifungsi di Gedung RA Kartini lantai 3 yang digunakan untuk perkuliahan, seminar kecil, atau kegiatan akademik program pascasarjana.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1863,7 +1888,7 @@ VALUES
 ),
 (
     'Ruangan 304',
-    'Ruangan 304 pada lantai 3 Gedung RA Kartini.',
+    'Ruang multifungsi di Gedung RA Kartini lantai 3, difungsikan untuk perkuliahan, diskusi akademik, atau kegiatan tambahan program pascasarjana hukum.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1872,7 +1897,7 @@ VALUES
 ),
 (
     'Ruangan Ujian 305',
-    'Ruangan ujian 305 pada lantai 3 Gedung RA Kartini.',
+    'Ruang pelaksanaan ujian tertulis bagi mahasiswa program pascasarjana di Gedung RA Kartini lantai 3, dirancang dengan kapasitas dan tata ruang yang mendukung ketertiban ujian.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1881,7 +1906,7 @@ VALUES
 ),
 (
     'Ruangan Ujian 306',
-    'Ruangan ujian 306 pada lantai 3 Gedung RA Kartini.',
+    'Ruang pelaksanaan ujian tertulis bagi mahasiswa pascasarjana di Gedung RA Kartini lantai 3, digunakan sebagai ruang cadangan ujian atau ujian komprehensif program magister dan doktoral.',
     'Ruang Kuliah & Akademik',
     3,
     NULL,
@@ -1890,7 +1915,7 @@ VALUES
 ),
 (
     'Ruangan Ujian 401',
-    'Ruangan ujian 401 pada lantai 4 Gedung RA Kartini.',
+    'Ruang pelaksanaan ujian di Gedung RA Kartini lantai 4, digunakan untuk ujian komprehensif, ujian proposal penelitian, atau kegiatan evaluasi akademik program pascasarjana hukum.',
     'Ruang Kuliah & Akademik',
     4,
     NULL,
@@ -1899,7 +1924,7 @@ VALUES
 ),
 (
     'Ruangan Kelas 402',
-    'Ruangan kelas 402 pada lantai 4 Gedung RA Kartini.',
+    'Ruang kuliah program pascasarjana di Gedung RA Kartini lantai 4, digunakan untuk perkuliahan magister atau doktoral dengan fasilitas lengkap untuk mendukung pembelajaran tingkat lanjut.',
     'Ruang Kuliah & Akademik',
     4,
     NULL,
@@ -1908,7 +1933,7 @@ VALUES
 ),
 (   
     'Ruangan Kelas 403',
-    'Ruangan kelas 403 pada lantai 4 Gedung RA Kartini.',
+    'Ruang kuliah program pascasarjana di Gedung RA Kartini lantai 4, dilengkapi fasilitas presentasi dan diskusi untuk mendukung perkuliahan intensif program magister dan doktoral hukum.',
     'Ruang Kuliah & Akademik',
     4,
     NULL,
@@ -1917,7 +1942,7 @@ VALUES
 ),
 (   
     'Ruangan 404',
-    'Ruangan 404 pada lantai 4 Gedung RA Kartini.',
+    'Ruang multifungsi di Gedung RA Kartini lantai 4, dapat digunakan untuk perkuliahan, seminar terbatas, atau kegiatan penelitian akademik program pascasarjana.',
     'Ruang Kuliah & Akademik',
     4,
     NULL,
@@ -1926,7 +1951,7 @@ VALUES
 ),
 (   
     'Ruangan 405',
-    'Ruangan 405 pada lantai 4 Gedung RA Kartini.',
+    'Ruang multifungsi di Gedung RA Kartini lantai 4, difungsikan untuk perkuliahan, bimbingan akademik, atau kegiatan tambahan program pascasarjana hukum.',
     'Ruang Kuliah & Akademik',
     4,
     NULL,
@@ -1935,7 +1960,7 @@ VALUES
 ),
 (
     'Ruangan 406',
-    'Ruangan 406 pada lantai 4 Gedung RA Kartini.',
+    'Ruang multifungsi di Gedung RA Kartini lantai 4, digunakan untuk perkuliahan atau kegiatan akademik program pascasarjana dengan kapasitas yang memadai.',
     'Ruang Kuliah & Akademik',
     4,
     NULL,
@@ -1948,7 +1973,7 @@ VALUES
 
 (
     'Auditorium FISIP',
-    'Auditorium Fakultas Ilmu Sosial dan Ilmu Politik untuk seminar, kuliah umum, dan kegiatan akademik.',
+    'Auditorium utama Fakultas Ilmu Sosial dan Ilmu Politik UPNVJ berkapasitas besar, digunakan untuk seminar nasional, kuliah umum dengan narasumber pakar, debat publik, dan kegiatan akademik-kemahasiswaan skala besar.',
     'Auditorium & Aula',
     1,
     NULL,
@@ -1958,7 +1983,7 @@ VALUES
 
 (
     'Ruang Baca FISIP',
-    'Ruang baca dengan koleksi buku, jurnal, referensi digital, serta akses internet untuk mendukung kegiatan akademik.',
+    'Ruang baca Fakultas Ilmu Sosial dan Ilmu Politik yang menyediakan koleksi buku, jurnal ilmu komunikasi, politik, hubungan internasional, referensi digital, serta akses internet untuk mendukung riset dan tugas akademik mahasiswa.',
     'Perpustakaan & Ruang Baca',
     2,
     NULL,
@@ -2048,7 +2073,7 @@ VALUES
 
 (
     'Ruang Kelas FISIP',
-    'Ruang kelas untuk kegiatan belajar mengajar mahasiswa FISIP.',
+    'Ruang kuliah reguler mahasiswa Fakultas Ilmu Sosial dan Ilmu Politik, dilengkapi fasilitas multimedia yang mendukung perkuliahan berbasis diskusi, presentasi, dan kajian ilmu sosial, komunikasi, politik, dan hubungan internasional.',
     'Ruang Kuliah & Akademik',
     NULL,
     NULL,
@@ -2058,7 +2083,7 @@ VALUES
 
 (
     'Area Lounge Mahasiswa FISIP',
-    'Area bersantai dan diskusi mahasiswa di lingkungan FISIP.',
+    'Area santai dan diskusi informal bagi mahasiswa FISIP, dilengkapi tempat duduk nyaman dan akses WiFi, digunakan untuk diskusi tugas kelompok, kegiatan komunitas, dan interaksi sosial antar mahasiswa.',
     'Administrasi & Layanan',
     NULL,
     NULL,
@@ -2068,7 +2093,7 @@ VALUES
 
 (
     'Ruang Diskusi FISIP',
-    'Ruang diskusi mahasiswa untuk kegiatan akademik dan kolaborasi.',
+    'Ruang diskusi akademik mahasiswa FISIP yang dirancang untuk kegiatan kolaborasi, kajian ilmiah, dan presentasi kelompok kecil, mendukung budaya akademik kritis dan dialogis di lingkungan FISIP UPNVJ.',
     'Ruang Kuliah & Akademik',
     NULL,
     NULL,
