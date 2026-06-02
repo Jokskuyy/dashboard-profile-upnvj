@@ -1018,6 +1018,16 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 -- =============================================================================
 -- GEDUNG KI HADJAR DEWANTARA (id = 6)
 -- =============================================================================
+
+(
+    'Selasar Lantai 1',
+    'Selasar pada lantai 1 Gedung Ki Hadjar Dewantara.',
+    'Administrasi & Layanan',
+    1,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/09/WhatsApp-Image-2024-09-26-at-16.06.50-1-1024x768.jpeg',
+    6,
+    'khd_selasar'
+),
 (
     'Ruang Dekan dan Wakil Dekan FIK',
     'Ruang Dekan dan Wadek',
@@ -1037,15 +1047,14 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'khd_kaprodi'
 ),
 (
-    'Ruang Kuliah 203 Ki Hadjar Dewantara',
-    'Ruang kuliah yang berada di Gedung Ki Hadjar Dewantara lantai 2.',
-    'Ruang Kuliah & Akademik',
+    'Lab Software Engineering(201)',
+    'Pusat praktikum dan penelitian di bidang pemrograman komputer dengan komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.',
+    'Laboratorium',
     2,
-    NULL,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-25-at-09.57.29-1-scaled.jpeg',
     6,
-    'khd_203'
+    'khd_201_lab'
 ),
-
 (
     'Ruang Kuliah 202 Ki Hadjar Dewantara',
     'Ruang kuliah yang berada di Gedung Ki Hadjar Dewantara lantai 2.',
@@ -1055,17 +1064,24 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     6,
     'khd_202'
 ),
-
 (
-    'Selasar Lantai 1',
-    'Selasar pada lantai 1 Gedung Ki Hadjar Dewantara.',
-    'Administrasi & Layanan',
-    1,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/09/WhatsApp-Image-2024-09-26-at-16.06.50-1-1024x768.jpeg',
+    'Ruang Kuliah 203 Ki Hadjar Dewantara',
+    'Ruang kuliah yang berada di Gedung Ki Hadjar Dewantara lantai 2.',
+    'Ruang Kuliah & Akademik',
+    2,
+    NULL,
     6,
-   'khd_selasar'
+    'khd_203'
 ),
-
+(
+    'Ruang Dosen FIK',
+    'Ruang Dosen FIK',
+    'Administrasi & Layanan',
+    3,
+    NULL,
+    6,
+    'khd_ruang_dosen'
+),
 (
     'Sekretariat Laboratorium',
     'Ruang sekretariat laboratorium yang berfungsi sebagai pusat administrasi dan koordinasi kegiatan laboratorium.',
@@ -1075,16 +1091,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     6,
     'khd_sekretariat_lab'
 ),
-(
-    'Lab Immersive dan Multimedia (301)',
-    'Pusat praktikum dan penelitian di bidang pemrograman komputer dengan fasilitas komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.',
-    'Laboratorium',
-    3,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Programming-JPG.jpg',
-    6,
-    'khd_301_lab'
-),
-
 (
     'Ruang Podcast FIK',
     'Ruang podcast Fakultas Ilmu Komputer yang dilengkapi dengan peralatan rekaman audio dan video profesional, digunakan untuk produksi konten digital, wawancara, dan kegiatan penyiaran mahasiswa.',
@@ -1104,13 +1110,22 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'khd_digital_library'
 ),
 (
-    'Lab Cybersecurity dan Networking (304)',
-    'Pusat praktikum dan penelitian bidang keamanan siber dengan perangkat keras canggih, perangkat lunak keamanan terkini, dan jaringan simulasi serangan siber.',
+    'Lab Immersive dan Multimedia (301)',
+    'Pusat praktikum dan penelitian di bidang pemrograman komputer dengan fasilitas komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.',
     'Laboratorium',
     3,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Cybersecurity.jpeg',
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Programming-JPG.jpg',
     6,
-    'khd_304_lab'
+    'khd_301_lab'
+),
+(
+    'Lab Artificial Intelligence dan Robotics(302)',
+    'Pusat praktikum dan penelitian bidang kecerdasan buatan dengan fasilitas komputer berperforma tinggi, perangkat lunak AI terbaru, big data, dan machine learning.',
+    'Laboratorium',
+    3,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Artificial-Intelligence-JPG.jpg',
+    6,
+    'khd_302_lab'
 ),
 (
     'Lab Big Data dan Data Science(303)',
@@ -1122,13 +1137,22 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'khd_303_lab'
 ),
 (
-    'Lab Artificial Intelligence dan Robotics(302)',
-    'Pusat praktikum dan penelitian bidang kecerdasan buatan dengan fasilitas komputer berperforma tinggi, perangkat lunak AI terbaru, big data, dan machine learning.',
+    'Lab Cybersecurity dan Networking (304)',
+    'Pusat praktikum dan penelitian bidang keamanan siber dengan perangkat keras canggih, perangkat lunak keamanan terkini, dan jaringan simulasi serangan siber.',
     'Laboratorium',
     3,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Artificial-Intelligence-JPG.jpg',
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Cybersecurity.jpeg',
     6,
-    'khd_302_lab'
+    'khd_304_lab'
+),
+(
+    'Lab Internet of Things(401)',
+    'Pusat kegiatan praktikum dan penelitian bidang teknologi IoT dengan sensor, mikrokontroler, modul komunikasi nirkabel, dan perangkat lunak pengembangan IoT terkini.',
+    'Laboratorium',
+    4,
+    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-IoT-JPG.jpg',
+    6,
+    'khd_401_lab'
 ),
 (
     'Lab Enterprise System (402)',
@@ -1147,24 +1171,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Database.jpeg',
     6,
     'khd_403lab'
-),
-(
-    'Lab Internet of Things(401)',
-    'Pusat kegiatan praktikum dan penelitian bidang teknologi IoT dengan sensor, mikrokontroler, modul komunikasi nirkabel, dan perangkat lunak pengembangan IoT terkini.',
-    'Laboratorium',
-    4,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-IoT-JPG.jpg',
-    6,
-    'khd_401_lab'
-),
-(
-    'Lab Software Engineering(201)',
-    'Pusat praktikum dan penelitian di bidang pemrograman komputer dengan komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.',
-    'Laboratorium',
-    2,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-25-at-09.57.29-1-scaled.jpeg',
-    6,
-    'khd_201_lab'
 ),
 (
     'Masjid',
@@ -1186,7 +1192,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     1,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/20250326_071558-768x576.jpg',
     13,
-    NULL
+    'ds_lapangan'
 ),
 (
     'Ruang UKM UBV',
