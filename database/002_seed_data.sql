@@ -644,7 +644,7 @@ VALUES
     2,
     NULL,
     3,
-    NULL
+    'wsh_wd1'
 ),
 
 (
@@ -654,7 +654,7 @@ VALUES
     2,
     NULL,
     3,
-    NULL
+    'wsh_wd2'
 ),
 
 (
@@ -664,9 +664,35 @@ VALUES
     2,
     NULL,
     3,
-    NULL
+    'wsh_wd3'
 ),
-
+(
+    'Ruang MITEK',
+    'Ruang MITEK yang menjadi pusat inovasi teknologi dan keunggulan akademik Fakultas Kedokteran UPNVJ, meliputi fasilitas laboratorium canggih, ruang simulasi klinis, dan area kolaborasi riset untuk mahasiswa serta dosen dalam mengembangkan solusi kesehatan berbasis teknologi.',
+    'Laboratorium',
+    2,
+    NULL,
+    3,
+    'wsh_mitek'
+),
+(
+    'Ruang Rapat Lantai 2',
+    'Ruang rapat lantai 2 Fakultas Kedokteran, digunakan untuk kegiatan rapat dan diskusi.',
+    'Administrasi & Layanan',
+    2,
+    NULL,
+    3,
+    'wsh_rapat_2'
+),
+(
+    'Ruang Prodi Profesi',
+    'Ruang prodi Fakultas Kedokteran, digunakan untuk kegiatan rapat dan diskusi.',
+    'Administrasi & Layanan',
+    2,
+    NULL,
+    3,
+    'wsh_rapat_2'
+),
 (
     'Ruang Sekretariat Tata Usaha FK UPNVJ',
     'Pusat layanan administrasi dan tata usaha Fakultas Kedokteran, menangani surat-menyurat, legalisir dokumen akademik, dan layanan administrasi bagi mahasiswa serta dosen.',
