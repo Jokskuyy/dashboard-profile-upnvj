@@ -1020,13 +1020,31 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 -- =============================================================================
 
 (
-    'Selasar Lantai 1',
+    'Selasar FIK',
     'Selasar pada lantai 1 Gedung Ki Hadjar Dewantara.',
     'Administrasi & Layanan',
     1,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/09/WhatsApp-Image-2024-09-26-at-16.06.50-1-1024x768.jpeg',
     6,
     'khd_selasar'
+),
+(
+    'Pelayanan Mahasiswa FIK',
+    'Pelayanan Mahasiswa FIK',
+    'Administrasi & Layanan',
+    1,
+    NULL,
+    6,
+    'khd_pelayanan_mahasiswa'
+),
+(
+    'Ruang Rapat Lantai 1 FIK',
+    'Ruang Rapat Lantai 1 FIK',
+    'Administrasi & Layanan',
+    1,
+    NULL,
+    6,
+    'khd_ruang_rapat'
 ),
 (
     'Ruang Dekan dan Wakil Dekan FIK',
@@ -1170,7 +1188,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     4,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Database.jpeg',
     6,
-    'khd_403lab'
+    'khd_403_lab'
 ),
 (
     'Masjid',
@@ -1240,7 +1258,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'ds_ukm_catur'
 ),
 (
-    'Ruang UKM Juijutsu',
+    'Ruang UKM Jujitsu',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
     'Administrasi & Layanan',
     1,
