@@ -1,23 +1,21 @@
--- =========================================
+-- =============================================================================
 -- SEEDING DATA UPNVJ PONDOK LABU
--- =========================================
+-- =============================================================================
 -- Jalankan SETELAH 001_full_setup.sql
 -- Aman untuk di-run ulang (akan TRUNCATE dulu)
--- =========================================
+-- =============================================================================
 
--- =========================================
+-- =============================================================================
 -- CLEAN EXISTING DATA (safe re-run)
--- =========================================
+-- =============================================================================
 TRUNCATE public.fasilitas, public.program_studi, public.fakultas, public.gedung RESTART IDENTITY CASCADE;
 
--- =========================================
+-- =============================================================================
 -- INSERT GEDUNG
--- =========================================
+-- =============================================================================
 
-INSERT INTO public.gedung 
-(nama_gedung, deskripsi_gedung, lokasi, jumlah_lantai, foto_url, unity_object_name)
-VALUES
-('Gedung Rektorat', 'Gedung rektorat dan pusat administrasi universitas', 'Area depan kampus utama Pondok Labu', 4, 'https://lh3.googleusercontent.com/p/AF1QipNfznFUQmK_jNHYGwvy-PhNWFyakaWDwpbpcChk=s1360-w1360-h1020-rw', 'Gedung_Rektorat'),
+INSERT INTO public.gedung (nama_gedung, deskripsi_gedung, lokasi, jumlah_lantai, foto_url, unity_object_name) VALUES
+('Gedung Rektorat', 'Gedung rektorat dan pusat administrasi universitas', 'Area depan kampus utama Pondok Labu', 4, 'https://lh3.googleusercontent.com/p/AF1QipNfznFUQmK_jNHYGwvy-PhNWFyakaWDwpbpcChk=s1360-w1360-h1020-rw', 'Gedung_Rektorat');
 
 ('Gedung DR. Soepomo', 'Gedung perpustakaan pusat dan laboratorium terpadu universitas', 'Zona pelayanan akademik', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHP4bEdhC5nk1gfOqby_zHT9oKCovBX2WsHIwD4Ov64kpGzirWAW8dfAKBGwftct2ENL5HcPPlCAx6anVa_H3dJUP-RwS9J7x9rKjxL6no_xnjpvSK8dXp5w7IZpr6HFVIi04c2=s1360-w1360-h1020-rw', NULL),
 
@@ -49,20 +47,18 @@ VALUES
 
 ('Area Parkir Belakang UPNVJ', 'Area parkir terbuka parkir untuk kendaraan mahasiswa dan staf', 'Sisi belakang kampus', 1, NULL, NULL);
 
--- =========================================
+-- =============================================================================
 -- INSERT FAKULTAS
--- =========================================
+-- =============================================================================
 
-INSERT INTO public.fakultas
-(nama_fakultas, deskripsi_fakultas, email, website, id_gedung_utama)
-VALUES
+INSERT INTO public.fakultas (nama_fakultas, deskripsi_fakultas, email, website, id_gedung_utama) VALUES
 (
-'Fakultas Kedokteran',
-'Fakultas pendidikan kedokteran dan kesehatan',
-'tatausahafkupn@upnvj.ac.id',
-'https://fk.upnvj.ac.id',
-3
-),
+    'Fakultas Kedokteran',
+    'Fakultas pendidikan kedokteran dan kesehatan',
+    'tatausahafkupn@upnvj.ac.id',
+    'https://fk.upnvj.ac.id',
+    3
+);
 
 (
 'Fakultas Ekonomi dan Bisnis',
@@ -112,15 +108,14 @@ NULL
 NULL
 );
 
--- =========================================
+-- =============================================================================
 -- INSERT FASILITAS
--- =========================================
+-- =============================================================================
 
 -- FEB
 
-INSERT INTO public.fasilitas
-(nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, lantai, foto_url, id_gedung, unity_object_name)
-VALUES
+INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, lantai, foto_url, id_gedung, unity_object_name) VALUES
+;
 
 (
     'Ruang Kelas 201',
@@ -566,9 +561,9 @@ VALUES
 -- FK
 
 
--- =========================
+-- =============================================================================
 -- GEDUNG ID 3
--- =========================
+-- =============================================================================
 
 (
     'Ruang Dosen FK UPNVJ',
@@ -780,9 +775,9 @@ VALUES
     NULL
 ),
 
--- =========================
+-- =============================================================================
 -- GEDUNG ID 4
--- =========================
+-- =============================================================================
 
 (
     'Perpustakaan FK UPNVJ',
@@ -944,9 +939,9 @@ VALUES
     NULL
 ),
 
--- =========================
+-- =============================================================================
 -- GEDUNG ID 5
--- =========================
+-- =============================================================================
 
 (
     'Departemen Anatomi',
@@ -1020,9 +1015,27 @@ VALUES
 
 -- FIK
 
--- =========================
+-- =============================================================================
 -- GEDUNG KI HADJAR DEWANTARA (id = 6)
--- =========================
+-- =============================================================================
+(
+    'Ruang Dekan dan Wakil Dekan FIK',
+    'Ruang Dekan dan Wadek',
+    'Administrasi & Layanan',
+    1,
+    NULL,
+    6,
+    'khd_dekan'
+),
+(
+    'Ruang Kaprodi dan Ketua Program Studi',
+    'Ruang Kaprodi dan Ketua Program Studi',
+    'Administrasi & Layanan',
+    1,
+    NULL,
+    6,
+    'khd_kaprodi'
+),
 (
     'Ruang Kuliah 203 Ki Hadjar Dewantara',
     'Ruang kuliah yang berada di Gedung Ki Hadjar Dewantara lantai 2.',
@@ -1050,7 +1063,7 @@ VALUES
     1,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/09/WhatsApp-Image-2024-09-26-at-16.06.50-1-1024x768.jpeg',
     6,
-    NULL
+   'khd_selasar'
 ),
 
 (
@@ -1060,16 +1073,16 @@ VALUES
     3,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/03/WhatsApp-Image-2024-03-01-at-14.02.56-scaled.jpeg',
     6,
-    NULL
+    'khd_sekretariat_lab'
 ),
 (
-    'Lab Immersive dan Multimedia',
+    'Lab Immersive dan Multimedia (301)',
     'Pusat praktikum dan penelitian di bidang pemrograman komputer dengan fasilitas komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.',
     'Laboratorium',
-    NULL,
+    3,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Programming-JPG.jpg',
     6,
-    NULL
+    'khd_301_lab'
 ),
 
 (
@@ -1079,7 +1092,7 @@ VALUES
     1,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/01/20241231_104651-scaled.jpg',
     6,
-    NULL
+    'khd_podcast'
 ),
 (
     'Digital Library',
@@ -1088,7 +1101,7 @@ VALUES
     1,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/01/20241231_104651-scaled.jpg',
     6,
-    NULL
+    'khd_digital_library'
 ),
 (
     'Lab Cybersecurity dan Networking (304)',
@@ -1118,22 +1131,22 @@ VALUES
     'khd_302_lab'
 ),
 (
-    'Lab Enterprise System',
+    'Lab Enterprise System (402)',
     'Pusat praktikum dan penelitian bidang intelijen bisnis dengan komputer berperforma tinggi, perangkat lunak analitik terkini, dan platform visualisasi data.',
     'Laboratorium',
-    NULL,
+    4,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/WhatsApp-Image-2024-06-11-at-4.05.11-PM.jpeg',
     6,
-    NULL
+    'khd_402_lab'
 ),
 (
-    'Lab E-Governance',
+    'Lab E-Governance (403)',
     'Pusat praktikum dan penelitian bidang manajemen basis data dengan komputer berperforma tinggi dan perangkat lunak database terkini seperti SQL Server, Oracle, dan MySQL.',
     'Laboratorium',
-    NULL,
+    4,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Database.jpeg',
     6,
-    NULL
+    'khd_403lab'
 ),
 (
     'Lab Internet of Things(401)',
@@ -1157,15 +1170,15 @@ VALUES
     'Masjid',
     'Masjid di lingkungan kampus UPNVJ',
     'Tempat Ibadah',
-    NULL,
+    1,
     'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/20250326_071225-1024x768.jpg',
     6,
     'masjid'
 ),
 
--- =========================
+-- =============================================================================
 -- GEDUNG DEWI SARTIKA (id = 13)
--- =========================
+-- =============================================================================
 (
     'Lapangan dan Alat Olahraga FIK',
     'Fasilitas Olahraga yang terletak di depan Gedung Dewi Sartika lantai 1.',
@@ -1412,9 +1425,9 @@ VALUES
 
 -- FH
 
--- =========================
+-- =============================================================================
 -- GEDUNG YOS SUDARSO (id = 9)
--- =========================
+-- =============================================================================
 (
     'Ruang Dosen Yos Sudarso Lantai 1',
     'Ruang dosen pada lantai 1 Gedung Yos Sudarso.',
@@ -1524,9 +1537,9 @@ VALUES
     NULL
 ),
 
--- =========================
+-- =============================================================================
 -- GEDUNG RA KARTINI (id = 10)
--- =========================
+-- =============================================================================
 (
     'Ruang Kelas Magister 101',
     'Ruang kelas program magister pada lantai 1 Gedung RA Kartini.',
@@ -1698,7 +1711,7 @@ VALUES
     10,
     'rak_402'
 ),
-(   
+(
     'Ruangan Kelas 403',
     'Ruangan kelas 403 pada lantai 4 Gedung RA Kartini.',
     'Ruang Kuliah & Akademik',
@@ -1707,7 +1720,7 @@ VALUES
     10,
     'rak_403'
 ),
-(   
+(
     'Ruangan 404',
     'Ruangan 404 pada lantai 4 Gedung RA Kartini.',
     'Ruang Kuliah & Akademik',
@@ -1716,7 +1729,7 @@ VALUES
     10,
     'rak_404'
 ),
-(   
+(
     'Ruangan 405',
     'Ruangan 405 pada lantai 4 Gedung RA Kartini.',
     'Ruang Kuliah & Akademik',
@@ -1868,12 +1881,12 @@ VALUES
     NULL
 );
 
--- =========================================
+-- =============================================================================
 -- INSERT PROGRAM STUDI
--- =========================================
+-- =============================================================================
 
 -- data prodi
-INSERT INTO program_studi (nama_prodi, jenjang, id_fakultas, akreditasi) VALUES
+INSERT INTO public.program_studi (nama_prodi, jenjang, id_fakultas, akreditasi) VALUES
 ('Perbankan dan Keuangan', 'Vokasi', 2, 'Unggul'),
 ('Akuntansi', 'Vokasi', 2, 'Unggul'),
 ('Manajemen', 'Sarjana', 2, 'Unggul'),
@@ -1925,27 +1938,23 @@ INSERT INTO program_studi (nama_prodi, jenjang, id_fakultas, akreditasi) VALUES
 ('Kesehatan Masyarakat', 'Magister', 7, 'Baik'),
 ('Keperawatan', 'Magister', 7, 'Ijin Operasional');
 
--- =========================================
+-- =============================================================================
 -- INSERT ADMIN USER DEFAULT
--- =========================================
+-- =============================================================================
 
-INSERT INTO public.admin_users
-(username, password_hash, nama_lengkap, role)
-VALUES
+INSERT INTO public.admin_users (username, password_hash, nama_lengkap, role) VALUES
 (
-'admin',
-hash_password('admin123'),
-'Administrator UPNVJ',
-'superadmin'
+    'admin',
+    hash_password('admin123'),
+    'Administrator UPNVJ',
+    'superadmin'
 );
 
--- =========================================
+-- =============================================================================
 -- INSERT WEB ANALYTICS LOGS
--- =========================================
+-- =============================================================================
 
-INSERT INTO public.web_analytics_log
-(visitor_hash, page_path, device_type, visited_at)
-VALUES
+INSERT INTO public.web_analytics_log (visitor_hash, page_path, device_type, visited_at) VALUES
 ('visitor_demo_001', '/', 'Desktop', '2026-05-09T15:16:26.844293'),
 ('visitor_demo_002', '/fakultas', 'Mobile', '2026-05-09T15:16:26.844293'),
 ('visitor_demo_003', '/gedung/ki-hadjar-dewantara', 'Desktop', '2026-05-09T15:16:26.844293'),
@@ -2234,16 +2243,13 @@ VALUES
 ('v_7opjrh', '/', 'Mobile', '2026-05-20T14:01:42.104067'),
 ('v_cb9zfy', '/', 'Mobile', '2026-05-21T12:58:37.166455');
 
--- =========================================
+-- =============================================================================
 -- INSERT AUDIT LOGS
--- =========================================
+-- =============================================================================
 
-INSERT INTO public.audit_logs
-(actor_id, actor_email, action, table_name, record_id, old_data, new_data, created_at)
-VALUES
+INSERT INTO public.audit_logs (actor_id, actor_email, action, table_name, record_id, old_data, new_data, created_at) VALUES
 ('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'create', 'gedung', '17', NULL, '{"id":17,"lokasi":"","url_foto":"","nama_gedung":"asdasd","jumlah_lantai":1,"deskripsi_gedung":"asd"}'::jsonb, '2026-05-11T02:41:46.665755'),
 ('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'update', 'gedung', '17', '{"id":17,"lokasi":"","url_foto":"","nama_gedung":"asdasd","jumlah_lantai":1,"deskripsi_gedung":"asd"}'::jsonb, '{"id":17,"lokasi":"sss","url_foto":"","nama_gedung":"asdasd","jumlah_lantai":1,"deskripsi_gedung":"asd"}'::jsonb, '2026-05-11T02:41:53.690881'),
 ('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'delete', 'gedung', '17', '{"id":17,"lokasi":"sss","url_foto":"","nama_gedung":"asdasd","jumlah_lantai":1,"deskripsi_gedung":"asd"}'::jsonb, NULL, '2026-05-11T02:41:56.804048'),
 ('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'create', 'fasilitas', '204', NULL, '{"id":204,"color":"gray","lantai":1,"foto_url":"","id_gedung":14,"nama_fasilitas":"sdassad","tipe_fasilitas":"Laboratorium","deskripsi_fasilitas":"asd"}'::jsonb, '2026-05-11T04:22:02.913079'),
 ('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'delete', 'fasilitas', '106', '{"id":106,"color":"pink","lantai":null,"foto_url":"https://feb.upnvj.ac.id/wp-content/uploads/2025/06/IMG_5222.jpg","id_gedung":7,"nama_fasilitas":"Sekretariat Doktoral","tipe_fasilitas":"Administrasi","deskripsi_fasilitas":"Fasilitas administrasi dan layanan akademik program doktoral FEB."}'::jsonb, NULL, '2026-05-11T04:22:06.983021');
-
