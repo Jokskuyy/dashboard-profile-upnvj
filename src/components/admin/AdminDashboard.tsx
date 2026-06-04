@@ -1,100 +1,60 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Users,
-  Award,
-  GraduationCap,
   Package,
   BookOpen,
   Building2,
-  Save,
-  X,
   RefreshCw,
   TrendingUp,
   LogOut,
+  X,
+  Menu,
+  ClipboardList,
 } from "lucide-react";
 import {
   fetchDashboardData,
   fetchFaculties,
-  saveDashboardData,
-  clearCache,
-  getTotalStats,
-  createProfessor,
-  updateProfessor,
-  deleteProfessor,
-  createAccreditation,
-  updateAccreditation,
-  deleteAccreditation,
-  createStudentData,
-  updateStudentData,
-  deleteStudentData,
   createProgram,
   updateProgram,
   deleteProgram,
   createFacility,
   updateFacility,
   deleteFacility,
+  createGedung,
+  updateGedung,
+  deleteGedung,
   type DashboardData,
   type FacultyInfo,
   type FacilityData,
+  type GedungData,
 } from "../../services/api/dataService";
-import type {
-  Professor,
-  Accreditation,
-  StudentData,
-  ProgramData,
-} from "../../types";
-import ProfessorModal from "../modals/crud/ProfessorModal";
-import AccreditationModal from "../modals/crud/AccreditationModal";
-import StudentModal from "../modals/crud/StudentModal";
+import type { ProgramData } from "../../types";
 import ProgramModal from "../modals/crud/ProgramModal";
 import FacilityModal from "../modals/crud/FacilityModal";
+import BuildingModal from "../modals/crud/BuildingModal";
 import DeleteConfirmModal from "../modals/shared/DeleteConfirmModal";
 import Toast, { type ToastType } from "../common/Toast";
-import AdminTrafficAnalytics from "./analytics/AdminTrafficAnalytics";
-import ProfessorsTable from "./tables/ProfessorsTable";
-import AccreditationsTable from "./tables/AccreditationsTable";
-import StudentsTable from "./tables/StudentsTable";
+const AdminTrafficAnalytics = lazy(() => import("./analytics/AdminTrafficAnalytics"));
+import BuildingsTable from "./tables/BuildingsTable";
 import FacilitiesTable from "./tables/FacilitiesTable";
 import ProgramsTable from "./tables/ProgramsTable";
+import AuditLogTable from "./tables/AuditLogTable";
 import { useAuth } from "../../contexts/AuthContext";
 import "./admin.css";
 
-type TabType =
-  | "professors"
-  | "accreditations"
-  | "students"
-  | "assets"
-  | "programs"
-  | "analytics";
-
+type TabType = "buildings" | "assets" | "programs" | "analytics" | "audit";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const { logout, admin } = useAuth();
-  const [activeTab, setActiveTab] = useState<TabType>("professors");
+  const [activeTab, setActiveTab] = useState<TabType>("assets");
   const [data, setData] = useState<DashboardData | null>(null);
   const [faculties, setFaculties] = useState<FacultyInfo[]>([]);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Modal states
-  const [professorModal, setProfessorModal] = useState<{
-    isOpen: boolean;
-    professor?: Professor;
-  }>({ isOpen: false });
-
-  const [accreditationModal, setAccreditationModal] = useState<{
-    isOpen: boolean;
-    accreditation?: Accreditation;
-  }>({ isOpen: false });
-
-  const [studentModal, setStudentModal] = useState<{
-    isOpen: boolean;
-    student?: StudentData;
-  }>({ isOpen: false });
-
   const [programModal, setProgramModal] = useState<{
     isOpen: boolean;
     program?: ProgramData;
@@ -105,15 +65,19 @@ export default function AdminDashboard() {
     facility?: FacilityData;
   }>({ isOpen: false });
 
+  const [buildingModal, setBuildingModal] = useState<{
+    isOpen: boolean;
+    building?: GedungData;
+  }>({ isOpen: false });
+
   const [deleteModal, setDeleteModal] = useState<{
     isOpen: boolean;
     type?: string;
     id?: string | number;
-    facultyId?: string;
     name?: string;
   }>({ isOpen: false });
 
-  // Toast state
+  // Toast
   const [toast, setToast] = useState<{
     show: boolean;
     message: string;
@@ -124,7 +88,7 @@ export default function AdminDashboard() {
     setToast({ show: true, message, type });
   };
 
-  // Load data on mount
+  // ── Data Loading ──────────────────────────────────
   useEffect(() => {
     loadData();
   }, []);
@@ -147,134 +111,51 @@ export default function AdminDashboard() {
     }
   };
 
+  // ── Auth ──────────────────────────────────────────
   const handleLogout = async () => {
     try {
       await logout();
       showToast("Logout berhasil", "success");
       navigate("/login");
-    } catch (error) {
-      console.error("Logout error:", error);
+    } catch (err) {
+      console.error("Logout error:", err);
       showToast("Gagal logout", "error");
     }
   };
 
-  // Professor CRUD handlers
-  const handleSaveProfessor = async (
-    professor: Omit<Professor, "id"> | Professor,
-  ) => {
-    try {
-      if ("id" in professor) {
-        // Update existing
-        await updateProfessor(professor.id.toString(), professor);
-        showToast("Data dosen berhasil diupdate", "success");
-      } else {
-        // Create new
-        await createProfessor(professor);
-        showToast("Dosen baru berhasil ditambahkan", "success");
-      }
-      await loadData(); // Reload data
-    } catch (error) {
-      console.error("Error saving professor:", error);
-      showToast("Gagal menyimpan data dosen", "error");
-      throw error;
+  // ── Error message helper ────────────────────────────
+  const getErrorMessage = (err: unknown, fallback: string): string => {
+    const error = err as { code?: string; message?: string; status?: number };
+    // PostgreSQL 23505 = unique_violation (409 Conflict)
+    if (error?.code === "23505" || error?.status === 409) {
+      return "Program studi dengan kombinasi nama, jenjang, dan fakultas yang sama sudah ada.";
     }
+    if (error?.message) return error.message;
+    return fallback;
   };
 
-  const handleDeleteConfirm = async () => {
-    if (!deleteModal.type) return;
-
-    try {
-      if (deleteModal.type === "professor" && deleteModal.id) {
-        await deleteProfessor(deleteModal.id.toString());
-        showToast("Dosen berhasil dihapus", "success");
-      } else if (deleteModal.type === "accreditation" && deleteModal.id) {
-        await deleteAccreditation(deleteModal.id.toString());
-        showToast("Akreditasi berhasil dihapus", "success");
-      } else if (deleteModal.type === "student" && deleteModal.facultyId) {
-        await deleteStudentData(deleteModal.facultyId);
-        showToast("Data mahasiswa berhasil dihapus", "success");
-      } else if (deleteModal.type === "program" && deleteModal.id) {
-        await deleteProgram(deleteModal.id.toString());
-        showToast("Program studi berhasil dihapus", "success");
-      } else if (deleteModal.type === "facility" && deleteModal.id) {
-        await deleteFacility(Number(deleteModal.id));
-        showToast("Fasilitas berhasil dihapus", "success");
-      }
-
-      await loadData(); // Reload data
-      setDeleteModal({ isOpen: false });
-    } catch (error) {
-      console.error("Error deleting:", error);
-      showToast("Gagal menghapus data", "error");
-    }
-  };
-
-  // Accreditation CRUD handlers
-  const handleSaveAccreditation = async (
-    accreditation: Omit<Accreditation, "id"> | Accreditation,
-  ) => {
-    try {
-      if ("id" in accreditation) {
-        await updateAccreditation(accreditation.id.toString(), accreditation);
-        showToast("Data akreditasi berhasil diupdate", "success");
-      } else {
-        await createAccreditation(accreditation);
-        showToast("Akreditasi baru berhasil ditambahkan", "success");
-      }
-      await loadData();
-    } catch (error) {
-      console.error("Error saving accreditation:", error);
-      showToast("Gagal menyimpan data akreditasi", "error");
-      throw error;
-    }
-  };
-
-  // Student CRUD handlers
-  const handleSaveStudent = async (student: StudentData) => {
-    try {
-      // Check if student data for this faculty already exists
-      const existing = data?.students.find(
-        (s) => s.faculty === student.faculty,
-      );
-
-      if (existing) {
-        // Update existing - use faculty as identifier
-        await updateStudentData(student.faculty || "", student);
-        showToast("Data mahasiswa berhasil diupdate", "success");
-      } else {
-        // Create new
-        await createStudentData(student);
-        showToast("Data mahasiswa berhasil ditambahkan", "success");
-      }
-      await loadData();
-    } catch (error) {
-      console.error("Error saving student data:", error);
-      showToast("Gagal menyimpan data mahasiswa", "error");
-      throw error;
-    }
-  };
-
-  // Program CRUD handlers
+  // ── CRUD: Programs ────────────────────────────────
   const handleSaveProgram = async (
     program: Omit<ProgramData, "id"> | ProgramData,
   ) => {
     try {
       if ("id" in program) {
         await updateProgram(program.id.toString(), program);
-        showToast("Data program studi berhasil diupdate", "success");
+        showToast("Program studi berhasil diupdate", "success");
       } else {
         await createProgram(program);
         showToast("Program studi baru berhasil ditambahkan", "success");
       }
       await loadData();
-    } catch (error) {
-      console.error("Error saving program:", error);
-      showToast("Gagal menyimpan data program studi", "error");
-      throw error;
+      setProgramModal({ isOpen: false });
+    } catch (err) {
+      console.error("Error saving program:", err);
+      showToast(getErrorMessage(err, "Gagal menyimpan data program studi"), "error");
+      throw err;
     }
   };
 
-  // Facility CRUD handlers (replacing asset handlers)
+  // ── CRUD: Facilities ──────────────────────────────
   const handleSaveFacility = async (
     facility: Omit<FacilityData, "id"> | FacilityData,
   ) => {
@@ -288,94 +169,91 @@ export default function AdminDashboard() {
       }
       await loadData();
       setFacilityModal({ isOpen: false });
-    } catch (error) {
-      console.error("Error saving facility:", error);
-      showToast("Gagal menyimpan fasilitas", "error");
-      throw error;
-    }
-  };
-
-  const handleSave = async () => {
-    if (!data) return;
-
-    setSaving(true);
-    try {
-      const success = await saveDashboardData(data);
-      if (success) {
-        alert("Data berhasil disimpan!");
-        clearCache();
-      } else {
-        alert("Gagal menyimpan data.");
-      }
     } catch (err) {
-      alert("Terjadi kesalahan saat menyimpan data.");
-      console.error(err);
-    } finally {
-      setSaving(false);
+      console.error("Error saving facility:", err);
+      showToast(getErrorMessage(err, "Gagal menyimpan fasilitas"), "error");
+      throw err;
     }
   };
 
+  // ── CRUD: Buildings ────────────────────────────────
+  const handleSaveBuilding = async (
+    building: Omit<GedungData, "id"> | GedungData,
+  ) => {
+    try {
+      if ("id" in building && building.id) {
+        await updateGedung(building.id, building);
+        showToast("Gedung berhasil diupdate", "success");
+      } else {
+        await createGedung(building);
+        showToast("Gedung baru berhasil ditambahkan", "success");
+      }
+      await loadData();
+      setBuildingModal({ isOpen: false });
+    } catch (err) {
+      console.error("Error saving building:", err);
+      showToast(getErrorMessage(err, "Gagal menyimpan gedung"), "error");
+      throw err;
+    }
+  };
+
+  // ── CRUD: Delete ──────────────────────────────────
+  const handleDeleteConfirm = async () => {
+    if (!deleteModal.type || !deleteModal.id) return;
+
+    try {
+      if (deleteModal.type === "program") {
+        await deleteProgram(deleteModal.id.toString());
+        showToast("Program studi berhasil dihapus", "success");
+      } else if (deleteModal.type === "facility") {
+        await deleteFacility(Number(deleteModal.id));
+        showToast("Fasilitas berhasil dihapus", "success");
+      } else if (deleteModal.type === "building") {
+        await deleteGedung(Number(deleteModal.id));
+        showToast("Gedung berhasil dihapus", "success");
+      }
+      await loadData();
+      setDeleteModal({ isOpen: false });
+    } catch (err) {
+      console.error("Error deleting:", err);
+      showToast("Gagal menghapus data", "error");
+    }
+  };
+
+  // ── Tab config ────────────────────────────────────
   const tabs = [
-    {
-      id: "professors",
-      label: "Dosen",
-      icon: Users,
-      count: data?.professors.length,
-    },
-    {
-      id: "accreditations",
-      label: "Akreditasi",
-      icon: Award,
-      count: data?.accreditations.length,
-    },
-    {
-      id: "students",
-      label: "Mahasiswa",
-      icon: GraduationCap,
-      count: data?.students.length,
-    },
-    {
-      id: "assets",
-      label: "Fasilitas",
-      icon: Package,
-      count: data?.assets.length,
-    },
-    {
-      id: "programs",
-      label: "Program Studi",
-      icon: BookOpen,
-      count: data?.programs.length,
-    },
-    {
-      id: "analytics",
-      label: "Analytics",
-      icon: TrendingUp,
-    },
+    { id: "buildings" as const, label: "Gedung", icon: Building2 },
+    { id: "assets" as const, label: "Fasilitas", icon: Package, count: data?.assets.length },
+    { id: "programs" as const, label: "Program Studi", icon: BookOpen, count: data?.programs.length },
+    { id: "analytics" as const, label: "Analytics", icon: TrendingUp },
+    { id: "audit" as const, label: "Audit Log", icon: ClipboardList },
   ];
 
+  // ── Loading state ─────────────────────────────────
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-green-50">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-emerald-50">
         <div className="text-center">
-          <RefreshCw className="w-12 h-12 animate-spin text-blue-600 mx-auto mb-4" />
-          <p className="text-gray-600">Memuat data...</p>
+          <RefreshCw className="w-10 h-10 animate-spin text-emerald-600 mx-auto mb-3" />
+          <p className="text-slate-500 text-sm">Memuat data...</p>
         </div>
       </div>
     );
   }
 
+  // ── Error state ───────────────────────────────────
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-green-50">
-        <div className="bg-white p-8 rounded-2xl shadow-xl text-center max-w-md">
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <X className="w-8 h-8 text-red-600" />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-emerald-50 px-4">
+        <div className="bg-white p-8 rounded-2xl shadow-xl text-center max-w-sm w-full">
+          <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <X className="w-7 h-7 text-red-600" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Error</h2>
-          <p className="text-gray-600 mb-6">{error}</p>
+          <h2 className="text-xl font-bold text-slate-900 mb-2">Error</h2>
+          <p className="text-slate-500 text-sm mb-6">{error}</p>
           <button
             onClick={loadData}
-            className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+            className="w-full px-6 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors font-medium"
           >
             Coba Lagi
           </button>
@@ -384,334 +262,194 @@ export default function AdminDashboard() {
     );
   }
 
-  const stats = data ? getTotalStats(data) : null;
+  const initials = (admin?.fullName || admin?.username || "A").substring(0, 1).toUpperCase();
 
   return (
     <>
-      <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-emerald-50">
-        {/* Toast Notification */}
-        {toast.show && (
-          <Toast
-            message={toast.message}
-            type={toast.type}
-            onClose={() => setToast({ ...toast, show: false })}
-          />
-        )}
-
-        {/* Modals */}
-        <ProfessorModal
-          isOpen={professorModal.isOpen}
-          onClose={() => setProfessorModal({ isOpen: false })}
-          onSave={handleSaveProfessor}
-          professor={professorModal.professor}
-          faculties={faculties}
-          programs={data?.programs || []}
+      {/* Toast */}
+      {toast.show && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast({ ...toast, show: false })}
         />
+      )}
 
-        <AccreditationModal
-          isOpen={accreditationModal.isOpen}
-          onClose={() => setAccreditationModal({ isOpen: false })}
-          onSave={handleSaveAccreditation}
-          accreditation={accreditationModal.accreditation}
-        />
+      {/* Modals */}
+      <ProgramModal
+        isOpen={programModal.isOpen}
+        onClose={() => setProgramModal({ isOpen: false })}
+        onSave={handleSaveProgram}
+        program={programModal.program}
+      />
+      <FacilityModal
+        isOpen={facilityModal.isOpen}
+        onClose={() => setFacilityModal({ isOpen: false })}
+        onSave={handleSaveFacility}
+        facility={facilityModal.facility}
+      />
+      <BuildingModal
+        isOpen={buildingModal.isOpen}
+        onClose={() => setBuildingModal({ isOpen: false })}
+        onSave={handleSaveBuilding}
+        building={buildingModal.building}
+      />
+      <DeleteConfirmModal
+        isOpen={deleteModal.isOpen}
+        onClose={() => setDeleteModal({ isOpen: false })}
+        onConfirm={handleDeleteConfirm}
+        title="Konfirmasi Hapus"
+        message="Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan."
+        itemName={deleteModal.name}
+      />
 
-        <StudentModal
-          isOpen={studentModal.isOpen}
-          onClose={() => setStudentModal({ isOpen: false })}
-          onSave={handleSaveStudent}
-          student={studentModal.student}
-          programs={data?.programs || []}
-        />
-
-        <ProgramModal
-          isOpen={programModal.isOpen}
-          onClose={() => setProgramModal({ isOpen: false })}
-          onSave={handleSaveProgram}
-          program={programModal.program}
-          faculties={faculties}
-          accreditations={data?.accreditations || []}
-        />
-
-        <FacilityModal
-          isOpen={facilityModal.isOpen}
-          onClose={() => setFacilityModal({ isOpen: false })}
-          onSave={handleSaveFacility}
-          facility={facilityModal.facility}
-        />
-
-        <DeleteConfirmModal
-          isOpen={deleteModal.isOpen}
-          onClose={() => setDeleteModal({ isOpen: false })}
-          onConfirm={handleDeleteConfirm}
-          title="Konfirmasi Hapus"
-          message="Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan."
-          itemName={deleteModal.name}
-        />
-
-        {/* Header */}
-        <nav className="fixed top-0 left-0 w-full z-50 glass-nav transition-all duration-300">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30">
+        {/* ─── Navbar ───────────────────────────────── */}
+        <nav className="admin-nav fixed top-0 left-0 w-full z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-20">
+            <div className="flex justify-between items-center h-16">
+              {/* Logo */}
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30">
-                  <GraduationCap className="w-6 h-6" />
-                </div>
-                <div>
-                  <span className="block text-lg font-bold tracking-tight leading-none text-slate-900">
-                    UPNVJ
-                  </span>
-                  <span className="block text-xs font-medium text-slate-500">
-                    Admin Portal
-                  </span>
+                <img
+                  src="/logoupnvj.webp"
+                  alt="Logo UPNVJ"
+                  className="w-9 h-9 object-contain"
+                />
+                <div className="leading-tight">
+                  <span className="block text-sm font-bold text-slate-900">UPNVJ</span>
+                  <span className="block text-[11px] text-slate-400">Admin Portal</span>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <p className="hidden md:flex items-center gap-2 text-sm text-slate-500">
+
+              {/* Desktop: right section */}
+              <div className="hidden md:flex items-center gap-3">
+                <button
+                  onClick={loadData}
+                  className="admin-btn-outline"
+                  title="Refresh Data"
+                >
                   <RefreshCw className="w-4 h-4" />
-                  Terakhir diupdate:{" "}
-                  {data?.lastUpdated
-                    ? new Date(data.lastUpdated).toLocaleString("id-ID")
-                    : "-"}
-                </p>
-                <div className="hidden md:flex items-center gap-3 px-4 py-2 border-l border-slate-200">
+                  <span className="text-sm">Refresh</span>
+                </button>
+
+                <div className="h-8 w-px bg-slate-200" />
+
+                <div className="flex items-center gap-3">
                   <div className="text-right">
-                    <p className="text-sm font-semibold text-slate-900">
+                    <p className="text-sm font-semibold text-slate-800 leading-tight">
                       {admin?.fullName || admin?.username || "Admin"}
                     </p>
-                    <p className="text-xs text-slate-500">
-                      {admin?.role || "Administrator"}
-                    </p>
+                    <p className="text-[11px] text-slate-400">{admin?.role || "Administrator"}</p>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold">
-                    {(admin?.fullName || admin?.username || "A")
-                      .substring(0, 1)
-                      .toUpperCase()}
+                  <div className="w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 font-bold text-sm">
+                    {initials}
+                  </div>
+                </div>
+
+                <button onClick={handleLogout} className="admin-btn-danger" title="Logout">
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Mobile: hamburger */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg"
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
+
+            {/* Mobile dropdown menu */}
+            {mobileMenuOpen && (
+              <div className="md:hidden border-t border-slate-100 py-3 space-y-2">
+                <div className="flex items-center gap-3 px-2 py-2">
+                  <div className="w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 font-bold text-sm">
+                    {initials}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-800">
+                      {admin?.fullName || admin?.username || "Admin"}
+                    </p>
+                    <p className="text-xs text-slate-400">{admin?.role || "Administrator"}</p>
                   </div>
                 </div>
                 <button
-                  onClick={loadData}
-                  className="flex items-center gap-2 px-4 py-2 text-slate-600 border border-slate-200 bg-white rounded-full hover:border-emerald-500 hover:text-emerald-600 transition-all shadow-sm"
+                  onClick={() => { loadData(); setMobileMenuOpen(false); }}
+                  className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-slate-600 hover:bg-slate-50 rounded-lg"
                 >
-                  <RefreshCw className="w-4 h-4" />
-                  <span className="hidden sm:inline font-medium text-sm">
-                    Refresh Data
-                  </span>
+                  <RefreshCw className="w-4 h-4" /> Refresh Data
                 </button>
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-2 px-4 py-2 text-red-600 border border-red-200 bg-white rounded-full hover:bg-red-50 hover:border-red-400 transition-all shadow-sm"
-                  title="Logout"
+                  className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-red-600 hover:bg-red-50 rounded-lg"
                 >
-                  <LogOut className="w-4 h-4" />
-                  <span className="hidden sm:inline font-medium text-sm">
-                    Logout
-                  </span>
-                </button>
-                <button
-                  onClick={handleSave}
-                  disabled={saving}
-                  className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full font-semibold shadow-lg shadow-emerald-500/20 flex items-center gap-2 transition-all active:scale-95 disabled:opacity-50"
-                  style={{ display: "none" }}
-                >
-                  <Save className="w-4 h-4" />
-                  {saving ? "Menyimpan..." : "Simpan Perubahan"}
+                  <LogOut className="w-4 h-4" /> Logout
                 </button>
               </div>
-            </div>
+            )}
           </div>
         </nav>
 
-        {/* Stats Cards */}
-        {stats && (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-6">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
-              <div>
-                <h1 className="text-3xl font-bold text-slate-900 mb-2">
-                  Selamat Datang, Admin Ganteng Muach
-                </h1>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-              <div className="glass-panel p-5 rounded-2xl flex flex-col items-start gap-4 hover:-translate-y-1 transition-transform duration-300 shadow-sm">
-                <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                  <Users className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-slate-500 text-sm font-medium mb-1">
-                    Total Dosen
-                  </p>
-                  <h3 className="text-3xl font-bold text-slate-900">
-                    {stats.totalProfessors}
-                  </h3>
-                </div>
-              </div>
-              <div className="glass-panel p-5 rounded-2xl flex flex-col items-start gap-4 hover:-translate-y-1 transition-transform duration-300 shadow-sm">
-                <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                  <GraduationCap className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-slate-500 text-sm font-medium mb-1">
-                    Total Mahasiswa
-                  </p>
-                  <h3 className="text-3xl font-bold text-slate-900">
-                    {stats.totalStudents.toLocaleString()}
-                  </h3>
-                </div>
-              </div>
-              <div className="glass-panel p-5 rounded-2xl flex flex-col items-start gap-4 hover:-translate-y-1 transition-transform duration-300 shadow-sm">
-                <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-                  <Award className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-slate-500 text-sm font-medium mb-1">
-                    Akreditasi Aktif
-                  </p>
-                  <h3 className="text-3xl font-bold text-slate-900">
-                    {stats.activeAccreditations}
-                  </h3>
-                </div>
-              </div>
-              <div className="glass-panel p-5 rounded-2xl flex flex-col items-start gap-4 hover:-translate-y-1 transition-transform duration-300 shadow-sm">
-                <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
-                  <Package className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-slate-500 text-sm font-medium mb-1">
-                    Total Fasilitas
-                  </p>
-                  <h3 className="text-3xl font-bold text-slate-900">
-                    {stats.totalAssets}
-                  </h3>
-                </div>
-              </div>
-              <div className="glass-panel p-5 rounded-2xl flex flex-col items-start gap-4 hover:-translate-y-1 transition-transform duration-300 shadow-sm">
-                <div className="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
-                  <Building2 className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-slate-500 text-sm font-medium mb-1">
-                    Total Fakultas
-                  </p>
-                  <h3 className="text-3xl font-bold text-slate-900">
-                    {stats.totalFaculties}
-                  </h3>
-                </div>
-              </div>
-            </div>
+        {/* ─── Main Content ─────────────────────────── */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+          {/* Welcome */}
+          <div className="mb-6">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
+              Selamat Datang{admin?.fullName ? `, ${admin.fullName}` : ""}
+            </h1>
+            <p className="text-sm text-slate-500 mt-1">
+              Kelola fasilitas, program studi, dan pantau analytics website.
+            </p>
           </div>
-        )}
 
-        {/* Tabs */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-          <div className="glass-panel rounded-3xl shadow-lg overflow-hidden">
-            <div className="flex overflow-x-auto pb-4 mb-0 gap-2 border-b border-slate-200 px-6 pt-6">
-              <nav className="flex gap-2">
-                {tabs.map((tab) => {
-                  const Icon = tab.icon;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id as TabType)}
-                      className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold whitespace-nowrap rounded-t-lg transition-all ${
-                        activeTab === tab.id
-                          ? "text-emerald-600 border-b-2 border-emerald-600 bg-emerald-50"
-                          : "text-slate-500 hover:text-slate-700 hover:bg-slate-50"
-                      }`}
-                    >
-                      <Icon className="w-4 h-4" />
-                      {tab.label}
-                      {tab.count !== undefined && (
-                        <span
-                          className={`ml-1 px-2 py-0.5 text-xs rounded-full ${
-                            activeTab === tab.id
-                              ? "bg-emerald-600 text-white"
-                              : "bg-slate-200 text-slate-600"
-                          }`}
-                        >
-                          {tab.count}
-                        </span>
-                      )}
-                    </button>
-                  );
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id as TabType)}
-                      className={`flex items-center gap-2 px-6 py-4 text-sm font-medium whitespace-nowrap transition-colors border-b-2 ${
-                        activeTab === tab.id
-                          ? "border-blue-600 text-blue-600"
-                          : "border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300"
-                      }`}
-                    >
-                      <Icon className="w-4 h-4" />
-                      {tab.label}
-                      {tab.count !== undefined && (
-                        <span
-                          className={`px-2 py-0.5 rounded-full text-xs ${
-                            activeTab === tab.id
-                              ? "bg-blue-100 text-blue-700"
-                              : "bg-gray-100 text-gray-600"
-                          }`}
-                        >
-                          {tab.count}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </nav>
+          {/* ─── Tabs ─────────────────────────────────── */}
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
+            {/* Tab navigation */}
+            <div className="flex overflow-x-auto border-b border-slate-200 scrollbar-hide">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex items-center gap-2 px-5 py-3.5 text-sm font-semibold whitespace-nowrap border-b-2 transition-colors ${
+                      isActive
+                        ? "text-emerald-600 border-emerald-600 bg-emerald-50/50"
+                        : "text-slate-500 border-transparent hover:text-slate-700 hover:bg-slate-50"
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {tab.label}
+                    {tab.count !== undefined && (
+                      <span
+                        className={`ml-1 px-2 py-0.5 text-xs rounded-full font-medium ${
+                          isActive
+                            ? "bg-emerald-600 text-white"
+                            : "bg-slate-100 text-slate-500"
+                        }`}
+                      >
+                        {tab.count}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
 
-            {/* Tab Content */}
-            <div className="p-6 bg-white/40">
-              {activeTab === "professors" && data && (
-                <ProfessorsTable
-                  professors={data.professors}
-                  faculties={faculties}
-                  onAdd={() => setProfessorModal({ isOpen: true })}
-                  onEdit={(professor) =>
-                    setProfessorModal({ isOpen: true, professor })
-                  }
-                  onDelete={(professor) =>
+            {/* Tab content */}
+            <div className="p-4 sm:p-6">
+              {activeTab === "buildings" && (
+                <BuildingsTable
+                  onAdd={() => setBuildingModal({ isOpen: true })}
+                  onEdit={(building) => setBuildingModal({ isOpen: true, building })}
+                  onDelete={(building) =>
                     setDeleteModal({
                       isOpen: true,
-                      type: "professor",
-                      id: professor.id.toString(),
-                      name: professor.nama_dosen || professor.name || "Unknown",
-                    })
-                  }
-                />
-              )}
-              {activeTab === "accreditations" && data && (
-                <AccreditationsTable
-                  accreditations={data.accreditations}
-                  onAdd={() => setAccreditationModal({ isOpen: true })}
-                  onEdit={(accreditation) =>
-                    setAccreditationModal({ isOpen: true, accreditation })
-                  }
-                  onDelete={(accreditation) =>
-                    setDeleteModal({
-                      isOpen: true,
-                      type: "accreditation",
-                      id: accreditation.id.toString(),
-                      name: `${accreditation.program} - ${accreditation.level}`,
-                    })
-                  }
-                />
-              )}
-              {activeTab === "students" && data && (
-                <StudentsTable
-                  students={data.students}
-                  onAdd={() => setStudentModal({ isOpen: true })}
-                  onEdit={(student) =>
-                    setStudentModal({ isOpen: true, student })
-                  }
-                  onDelete={(student) =>
-                    setDeleteModal({
-                      isOpen: true,
-                      type: "student",
-                      facultyId: student.faculty,
-                      name: student.faculty,
+                      type: "building",
+                      id: building.id,
+                      name: building.nama_gedung,
                     })
                   }
                 />
@@ -719,9 +457,7 @@ export default function AdminDashboard() {
               {activeTab === "assets" && (
                 <FacilitiesTable
                   onAdd={() => setFacilityModal({ isOpen: true })}
-                  onEdit={(facility) =>
-                    setFacilityModal({ isOpen: true, facility })
-                  }
+                  onEdit={(facility) => setFacilityModal({ isOpen: true, facility })}
                   onDelete={(facility) =>
                     setDeleteModal({
                       isOpen: true,
@@ -737,9 +473,7 @@ export default function AdminDashboard() {
                   programs={data.programs}
                   faculties={faculties}
                   onAdd={() => setProgramModal({ isOpen: true })}
-                  onEdit={(program) =>
-                    setProgramModal({ isOpen: true, program })
-                  }
+                  onEdit={(program) => setProgramModal({ isOpen: true, program })}
                   onDelete={(program) =>
                     setDeleteModal({
                       isOpen: true,
@@ -750,13 +484,11 @@ export default function AdminDashboard() {
                   }
                 />
               )}
-              {activeTab === "analytics" && <AdminTrafficAnalytics />}
+              {activeTab === "analytics" && <Suspense fallback={<div className="p-8 text-center text-gray-500">Loading analytics...</div>}><AdminTrafficAnalytics /></Suspense>}
+              {activeTab === "audit" && <AuditLogTable />}
             </div>
           </div>
-        </div>
-
-        {/* Footer spacing */}
-        <div className="h-20"></div>
+        </main>
       </div>
     </>
   );

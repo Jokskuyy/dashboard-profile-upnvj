@@ -8,9 +8,10 @@ export interface RetryOptions {
   maxDelay?: number;
   backoffMultiplier?: number;
   onRetry?: (attempt: number, error: Error) => void;
+  shouldRetry?: (error: Error) => boolean;
 }
 
-const DEFAULT_OPTIONS: Required<RetryOptions> = {
+const DEFAULT_OPTIONS: Omit<Required<RetryOptions>, 'shouldRetry'> = {
   maxRetries: 3,
   initialDelay: 1000,
   maxDelay: 10000,
@@ -66,6 +67,11 @@ export async function retryWithBackoff<T>(
 
       // Don't retry on the last attempt
       if (attempt > opts.maxRetries) {
+        break;
+      }
+
+      // Stop retrying if shouldRetry is provided and returns false
+      if (opts.shouldRetry && !opts.shouldRetry(lastError)) {
         break;
       }
 
@@ -133,17 +139,7 @@ export async function retryIf<T>(
   shouldRetry: (error: Error) => boolean,
   options: RetryOptions = {}
 ): Promise<T> {
-  return retryWithBackoff(async () => {
-    try {
-      return await fn();
-    } catch (error) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      if (!shouldRetry(err)) {
-        throw err;
-      }
-      throw err;
-    }
-  }, options);
+  return retryWithBackoff(fn, { ...options, shouldRetry });
 }
 
 /**

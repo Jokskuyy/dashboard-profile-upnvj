@@ -1,14 +1,53 @@
-/* Glassmorphism styles for admin dashboard */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-}
+/* ─── Admin Dashboard Styles ─────────────────── */
 
-.glass-nav {
-  background: rgba(255, 255, 255, 0.85);
+/* Navbar */
+.admin-nav {
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Buttons */
+.admin-btn-outline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  background: white;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.admin-btn-outline:hover {
+  border-color: #059669;
+  color: #059669;
+  background: #ecfdf5;
+}
+
+.admin-btn-danger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  background: white;
+  border-radius: 0.75rem;
+  transition: all 0.15s;
+}
+.admin-btn-danger:hover {
+  background: #fef2f2;
+  border-color: #f87171;
+}
+
+/* Hide scrollbar on tab nav */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

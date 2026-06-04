@@ -11,6 +11,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "test": "vitest run",
     "anonymize-data": "node scripts/anonymize-data.js",
     "check-secrets": "git grep -iE '(api[_-]?key|secret|token|password)' -- '*.ts' '*.tsx' '*.js' '*.json' || echo 'No secrets found'"
   },
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@eslint/js": "^9.33.0",
     "@tailwindcss/postcss": "^4.1.13",
+    "@testing-library/react": "^16.3.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^24.3.1",
@@ -42,10 +44,12 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "jsdom": "^28.1.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.13",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
-    "vite": "^7.1.2"
+    "vite": "^7.1.2",
+    "vitest": "^4.1.7"
   }
 }

@@ -1,74 +1,49 @@
-# Database Setup - Urutan Eksekusi SQL
+# Database Setup — Dashboard Profil UPNVJ
 
-Jalankan file SQL berikut di **Supabase SQL Editor** dengan urutan yang benar:
+## Quick Start
 
-## 1. Schema Database (Pertama Kali Setup)
+Jalankan file SQL berikut di **Supabase SQL Editor** secara berurutan:
 
-```bash
-database/schema.sql
+### 1. Full Setup (Schema + RLS + Indexes)
 ```
-
-Membuat semua tabel dari awal (akreditasi, gedung, fakultas, fasilitas, program_studi, dosen, mahasiswa, dll.)
-
-## 2. Insert Dummy Data (Opsional - untuk testing)
-
-```bash
-database/insert-dummy-data.sql
+database/001_full_setup.sql
 ```
-
-Menambahkan data sample untuk testing dashboard.
-
-## 3. Migration: Tambah Kolom Color (Jika sudah ada data)
-
-```bash
-database/add-color-to-fasilitas.sql
-```
-
-**Jalankan ini jika tabel fasilitas sudah ada data tetapi belum punya kolom color.**
-
-- Menambahkan kolom `color` ke tabel `fasilitas`
-- Update data existing dengan warna yang sesuai berdasarkan `tipe_fasilitas`
-
-## 4. Row-Level Security Policies (Wajib)
-
-```bash
-database/rls-policies.sql
-```
-
-**Wajib dijalankan untuk memperbaiki error 403 Forbidden.**
-
+- Drop semua tabel & policies lama (clean slate)
+- Buat 7 tabel: `gedung`, `admin_users`, `fakultas`, `fasilitas`, `program_studi`, `web_analytics_log`, `audit_logs`
+- Buat indexes untuk performa
 - Enable RLS pada semua tabel
-- Buat policy untuk public read access
-- Buat policy untuk admin full access (INSERT, UPDATE, DELETE)
+- Buat RLS policies tanpa konflik (naming: `{table}_{role}_{operation}`)
+
+### 2. Seed Data (Opsional)
+```
+database/002_seed_data.sql
+```
+- Data kampus UPNVJ Pondok Labu (gedung, fakultas, prodi, fasilitas)
+- Jalankan hanya jika ingin data sample
 
 ---
 
-## Color Scheme untuk Fasilitas
+## RLS Policy Design
 
-| Tipe Fasilitas | Color Code | Warna   |
-| -------------- | ---------- | ------- |
-| Laboratorium   | `blue`     | Biru    |
-| Perpustakaan   | `green`    | Hijau   |
-| Ruang Kuliah   | `orange`   | Orange  |
-| Aula           | `purple`   | Ungu    |
-| Lapangan       | `indigo`   | Indigo  |
-| Lainnya        | `gray`     | Abu-abu |
+Setiap tabel memiliki policies dengan penamaan konsisten `{table}_{role}_{operation}`:
 
----
+| Tabel | anon (public) | authenticated (admin) |
+|-------|---------------|----------------------|
+| Data kampus (7 tabel) | SELECT ✅ | SELECT, INSERT, UPDATE, DELETE ✅ |
+| web_analytics_log | INSERT ✅ | SELECT, INSERT ✅ |
+| audit_logs | ❌ | SELECT, INSERT ✅ |
+| admin_users | ❌ | SELECT, INSERT, UPDATE ✅ |
 
 ## Troubleshooting
 
-### Error: "new row violates row-level security policy"
+**Error: "new row violates row-level security policy"**
+→ Pastikan sudah login sebagai admin (authenticated role).
 
-- **Solusi**: Jalankan `database/rls-policies.sql`
-- Pastikan Anda sudah login sebagai admin
+**Error: "policy already exists"**
+→ Jalankan ulang `001_full_setup.sql` — file ini drop semua policies lama sebelum membuat yang baru.
 
-### Warna aset masih abu-abu semua
-
-- **Solusi**: Jalankan `database/add-color-to-fasilitas.sql`
-- Kolom `color` akan ditambahkan dan data akan diupdate
-
-### Table does not exist
-
-- **Solusi**: Jalankan `database/schema.sql` terlebih dahulu
-- Buat database schema dari awal
+**Error 403 Forbidden pada public dashboard**
+→ Cek apakah policies `*_anon_select` sudah ada via query:
+```sql
+SELECT * FROM pg_policies WHERE schemaname = 'public' AND roles = '{anon}';
+```

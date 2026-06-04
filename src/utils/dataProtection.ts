@@ -35,7 +35,7 @@ export function deobfuscateString(obfuscated: string): string {
       );
     }
     return result;
-  } catch (error) {
+  } catch {
     console.error('Failed to deobfuscate data');
     return '';
   }
@@ -56,7 +56,7 @@ export function deobfuscateData<T>(obfuscated: string): T | null {
   try {
     const jsonString = deobfuscateString(obfuscated);
     return JSON.parse(jsonString);
-  } catch (error) {
+  } catch {
     console.error('Failed to parse deobfuscated data');
     return null;
   }

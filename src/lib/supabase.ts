@@ -220,6 +220,37 @@ export interface Database {
           device_type?: string | null;
         };
       };
+      audit_logs: {
+        Row: {
+          id: number;
+          actor_id: string | null;
+          actor_email: string | null;
+          action: string;
+          table_name: string;
+          record_id: string | null;
+          old_data: Record<string, unknown> | null;
+          new_data: Record<string, unknown> | null;
+          created_at: string;
+        };
+        Insert: {
+          actor_id?: string | null;
+          actor_email?: string | null;
+          action: string;
+          table_name: string;
+          record_id?: string | null;
+          old_data?: Record<string, unknown> | null;
+          new_data?: Record<string, unknown> | null;
+        };
+        Update: {
+          actor_id?: string | null;
+          actor_email?: string | null;
+          action?: string;
+          table_name?: string;
+          record_id?: string | null;
+          old_data?: Record<string, unknown> | null;
+          new_data?: Record<string, unknown> | null;
+        };
+      };
     };
   };
 }

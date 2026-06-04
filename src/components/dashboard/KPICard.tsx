@@ -6,35 +6,40 @@ interface KPICardProps {
   value: string | number;
   subtitle?: string;
   icon: LucideIcon;
-  color: "blue" | "green" | "purple" | "orange" | "red";
+  color: "green" | "gold" | "slate" | "teal" | "brown";
   onClick?: () => void;
 }
 
 const colorClasses = {
-  blue: {
-    bg: "bg-blue-50",
-    icon: "text-blue-600",
-    border: "border-blue-200",
-  },
   green: {
-    bg: "bg-green-50",
-    icon: "text-green-600",
-    border: "border-green-200",
+    bg: "bg-[#E8F0E8]",
+    icon: "text-[#2C5F2D]",
+    border: "border-[#2C5F2D]/20",
+    iconBg: "bg-[#2C5F2D]/10",
   },
-  purple: {
-    bg: "bg-purple-50",
-    icon: "text-purple-600",
-    border: "border-purple-200",
+  gold: {
+    bg: "bg-amber-50",
+    icon: "text-[#B8860B]",
+    border: "border-amber-200",
+    iconBg: "bg-amber-100",
   },
-  orange: {
+  slate: {
+    bg: "bg-slate-50",
+    icon: "text-slate-700",
+    border: "border-slate-200",
+    iconBg: "bg-slate-100",
+  },
+  teal: {
+    bg: "bg-teal-50",
+    icon: "text-teal-700",
+    border: "border-teal-200",
+    iconBg: "bg-teal-100",
+  },
+  brown: {
     bg: "bg-orange-50",
-    icon: "text-orange-600",
+    icon: "text-orange-800",
     border: "border-orange-200",
-  },
-  red: {
-    bg: "bg-red-50",
-    icon: "text-red-600",
-    border: "border-red-200",
+    iconBg: "bg-orange-100",
   },
 };
 
@@ -46,39 +51,37 @@ const KPICard: React.FC<KPICardProps> = ({
   color,
   onClick,
 }) => {
-  const colorClass = colorClasses[color];
+  const c = colorClasses[color];
+  const isZero = value === 0 || value === "0";
 
   return (
     <div
       className={`
-        ${colorClass.bg} ${
-        colorClass.border
-      } border rounded-lg p-4 sm:p-5 md:p-6 
-        ${
-          onClick
-            ? "cursor-pointer hover:shadow-lg transition-all duration-200"
-            : ""
-        }
+        ${c.bg} ${c.border} border rounded-xl p-4 sm:p-5 md:p-6 
+        transition-all duration-200
+        ${onClick ? "cursor-pointer hover:shadow-md hover:-translate-y-0.5" : ""}
       `}
       onClick={onClick}
     >
       <div className="flex items-center justify-between gap-3">
         <div className="flex-1 min-w-0">
-          <p className="text-xs sm:text-sm font-medium text-gray-600 truncate">
+          <p className="text-xs sm:text-sm font-medium text-gray-500 truncate">
             {title}
           </p>
-          <p className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mt-1 sm:mt-2">
-            {value}
+          <p className={`text-xl sm:text-2xl md:text-3xl font-bold mt-1 sm:mt-2 ${
+            isZero ? "text-gray-300" : "text-gray-900"
+          }`}>
+            {isZero ? "—" : value}
           </p>
           {subtitle && (
-            <p className="text-xs sm:text-sm text-gray-500 mt-1 truncate">
+            <p className="text-xs sm:text-sm text-gray-400 mt-1 truncate">
               {subtitle}
             </p>
           )}
         </div>
-        <div className={`p-2 sm:p-3 rounded-full ${colorClass.bg} shrink-0`}>
+        <div className={`p-2.5 sm:p-3 rounded-xl ${c.iconBg} shrink-0`}>
           <Icon
-            className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 ${colorClass.icon}`}
+            className={`w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 ${c.icon}`}
           />
         </div>
       </div>

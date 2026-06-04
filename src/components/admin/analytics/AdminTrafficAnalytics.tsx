@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   TrendingUp,
   Users,
@@ -46,7 +46,7 @@ export default function AdminTrafficAnalytics() {
   );
 
   // Load analytics data from Umami via API proxy
-  const loadAnalytics = async () => {
+  const loadAnalytics = useCallback(async () => {
     setLoading(true);
     try {
       // Fetch summary, active visitors, top pages, and events in parallel
@@ -73,11 +73,11 @@ export default function AdminTrafficAnalytics() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [timeRange]);
 
   useEffect(() => {
     loadAnalytics();
-  }, [timeRange]);
+  }, [loadAnalytics]);
 
   if (loading) {
     return (
@@ -139,20 +139,20 @@ export default function AdminTrafficAnalytics() {
   return (
     <div className="space-y-6">
       {/* Header with Time Range Selector */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <TrendingUp className="w-6 h-6 text-blue-600" />
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
             Traffic Analytics
           </h2>
           <p className="text-sm text-gray-600 mt-1">
             Self-hosted analytics powered by Umami
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={loadAnalytics}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2"
+            className="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2 text-sm"
           >
             <RefreshCw className="w-4 h-4" />
             Refresh
@@ -161,7 +161,7 @@ export default function AdminTrafficAnalytics() {
             <button
               key={range}
               onClick={() => setTimeRange(range)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 timeRange === range
                   ? "bg-blue-600 text-white"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -178,12 +178,12 @@ export default function AdminTrafficAnalytics() {
       </div>
 
       {/* Key Metrics Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Total Visitors */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-200">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Users className="w-6 h-6 text-blue-600" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+              <Users className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
             </div>
             <div
               className={`flex items-center gap-1 text-sm font-medium ${summary.trend >= 0 ? "text-green-600" : "text-red-600"}`}
@@ -197,38 +197,38 @@ export default function AdminTrafficAnalytics() {
             </div>
           </div>
           <p className="text-sm text-gray-600 mb-1">Total Visitors</p>
-          <p className="text-3xl font-bold text-gray-900">
+          <p className="text-2xl sm:text-3xl font-bold text-gray-900">
             {summary.totalVisitors.toLocaleString()}
           </p>
         </div>
 
         {/* Page Views */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-            <Eye className="w-6 h-6 text-green-600" />
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-lg flex items-center justify-center mb-3 sm:mb-4">
+            <Eye className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
           </div>
           <p className="text-sm text-gray-600 mb-1">Page Views</p>
-          <p className="text-3xl font-bold text-gray-900">
+          <p className="text-2xl sm:text-3xl font-bold text-gray-900">
             {summary.totalPageViews.toLocaleString()}
           </p>
         </div>
 
         {/* Bounce Rate */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-            <Activity className="w-6 h-6 text-orange-600" />
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-3 sm:mb-4">
+            <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600" />
           </div>
           <p className="text-sm text-gray-600 mb-1">Bounce Rate</p>
-          <p className="text-3xl font-bold text-gray-900">
+          <p className="text-2xl sm:text-3xl font-bold text-gray-900">
             {summary.bounceRate}%
           </p>
         </div>
 
         {/* Avg Visit Duration */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-200">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              <Clock className="w-6 h-6 text-purple-600" />
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+              <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
             </div>
             {activeVisitors > 0 && (
               <div className="flex items-center gap-1 text-sm font-medium text-green-600">
@@ -238,29 +238,31 @@ export default function AdminTrafficAnalytics() {
             )}
           </div>
           <p className="text-sm text-gray-600 mb-1">Rata-rata Durasi</p>
-          <p className="text-3xl font-bold text-gray-900">
+          <p className="text-2xl sm:text-3xl font-bold text-gray-900">
             {formatDuration(summary.avgVisitDuration)}
           </p>
         </div>
       </div>
 
       {/* Traffic Chart */}
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900 mb-6">
+      <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-200">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4 sm:mb-6">
           Visitors & Page Views Trend
         </h3>
         {chartData && chartData.length > 0 ? (
           <>
-            <div className="w-full h-56 md:h-[400px]">
+            <div className="w-full h-48 sm:h-56 md:h-[400px] -ml-2 sm:ml-0">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
                   <XAxis
                     dataKey="tanggal"
                     stroke="#666"
-                    style={{ fontSize: "12px" }}
+                    style={{ fontSize: "10px" }}
+                    tick={{ fontSize: 10 }}
+                    interval="preserveStartEnd"
                   />
-                  <YAxis stroke="#666" style={{ fontSize: "12px" }} />
+                  <YAxis stroke="#666" style={{ fontSize: "10px" }} width={35} />
                   <Tooltip
                     contentStyle={{
                       backgroundColor: "white",
@@ -306,9 +308,9 @@ export default function AdminTrafficAnalytics() {
       </div>
 
       {/* Bottom Section: Device Stats + Top Pages + Events */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
         {/* Device Stats */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <Monitor className="w-5 h-5 text-gray-600" />
             Device Breakdown
@@ -375,7 +377,7 @@ export default function AdminTrafficAnalytics() {
         </div>
 
         {/* Top Pages */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <BarChart3 className="w-5 h-5 text-gray-600" />
             Top Pages
@@ -385,7 +387,7 @@ export default function AdminTrafficAnalytics() {
               {topPages.slice(0, 8).map((page, idx) => (
                 <div key={idx} className="flex items-center justify-between">
                   <span
-                    className="text-sm text-gray-700 truncate max-w-[200px]"
+                    className="text-sm text-gray-700 truncate flex-1 min-w-0"
                     title={page.x}
                   >
                     {page.x || "/"}
@@ -402,7 +404,7 @@ export default function AdminTrafficAnalytics() {
         </div>
 
         {/* Custom Events */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-sm border border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <MousePointerClick className="w-5 h-5 text-gray-600" />
             Custom Events
@@ -412,7 +414,7 @@ export default function AdminTrafficAnalytics() {
               {events.slice(0, 8).map((event, idx) => (
                 <div key={idx} className="flex items-center justify-between">
                   <span
-                    className="text-sm text-gray-700 truncate max-w-[200px]"
+                    className="text-sm text-gray-700 truncate flex-1 min-w-0"
                     title={event.x}
                   >
                     {event.x}

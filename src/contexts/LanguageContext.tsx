@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import type { Language } from '../types';
-import { getTranslation } from '../utils/translations';
+import { translationEngine } from '../services/i18n';
 
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
+  t: (key: string, params?: Record<string, string | number>) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -33,17 +33,26 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     }
   }, []);
 
-  const setLanguage = (lang: Language) => {
+  const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang);
     localStorage.setItem('upnvj-language', lang);
-  };
+  }, []);
 
-  const t = (key: string): string => {
-    return getTranslation(language, key);
-  };
+  const t = useCallback((key: string, params?: Record<string, string | number>): string => {
+    return translationEngine.translate(language, key, params);
+  }, [language]);
+
+  const value = useMemo(
+    () => ({
+      language,
+      setLanguage,
+      t,
+    }),
+    [language, setLanguage, t]
+  );
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );

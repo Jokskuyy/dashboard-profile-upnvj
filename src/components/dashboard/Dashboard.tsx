@@ -1,73 +1,56 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, lazy, Suspense } from "react";
 import {
-  Users,
-  Award,
-  GraduationCap,
-  MapPin,
-  Package,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
 import { KPICardSkeleton, SectionSkeleton } from "../common/SkeletonLoader";
 import { useLanguage } from "../../contexts/LanguageContext";
-import { useDashboard, useStats } from "../../contexts/DashboardContext";
-import KPICard from "./KPICard";
-import {
-  ProfessorsSection,
-  AccreditationSection,
-  StudentsSection,
-  CampusMapSection,
-  AssetsSection,
-} from "./sections";
-import TrafficOverview from "../analytics/TrafficOverview";
+import { useDashboard } from "../../contexts/DashboardContext";
+import CampusMapSection from "./sections/CampusMapSection";
 import { trackClick, trackCarousel } from "../analytics/trackingHelpers";
+
+// Lazy-load below-fold sections to reduce initial bundle size (TBT fix)
+const AssetsSection = lazy(() => import("./sections/AssetsSection"));
+const TrafficOverview = lazy(() => import("../analytics/TrafficOverview"));
 
 const Dashboard: React.FC = () => {
   const { t } = useLanguage();
   const { loading } = useDashboard();
-  const stats = useStats();
 
   // Carousel state
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" ? window.innerWidth < 1024 : false
+
+  const basePath = import.meta.env.BASE_URL;
+  const heroImages = useMemo(
+    () => [
+      `${basePath}hero1.webp`,
+      `${basePath}hero2.webp`,
+      `${basePath}hero3.webp`,
+    ],
+    [basePath],
   );
 
-  // Check if mobile/tablet on mount and resize (< 1024px = lg breakpoint)
-  useEffect(() => {
-    const checkMobile = () => {
-      const mobile = window.innerWidth < 1024; // lg breakpoint for tablets too
-      setIsMobile(mobile);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  // Scroll to section function
+  // Scroll to section with header offset
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "center" });
+      const headerOffset = 80;
+      const elementPosition =
+        element.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({
+        top: elementPosition - headerOffset,
+        behavior: "smooth",
+      });
     }
   };
-  const basePath = import.meta.env.BASE_URL;
-  const heroImages = [
-    `${basePath}hero1.jpg`,
-    `${basePath}hero2.jpg`,
-    "https://assets.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p3/63/2024/12/07/IMG_20241207_150258-1141876672.jpg",
-  ];
 
   // Auto-play carousel
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
-    }, 5000); // Change slide every 5 seconds
-
+    }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [heroImages.length]);
 
   const nextSlide = () => {
     const newSlide = (currentSlide + 1) % heroImages.length;
@@ -76,83 +59,105 @@ const Dashboard: React.FC = () => {
   };
 
   const prevSlide = () => {
-    const newSlide = (currentSlide - 1 + heroImages.length) % heroImages.length;
+    const newSlide =
+      (currentSlide - 1 + heroImages.length) % heroImages.length;
     setCurrentSlide(newSlide);
     trackCarousel("prev", newSlide);
   };
 
   return (
     <div className="overflow-x-hidden">
-      {/* Simple Hero Section with Carousel - Responsive Height */}
-      <div className="relative overflow-hidden h-[90vh] pt-20 w-full">
-        {/* Image Carousel */}
-        {/* Image Carousel */}
+      {/* ─── Hero Section ─── */}
+      <div className="relative overflow-hidden h-[92vh] min-h-[560px] w-full">
+        {/* Image Carousel with subtle zoom */}
         {heroImages.map((image, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? "opacity-100" : "opacity-0"
+            className={`absolute inset-0 transition-all duration-[1200ms] ease-in-out ${
+              index === currentSlide
+                ? "opacity-100 scale-100"
+                : "opacity-0 scale-105"
             }`}
           >
             <img
               src={image}
               alt={`UPNVJ Campus ${index + 1}`}
               className="w-full h-full object-cover"
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchPriority={index === 0 ? "high" : "auto"}
+              decoding={index === 0 ? "sync" : "async"}
             />
-            {/* Dark Overlay for Readability */}
-            <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/50 to-black/30"></div>
           </div>
         ))}
 
-        {/* Hero Content Overlay */}
-        <div className="relative z-10 h-full flex items-center">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-16 w-full">
-            <div className="max-w-3xl">
-              {/* Logo */}
-              <div className="mb-6 sm:mb-8">
-                <img
-                  src={`${basePath}logoupnvj.webp`}
-                  alt="UPNVJ Logo"
-                  className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 object-contain drop-shadow-2xl"
-                />
-              </div>
+        {/* Gradient overlays for depth */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/35 to-black/70 z-[1]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent z-[1]" />
 
-              {/* University Name */}
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 sm:mb-4 drop-shadow-lg">
-                {t("universityShort")}
+        {/* Hero Content */}
+        <div className="relative z-10 h-full flex items-center pt-16">
+          <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-16 w-full">
+            <div className="max-w-2xl">
+
+              {/* Main Headline */}
+              <h1
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-extrabold text-white leading-[1.1] mb-4 hero-fade-up"
+                style={{ animationDelay: "120ms" }}
+              >
+                {t("universityName")}
               </h1>
 
-              <div className="h-1 sm:h-1.5 w-24 sm:w-32 bg-linear-to-r from-yellow-400 to-yellow-600 rounded-full mb-4 sm:mb-6"></div>
+              {/* Accent Line */}
+              <div
+                className="mb-5 hero-fade-up"
+                style={{ animationDelay: "200ms" }}
+              >
+                <div className="h-1 w-16 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full" />
+              </div>
 
-              <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-white/95 mb-4 sm:mb-6 drop-shadow-md">
-                {t("universityName")}
-              </h2>
-
-              <p className="text-base sm:text-lg md:text-xl text-white/90 mb-3 sm:mb-4 drop-shadow-md leading-relaxed">
-                {t("internationalProfile")}
+              {/* Subtitle */}
+              <p
+                className="text-white/75 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl hero-fade-up"
+                style={{ animationDelay: "300ms" }}
+              >
+                {t("universityMission").length > 140
+                  ? t("universityMission").slice(0, 140) + "..."
+                  : t("universityMission")}
               </p>
 
-              <p className="text-sm sm:text-base md:text-lg text-white/80 mb-6 sm:mb-8 drop-shadow leading-relaxed max-w-2xl">
-                {t("heroDescription")}
-              </p>
-
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
+              {/* CTA Buttons */}
+              <div
+                className="flex flex-col sm:flex-row gap-3 hero-fade-up"
+                style={{ animationDelay: "420ms" }}
+              >
                 <button
                   onClick={() => {
                     trackClick("explore-programs-hero");
-                    scrollToSection("students-section");
+                    scrollToSection("assets-section");
                   }}
-                  className="px-6 sm:px-8 py-3 sm:py-4 bg-white text-[#2C5F2D] font-bold rounded-lg sm:rounded-xl shadow-xl hover:shadow-2xl hover:bg-yellow-50 transition-all duration-300 transform hover:scale-105 text-sm sm:text-base"
+                  className="group px-7 py-3.5 bg-white text-[#2C5F2D] font-bold rounded-xl shadow-lg hover:shadow-2xl hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 text-sm sm:text-base flex items-center justify-center gap-2"
                 >
                   {t("explorePrograms")}
+                  <svg
+                    className="w-4 h-4 group-hover:translate-x-0.5 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2.5}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
                 </button>
                 <button
                   onClick={() => {
                     trackClick("virtual-tour-hero");
                     scrollToSection("campus-map-section");
                   }}
-                  className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-white text-white font-bold rounded-lg sm:rounded-xl backdrop-blur-sm hover:bg-white/20 transition-all duration-300 text-sm sm:text-base"
+                  className="px-7 py-3.5 bg-white/10 backdrop-blur-sm border border-white/25 text-white font-bold rounded-xl hover:bg-white/20 hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 text-sm sm:text-base"
                 >
                   {t("virtualTour")}
                 </button>
@@ -161,40 +166,24 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Navigation Arrows - Responsive positioning (mobile/tablet bottom, desktop center) */}
+        {/* Carousel Arrows — CSS responsive */}
         <button
-          onClick={() => {
-            prevSlide();
-          }}
-          className="absolute z-20 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-12 lg:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:scale-110"
-          style={{
-            left: isMobile ? "0.5rem" : "1.5rem",
-            bottom: isMobile ? "1rem" : "auto",
-            top: isMobile ? "auto" : "50%",
-            transform: isMobile ? "none" : "translateY(-50%)",
-            transition: "all 300ms",
-          }}
+          onClick={prevSlide}
+          className="absolute z-20 left-3 lg:left-6 bottom-5 lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 bg-white/15 hover:bg-white/25 backdrop-blur-md rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/10"
+          aria-label="Previous slide"
         >
-          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+          <ChevronLeft className="w-5 h-5 text-white" />
         </button>
         <button
-          onClick={() => {
-            nextSlide();
-          }}
-          className="absolute z-20 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-12 lg:h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center hover:scale-110"
-          style={{
-            right: isMobile ? "0.5rem" : "1.5rem",
-            bottom: isMobile ? "1rem" : "auto",
-            top: isMobile ? "auto" : "50%",
-            transform: isMobile ? "none" : "translateY(-50%)",
-            transition: "all 300ms",
-          }}
+          onClick={nextSlide}
+          className="absolute z-20 right-3 lg:right-6 bottom-5 lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 bg-white/15 hover:bg-white/25 backdrop-blur-md rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/10"
+          aria-label="Next slide"
         >
-          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+          <ChevronRight className="w-5 h-5 text-white" />
         </button>
 
         {/* Slide Indicators */}
-        <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex space-x-2 sm:space-x-3">
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
           {heroImages.map((_, index) => (
             <button
               key={index}
@@ -202,25 +191,41 @@ const Dashboard: React.FC = () => {
                 setCurrentSlide(index);
                 trackCarousel("indicator", index);
               }}
-              className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+              className={`rounded-full transition-all duration-500 ${
                 index === currentSlide
-                  ? "bg-white w-6 sm:w-8"
-                  : "bg-white/50 hover:bg-white/75"
+                  ? "w-8 h-2 bg-white"
+                  : "w-2 h-2 bg-white/40 hover:bg-white/60"
               }`}
+              aria-label={`Slide ${index + 1}`}
             />
           ))}
         </div>
       </div>
 
-      {/* Content Container */}
+      {/* Hero entrance animation */}
+      <style>{`
+        @keyframes heroFadeUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-fade-up {
+          animation: heroFadeUp 0.7s ease-out both;
+        }
+      `}</style>
+
+      {/* ─── Content Container ─── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Traffic Overview */}
-        <TrafficOverview />
+        <Suspense fallback={null}>
+          <TrafficOverview />
+        </Suspense>
 
         {/* Assets Section */}
         {!loading && (
           <div id="assets-section" className="mb-8">
-            <AssetsSection />
+            <Suspense fallback={<SectionSkeleton items={4} />}>
+              <AssetsSection />
+            </Suspense>
           </div>
         )}
 
@@ -246,72 +251,13 @@ const Dashboard: React.FC = () => {
           </>
         )}
 
-        {/* KPI Overview - Only show when data is loaded */}
-        {!loading && stats && (
-          <>
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                {t("kpi")}
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                <KPICard
-                  title={t("professors")}
-                  value={stats.totalProfessors}
-                  subtitle={t("qualifiedEducators")}
-                  icon={Users}
-                  color="blue"
-                />
-                <KPICard
-                  title={t("students")}
-                  value={stats.totalStudents.toLocaleString()}
-                  subtitle={t("activeEnrollment")}
-                  icon={GraduationCap}
-                  color="green"
-                />
-                <KPICard
-                  title={t("accreditation")}
-                  value={stats.activeAccreditations}
-                  subtitle={t("activePrograms")}
-                  icon={Award}
-                  color="purple"
-                />
-                <KPICard
-                  title={t("totalAssets")}
-                  value={stats.totalAssets}
-                  subtitle={t("campusFacilities")}
-                  icon={Package}
-                  color="red"
-                />
-                <KPICard
-                  title={t("campusMap")}
-                  value="3D"
-                  subtitle={t("interactiveMap")}
-                  icon={MapPin}
-                  color="orange"
-                />
-              </div>
+        {/* Sections — show when data is loaded */}
+        {!loading && (
+          <div className="space-y-8">
+            <div id="campus-map-section">
+              <CampusMapSection />
             </div>
-            {/* Detailed Sections */}
-            {/* Dosen dan Mahasiswa sejajar */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-              <div id="professors-section">
-                <ProfessorsSection />
-              </div>
-              <div id="students-section">
-                <StudentsSection />
-              </div>
-            </div>
-
-            {/* Akreditasi dan Map sejajar */}
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-              <div className="xl:col-span-2">
-                <AccreditationSection />
-              </div>
-              <div id="campus-map-section">
-                <CampusMapSection />
-              </div>
-            </div>
-          </>
+          </div>
         )}
       </div>
     </div>

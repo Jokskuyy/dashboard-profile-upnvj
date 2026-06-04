@@ -1,11 +1,15 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { DashboardProvider } from "./contexts/DashboardContext";
 import { ToastProvider } from "./contexts/ToastContext";
-import { Header, Footer, ProtectedRoute, ErrorBoundary } from "./components/common";
+import Header from "./components/common/Header";
+import Footer from "./components/common/Footer";
+import ProtectedRoute from "./components/common/ProtectedRoute";
+import ErrorBoundary from "./components/common/ErrorBoundary";
 import { DashboardSkeleton } from "./components/common/SkeletonLoader";
+import { scheduleUnityPreload } from "./utils/unityPreloader";
 import "./App.css";
 
 // Lazy-loaded route components for code splitting
@@ -25,6 +29,11 @@ const PageLoader = () => (
 function App() {
   // Use basename only on GitHub Pages, not in development
   const basename = import.meta.env.BASE_URL;
+
+  // Pre-cache Unity WebGL files in background after page settles
+  useEffect(() => {
+    scheduleUnityPreload(10000);
+  }, []);
 
   return (
     <ErrorBoundary>

@@ -141,131 +141,57 @@ const TrafficOverview: React.FC = () => {
         </div>
       ) : (
         <>
-          {/* Stats Cards - Modern gradient design with SVG waveforms */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+          {/* Stats Cards - Solid color design */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5 mb-6 sm:mb-8">
             {/* Total Visitors */}
-            <div className="relative overflow-hidden rounded-2xl p-6 bg-linear-to-br from-teal-400 to-blue-500 text-white shadow-lg shadow-teal-500/20 group">
-              <div className="flex justify-between items-start mb-4">
-                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-                  <span className="material-icons-round text-xl">
-                    equalizer
-                  </span>
-                </div>
-                <span className="px-2 py-1 bg-white/20 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm">
-                  <span className="material-icons-round text-xs">
-                    {trend >= 0 ? "arrow_upward" : "arrow_downward"}
-                  </span>{" "}
-                  {Math.abs(trend).toFixed(1)}%
-                </span>
-              </div>
-              <p className="text-sm opacity-90 font-medium">
+            <div className="rounded-xl p-5 bg-[#2C5F2D] text-white">
+              <p className="text-sm opacity-80 font-medium">
                 {language === "id" ? "Total Pengunjung" : "Total Visitors"}
               </p>
-              <h3 className="text-4xl font-bold mt-1">
+              <h3 className="text-3xl font-bold mt-2">
                 {totalVisitors.toLocaleString()}
               </h3>
-              <div className="absolute bottom-0 left-0 right-0 h-16 opacity-60 pointer-events-none">
-                <svg
-                  className="w-full h-full fill-white/20 stroke-white stroke-2"
-                  preserveAspectRatio="none"
-                  viewBox="0 0 100 50"
-                >
-                  <path d="M0,40 Q10,30 20,35 T40,25 T60,30 T80,15 T100,30 V50 H0 Z"></path>
-                </svg>
+              <div className="mt-3 flex items-center gap-1 text-xs opacity-70">
+                <span>{trend >= 0 ? "↑" : "↓"} {Math.abs(trend).toFixed(1)}%</span>
               </div>
             </div>
 
             {/* Total Page Views */}
-            <div className="relative overflow-hidden rounded-2xl p-6 bg-linear-to-br from-emerald-400 to-teal-600 text-white shadow-lg shadow-emerald-500/20 group">
-              <div className="flex justify-between items-start mb-4">
-                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-                  <span className="material-icons-round text-xl">web</span>
-                </div>
-                <span className="px-2 py-1 bg-white/20 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm">
-                  <span className="material-icons-round text-xs">
-                    {trend >= 0 ? "arrow_upward" : "arrow_downward"}
-                  </span>{" "}
-                  {Math.abs(trend).toFixed(1)}%
-                </span>
-              </div>
-              <p className="text-sm opacity-90 font-medium">
+            <div className="rounded-xl p-5 bg-[#1B4332] text-white">
+              <p className="text-sm opacity-80 font-medium">
                 {language === "id" ? "Total Web Views" : "Total Web Views"}
               </p>
-              <h3 className="text-4xl font-bold mt-1">
+              <h3 className="text-3xl font-bold mt-2">
                 {totalPageViews.toLocaleString()}
               </h3>
-              <div className="absolute bottom-0 left-0 right-0 h-16 opacity-60 pointer-events-none">
-                <svg
-                  className="w-full h-full fill-white/20 stroke-white stroke-2"
-                  preserveAspectRatio="none"
-                  viewBox="0 0 100 50"
-                >
-                  <path d="M0,35 Q15,40 30,25 T50,30 T70,20 T100,25 V50 H0 Z"></path>
-                </svg>
+              <div className="mt-3 flex items-center gap-1 text-xs opacity-70">
+                <span>{trend >= 0 ? "↑" : "↓"} {Math.abs(trend).toFixed(1)}%</span>
               </div>
             </div>
 
             {/* Average Visitors */}
-            <div className="relative overflow-hidden rounded-2xl p-6 bg-linear-to-br from-cyan-400 to-blue-600 text-white shadow-lg shadow-blue-500/20 group">
-              <div className="flex justify-between items-start mb-4">
-                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-                  <span className="material-icons-round text-xl">
-                    person_outline
-                  </span>
-                </div>
-                <span className="px-2 py-1 bg-white/20 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm">
-                  <span className="material-icons-round text-xs">
-                    {trend >= 0 ? "arrow_upward" : "arrow_downward"}
-                  </span>{" "}
-                  {Math.abs(trend).toFixed(1)}%
-                </span>
-              </div>
-              <p className="text-sm opacity-90 font-medium">
+            <div className="rounded-xl p-5 bg-slate-700 text-white">
+              <p className="text-sm opacity-80 font-medium">
                 {language === "id" ? "Rata-rata Pengunjung" : "Avg Visitors"}
               </p>
-              <h3 className="text-4xl font-bold mt-1">
+              <h3 className="text-3xl font-bold mt-2">
                 {avgVisitors.toLocaleString()}
               </h3>
-              <div className="absolute bottom-0 left-0 right-0 h-16 opacity-60 pointer-events-none">
-                <svg
-                  className="w-full h-full fill-white/20 stroke-white stroke-2"
-                  preserveAspectRatio="none"
-                  viewBox="0 0 100 50"
-                >
-                  <path d="M0,43 Q20,35 30,40 T50,25 T70,30 T100,15 V50 H0 Z"></path>
-                </svg>
+              <div className="mt-3 flex items-center gap-1 text-xs opacity-70">
+                <span>{language === "id" ? "per hari" : "per day"}</span>
               </div>
             </div>
 
             {/* Average Page Views */}
-            <div className="relative overflow-hidden rounded-2xl p-6 bg-linear-to-br from-blue-400 to-indigo-600 text-white shadow-lg shadow-indigo-500/20 group">
-              <div className="flex justify-between items-start mb-4">
-                <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-                  <span className="material-icons-round text-xl">
-                    visibility
-                  </span>
-                </div>
-                <span className="px-2 py-1 bg-white/20 rounded-full text-xs font-medium flex items-center gap-1 backdrop-blur-sm">
-                  <span className="material-icons-round text-xs">
-                    {trend >= 0 ? "arrow_upward" : "arrow_downward"}
-                  </span>{" "}
-                  {Math.abs(trend).toFixed(1)}%
-                </span>
-              </div>
-              <p className="text-sm opacity-90 font-medium">
-                {language === "id" ? "Rata-rata Views" : "Page Views"}
+            <div className="rounded-xl p-5 bg-slate-800 text-white">
+              <p className="text-sm opacity-80 font-medium">
+                {language === "id" ? "Rata-rata Views" : "Avg Page Views"}
               </p>
-              <h3 className="text-4xl font-bold mt-1">
+              <h3 className="text-3xl font-bold mt-2">
                 {avgPageViews.toLocaleString()}
               </h3>
-              <div className="absolute bottom-0 left-0 right-0 h-16 opacity-60 pointer-events-none">
-                <svg
-                  className="w-full h-full fill-white/20 stroke-white stroke-2"
-                  preserveAspectRatio="none"
-                  viewBox="0 0 100 50"
-                >
-                  <path d="M0,30 Q25,40 40,25 T70,15 T100,20 V50 H0 Z"></path>
-                </svg>
+              <div className="mt-3 flex items-center gap-1 text-xs opacity-70">
+                <span>{language === "id" ? "per hari" : "per day"}</span>
               </div>
             </div>
           </div>

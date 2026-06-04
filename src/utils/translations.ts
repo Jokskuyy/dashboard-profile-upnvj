@@ -107,8 +107,8 @@ export const translations = {
       "Pengalaman navigasi kampus Unity WebGL interaktif",
     interactiveNavigation: "Navigasi Interaktif",
     navigateThroughCampus3D: "Jelajahi kampus dalam 3D",
-    buildingInformation: "Informasi Gedung",
-    detailedFacilityInfo: "Info fasilitas terperinci",
+    buildingInformation: "Lokasi Gedung",
+    detailedFacilityInfo: "Temukan lokasi tepat setiap gedung di kampus",
     unityWebGL: "Unity WebGL",
     highQuality3DRendering: "Rendering 3D berkualitas tinggi",
     launchUnityMap: "Buka Peta Unity",
@@ -157,6 +157,7 @@ export const translations = {
     sportsFacilities: "Fasilitas Olahraga",
     healthFacilities: "Fasilitas Kesehatan",
     worshipFacilities: "Fasilitas Ibadah",
+    administrationServices: "Administrasi & Layanan",
     cafeteriaFoodCourt: "Kantin & Food Court",
 
     // Featured Section
@@ -307,8 +308,8 @@ export const translations = {
       "Interactive Unity WebGL campus navigation experience",
     interactiveNavigation: "Interactive Navigation",
     navigateThroughCampus3D: "Navigate through campus in 3D",
-    buildingInformation: "Building Information",
-    detailedFacilityInfo: "Detailed facility info",
+    buildingInformation: "Locate Buildings",
+    detailedFacilityInfo: "Pinpoint the exact location of every building on campus",
     unityWebGL: "Unity WebGL",
     highQuality3DRendering: "High-quality 3D rendering",
     launchUnityMap: "Launch Unity Map",
@@ -357,6 +358,7 @@ export const translations = {
     sportsFacilities: "Sports Facilities",
     healthFacilities: "Health Facilities",
     worshipFacilities: "Worship Facilities",
+    administrationServices: "Administration & Services",
     cafeteriaFoodCourt: "Cafeteria & Food Court",
 
     // Featured Section
@@ -404,17 +406,50 @@ export const translations = {
   },
 };
 
-export const getTranslation = (language: Language, key: string): string => {
+export const getTranslation = (
+  language: Language,
+  key: string,
+  params?: Record<string, string | number>
+): string => {
   const keys = key.split(".");
+  
+  // 1. Try to find the translation in the specified language
   let value: unknown = translations[language];
+  let found = true;
 
   for (const k of keys) {
     if (value && typeof value === "object") {
       value = (value as Record<string, unknown>)[k];
     } else {
-      return key;
+      found = false;
+      break;
     }
   }
 
-  return typeof value === "string" ? value : key;
+  // 2. If not found and language is not 'id', try fallback to 'id'
+  if ((!found || typeof value !== "string") && language !== "id") {
+    value = translations["id"];
+    found = true;
+    for (const k of keys) {
+      if (value && typeof value === "object") {
+        value = (value as Record<string, unknown>)[k];
+      } else {
+        found = false;
+        break;
+      }
+    }
+  }
+
+  // 3. If translation is found and is a string, do interpolation if params exist
+  if (found && typeof value === "string") {
+    let result = value;
+    if (params) {
+      for (const [paramKey, paramVal] of Object.entries(params)) {
+        result = result.replace(new RegExp(`\\{${paramKey}\\}`, "g"), String(paramVal));
+      }
+    }
+    return result;
+  }
+
+  return key;
 };

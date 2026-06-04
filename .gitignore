@@ -38,6 +38,10 @@ credentials/
 database/insert-dummy-data.sql
 database/schema.sql
 *.sql
+# But track the clean setup files
+!database/001_full_setup.sql
+!database/002_seed_data.sql
+!database/003_alter_table.sql
 
 # Editor directories and files
 .vscode/*
@@ -53,3 +57,8 @@ proxy-server/analytics-data.json
 
 # Docker volumes (Umami analytics)
 umami-db-data/
+
+
+# Lighthouse reports and temp files
+lighthouse-*
+lh-*
