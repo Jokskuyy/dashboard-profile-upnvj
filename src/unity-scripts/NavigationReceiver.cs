@@ -21,7 +21,28 @@ public class NavigationReceiver : MonoBehaviour
 
     private void Start()
     {
-        BuildCache();
+        if (database != null)
+        {
+            database.OnDatabaseLoaded += BuildCache;
+            
+            // Jika load secara otomatis dimatikan atau data list sudah ada/terisi, panggil langsung
+            if (!database.loadAutomatically || database.unityObjectNames.Count > 0)
+            {
+                BuildCache();
+            }
+        }
+        else
+        {
+            Debug.LogError("[NavigationReceiver] BuildingDatabase belum diassign!");
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (database != null)
+        {
+            database.OnDatabaseLoaded -= BuildCache;
+        }
     }
 
     /// <summary>

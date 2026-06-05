@@ -21,38 +21,47 @@ export function useBuildingSearch() {
     async function fetchData() {
       setLoading(true);
       try {
-        // Fetch gedung + fasilitas sekaligus
+        // Fetch semua gedung dan fasilitasnya
         const { data, error: fetchError } = await supabase
           .from("gedung")
           .select(`
             nama_gedung,
             unity_object_name,
             fasilitas (
-              nama_fasilitas
+              nama_fasilitas,
+              unity_object_name
             )
-          `)
-          .not("unity_object_name", "is", null); // hanya gedung yang terdaftar di Unity
+          `);
 
         if (fetchError) throw fetchError;
 
         const results: SearchResult[] = [];
 
         for (const gedung of data || []) {
-          // Tambah gedung sebagai hasil
-          results.push({
-            label: gedung.nama_gedung,
-            type: "gedung",
-            unityObjectName: gedung.unity_object_name,
-          });
-
-          // Tambah setiap fasilitas — navigasi ke gedung parent
-          for (const f of gedung.fasilitas || []) {
+          // Tambah gedung sebagai hasil JIKA terdaftar di Unity
+          if (gedung.unity_object_name) {
             results.push({
-              label: f.nama_fasilitas,
-              sublabel: gedung.nama_gedung,
-              type: "fasilitas",
-              unityObjectName: gedung.unity_object_name, // navigasi ke gedung, bukan fasilitas
+              label: gedung.nama_gedung,
+              type: "gedung",
+              unityObjectName: gedung.unity_object_name,
             });
+          }
+
+          // Tambah setiap fasilitas
+          for (const f of gedung.fasilitas || []) {
+            // Gunakan unity_object_name milik fasilitas JIKA ada,
+            // JIKA TIDAK ada, fallback ke gedung.unity_object_name.
+            const targetName = f.unity_object_name || gedung.unity_object_name;
+            
+            // JIKA targetName ada (fasilitas punya nama di Unity ATAU gedung punya nama di Unity), tambahkan ke search
+            if (targetName) {
+              results.push({
+                label: f.nama_fasilitas,
+                sublabel: gedung.nama_gedung,
+                type: "fasilitas",
+                unityObjectName: targetName,
+              });
+            }
           }
         }
 

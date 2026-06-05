@@ -235,6 +235,35 @@ app.get("/api/buildings", async (req, res) => {
   }
 });
 
+// GET /api/unity/names - Get active building and facility object names for Unity
+app.get("/api/unity/names", async (req, res) => {
+  try {
+    const { data: gedungData, error: gedungError } = await supabase
+      .from("gedung")
+      .select("unity_object_name")
+      .not("unity_object_name", "is", null);
+
+    if (gedungError) throw gedungError;
+
+    const { data: fasilitasData, error: fasilitasError } = await supabase
+      .from("fasilitas")
+      .select("unity_object_name")
+      .not("unity_object_name", "is", null);
+
+    if (fasilitasError) throw fasilitasError;
+
+    const combinedData = [...(gedungData || []), ...(fasilitasData || [])];
+    const unityObjectNames = combinedData
+      .map((item) => item.unity_object_name)
+      .filter((name) => typeof name === "string" && name.trim().length > 0);
+
+    res.json({ unityObjectNames });
+  } catch (error) {
+    console.error("Error fetching unity object names:", error);
+    res.status(500).json({ error: "Failed to fetch unity object names" });
+  }
+});
+
 // GET /api/buildings/:id/rooms - Get rooms by building ID
 app.get("/api/buildings/:id/rooms", async (req, res) => {
   try {
