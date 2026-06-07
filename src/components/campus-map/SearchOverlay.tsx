@@ -211,7 +211,12 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
-          onFocus={lockUnityInput}
+          onFocus={() => {
+            lockUnityInput();
+            if (query.trim()) {
+              setIsOpen(true);
+            }
+          }}
           onBlur={() => {
             setTimeout(unlockUnityInput, 200);
           }}

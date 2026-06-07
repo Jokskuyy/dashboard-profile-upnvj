@@ -27,6 +27,9 @@ public class BuildingDatabase : MonoBehaviour
 
     private void Awake()
     {
+        // Mengabaikan input Inspector dan memaksa URL production
+        apiUrl = "https://dashboard-profile-upnvj.vercel.app/api/unity/names";
+
         if (loadAutomatically && !string.IsNullOrEmpty(apiUrl))
         {
             StartCoroutine(FetchUnityObjectNames());

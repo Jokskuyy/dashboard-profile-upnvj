@@ -1,5 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { supabase } from "../lib/supabase";
+import Fuse from "fuse.js";
+
+const ABBREVIATIONS: Record<string, string> = {
+  fik: "fakultas ilmu komputer",
+  feb: "fakultas ekonomi dan bisnis",
+  fisip: "fakultas ilmu sosial dan ilmu politik",
+  fh: "fakultas hukum",
+  fk: "fakultas kedokteran",
+  ft: "fakultas teknik",
+  fikes: "fakultas ilmu kesehatan",
+  faperta: "fakultas pertanian",
+  rektorat: "gedung rektorat",
+  perpus: "perpustakaan",
+};
 
 export interface SearchResult {
   /** Label yang ditampilkan di dropdown */
@@ -16,6 +30,16 @@ export function useBuildingSearch() {
   const [allResults, setAllResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Setup Fuse.js instance memoized based on allResults
+  const fuse = useMemo(() => {
+    return new Fuse(allResults, {
+      keys: ["label", "sublabel"],
+      threshold: 0.3, // Tolerance for typos
+      ignoreLocation: true,
+      minMatchCharLength: 2,
+    });
+  }, [allResults]);
 
   useEffect(() => {
     async function fetchData() {
@@ -78,20 +102,22 @@ export function useBuildingSearch() {
   }, []);
 
   /**
-   * Filter hasil berdasarkan query.
-   * Cocok ke nama gedung dan nama fasilitas.
+   * Filter hasil berdasarkan query menggunakan Fuse.js dan Abbreviation mapping
    */
-  function search(query: string): SearchResult[] {
+  const search = useCallback((query: string): SearchResult[] => {
     if (!query.trim()) return [];
-    const clean = (s: string) =>
-      s.toLowerCase().replace(/[^a-z0-9\s]/g, "").trim();
-    const q = clean(query);
-    return allResults.filter(
-      (r) =>
-        clean(r.label).includes(q) ||
-        (r.sublabel && clean(r.sublabel).includes(q))
-    );
-  }
+    
+    let q = query.toLowerCase().trim();
+    
+    // Ganti kata-kata tertentu jika query mengandung singkatan, 
+    // misal "gedung fik" -> "gedung fakultas ilmu komputer"
+    const words = q.split(/\s+/);
+    const expandedWords = words.map(w => ABBREVIATIONS[w] || w);
+    q = expandedWords.join(" ");
+
+    const results = fuse.search(q);
+    return results.map(r => r.item);
+  }, [fuse]);
 
   return { search, loading, error, allResults };
 }
