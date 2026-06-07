@@ -93,13 +93,13 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const basePath = import.meta.env.BASE_URL;
   const unityConfig = useMemo(
     () => ({
-      dataUrl: `${basePath}unity-builds/V0.2.06/Build/V0.2.69.data.br`,
-      frameworkUrl: `${basePath}unity-builds/V0.2.06/Build/V0.2.69.framework.js.br`,
-      codeUrl: `${basePath}unity-builds/V0.2.06/Build/V0.2.69.wasm.br`,
+      dataUrl: `${basePath}unity-builds/v0.2.07/Build/v0.2.07.data.br`,
+      frameworkUrl: `${basePath}unity-builds/v0.2.07/Build/v0.2.07.framework.js.br`,
+      codeUrl: `${basePath}unity-builds/v0.2.07/Build/v0.2.07.wasm.br`,
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "T_A",
-      productVersion: "v0.2.06",
+      productVersion: "v0.2.07",
       showBanner: unityShowBanner,
       matchWebGLToCanvasSize: true,
     }),
@@ -152,7 +152,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         canvas.height = container.clientHeight || 600;
 
         // First, dynamically load the Unity loader script - use BASE_URL for GitHub Pages
-        const loaderUrl = `${basePath}unity-builds/V0.2.06/Build/V0.2.69.loader.js`;
+        const loaderUrl = `${basePath}unity-builds/v0.2.07/Build/v0.2.07.loader.js`;
         if (!window.createUnityInstance) {
           console.log("Loading Unity WebGL loader...");
           await new Promise<void>((resolve, reject) => {
