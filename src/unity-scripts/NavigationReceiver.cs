@@ -114,7 +114,19 @@ public class NavigationReceiver : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"[NavigationReceiver] '{unityObjectName}' tidak ditemukan di cache maupun scene.");
+                // Final fallback: langsung cari di scene! 
+                // Jaga-jaga kalau objek ini ada di Scene tapi BELUM dimasukkan ke database Supabase.
+                GameObject directFind = FindInactiveByName(unityObjectName);
+                if (directFind != null)
+                {
+                    buildingCache[key] = directFind.transform;
+                    navigationGuide.StartNavigation(directFind.transform, unityObjectName);
+                    Debug.Log($"[NavigationReceiver] Ditemukan via direct search (belum ada di DB): {unityObjectName}");
+                }
+                else
+                {
+                    Debug.LogWarning($"[NavigationReceiver] '{unityObjectName}' tidak ditemukan di cache maupun scene.");
+                }
             }
         }
     }
@@ -139,11 +151,11 @@ public class NavigationReceiver : MonoBehaviour
         GameObject go = GameObject.Find(name);
         if (go != null) return go;
 
-        // Fallback: cari semua termasuk inactive
+        // Fallback: cari semua termasuk inactive (dengan case-insensitive)
         GameObject[] all = Resources.FindObjectsOfTypeAll<GameObject>();
         foreach (var obj in all)
         {
-            if (obj.name == name && obj.scene.isLoaded)
+            if (string.Equals(obj.name, name, System.StringComparison.OrdinalIgnoreCase) && obj.scene.isLoaded)
                 return obj;
         }
 
