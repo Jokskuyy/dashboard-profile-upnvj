@@ -15,36 +15,21 @@ TRUNCATE public.fasilitas, public.program_studi, public.fakultas, public.gedung 
 -- =============================================================================
 
 INSERT INTO public.gedung (nama_gedung, deskripsi_gedung, lokasi, jumlah_lantai, foto_url, unity_object_name) VALUES
-('Gedung Rektorat', 'Gedung rektorat dan pusat administrasi universitas', 'Area depan kampus utama Pondok Labu', 4, 'https://lh3.googleusercontent.com/p/AF1QipNfznFUQmK_jNHYGwvy-PhNWFyakaWDwpbpcChk=s1360-w1360-h1020-rw', 'Gedung_Rektorat');
-
-('Gedung DR. Soepomo', 'Gedung perpustakaan pusat dan laboratorium terpadu universitas', 'Zona pelayanan akademik', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHP4bEdhC5nk1gfOqby_zHT9oKCovBX2WsHIwD4Ov64kpGzirWAW8dfAKBGwftct2ENL5HcPPlCAx6anVa_H3dJUP-RwS9J7x9rKjxL6no_xnjpvSK8dXp5w7IZpr6HFVIi04c2=s1360-w1360-h1020-rw', NULL),
-
-('Gedung Dr. Wahidin Sudiro Husodo', 'Gedung utama Fakultas Kedokteran', 'Klaster Fakultas Kedokteran', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAH_kJkMUYypSOPQCcHhMvExYp5AYpdDUaaYuG5qitbtoSPj7j8D8SZI-iKz4fTLRCx3gDxFHjYkbk1hjLX_rInT1ZRI85vAprglf9kUut_2XODKNYm9Hy-5_W6R-dc_Ub4km58m5P1nwGhK=s1360-w1360-h1020-rw', NULL),
-
-('Gedung Dr. Cipto Mangunkusumo', 'Gedung penunjang laboratorium dan skills lab Fakultas Kedokteran', 'Klaster Fakultas Kedokteran', 3, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEuafZGrUzwGKAgdCd2ypupHw0fC0nzc3SrnfBaa-n_sdwlt-tRurr-USbmlMVT-eC1-jSCMwObrVcjVKkPEZsU_mnlrQXlS2slOjtx-w71PNaP-xih06I7q3_c722PJKnLnioD=s1360-w1360-h1020-rw', NULL),
-
-('Gedung Abdul Rahman Saleh', 'Gedung fasilitas pendukung Fakultas Kedokteran dan laboratorium klinis', 'Perbatasan FK dan FISIP', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFN69ll_2oviGvoSVxqOLSXKGitp5YcsG1SwaS98aas0JotI0LcnYEAfpx45ME5h-2dAkd0HeM7EnBRohk848CBtRE0ZnHYrMHnka93pW0URtKOOkbI5F4yht6l-xUfAkwFmeD8=s1360-w1360-h1020-rw', NULL),
-
+('Gedung Rektorat', 'Gedung rektorat dan pusat administrasi universitas', 'Area depan kampus utama Pondok Labu', 4, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_gedung_rektorat.webp', 'Gedung_Rektorat'),
+('Gedung DR. Soepomo', 'Gedung perpustakaan pusat dan laboratorium terpadu universitas', 'Zona pelayanan akademik', 4, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_gedung_dr_soepomo.webp', NULL),
+('Gedung Dr. Wahidin Sudiro Husodo', 'Gedung utama Fakultas Kedokteran', 'Klaster Fakultas Kedokteran', 4, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_gedung_dr_wahidin_sudiro_husodo.webp', NULL),
+('Gedung Dr. Cipto Mangunkusumo', 'Gedung penunjang laboratorium dan skills lab Fakultas Kedokteran', 'Klaster Fakultas Kedokteran', 3, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_gedung_dr_cipto_mangunkusumo.webp', NULL),
+('Gedung Abdul Rahman Saleh', 'Gedung fasilitas pendukung Fakultas Kedokteran dan laboratorium klinis', 'Perbatasan FK dan FISIP', 4, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_gedung_abdul_rahman_saleh.webp', NULL),
 ('Gedung Ki Hadjar Dewantara', 'Gedung Fakultas Ilmu Komputer dan laboratorium komputer', 'Klaster Fakultas Ilmu Komputer', 4, NULL, NULL),
-
-('Gedung Moh. Husni Thamrin', 'Gedung Fakultas Ekonomi dan Bisnis', 'Klaster Fakultas Ekonomi dan Bisnis', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGflOIbXcOobrndabRHJSRJAhfL_paxHsrWpeYPkKE9NHoFIUwTfdkHXtt2W5uUkFP0Hw-E2PRVtVgIKR_Cxw5-5QQgu7yWgMIhKnMSstSsAO8sLZWib1D-9up5i4gtRmTFcQJ5UA=s1360-w1360-h1020-rw', NULL),
-
-('Gedung Muhammad Yamin', 'Gedung Fakultas Ilmu Sosial dan Ilmu Politik', 'Klaster FISIP', 2, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEMaTEfjms_FZz94oRK6Nh4UDLmVOLEDSE-FbJn9KanlLTV4_3_bFBi-OXyPfdAD-53PM-og8M0fjsQz6afff34paF4v_ZfKKJBgH-cm4auYKTTDmirhOyLP-kULtZdBFEjqvCX=s1360-w1360-h1020-rw', NULL),
-
-('Gedung Yos Sudarso', 'Gedung Fakultas Hukum Program Sarjana', 'Klaster Fakultas Hukum', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAE4HfluOl3-xKlviPZHoIojU3Ogkeg7CmInvqij6OiLrAFwmG_4StjZZXymXAvXgVcCTSecMM9c7op3c75JD7J_t2X-fcqS8V44malDGnqf6f0AmVJRpJTsPNgpc56vxqWxHRXGCMLlljrl=s1360-w1360-h1020-rw', NULL),
-
-('Gedung RA Kartini', 'Gedung Fakultas Hukum Pascasarjana', 'Klaster Fakultas Hukum', 3, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFVIJBJOJTg_3lSkBco74Dee_FmZP8EyNMLbUleJAwf-6ZavcUyBtiz8lAimtSVsoqgJq0OKJ1plzSNSrejeDDZ8yMNX13A_a_uW0-Qr4oZzn_kGUmqFO6mYtuwSble9OmiH892Zw=s1360-w1360-h1020-rw', NULL),
-
-('Gedung Parkir Depan UPNVJ', 'Gedung parkir bertingkat untuk kendaraan mahasiswa dan staf', 'Sisi depan kampus', 4, 'https://www.upnvj.ac.id/id/files/large/8bc605d9f811bf6fe60a23c2e0626ea0', NULL),
-
-('Area Parkir Depan UPNVJ', 'Area parkir terbuka untuk kendaraan mahasiswa dan staf', 'Sisi depan kampus', NULL, 'https://www.upnvj.ac.id/id/files/thumb/65f06b5d1b2ab2a6603d3018c6c91b43/520', NULL),
-
-('Gedung Dewi Sartika', 'Gedung Fakultas Ilmu Komputer', 'Klaster Fakultas Ilmu Komputer', 4, 'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGa2dHMbS8-UqBc37_gAecDSWVc1uhXSpfA1fjnG0BiIzfb5igOofBUrkgUsKEjST29WRgalK0p17rjAwhap4HGbCIJBscgAfrziBv3apXVDoYNN9YcnKX7mwNCHivCpNLJQekA=s1360-w1360-h1020-rw', 'Dewsar'),
-
-('Lapangan Upacara', 'Tempat upacara dan parkir mobil apabila sedang tidak dipakai', 'Area tengah kampus', 1, 'https://www.upnvj.ac.id/id/files/thumb/7c60154c9cdad11f95c5d0ef86090f1d/520', NULL),
-
+('Gedung Moh. Husni Thamrin', 'Gedung Fakultas Ekonomi dan Bisnis', 'Klaster Fakultas Ekonomi dan Bisnis', 4, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_gedung_moh_husni_thamrin.webp', NULL),
+('Gedung Muhammad Yamin', 'Gedung Fakultas Ilmu Sosial dan Ilmu Politik', 'Klaster FISIP', 2, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_gedung_muhammad_yamin.webp', NULL),
+('Gedung Yos Sudarso', 'Gedung Fakultas Hukum Program Sarjana', 'Klaster Fakultas Hukum', 4, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_gedung_yos_sudarso.webp', NULL),
+('Gedung RA Kartini', 'Gedung Fakultas Hukum Pascasarjana', 'Klaster Fakultas Hukum', 3, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_gedung_ra_kartini.webp', NULL),
+('Gedung Parkir Depan UPNVJ', 'Gedung parkir bertingkat untuk kendaraan mahasiswa dan staf', 'Sisi depan kampus', 4, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_gedung_parkir_depan_upnvj.jpg', NULL),
+('Area Parkir Depan UPNVJ', 'Area parkir terbuka untuk kendaraan mahasiswa dan staf', 'Sisi depan kampus', NULL, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_area_parkir_depan_upnvj.jpg', NULL),
+('Gedung Dewi Sartika', 'Gedung Fakultas Ilmu Komputer', 'Klaster Fakultas Ilmu Komputer', 4, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_gedung_dewi_sartika.webp', 'Dewsar'),
+('Lapangan Upacara', 'Tempat upacara dan parkir mobil apabila sedang tidak dipakai', 'Area tengah kampus', 1, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_lapangan_upacara.jpg', NULL),
 ('Gedung Kuliah dan Kegiatan Mahasiswa', 'Gedung ruang kuliah dan sekretariat UKM', 'Area belakang kampus', 8, NULL, NULL),
-
 ('Area Parkir Belakang UPNVJ', 'Area parkir terbuka parkir untuk kendaraan mahasiswa dan staf', 'Sisi belakang kampus', 1, NULL, NULL);
 
 -- =============================================================================
@@ -58,54 +43,54 @@ INSERT INTO public.fakultas (nama_fakultas, deskripsi_fakultas, email, website, 
     'tatausahafkupn@upnvj.ac.id',
     'https://fk.upnvj.ac.id',
     3
-);
-
-(
-'Fakultas Ekonomi dan Bisnis',
-'Fakultas bidang ekonomi, akuntansi, dan manajemen',
-'feb@upnvj.ac.id',
-'https://feb.upnvj.ac.id',
-7
 ),
 
 (
-'Fakultas Ilmu Komputer',
-'Fakultas bidang teknologi informasi dan komputer',
-'fik@upnvj.ac.id',
-'https://new-fik.upnvj.ac.id',
-6
+    'Fakultas Ekonomi dan Bisnis',
+    'Fakultas bidang ekonomi, akuntansi, dan manajemen',
+    'feb@upnvj.ac.id',
+    'https://feb.upnvj.ac.id',
+    7
 ),
 
 (
-'Fakultas Hukum',
-'Fakultas bidang ilmu hukum dan peradilan',
-'fh@upnvj.ac.id',
-'https://hukum.upnvj.ac.id',
-9
+    'Fakultas Ilmu Komputer',
+    'Fakultas bidang teknologi informasi dan komputer',
+    'fik@upnvj.ac.id',
+    'https://new-fik.upnvj.ac.id',
+    6
 ),
 
 (
-'Fakultas Ilmu Sosial dan Ilmu Politik',
-'Fakultas bidang komunikasi, hubungan internasional, dan politik',
-'fisip@upnvj.ac.id',
-'https://fisip.upnvj.ac.id',
-8
+    'Fakultas Hukum',
+    'Fakultas bidang ilmu hukum dan peradilan',
+    'fh@upnvj.ac.id',
+    'https://hukum.upnvj.ac.id',
+    9
 ),
 
 (
-'Fakultas Teknik',
-'Fakultas bidang teknik industri, mesin, dan perkapalan',
-'ft@upnvj.ac.id',
-'https://ft.upnvj.ac.id',
-NULL
+    'Fakultas Ilmu Sosial dan Ilmu Politik',
+    'Fakultas bidang komunikasi, hubungan internasional, dan politik',
+    'fisip@upnvj.ac.id',
+    'https://fisip.upnvj.ac.id',
+    8
 ),
 
 (
-'Fakultas Ilmu Kesehatan',
-'Fakultas bidang keperawatan dan kesehatan masyarakat',
-'fikes@upnvj.ac.id',
-'https://fikes.upnvj.ac.id',
-NULL
+    'Fakultas Teknik',
+    'Fakultas bidang teknik industri, mesin, dan perkapalan',
+    'ft@upnvj.ac.id',
+    'https://ft.upnvj.ac.id',
+    NULL
+),
+
+(
+    'Fakultas Ilmu Kesehatan',
+    'Fakultas bidang keperawatan dan kesehatan masyarakat',
+    'fikes@upnvj.ac.id',
+    'https://fikes.upnvj.ac.id',
+    NULL
 );
 
 -- =============================================================================
@@ -115,8 +100,6 @@ NULL
 -- FEB
 
 INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, lantai, foto_url, id_gedung, unity_object_name) VALUES
-;
-
 (
     'Ruang Kelas 201',
     'Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.',
@@ -216,7 +199,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     7,
     'mht_207'
 ),
--- LANTAI 3
 
 (
     'Ruang Kelas 301',
@@ -307,8 +289,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     7,
     NULL
 ),
-
--- LANTAI 4
 
 (
     'Ruang Kelas D.401',
@@ -409,6 +389,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     7,
     NULL
 ),
+
 (
     'Mushola FEB',
     'Fasilitas mushola untuk kegiatan ibadah mahasiswa FEB.',
@@ -418,12 +399,13 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     7,
     NULL
 ),
+
 (
     'Mini Company',
     'Fasilitas simulasi perusahaan untuk praktik kewirausahaan dan bisnis mahasiswa FEB.',
     'Laboratorium Bisnis',
     3,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/01/WhatsApp-Image-2022-04-21-at-11.41.31.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/mini_company.jpg',
     7,
     NULL
 ),
@@ -433,7 +415,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'Sistem bisnis universitas yang digunakan untuk pengembangan praktik bisnis dan kewirausahaan mahasiswa.',
     'Laboratorium Bisnis',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/01/WhatsApp-Image-2022-04-21-at-11.41.28.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/sibuni.jpg',
     7,
     NULL
 ),
@@ -443,7 +425,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'Laboratorium praktik perbankan untuk mahasiswa program studi keuangan dan perbankan.',
     'Laboratorium',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/01/WhatsApp-Image-2022-04-21-at-11.42.51.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/bank_mini.jpg',
     7,
     NULL
 ),
@@ -453,7 +435,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'Fasilitas penelitian dan pengkajian ekonomi serta bisnis untuk dosen dan mahasiswa.',
     'Pusat Penelitian',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/02/IMG_6400.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/lembaga_kajian_ekonomi_dan_bisnis.jpg',
     7,
     NULL
 ),
@@ -463,7 +445,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'Pojok literasi ekonomi dan keuangan hasil kerja sama dengan Bank Indonesia.',
     'Perpustakaan',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/02/WhatsApp-Image-2024-02-16-at-10.15.43_b7572c4f.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/bi_corner.jpg',
     7,
     NULL
 ),
@@ -473,7 +455,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'Area terbuka untuk diskusi, kegiatan mahasiswa, dan interaksi akademik.',
     'Area Mahasiswa',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/01/IMG_4518.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/selasar_feb.jpg',
     7,
     NULL
 ),
@@ -483,7 +465,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'Aula kegiatan seminar, workshop, dan acara akademik Fakultas Ekonomi dan Bisnis.',
     'Aula',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/02/IMG_6394.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/aula_bej.jpg',
     7,
     NULL
 ),
@@ -493,7 +475,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'Ruang perkuliahan reguler untuk kegiatan belajar mengajar mahasiswa FEB.',
     'Ruang Akademik',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2024/02/IMG_6397.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/ruang_kelas.jpg',
     7,
     NULL
 ),
@@ -503,7 +485,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'Ruang kelas khusus program magister Fakultas Ekonomi dan Bisnis.',
     'Ruang Akademik',
     2,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2025/01/IMG_9968.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/ruang_kelas_magister.jpg',
     7,
     NULL
 ),
@@ -513,7 +495,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'Ruang administrasi dan pelayanan akademik program magister FEB.',
     'Administrasi',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2024-05-17-at-14.30.40_dd6f3fff-1.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/sekretariat_magister.jpg',
     7,
     NULL
 ),
@@ -523,7 +505,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'Ruang pembelajaran untuk program doktoral di lingkungan FEB.',
     'Ruang Akademik',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2025/06/IMG_5228.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/ruang_kelas_doktoral.jpg',
     7,
     NULL
 ),
@@ -533,7 +515,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'Fasilitas administrasi dan layanan akademik program doktoral FEB.',
     'Administrasi',
     NULL,
-    'https://feb.upnvj.ac.id/wp-content/uploads/2025/06/IMG_5222.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/sekretariat_doktoral.jpg',
     7,
     NULL
 ),
@@ -543,7 +525,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'Laboratorium untuk praktik akuntansi komputer dan pengolahan data bisnis.',
     'Laboratorium Komputer',
     NULL,
-    'https://feb.upnvj.ac.id/struktur-organisasi/',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/laboratorium_ilmu_ekonomi_dan_manajemen.jpg',
     7,
     NULL
 ),
@@ -553,17 +535,10 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'Laboratorium penunjang pembelajaran ekonomi dan manajemen berbasis teknologi.',
     'Laboratorium',
     NULL,
-    'https://feb.upnvj.ac.id/struktur-organisasi/',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/laboratorium_ilmu_ekonomi_dan_manajemen.jpg',
     7,
     NULL
 ),
-
--- FK
-
-
--- =============================================================================
--- GEDUNG ID 3
--- =============================================================================
 
 (
     'Ruang Dosen FK UPNVJ',
@@ -775,10 +750,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 
--- =============================================================================
--- GEDUNG ID 4
--- =============================================================================
-
 (
     'Perpustakaan FK UPNVJ',
     'Perpustakaan dengan fasilitas ruang baca, e-library, WiFi, hotspot, dan layanan internet.',
@@ -939,10 +910,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 
--- =============================================================================
--- GEDUNG ID 5
--- =============================================================================
-
 (
     'Departemen Anatomi',
     'Fasilitas departemen anatomi Fakultas Kedokteran.',
@@ -1013,75 +980,10 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 
--- FIK
+(
+    id = 6
+),
 
--- =============================================================================
--- GEDUNG KI HADJAR DEWANTARA (id = 6)
--- =============================================================================
-
-(
-    'Selasar FIK',
-    'Selasar pada lantai 1 Gedung Ki Hadjar Dewantara.',
-    'Administrasi & Layanan',
-    1,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/09/WhatsApp-Image-2024-09-26-at-16.06.50-1-1024x768.jpeg',
-    6,
-    'khd_selasar'
-),
-(
-    'Pelayanan Mahasiswa FIK',
-    'Pelayanan Mahasiswa FIK',
-    'Administrasi & Layanan',
-    1,
-    NULL,
-    6,
-    'khd_pelayanan_mahasiswa'
-),
-(
-    'Ruang Rapat Lantai 1 FIK',
-    'Ruang Rapat Lantai 1 FIK',
-    'Administrasi & Layanan',
-    1,
-    NULL,
-    6,
-    'khd_ruang_rapat'
-),
-(
-    'Ruang Dekan dan Wakil Dekan FIK',
-    'Ruang Dekan dan Wadek',
-    'Administrasi & Layanan',
-    1,
-    NULL,
-    6,
-    'khd_dekan'
-),
-(
-    'Ruang Kaprodi dan Ketua Program Studi',
-    'Ruang Kaprodi dan Ketua Program Studi',
-    'Administrasi & Layanan',
-    1,
-    NULL,
-    6,
-    'khd_kaprodi'
-),
-(
-    'Lab Software Engineering(201)',
-    'Pusat praktikum dan penelitian di bidang pemrograman komputer dengan komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.',
-    'Laboratorium',
-    2,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-25-at-09.57.29-1-scaled.jpeg',
-    6,
-    'khd_201_lab'
-),
-(
-    'Ruang Kuliah 202 Ki Hadjar Dewantara',
-    'Ruang kuliah yang berada di Gedung Ki Hadjar Dewantara lantai 2.',
-    'Ruang Kuliah & Akademik',
-    2,
-    NULL,
-    6,
-    'khd_202'
-),
 (
     'Ruang Kuliah 203 Ki Hadjar Dewantara',
     'Ruang kuliah yang berada di Gedung Ki Hadjar Dewantara lantai 2.',
@@ -1091,127 +993,161 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     6,
     'khd_203'
 ),
+
 (
-    'Ruang Dosen FIK',
-    'Ruang Dosen FIK',
-    'Administrasi & Layanan',
-    3,
+    'Ruang Kuliah 202 Ki Hadjar Dewantara',
+    'Ruang kuliah yang berada di Gedung Ki Hadjar Dewantara lantai 2.',
+    'Ruang Kuliah & Akademik',
+    2,
     NULL,
     6,
-    'khd_ruang_dosen'
+    'khd_202'
 ),
+
+(
+    'Selasar Lantai 1',
+    'Selasar pada lantai 1 Gedung Ki Hadjar Dewantara.',
+    'Administrasi & Layanan',
+    1,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/selasar_lantai_1.jpg',
+    6,
+    NULL
+),
+
 (
     'Sekretariat Laboratorium',
     'Ruang sekretariat laboratorium yang berfungsi sebagai pusat administrasi dan koordinasi kegiatan laboratorium.',
     'Administrasi & Layanan',
     3,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/03/WhatsApp-Image-2024-03-01-at-14.02.56-scaled.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/sekretariat_laboratorium.jpg',
     6,
-    'khd_sekretariat_lab'
+    NULL
 ),
+
+(
+    'Lab Immersive dan Multimedia',
+    'Pusat praktikum dan penelitian di bidang pemrograman komputer dengan fasilitas komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.',
+    'Laboratorium',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_immersive_dan_multimedia.jpg',
+    6,
+    NULL
+),
+
 (
     'Ruang Podcast FIK',
     'Ruang podcast Fakultas Ilmu Komputer yang dilengkapi dengan peralatan rekaman audio dan video profesional, digunakan untuk produksi konten digital, wawancara, dan kegiatan penyiaran mahasiswa.',
     'Studio & Produksi Media',
     1,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/01/20241231_104651-scaled.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/digital_library.jpg',
     6,
-    'khd_podcast'
+    NULL
 ),
+
 (
     'Digital Library',
     'Perpustakaan digital Fakultas Ilmu Komputer yang menyimpan koleksi buku, jurnal, artikel, dan sumber informasi lainnya dalam bentuk digital.',
     'Perpustakaan & Ruang Baca',
     1,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/01/20241231_104651-scaled.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/digital_library.jpg',
     6,
-    'khd_digital_library'
+    NULL
 ),
-(
-    'Lab Immersive dan Multimedia (301)',
-    'Pusat praktikum dan penelitian di bidang pemrograman komputer dengan fasilitas komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.',
-    'Laboratorium',
-    3,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Programming-JPG.jpg',
-    6,
-    'khd_301_lab'
-),
-(
-    'Lab Artificial Intelligence dan Robotics(302)',
-    'Pusat praktikum dan penelitian bidang kecerdasan buatan dengan fasilitas komputer berperforma tinggi, perangkat lunak AI terbaru, big data, dan machine learning.',
-    'Laboratorium',
-    3,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Artificial-Intelligence-JPG.jpg',
-    6,
-    'khd_302_lab'
-),
-(
-    'Lab Big Data dan Data Science(303)',
-    'Pusat praktikum dan penelitian dalam bidang penambangan data dan ilmu data dengan komputer berkinerja tinggi dan perangkat lunak analisis data terkini.',
-    'Laboratorium',
-    3,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Data-Mining-dan-Data-Science-JPG.jpg',
-    6,
-    'khd_303_lab'
-),
+
 (
     'Lab Cybersecurity dan Networking (304)',
     'Pusat praktikum dan penelitian bidang keamanan siber dengan perangkat keras canggih, perangkat lunak keamanan terkini, dan jaringan simulasi serangan siber.',
     'Laboratorium',
     3,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Cybersecurity.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_cybersecurity_dan_networking_304.jpg',
     6,
     'khd_304_lab'
 ),
+
+(
+    'Lab Big Data dan Data Science(303)',
+    'Pusat praktikum dan penelitian dalam bidang penambangan data dan ilmu data dengan komputer berkinerja tinggi dan perangkat lunak analisis data terkini.',
+    'Laboratorium',
+    3,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_big_data_dan_data_science_303.jpg',
+    6,
+    'khd_303_lab'
+),
+
+(
+    'Lab Artificial Intelligence dan Robotics(302)',
+    'Pusat praktikum dan penelitian bidang kecerdasan buatan dengan fasilitas komputer berperforma tinggi, perangkat lunak AI terbaru, big data, dan machine learning.',
+    'Laboratorium',
+    3,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_artificial_intelligence_dan_robotics_302.jpg',
+    6,
+    'khd_302_lab'
+),
+
+(
+    'Lab Enterprise System',
+    'Pusat praktikum dan penelitian bidang intelijen bisnis dengan komputer berperforma tinggi, perangkat lunak analitik terkini, dan platform visualisasi data.',
+    'Laboratorium',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_enterprise_system.jpg',
+    6,
+    NULL
+),
+
+(
+    'Lab E-Governance',
+    'Pusat praktikum dan penelitian bidang manajemen basis data dengan komputer berperforma tinggi dan perangkat lunak database terkini seperti SQL Server, Oracle, dan MySQL.',
+    'Laboratorium',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_e_governance.jpg',
+    6,
+    NULL
+),
+
 (
     'Lab Internet of Things(401)',
     'Pusat kegiatan praktikum dan penelitian bidang teknologi IoT dengan sensor, mikrokontroler, modul komunikasi nirkabel, dan perangkat lunak pengembangan IoT terkini.',
     'Laboratorium',
     4,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-IoT-JPG.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_internet_of_things_401.jpg',
     6,
     'khd_401_lab'
 ),
+
 (
-    'Lab Enterprise System (402)',
-    'Pusat praktikum dan penelitian bidang intelijen bisnis dengan komputer berperforma tinggi, perangkat lunak analitik terkini, dan platform visualisasi data.',
+    'Lab Software Engineering(201)',
+    'Pusat praktikum dan penelitian di bidang pemrograman komputer dengan komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.',
     'Laboratorium',
-    4,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/WhatsApp-Image-2024-06-11-at-4.05.11-PM.jpeg',
+    2,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_software_engineering_201.jpg',
     6,
-    'khd_402_lab'
+    'khd_201_lab'
 ),
-(
-    'Lab E-Governance (403)',
-    'Pusat praktikum dan penelitian bidang manajemen basis data dengan komputer berperforma tinggi dan perangkat lunak database terkini seperti SQL Server, Oracle, dan MySQL.',
-    'Laboratorium',
-    4,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2024/06/Lab-Database.jpeg',
-    6,
-    'khd_403_lab'
-),
+
 (
     'Masjid',
     'Masjid di lingkungan kampus UPNVJ',
     'Tempat Ibadah',
-    1,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/20250326_071225-1024x768.jpg',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/masjid.jpg',
     6,
     'masjid'
 ),
 
--- =============================================================================
--- GEDUNG DEWI SARTIKA (id = 13)
--- =============================================================================
+(
+    id = 13
+),
+
 (
     'Lapangan dan Alat Olahraga FIK',
     'Fasilitas Olahraga yang terletak di depan Gedung Dewi Sartika lantai 1.',
     'Olahraga',
     1,
-    'https://new-fik.upnvj.ac.id/wp-content/uploads/2025/03/20250326_071558-768x576.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/dewi%20sartika/lapangan_dan_alat_olahraga_fik.jpg',
     13,
-    'ds_lapangan'
+    NULL
 ),
+
 (
     'Ruang UKM UBV',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1221,6 +1157,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_ukm_ubv'
 ),
+
 (
     'Ruang UKM Sepak Bola',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1230,6 +1167,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_ukm_sepak_bola'
 ),
+
 (
     'Ruang UKM Basket',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1239,6 +1177,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_ukm_basket'
 ),
+
 (
     'Ruang UKM UFO',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1248,6 +1187,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_ukm_ufo'
 ),
+
 (
     'Ruang UKM Catur',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1257,8 +1197,9 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_ukm_catur'
 ),
+
 (
-    'Ruang UKM Jujitsu',
+    'Ruang UKM Juijutsu',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
     'Administrasi & Layanan',
     1,
@@ -1266,6 +1207,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_ukm_juijutsu'
 ),
+
 (
     'Ruang UKM Seni tari',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1275,6 +1217,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_ukm_seni_tari'
 ),
+
 (
     'Ruang UKM Boxer',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1284,6 +1227,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_ukm_boxer'
 ),
+
 (
     'Ruang UKM Voli',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1293,6 +1237,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_ukm_voli'
 ),
+
 (
     'Ruang UKM Pencak Silat',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1302,6 +1247,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_ukm_pencak_silat'
 ),
+
 (
     'Ruang UKM MC',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1311,6 +1257,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_ukm_mc'
 ),
+
 (
     'Ruang UKM Bulu Tangkis',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1320,6 +1267,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_ukm_bulu_tangkis'
 ),
+
 (
     'Ruang UKM Paduan Suara',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1329,6 +1277,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_ukm_paduan_suara'
 ),
+
 (
     'Ruang UKM Protestan',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1338,6 +1287,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_ukm_protestan'
 ),
+
 (
     'Ruang UKM Katolik',
     'Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1347,6 +1297,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_ukm_katolik'
 ),
+
 (
     'Ruang BEM FIK',
     'Ruang kegiatan Badan Eksekutif Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1356,6 +1307,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_bem'
 ),
+
 (
     'Ruang SENAT FIK',
     'Ruang kegiatan SENAT Mahasiswa di Gedung Dewi Sartika lantai 1.',
@@ -1365,6 +1317,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_senat'
 ),
+
 (
     'Ruang Kuliah 201 Dewi Sartika',
     'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 2.',
@@ -1374,6 +1327,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_201'
 ),
+
 (
     'Ruang Kuliah 202 Dewi Sartika',
     'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 2.',
@@ -1383,6 +1337,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_202'
 ),
+
 (
     'Ruang Kuliah 203 Dewi Sartika',
     'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 2.',
@@ -1392,6 +1347,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_203'
 ),
+
 (
     'Ruang Kuliah 301',
     'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 3.',
@@ -1401,6 +1357,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_301'
 ),
+
 (
     'Ruang Kuliah 302',
     'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 3.',
@@ -1410,6 +1367,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_302'
 ),
+
 (
     'Ruang Kuliah 303',
     'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 3.',
@@ -1419,6 +1377,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_303'
 ),
+
 (
     'Ruang Kuliah 401',
     'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 4.',
@@ -1428,6 +1387,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_401'
 ),
+
 (
     'Ruang Kuliah 402',
     'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 4.',
@@ -1437,6 +1397,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_402'
 ),
+
 (
     'Ruang Kuliah 403(mesh room)',
     'Ruang kuliah yang berada di Gedung Dewi Sartika lantai 4.',
@@ -1447,123 +1408,134 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'ds_403_mesh'
 ),
 
--- FH
+(
+    id = 9
+),
 
--- =============================================================================
--- GEDUNG YOS SUDARSO (id = 9)
--- =============================================================================
 (
     'Ruang Dosen Yos Sudarso Lantai 1',
     'Ruang dosen pada lantai 1 Gedung Yos Sudarso.',
     'Administrasi & Layanan',
     1,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2023/11/RUANG-KONSENTRASI-2048x1536.png',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_dosen_yos_sudarso_lantai_1.png',
     9,
     NULL
 ),
+
 (
     'Ruang Dosen Yos Sudarso Lantai 2',
     'Ruang dosen pada lantai 2 Gedung Yos Sudarso.',
     'Administrasi & Layanan',
     2,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2021/03/f0fd3420-8e5e-433f-b7b8-2da5e898cb64.png',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_dosen_yos_sudarso_lantai_2.png',
     9,
     NULL
 ),
+
 (
     'Ruang Administrasi Yos Sudarso',
     'Ruang administrasi pada Gedung Yos Sudarso.',
     'Administrasi & Layanan',
     1,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2021/03/54a42329-09bc-48a5-8ae2-0e7e5ee0bb26.png',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_administrasi_yos_sudarso.png',
     9,
     NULL
 ),
+
 (
     'Ruang Rapat Yos Sudarso Lantai 2',
     'Ruang rapat pada lantai 2 Gedung Yos Sudarso.',
     'Administrasi & Layanan',
     2,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/06/IMG_5457.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_rapat_yos_sudarso_lantai_2.jpg',
     9,
     NULL
 ),
+
 (
     'Ruang Podcast Yos Sudarso',
     'Ruang podcast pada lantai 4 Gedung Yos Sudarso.',
     'Studio & Produksi Media',
     4,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/RuangPODCAST-LT-4-768x599-HD.png',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_praktik_peradilan_semu.png',
     9,
     NULL
 ),
+
 (
     'Ruang Praktik Peradilan Semu',
     'Ruang praktik peradilan semu pada lantai 4 Gedung Yos Sudarso.',
     'Ruang Kuliah & Akademik',
     4,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/RuangPODCAST-LT-4-768x599-HD.png',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_praktik_peradilan_semu.png',
     9,
     NULL
 ),
+
 (
     'Smartclass Yos Sudarso Lantai 2',
     'Smartclass yang digunakan pada lantai 2 Gedung Yos Sudarso.',
     'Ruang Kuliah & Akademik',
     2,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2022/06/WhatsApp-Image-2022-06-06-at-11.16.52-1-768x576.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/smartclass_yos_sudarso_lantai_3.jpg',
     9,
     NULL
 ),
+
 (
     'Smartclass Yos Sudarso Lantai 3',
     'Smartclass yang digunakan pada lantai 3 Gedung Yos Sudarso.',
     'Ruang Kuliah & Akademik',
     3,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2022/06/WhatsApp-Image-2022-06-06-at-11.16.52-1-768x576.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/smartclass_yos_sudarso_lantai_3.jpg',
     9,
     NULL
 ),
+
 (
     'Ruang Baca Yos Sudarso',
     'Ruang baca pada lantai 3 Gedung Yos Sudarso.',
     'Perpustakaan & Ruang Baca',
     3,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.19.42.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_baca_yos_sudarso.jpg',
     9,
     NULL
 ),
+
 (
     'Lab Perancangan Kontrak',
     'Laboratorium perancangan kontrak pada lantai 2 Gedung Yos Sudarso.',
     'Laboratorium',
     2,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.20.39.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/lab_perancangan_kontrak.jpg',
     9,
     NULL
 ),
+
 (
     'Selasar Kanan Yos Sudarso',
     'Selasar kanan pada lantai 1 Gedung Yos Sudarso.',
     'Administrasi & Layanan',
     1,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.19.43.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/selasar_kanan_yos_sudarso.jpg',
     9,
     NULL
 ),
+
 (
     'Selasar Kiri Yos Sudarso',
     'Selasar kiri pada lantai 1 Gedung Yos Sudarso.',
     'Administrasi & Layanan',
     1,
-    'https://hukum.upnvj.ac.id/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-14-at-09.19.43-1.jpeg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/selasar_kiri_yos_sudarso.jpg',
     9,
     NULL
 ),
 
--- =============================================================================
--- GEDUNG RA KARTINI (id = 10)
--- =============================================================================
+(
+    id = 10
+),
+
 (
     'Ruang Kelas Magister 101',
     'Ruang kelas program magister pada lantai 1 Gedung RA Kartini.',
@@ -1573,6 +1545,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_magister_101'
 ),
+
 (
     'Ruang Kelas Magister 102',
     'Ruang kelas program magister pada lantai 1 Gedung RA Kartini.',
@@ -1582,6 +1555,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_magister_102'
 ),
+
 (
     'Ruang Dosen dan Staff Administrasi Prodi Doktor Hukum',
     'Ruang dosen dan staff administrasi program doktor pada lantai 1 Gedung RA Kartini.',
@@ -1591,6 +1565,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_dosen_staff_doktor'
 ),
+
 (
     'Ruang UPT Pengembangan Karir dan Kewirausahaan',
     'Ruang UPT Pengembangan Karir dan Kewirausahaan pada lantai 1 Gedung RA Kartini.',
@@ -1600,6 +1575,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_upt_penkawan'
 ),
+
 (
     'Ruangan Laboratorium Farmasi Fakultas Kedokteran',
     'Ruangan Laboratorium Farmasi Fakultas Kedokteran pada lantai 1 Gedung RA Kartini.',
@@ -1609,6 +1585,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_lab_farmasi'
 ),
+
 (
     'Ruangan UPA Bahasa',
     'Ruangan UPA Bahasa pada lantai 2 Gedung RA Kartini.',
@@ -1618,6 +1595,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_upa_bahasa'
 ),
+
 (
     'Ruangan Guru Besar Fakultas Teknik',
     'Ruangan guru besar fakultas teknik pada lantai 2 Gedung RA Kartini.',
@@ -1627,6 +1605,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_guru_besar'
 ),
+
 (
     'Ruangan Kelas 201',
     'Ruangan kelas pada lantai 2 Gedung RA Kartini.',
@@ -1636,6 +1615,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_201'
 ),
+
 (
     'Ruangan Lab Bahasa dan Ruang ujian',
     'Ruangan Lab Bahasa dan Ruang ujian pada lantai 2 Gedung RA Kartini.',
@@ -1645,6 +1625,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_lab_bahasa_ruang_ujian'
 ),
+
 (
     'Ruangan Diskusi dan Ruang Instruktur',
     'Ruangan Diskusi dan Ruang Instruktur pada lantai 2 Gedung RA Kartini.',
@@ -1654,6 +1635,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_diskusi_instruktur'
 ),
+
 (
     'Ruangan Ujian dan Ruang Sidang Doktor',
     'Ruangan ujian dan ruang sidang Doktor pada lantai 2 Gedung RA Kartini.',
@@ -1663,6 +1645,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_ujian_sidang_doktor'
 ),
+
 (
     'Ruangan Kelas 301',
     'Ruangan Kelas 301 pada lantai 3 Gedung RA Kartini.',
@@ -1672,6 +1655,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_301'
 ),
+
 (
     'Ruangan Kelas 302',
     'Ruangan 302 pada lantai 3 Gedung RA Kartini.',
@@ -1681,6 +1665,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_302'
 ),
+
 (
     'Ruangan 303',
     'Ruangan 303 pada lantai 3 Gedung RA Kartini.',
@@ -1690,6 +1675,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_303'
 ),
+
 (
     'Ruangan 304',
     'Ruangan 304 pada lantai 3 Gedung RA Kartini.',
@@ -1699,6 +1685,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_304'
 ),
+
 (
     'Ruangan Ujian 305',
     'Ruangan ujian 305 pada lantai 3 Gedung RA Kartini.',
@@ -1708,6 +1695,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_305'
 ),
+
 (
     'Ruangan Ujian 306',
     'Ruangan ujian 306 pada lantai 3 Gedung RA Kartini.',
@@ -1717,6 +1705,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_306'
 ),
+
 (
     'Ruangan Ujian 401',
     'Ruangan ujian 401 pada lantai 4 Gedung RA Kartini.',
@@ -1726,6 +1715,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_401'
 ),
+
 (
     'Ruangan Kelas 402',
     'Ruangan kelas 402 pada lantai 4 Gedung RA Kartini.',
@@ -1735,6 +1725,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_402'
 ),
+
 (
     'Ruangan Kelas 403',
     'Ruangan kelas 403 pada lantai 4 Gedung RA Kartini.',
@@ -1744,6 +1735,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_403'
 ),
+
 (
     'Ruangan 404',
     'Ruangan 404 pada lantai 4 Gedung RA Kartini.',
@@ -1753,6 +1745,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_404'
 ),
+
 (
     'Ruangan 405',
     'Ruangan 405 pada lantai 4 Gedung RA Kartini.',
@@ -1762,6 +1755,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_405'
 ),
+
 (
     'Ruangan 406',
     'Ruangan 406 pada lantai 4 Gedung RA Kartini.',
@@ -1771,9 +1765,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     10,
     'rak_406'
 ),
-
--- FISIP
-
 
 (
     'Auditorium FISIP',
@@ -1919,7 +1910,6 @@ INSERT INTO public.program_studi (nama_prodi, jenjang, id_fakultas, akreditasi) 
 ('Ekonomi Syariah', 'Sarjana', 2, 'Unggul'),
 ('Manajemen', 'Magister', 2, 'B'),
 ('Akuntansi', 'Magister', 2, 'Baik Sekali'),
-
 ('Kedokteran', 'Sarjana', 1, 'Unggul'),
 ('Farmasi', 'Sarjana', 1, 'Baik Sekali'),
 ('Biologi', 'Sarjana', 1, 'Izin Operasional'),
@@ -1927,17 +1917,14 @@ INSERT INTO public.program_studi (nama_prodi, jenjang, id_fakultas, akreditasi) 
 ('Apoteker', 'Profesi', 1, 'Izin Operasional'),
 ('Sains Biomedis', 'Magister', 1, 'Izin Operasional'),
 ('Radiologi', 'Spesialis', 1, 'Izin Operasional'),
-
 ('Sistem Informasi', 'Vokasi', 3, 'B'),
 ('Informatika', 'Sarjana', 3, 'Unggul'),
 ('Sistem Informasi', 'Sarjana', 3, 'Baik Sekali'),
 ('Sains Data', 'Sarjana', 3, 'Ijin Operasional'),
-
 ('Hukum', 'Sarjana', 4, 'Unggul'),
 ('Hukum Bisnis', 'Sarjana', 4, 'Ijin Operasional'),
 ('Hukum', 'Magister', 4, 'Baik Sekali'),
 ('Hukum', 'Doktor', 4, 'Ijin Operasional'),
-
 ('Ilmu Komunikasi', 'Sarjana', 5, 'Unggul'),
 ('Hubungan Internasional', 'Sarjana', 5, 'B'),
 ('Ilmu Politik', 'Sarjana', 5, 'Baik Sekali'),
@@ -1946,12 +1933,10 @@ INSERT INTO public.program_studi (nama_prodi, jenjang, id_fakultas, akreditasi) 
 ('Hubungan Internasional', 'Magister', 5, 'Baik'),
 ('Ilmu Politik', 'Magister', 5, 'Baik'),
 ('Ilmu Komunikasi', 'Magister', 5, 'Baik Sekali'),
-
 ('Teknik Mesin', 'Sarjana', 6, 'Unggul'),
 ('Teknik Industri', 'Sarjana', 6, 'Unggul'),
 ('Teknik Perkapalan', 'Sarjana', 6, 'Unggul'),
 ('Teknik Elektro', 'Sarjana', 6, 'Unggul'),
-
 ('Keperawatan', 'Vokasi', 7, 'Unggul'),
 ('Fisioterapi', 'Vokasi', 7, 'Unggul'),
 ('Kesehatan Masyarakat', 'Sarjana', 7, 'Unggul'),
@@ -2276,4 +2261,4 @@ INSERT INTO public.audit_logs (actor_id, actor_email, action, table_name, record
 ('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'update', 'gedung', '17', '{"id":17,"lokasi":"","url_foto":"","nama_gedung":"asdasd","jumlah_lantai":1,"deskripsi_gedung":"asd"}'::jsonb, '{"id":17,"lokasi":"sss","url_foto":"","nama_gedung":"asdasd","jumlah_lantai":1,"deskripsi_gedung":"asd"}'::jsonb, '2026-05-11T02:41:53.690881'),
 ('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'delete', 'gedung', '17', '{"id":17,"lokasi":"sss","url_foto":"","nama_gedung":"asdasd","jumlah_lantai":1,"deskripsi_gedung":"asd"}'::jsonb, NULL, '2026-05-11T02:41:56.804048'),
 ('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'create', 'fasilitas', '204', NULL, '{"id":204,"color":"gray","lantai":1,"foto_url":"","id_gedung":14,"nama_fasilitas":"sdassad","tipe_fasilitas":"Laboratorium","deskripsi_fasilitas":"asd"}'::jsonb, '2026-05-11T04:22:02.913079'),
-('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'delete', 'fasilitas', '106', '{"id":106,"color":"pink","lantai":null,"foto_url":"https://feb.upnvj.ac.id/wp-content/uploads/2025/06/IMG_5222.jpg","id_gedung":7,"nama_fasilitas":"Sekretariat Doktoral","tipe_fasilitas":"Administrasi","deskripsi_fasilitas":"Fasilitas administrasi dan layanan akademik program doktoral FEB."}'::jsonb, NULL, '2026-05-11T04:22:06.983021');
+('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'delete', 'fasilitas', '106', '{"id":106,"color":"pink","lantai":null,"foto_url":"https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/sekretariat_doktoral.jpg","id_gedung":7,"nama_fasilitas":"Sekretariat Doktoral","tipe_fasilitas":"Administrasi","deskripsi_fasilitas":"Fasilitas administrasi dan layanan akademik program doktoral FEB."}'::jsonb, NULL, '2026-05-11T04:22:06.983021');
