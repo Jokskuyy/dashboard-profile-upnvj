@@ -980,9 +980,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 
-(
-    id = 6
-),
 
 (
     'Ruang Kuliah 203 Ki Hadjar Dewantara',
@@ -1134,9 +1131,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'masjid'
 ),
 
-(
-    id = 13
-),
 
 (
     'Lapangan dan Alat Olahraga FIK',
@@ -1408,9 +1402,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'ds_403_mesh'
 ),
 
-(
-    id = 9
-),
 
 (
     'Ruang Dosen Yos Sudarso Lantai 1',
@@ -1532,9 +1523,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 
-(
-    id = 10
-),
 
 (
     'Ruang Kelas Magister 101',
