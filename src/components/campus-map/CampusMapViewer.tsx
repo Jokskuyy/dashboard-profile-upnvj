@@ -61,6 +61,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const unityInstanceRef = useRef<UnityInstance | null>(null);
   const [webglSupported, setWebglSupported] = useState<boolean>(true);
   const [isMobileLandscape, setIsMobileLandscape] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   // Exit mobile fullscreen
   const exitMobileFullscreen = async () => {
@@ -331,6 +332,29 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
           }}
           tabIndex={-1}
         />
+
+        {/* Interaction Overlay (Tap to Start) */}
+        {!isLoading && !error && !hasInteracted && (
+          <div 
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm cursor-pointer transition-all hover:bg-black/50"
+            onClick={() => {
+              setHasInteracted(true);
+              canvasRef.current?.focus();
+              try {
+                // Request pointer lock directly from frontend to guarantee it works immediately
+                canvasRef.current?.requestPointerLock?.();
+              } catch (e) {
+                console.error("Pointer lock failed:", e);
+              }
+            }}
+          >
+            <div className="bg-white/20 p-4 rounded-full border border-white/30 mb-4 animate-bounce">
+              <MousePointerClick className="w-8 h-8 text-white drop-shadow-lg" />
+            </div>
+            <h3 className="text-2xl font-bold text-white drop-shadow-lg tracking-wide">Klik untuk Mulai Eksplorasi</h3>
+            <p className="text-white/90 mt-2 text-sm drop-shadow-md font-medium">Gunakan mouse untuk melihat sekeliling kampus</p>
+          </div>
+        )}
 
         {/* Search overlay */}
         <SearchOverlay isUnityLoaded={!isLoading && !error} />
