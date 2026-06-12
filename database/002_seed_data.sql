@@ -962,7 +962,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Gugus Kendali Mutu',
     'Ruang operasional Gugus Kendali Mutu untuk penjaminan standar mutu akademik dan pelayanan.',
-    'Ruang Kerja',
+    'Administrasi & Layanan',
     2,
     NULL,
     5,
@@ -982,7 +982,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Dosen',
     'Fasilitas ruang istirahat dan kerja bagi tenaga pendidik atau dosen.',
-    'Ruang Kerja',
+    'Ruang Dosen',
     2,
     NULL,
     5,
