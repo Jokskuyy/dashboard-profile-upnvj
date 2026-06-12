@@ -94,7 +94,7 @@ function parseSqlValues(valuesStr) {
 }
 
 async function main() {
-  const sqlPath = path.resolve('database/002_seed_data_updated.sql');
+  const sqlPath = path.resolve('database/002_seed_data.sql');
   const sqlContent = fs.readFileSync(sqlPath, 'utf8');
 
   // Find all INSERT INTO statements

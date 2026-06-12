@@ -911,23 +911,42 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 ),
 
 (
-    'Departemen Anatomi',
-    'Fasilitas departemen anatomi Fakultas Kedokteran.',
+    'Laboratorium Anatomi A.101',
+    'Fasilitas laboratorium anatomi Fakultas Kedokteran.',
     'Laboratorium',
     1,
     NULL,
     5,
-    NULL
+    'ars_lab_anatomi_101'
 ),
 
 (
-    'Departemen Fisiologi',
-    'Fasilitas departemen fisiologi Fakultas Kedokteran.',
+    'Laboratorium Anatomi A.102',
+    'Fasilitas laboratorium anatomi Fakultas Kedokteran.',
     'Laboratorium',
     1,
     NULL,
     5,
-    NULL
+    'ars_lab_anatomi_102'
+),
+(
+    'PBU',
+    'Layanan Pusat Bimbingan Ujian dan Administrasi Terpadu.',
+    'Administrasi & Layanan',
+    1,
+    NULL,
+    5,
+    'ars_pbu'
+),
+
+(
+    'Laboratorium Fisiologi',
+    'Laboratorium fisiologi Fakultas Kedokteran.',
+    'Laboratorium',
+    1,
+    NULL,
+    5,
+    'ars_lab_fisiologi'
 ),
 
 (
@@ -938,6 +957,216 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL,
     5,
     NULL
+),
+
+(
+    'Ruang Gugus Kendali Mutu',
+    'Ruang operasional Gugus Kendali Mutu untuk penjaminan standar mutu akademik dan pelayanan.',
+    'Ruang Kerja',
+    2,
+    NULL,
+    5,
+    'ars_gugus_kendali_mutu'
+),
+
+(
+    'Ruang Kelas F.201',
+    'Fasilitas ruang kelas pembelajaran teori F.201.',
+    'Ruang Kelas',
+    2,
+    NULL,
+    5,
+    'ars_ruang_kelas_f201'
+),
+
+(
+    'Ruang Dosen',
+    'Fasilitas ruang istirahat dan kerja bagi tenaga pendidik atau dosen.',
+    'Ruang Kerja',
+    2,
+    NULL,
+    5,
+    'ars_ruang_dosen'
+),
+
+(
+    'Ruang Server Wifi',
+    'Pusat kontrol dan server jaringan WiFi untuk menjamin konektivitas internet di area gedung.',
+    'Fasilitas Umum',
+    2,
+    NULL,
+    5,
+    'ars_ruang_server_wifi'
+),
+
+(
+    'Pantry',
+    'Fasilitas dapur kecil untuk kebutuhan konsumsi staf dan dosen.',
+    'Fasilitas Umum',
+    2,
+    NULL,
+    5,
+    'ars_pantry'
+),
+
+(
+    'Musholla',
+    'Fasilitas tempat ibadah bagi mahasiswa, staf, dan dosen.',
+    'Fasilitas Umum',
+    2,
+    NULL,
+    5,
+    'ars_musholla'
+),
+
+(
+    'Ruang Konseling dan Bimbingan Karir',
+    'Ruangan khusus untuk memberikan layanan bimbingan konseling dan pengembangan karir mahasiswa.',
+    'Layanan Mahasiswa',
+    2,
+    NULL,
+    5,
+    'ars_ruang_konseling_dan_bimbingan_karir'
+),
+
+(
+    'Ruang HIMASIFO',
+    'Ruang sekretariat operasional Himpunan Mahasiswa Sistem Informasi (HIMASIFO).',
+    'Ruang Kegiatan Mahasiswa',
+    2,
+    NULL,
+    5,
+    'ars_ruang_himasifo'
+),
+
+(
+    'Ruang EOS',
+    'Ruang sekretariat unit kegiatan kemahasiswaan EOS.',
+    'Ruang Kegiatan Mahasiswa',
+    2,
+    NULL,
+    5,
+    'ars_ruang_eos'
+),
+
+(
+    'Ruang BEM FISIP',
+    'Ruang sekretariat Badan Eksekutif Mahasiswa (BEM) Fakultas Ilmu Sosial dan Ilmu Politik.',
+    'Ruang Kegiatan Mahasiswa',
+    2,
+    NULL,
+    5,
+    'ars_ruang_bem_fisip'
+),
+
+(
+    'Ruang Kelas F.301',
+    'Fasilitas ruang kelas pembelajaran teori F.301.',
+    'Ruang Kelas',
+    3,
+    NULL,
+    5,
+    'ars_ruang_kelas_f301'
+),
+
+(
+    'Ruang Kelas F.302',
+    'Fasilitas ruang kelas pembelajaran teori F.302.',
+    'Ruang Kelas',
+    3,
+    NULL,
+    5,
+    'ars_ruang_kelas_f302'
+),
+
+(
+    'Ruang Kelas F.303',
+    'Fasilitas ruang kelas pembelajaran teori F.303.',
+    'Ruang Kelas',
+    3,
+    NULL,
+    5,
+    'ars_ruang_kelas_f303'
+),
+
+(
+    'Ruang Kelas F.304',
+    'Fasilitas ruang kelas pembelajaran teori F.304.',
+    'Ruang Kelas',
+    3,
+    NULL,
+    5,
+    'ars_ruang_kelas_f304'
+),
+
+(
+    'Ruang Kelas F.305',
+    'Fasilitas ruang kelas pembelajaran teori F.305.',
+    'Ruang Kelas',
+    3,
+    NULL,
+    5,
+    'ars_ruang_kelas_f305'
+),
+
+(
+    'Ruang Kelas F.306',
+    'Fasilitas ruang kelas pembelajaran teori F.306.',
+    'Ruang Kelas',
+    3,
+    NULL,
+    5,
+    'ars_ruang_kelas_f306'
+),
+
+(
+    'Ruang Kelas F.307',
+    'Fasilitas ruang kelas pembelajaran teori F.307.',
+    'Ruang Kelas',
+    3,
+    NULL,
+    5,
+    'ars_ruang_kelas_f307'
+),
+
+(
+    'Ruang Kelas F.401',
+    'Fasilitas ruang kelas pembelajaran teori F.401.',
+    'Ruang Kelas',
+    4,
+    NULL,
+    5,
+    'ars_ruang_kelas_f401'
+),
+
+(
+    'Ruang Kelas F.402',
+    'Fasilitas ruang kelas pembelajaran teori F.402.',
+    'Ruang Kelas',
+    4,
+    NULL,
+    5,
+    'ars_ruang_kelas_f402'
+),
+
+(
+    'Ruang Kelas F.403',
+    'Fasilitas ruang kelas pembelajaran teori F.403.',
+    'Ruang Kelas',
+    4,
+    NULL,
+    5,
+    'ars_ruang_kelas_f403'
+),
+
+(
+    'Ruang Kelas F.404',
+    'Fasilitas ruang kelas pembelajaran teori F.404.',
+    'Ruang Kelas',
+    4,
+    NULL,
+    5,
+    'ars_ruang_kelas_f404'
 ),
 
 (
