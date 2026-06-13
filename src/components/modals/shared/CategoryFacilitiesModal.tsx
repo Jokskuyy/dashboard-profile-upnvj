@@ -70,7 +70,9 @@ const CategoryFacilitiesModal: React.FC<CategoryFacilitiesModalProps> = ({
           filteredData = filteredData.filter(
             (f) =>
               f.tipe_fasilitas === "Laboratorium" ||
-              f.tipe_fasilitas?.toLowerCase().includes("lab"),
+              f.tipe_fasilitas?.toLowerCase().includes("lab") ||
+              f.tipe_fasilitas?.toLowerCase().includes("penelitian") ||
+              f.tipe_fasilitas?.toLowerCase().includes("studio"),
           );
           break;
         case "Perpustakaan & Ruang Baca":
@@ -127,7 +129,10 @@ const CategoryFacilitiesModal: React.FC<CategoryFacilitiesModalProps> = ({
             (f) =>
               f.tipe_fasilitas?.toLowerCase().includes("administrasi") ||
               f.tipe_fasilitas?.toLowerCase().includes("sekretariat") ||
-              f.tipe_fasilitas?.toLowerCase().includes("layanan"),
+              f.tipe_fasilitas?.toLowerCase().includes("layanan") ||
+              f.tipe_fasilitas?.toLowerCase().includes("dosen") ||
+              f.tipe_fasilitas?.toLowerCase().includes("umum") ||
+              f.tipe_fasilitas?.toLowerCase().includes("mahasiswa"),
           );
           break;
         default:

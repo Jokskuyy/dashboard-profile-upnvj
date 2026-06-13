@@ -76,7 +76,7 @@ const AssetsSection: React.FC = () => {
 
         if (!countError && allFacilities) {
           const categoryMatchers: Record<string, string[]> = {
-            laboratorium:  ["lab", "penelitian"],
+            laboratorium:  ["lab", "penelitian", "studio"],
             perpustakaan:  ["perpustakaan", "ruang baca"],
             ruangKuliah:   ["ruang kuliah", "ruang kelas", "akademik", "ruang akademik"],
             auditorium:    ["auditorium", "aula"],
@@ -84,7 +84,7 @@ const AssetsSection: React.FC = () => {
 
             ibadah:        ["ibadah", "masjid", "musholla"],
             kantin:        ["kantin", "food"],
-            administrasi:  ["administrasi", "sekretariat", "layanan"],
+            administrasi:  ["administrasi", "sekretariat", "layanan", "dosen", "umum", "mahasiswa"],
           };
 
           const counts: Record<string, number> = {};

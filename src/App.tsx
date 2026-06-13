@@ -17,7 +17,6 @@ const Dashboard = lazy(() => import("./components/dashboard/Dashboard"));
 const AdminDashboard = lazy(() => import("./components/admin/AdminDashboard"));
 const Login = lazy(() => import("./components/auth/Login"));
 const Analytics = lazy(() => import("./components/analytics/Analytics"));
-const FacilitySubmissionForm = lazy(() => import("./components/public-form/FacilitySubmissionForm"));
 
 // Fallback component for Suspense
 const PageLoader = () => (
@@ -79,15 +78,6 @@ function App() {
                   }
                 />
 
-                {/* Public Form Route — No auth required */}
-                <Route
-                  path="/input-data"
-                  element={
-                    <Suspense fallback={<PageLoader />}>
-                      <FacilitySubmissionForm />
-                    </Suspense>
-                  }
-                />
 
                 {/* 404 Catch-all */}
                 <Route
