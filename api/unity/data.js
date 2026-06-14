@@ -12,11 +12,11 @@ export default async function handler(req, res) {
     const [gedungResult, fasilitasResult] = await Promise.all([
       supabase
         .from("gedung")
-        .select("id, nama_gedung, deskripsi_gedung, lokasi, jumlah_lantai")
+        .select("id, nama_gedung, deskripsi_gedung, lokasi, jumlah_lantai, unity_object_name")
         .order("id", { ascending: true }),
       supabase
         .from("fasilitas")
-        .select("id, nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, id_gedung, lantai, foto_url")
+        .select("id, nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, id_gedung, lantai, foto_url, unity_object_name")
         .order("id_gedung", { ascending: true })
         .order("lantai", { ascending: true }),
     ]);
@@ -31,6 +31,7 @@ export default async function handler(req, res) {
         deskripsi_gedung: g.deskripsi_gedung || "",
         lokasi: g.lokasi || "",
         jumlah_lantai: g.jumlah_lantai || 1,
+        unity_object_name: g.unity_object_name || "",
       })),
       fasilitas: (fasilitasResult.data || []).map((f) => ({
         id: f.id,
@@ -40,6 +41,7 @@ export default async function handler(req, res) {
         id_gedung: f.id_gedung,
         lantai: f.lantai || 1,
         foto_url: f.foto_url || "",
+        unity_object_name: f.unity_object_name || "",
       })),
     };
 

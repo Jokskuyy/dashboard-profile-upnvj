@@ -1,85 +1,187 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-/// <summary>
-/// Daftar gedung yang terdaftar di sistem navigasi.
-/// Secara default akan memuat list secara otomatis dari Vercel API,
-/// namun juga mendukung pengisian list manual di Inspector sebagai fallback.
-/// </summary>
-public class BuildingDatabase : MonoBehaviour
+[System.Serializable]
+public class UnityGedungData
 {
-    [Header("API Configuration")]
-    [Tooltip("URL API Vercel untuk mendapatkan nama-nama gedung")]
-    public string apiUrl = "https://dashboard-profile-upnvj.vercel.app/api/unity/names";
+    public int id;
+    public string nama_gedung;
+    public string deskripsi_gedung;
+    public string lokasi;
+    public int jumlah_lantai;
+    public string unity_object_name;
+}
 
-    [Tooltip("Centang jika ingin memuat data otomatis dari API saat aplikasi dimulai")]
-    public bool loadAutomatically = true;
+[System.Serializable]
+public class UnityFasilitasData
+{
+    public int id;
+    public string nama_fasilitas;
+    public string deskripsi_fasilitas;
+    public string tipe_fasilitas;
+    public int id_gedung;
+    public int lantai;
+    public string foto_url;
+    public string unity_object_name;
+}
 
-    [Header("Database List")]
-    [Tooltip("Daftar unityObjectName — harus EXACT MATCH dengan nama GameObject di Hierarchy DAN unity_object_name di Supabase")]
-    public List<string> unityObjectNames = new List<string>();
-
-    // Event penanda data selesai dimuat (untuk mensinkronkan cache di NavigationReceiver)
-    public Action OnDatabaseLoaded;
-
-    private void Awake()
-    {
-        // Mengabaikan input Inspector dan memaksa URL production
-        apiUrl = "https://dashboard-profile-upnvj.vercel.app/api/unity/names";
-
-        if (loadAutomatically && !string.IsNullOrEmpty(apiUrl))
-        {
-            StartCoroutine(FetchUnityObjectNames());
-        }
-    }
-
-    private IEnumerator FetchUnityObjectNames()
-    {
-        Debug.Log($"[BuildingDatabase] Memuat daftar gedung dari API: {apiUrl}");
-        
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(apiUrl))
-        {
-            yield return webRequest.SendWebRequest();
-
-            if (webRequest.result == UnityWebRequest.Result.Success)
-            {
-                string jsonResult = webRequest.downloadHandler.text;
-                
-                try
-                {
-                    // Deserialisasi JSON wrapper { "unityObjectNames": [...] }
-                    UnityObjectNamesResponse response = JsonUtility.FromJson<UnityObjectNamesResponse>(jsonResult);
-                    
-                    if (response != null && response.unityObjectNames != null && response.unityObjectNames.Count > 0)
-                    {
-                        unityObjectNames = response.unityObjectNames;
-                        Debug.Log($"[BuildingDatabase] Sukses memuat {unityObjectNames.Count} gedung secara dinamis.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Debug.LogError($"[BuildingDatabase] Error parsing JSON: {ex.Message}. Raw: {jsonResult}");
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"[BuildingDatabase] Gagal memuat API ({webRequest.error}). Menggunakan list manual di Inspector.");
-            }
-
-            // Panggil event callback, entah sukses API atau fallback ke manual
-            OnDatabaseLoaded?.Invoke();
-        }
-    }
+[System.Serializable]
+public class UnityApiResponse
+{
+    public List<UnityGedungData> gedung;
+    public List<UnityFasilitasData> fasilitas;
 }
 
 /// <summary>
-/// Wrapper class untuk serialisasi JSON Unity
+/// Daftar gedung yang terdaftar di sistem navigasi.
+/// Mengambil data secara dinamis dari API Backend Dashboard UPNVJ.
 /// </summary>
-[System.Serializable]
-public class UnityObjectNamesResponse
+public class BuildingDatabase : MonoBehaviour
 {
-    public List<string> unityObjectNames;
+    [Header("API Config")]
+    [Tooltip("URL API Backend untuk mengambil data. Kosongkan jika ingin menggunakan relative URL saat WebGL build.")]
+    public string apiEndpoint = "http://localhost:3000/api/unity/data";
+
+    [Header("Database")]
+    [Tooltip("Daftar unityObjectName — disinkronkan secara otomatis dari API Backend")]
+    public List<string> unityObjectNames = new List<string>();
+
+    // Cache nama asli untuk ditampilkan di UI
+    public Dictionary<string, string> realNames = new Dictionary<string, string>();
+
+    [Header("Status")]
+    public bool isLoaded = false;
+
+    private void Awake()
+    {
+        // Override paksa ke URL production — mencegah error net::ERR_CONNECTION_REFUSED
+        // jika Inspector masih menyimpan localhost:3000
+        apiEndpoint = "https://dashboard-profile-upnvj.vercel.app/api/unity/data";
+    }
+
+    private void Start()
+    {
+        StartCoroutine(LoadDatabaseFromApi());
+    }
+
+    public IEnumerator LoadDatabaseFromApi()
+    {
+        string url = apiEndpoint;
+        
+        // Di WebGL Build, gunakan relative URL jika apiEndpoint kosong atau tidak diawali http
+        #if !UNITY_EDITOR && UNITY_WEBGL
+        if (string.IsNullOrEmpty(url) || !url.StartsWith("http"))
+        {
+            url = "/api/unity/data";
+        }
+        #endif
+
+        Debug.Log($"[BuildingDatabase] Fetching data from: {url}");
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ConnectionError || 
+                webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError($"[BuildingDatabase] API Error: {webRequest.error}");
+            }
+            else
+            {
+                string jsonText = webRequest.downloadHandler.text;
+                ParseJsonData(jsonText);
+            }
+        }
+    }
+
+    private void ParseJsonData(string json)
+    {
+        try
+        {
+            // Karena JsonUtility tidak mendukung root array/object secara langsung jika ada list di dalamnya,
+            // kita gunakan class wrapper UnityApiResponse
+            UnityApiResponse response = JsonUtility.FromJson<UnityApiResponse>(json);
+
+            if (response != null)
+            {
+                unityObjectNames.Clear();
+                realNames.Clear();
+
+                // Tambahkan dari gedung
+                if (response.gedung != null)
+                {
+                    foreach (var g in response.gedung)
+                    {
+                        if (!string.IsNullOrWhiteSpace(g.unity_object_name))
+                        {
+                            if (!unityObjectNames.Contains(g.unity_object_name))
+                                unityObjectNames.Add(g.unity_object_name);
+                                
+                            realNames[g.unity_object_name.ToLower()] = g.nama_gedung;
+                        }
+                    }
+                }
+
+                // Tambahkan dari fasilitas
+                if (response.fasilitas != null)
+                {
+                    foreach (var f in response.fasilitas)
+                    {
+                        if (!string.IsNullOrWhiteSpace(f.unity_object_name))
+                        {
+                            if (!unityObjectNames.Contains(f.unity_object_name))
+                                unityObjectNames.Add(f.unity_object_name);
+                                
+                            realNames[f.unity_object_name.ToLower()] = f.nama_fasilitas;
+                        }
+                    }
+                }
+
+                isLoaded = true;
+                Debug.Log($"[BuildingDatabase] Loaded {unityObjectNames.Count} unityObjectNames from API.");
+
+                // Beritahu NavigationReceiver untuk me-rebuild cache setelah database terisi
+                NavigationReceiver receiver = FindAnyObjectByType<NavigationReceiver>();
+                if (receiver != null)
+                {
+                    receiver.RebuildCache();
+                }
+
+                // Beritahu BuildingCulling untuk me-rebuild cache
+                BuildingCulling culling = FindAnyObjectByType<BuildingCulling>();
+                if (culling != null)
+                {
+                    culling.RebuildCullingCache();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"[BuildingDatabase] Gagal parsing JSON: {ex.Message}");
+        }
+    }
+
+    [ContextMenu("Fetch Data From API Now")]
+    public void FetchNow()
+    {
+        StartCoroutine(LoadDatabaseFromApi());
+    }
+
+    public string GetRealName(string unityObjectName)
+    {
+        if (string.IsNullOrWhiteSpace(unityObjectName)) return unityObjectName;
+        
+        string key = unityObjectName.Trim().ToLower();
+        if (realNames.TryGetValue(key, out string realName))
+        {
+            // Pastikan jika dari API kosong, kembalikan object name
+            if (!string.IsNullOrWhiteSpace(realName))
+                return realName;
+        }
+        
+        return unityObjectName; // Fallback
+    }
 }
