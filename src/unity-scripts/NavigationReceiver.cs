@@ -21,28 +21,7 @@ public class NavigationReceiver : MonoBehaviour
 
     private void Start()
     {
-        if (database != null)
-        {
-            database.OnDatabaseLoaded += BuildCache;
-            
-            // Jika load secara otomatis dimatikan atau data list sudah ada/terisi, panggil langsung
-            if (!database.loadAutomatically || database.unityObjectNames.Count > 0)
-            {
-                BuildCache();
-            }
-        }
-        else
-        {
-            Debug.LogError("[NavigationReceiver] BuildingDatabase belum diassign!");
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (database != null)
-        {
-            database.OnDatabaseLoaded -= BuildCache;
-        }
+        BuildCache();
     }
 
     /// <summary>
@@ -97,31 +76,40 @@ public class NavigationReceiver : MonoBehaviour
         }
 
         string key = unityObjectName.Trim().ToLower();
+        
+        // Ambil nama asli dari database jika ada
+        string displayName = unityObjectName;
+        if (database != null)
+        {
+            displayName = database.GetRealName(unityObjectName);
+        }
 
         if (buildingCache.TryGetValue(key, out Transform target))
         {
-            navigationGuide.StartNavigation(target, unityObjectName);
-            Debug.Log($"[NavigationReceiver] Navigating to: {unityObjectName}");
+            navigationGuide.StartNavigation(target, displayName);
+            Debug.Log($"[NavigationReceiver] Navigating to: {displayName} (Object: {unityObjectName})");
         }
         else
         {
             // Coba rebuild cache dan cari lagi (fallback jika scene dimuat ulang)
             BuildCache();
+            
+            if (database != null)
+                displayName = database.GetRealName(unityObjectName);
+
             if (buildingCache.TryGetValue(key, out Transform retryTarget))
             {
-                navigationGuide.StartNavigation(retryTarget, unityObjectName);
-                Debug.Log($"[NavigationReceiver] Navigating to (after rebuild): {unityObjectName}");
+                navigationGuide.StartNavigation(retryTarget, displayName);
+                Debug.Log($"[NavigationReceiver] Navigating to (after rebuild): {displayName}");
             }
             else
             {
-                // Final fallback: langsung cari di scene! 
-                // Jaga-jaga kalau objek ini ada di Scene tapi BELUM dimasukkan ke database Supabase.
-                GameObject directFind = FindInactiveByName(unityObjectName);
+                // FINAL FALLBACK: Cari langsung di scene tanpa cache API
+                GameObject directFind = FindInactiveByName(unityObjectName.Trim());
                 if (directFind != null)
                 {
-                    buildingCache[key] = directFind.transform;
-                    navigationGuide.StartNavigation(directFind.transform, unityObjectName);
-                    Debug.Log($"[NavigationReceiver] Ditemukan via direct search (belum ada di DB): {unityObjectName}");
+                    navigationGuide.StartNavigation(directFind.transform, displayName);
+                    Debug.Log($"[NavigationReceiver] Navigating to (direct scene fallback): {displayName}");
                 }
                 else
                 {
@@ -151,7 +139,7 @@ public class NavigationReceiver : MonoBehaviour
         GameObject go = GameObject.Find(name);
         if (go != null) return go;
 
-        // Fallback: cari semua termasuk inactive (dengan case-insensitive)
+        // Fallback: cari semua termasuk inactive, case-insensitive
         GameObject[] all = Resources.FindObjectsOfTypeAll<GameObject>();
         foreach (var obj in all)
         {
