@@ -182,14 +182,70 @@ export async function getAnalyticsSummary(
       tablet: Math.round((deviceCount.tablet / totalDevices) * 100),
     };
 
+    // Group pageviews into sessions to calculate bounce rate and duration
+    // Sort records chronologically per visitor
+    const sorted = [...records].sort((a, b) => {
+      if (a.visitor_hash !== b.visitor_hash) {
+        return (a.visitor_hash || "").localeCompare(b.visitor_hash || "");
+      }
+      return new Date(a.visited_at).getTime() - new Date(b.visited_at).getTime();
+    });
+
+    interface Session {
+      visitorHash: string;
+      pageviews: number;
+      startTime: number;
+      endTime: number;
+    }
+    const sessions: Session[] = [];
+    let currentSession: Session | null = null;
+    const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes in ms
+
+    sorted.forEach((r) => {
+      if (!r.visitor_hash) return;
+      const t = new Date(r.visited_at).getTime();
+
+      if (
+        !currentSession ||
+        currentSession.visitorHash !== r.visitor_hash ||
+        t - currentSession.endTime > SESSION_TIMEOUT
+      ) {
+        currentSession = {
+          visitorHash: r.visitor_hash,
+          pageviews: 1,
+          startTime: t,
+          endTime: t,
+        };
+        sessions.push(currentSession);
+      } else {
+        currentSession.pageviews++;
+        currentSession.endTime = t;
+      }
+    });
+
+    const totalSessions = sessions.length;
+    let bounces = 0;
+    let totalTime = 0;
+
+    sessions.forEach((s) => {
+      const duration = (s.endTime - s.startTime) / 1000; // in seconds
+      totalTime += duration;
+      if (s.pageviews === 1) {
+        bounces++;
+      }
+    });
+
+    const bounceRate = totalSessions > 0 ? Math.round((bounces / totalSessions) * 100) : 0;
+    const avgVisitDuration = totalSessions > 0 ? Math.round(totalTime / totalSessions) : 0;
+
     return {
       totalVisitors: uniqueVisitors,
       totalPageViews,
-      totalVisits: uniqueVisitors, // approximation
-      bounces: 0,
-      totalTime: 0,
-      bounceRate: 0,
-      avgVisitDuration: 0,
+      totalVisits: totalSessions || uniqueVisitors,
+      bounces,
+      totalTime,
+      bounceRate,
+      avgVisitDuration,
       trend: Math.round(trend * 10) / 10,
       days,
       dailyStats,
@@ -214,8 +270,8 @@ export async function getAnalyticsStats(
     pageviews: { value: summary.totalPageViews, prev: 0 },
     visitors: { value: summary.totalVisitors, prev: 0 },
     visits: { value: summary.totalVisits, prev: 0 },
-    bounces: { value: 0, prev: 0 },
-    totaltime: { value: 0, prev: 0 },
+    bounces: { value: summary.bounces, prev: 0 },
+    totaltime: { value: summary.totalTime, prev: 0 },
   };
 }
 
