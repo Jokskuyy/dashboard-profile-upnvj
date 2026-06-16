@@ -131,7 +131,14 @@ export default function BuildingsTable({
               {currentItems.map((building) => (
                 <tr key={building.id} className="hover:bg-slate-50/50 transition-colors">
                   <td className="px-5 py-3">
-                    <p className="font-medium text-slate-900">{building.nama_gedung}</p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="font-medium text-slate-900">{building.nama_gedung}</p>
+                      {building.unity_object_name && (
+                        <span className="text-[10px] font-mono bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">
+                          {building.unity_object_name}
+                        </span>
+                      )}
+                    </div>
                     {building.deskripsi_gedung && (
                       <p className="text-xs text-slate-400 truncate max-w-xs mt-0.5">
                         {building.deskripsi_gedung}

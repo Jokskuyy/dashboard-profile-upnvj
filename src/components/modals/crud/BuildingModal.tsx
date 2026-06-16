@@ -15,6 +15,7 @@ const INITIAL_FORM: GedungData = {
   lokasi: "",
   jumlah_lantai: 1,
   foto_url: "",
+  unity_object_name: "",
 };
 
 export default function BuildingModal({
@@ -38,6 +39,7 @@ export default function BuildingModal({
           lokasi: building.lokasi || "",
           jumlah_lantai: building.jumlah_lantai || 1,
           foto_url: building.foto_url || "",
+          unity_object_name: building.unity_object_name || "",
         });
       } else {
         setForm(INITIAL_FORM);
@@ -174,6 +176,23 @@ export default function BuildingModal({
               {errors.jumlah_lantai && (
                 <p className="text-xs text-red-500 mt-1">{errors.jumlah_lantai}</p>
               )}
+            </div>
+
+            {/* Nama Objek Unity */}
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                Nama Objek Unity (unity_object_name)
+              </label>
+              <input
+                type="text"
+                value={form.unity_object_name || ""}
+                onChange={(e) => setForm({ ...form, unity_object_name: e.target.value })}
+                className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                placeholder="gedung_rektorat"
+              />
+              <p className="text-xs text-slate-400 mt-1">
+                Harus sama persis dengan nama GameObject di scene Unity (gunakan lowercase + underscore).
+              </p>
             </div>
 
             {/* URL Foto */}

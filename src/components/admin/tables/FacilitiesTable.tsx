@@ -167,7 +167,14 @@ export default function FacilitiesTable({
               {currentItems.map((facility) => (
                 <tr key={facility.id} className="hover:bg-slate-50/50 transition-colors">
                   <td className="px-5 py-3">
-                    <p className="font-medium text-slate-900">{facility.nama_fasilitas}</p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="font-medium text-slate-900">{facility.nama_fasilitas}</p>
+                      {facility.unity_object_name && (
+                        <span className="text-[10px] font-mono bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">
+                          {facility.unity_object_name}
+                        </span>
+                      )}
+                    </div>
                     {facility.deskripsi_fasilitas && (
                       <p className="text-xs text-slate-400 truncate max-w-xs mt-0.5">
                         {facility.deskripsi_fasilitas}

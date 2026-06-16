@@ -28,6 +28,7 @@ interface FacilityData {
   color: string;
   lantai?: number | null;
   foto_url?: string;
+  unity_object_name?: string;
   // May contain nested join objects from Supabase
   gedung?: { id: number; nama_gedung: string };
 }
@@ -47,6 +48,7 @@ const INITIAL_FORM: FacilityData = {
   color: "gray",
   lantai: 1,
   foto_url: "",
+  unity_object_name: "",
 };
 
 // Tailwind color mapping for the color picker swatches
@@ -99,6 +101,7 @@ export default function FacilityModal({
           lantai: facility.lantai ?? 1,
           foto_url: facility.foto_url || "",
           color: facility.color || "gray",
+          unity_object_name: facility.unity_object_name || "",
         });
       } else {
         setFormData({ ...INITIAL_FORM });
@@ -230,6 +233,23 @@ export default function FacilityModal({
               className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none bg-white resize-none placeholder:text-slate-300"
               placeholder="Deskripsi singkat tentang fasilitas ini..."
             />
+          </div>
+
+          {/* Nama Objek Unity */}
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+              Nama Objek Unity (unity_object_name)
+            </label>
+            <input
+              type="text"
+              value={formData.unity_object_name || ""}
+              onChange={(e) => updateField("unity_object_name", e.target.value)}
+              className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none bg-white placeholder:text-slate-300"
+              placeholder="cth. lab_komputer_1"
+            />
+            <p className="text-xs text-slate-400 mt-1">
+              Harus sama persis dengan nama GameObject di scene Unity (gunakan lowercase + underscore).
+            </p>
           </div>
 
           {/* ─── Row: Tipe + Gedung ───────────────────── */}

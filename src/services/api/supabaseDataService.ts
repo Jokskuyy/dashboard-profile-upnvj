@@ -574,6 +574,7 @@ export interface FacilityData {
   color: string;
   lantai?: number | null;
   foto_url?: string;
+  unity_object_name?: string;
 }
 
 export const createFacility = async (
@@ -591,6 +592,7 @@ export const createFacility = async (
       color: facility.color || "gray",
       lantai: facility.lantai ?? null,
       foto_url: facility.foto_url ?? null,
+      unity_object_name: facility.unity_object_name ?? null,
     })
     .select()
     .single();
@@ -627,6 +629,7 @@ export const updateFacility = async (
     "color",
     "lantai",
     "foto_url",
+    "unity_object_name",
   ];
   for (const key of validColumns) {
     if (key in facility) {
@@ -676,6 +679,7 @@ export interface GedungData {
   lokasi?: string;
   jumlah_lantai?: number;
   foto_url?: string;
+  unity_object_name?: string;
 }
 
 export const createGedung = async (
@@ -691,6 +695,7 @@ export const createGedung = async (
       lokasi: gedung.lokasi ?? null,
       jumlah_lantai: gedung.jumlah_lantai ?? 1,
       foto_url: gedung.foto_url ?? null,
+      unity_object_name: gedung.unity_object_name ?? null,
     })
     .select()
     .single();
@@ -721,6 +726,7 @@ export const updateGedung = async (
     "lokasi",
     "jumlah_lantai",
     "foto_url",
+    "unity_object_name",
   ];
   for (const key of validColumns) {
     if (key in gedung) {
