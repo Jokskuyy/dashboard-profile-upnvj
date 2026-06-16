@@ -28,7 +28,7 @@ Admin kampus tidak memiliki pusat data terpadu untuk memperbarui data gedung, fa
 
 Membangun **Platform Web UPNVJ** yang menyatukan empat komponen terintegrasi:
 
-1. **Interactive Dashboard Publik**: Visualisasi data akademik (fakultas, program studi, sebaran dosen/mahasiswa) dengan grafik interaktif dan drill-down, mendukung multi-bahasa (Bahasa Indonesia & English).
+1. **Interactive Dashboard Publik**: Dashboard interaktif yang menyajikan statistik lalu lintas kunjungan web (Website Traffic Statistics), kartu indikator (KPI) aset kampus (gedung dan fasilitas), serta tabel akreditasi program studi dengan dukungan multi-bahasa (Bahasa Indonesia & English).
 
 2. **Denah Virtual 3D** *(Unity WebGL)*: Peta interaktif 3D kampus dengan dua mode:
    - **Eksplorasi Bebas** — jelajahi kampus tanpa tujuan spesifik
@@ -107,8 +107,8 @@ Membangun **Platform Web UPNVJ** yang menyatukan empat komponen terintegrasi:
 ### A. Pengguna Publik (Mahasiswa, Calon Mahasiswa, Tamu)
 
 #### A1 — Dashboard Informasi Akademik
-1. Sebagai Pengguna Publik, saya ingin melihat visualisasi grafik sebaran mahasiswa dan dosen per fakultas, sehingga saya bisa memahami ukuran akademis setiap fakultas UPNVJ dengan mudah.
-2. Sebagai Pengguna Publik, saya ingin mengeklik grafik salah satu fakultas (drill-down), sehingga saya bisa melihat detail program studi beserta jenjang dan akreditasinya.
+1. Sebagai Pengguna Publik, saya ingin melihat statistik traffic website (tren pengunjung harian dan tampilan halaman), sehingga saya mengetahui tingkat aktivitas platform.
+2. Sebagai Pengguna Publik, saya ingin melihat dan menjelajahi sebaran aset kampus (seperti gedung dan fasilitas) via kartu indikator (KPI) serta daftar program studi beserta status akreditasinya, sehingga saya mendapatkan data akademis dan fisik terintegrasi.
 3. Sebagai Pengguna Publik, saya ingin beralih bahasa antarmuka (Bahasa Indonesia ↔ English) dengan toggle beranimasi, sehingga saya dapat memahami konten dalam bahasa yang saya kuasai.
 4. Sebagai Pengguna Publik, saya ingin preferensi bahasa saya tersimpan otomatis (localStorage), sehingga saat kunjungan berikutnya bahasa tidak kembali ke default.
 
