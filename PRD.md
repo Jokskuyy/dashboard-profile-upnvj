@@ -289,11 +289,11 @@ unityInstance.SendMessage("NavigationReceiver", "StopNavigation", "")
 
 ```sql
 gedung          → id, nama_gedung, deskripsi_gedung, lokasi, jumlah_lantai, foto_url, unity_object_name
-fasilitas       → id, nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, warna_ui, lantai, id_gedung (FK→gedung), foto_url, unity_object_name
-fakultas        → id, nama_fakultas, deskripsi, email, website, gedung_id (FK→gedung)
-program_studi   → id, nama_prodi, jenjang (D3/S1/S2/S3), fakultas_id (FK→fakultas), akreditasi
-admin_users     → id, email, role, created_at
-audit_logs      → id, admin_id, table_name, action (INSERT/UPDATE/DELETE), old_data, new_data, timestamp
+fasilitas       → id, nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, color, lantai, id_gedung (FK→gedung), foto_url, unity_object_name
+fakultas        → id, nama_fakultas, deskripsi_fakultas, email, website, id_gedung_utama (FK→gedung)
+program_studi   → id, nama_prodi, jenjang (D3/S1/S2/S3), id_fakultas (FK→fakultas), akreditasi
+admin_users     → id, username, password_hash, nama_lengkap, role, created_at
+audit_logs      → id, actor_id, actor_email, action (INSERT/UPDATE/DELETE), table_name, record_id, old_data, new_data, created_at
 ```
 
 **RLS Policy:**
