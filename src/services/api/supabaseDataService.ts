@@ -210,39 +210,28 @@ const fetchPrograms = async (): Promise<ProgramData[]> => {
 };
 
 /**
- * Fetch departments/research groups from Supabase
+ * Fetch departments from programs data — REUSES fetchPrograms to avoid duplicate Supabase query.
+ * Both functions query the identical `program_studi` table with the same select+order.
+ * This eliminates 1 redundant network request per page load.
  */
-const fetchDepartments = async (): Promise<DepartmentData[]> => {
+const fetchDepartments = async (programsData?: ProgramData[]): Promise<DepartmentData[]> => {
   try {
-    const { data, error } = await supabase
-      .from("program_studi")
-      .select(
-        `
-        *,
-        fakultas (
-          nama_fakultas
-        )
-      `,
-      )
-      .order("nama_prodi", { ascending: true });
+    // Reuse provided programs data or fetch once
+    const programs = programsData ?? (await fetchPrograms());
 
-    if (error) throw error;
-
-    return data.map((prodi: ProdiRow) => {
-      const faculty = prodi.fakultas?.nama_fakultas || "Unknown";
-      const facultyInfo = FACULTY_MAPPING[faculty];
-
+    return programs.map((prog) => {
+      const facultyInfo = FACULTY_MAPPING[prog.faculty ?? ""];
       return {
-        id: prodi.id.toString(),
-        name: prodi.nama_prodi,
-        faculty,
+        id: prog.id.toString(),
+        name: prog.name ?? prog.nama_prodi ?? "",
+        faculty: prog.faculty ?? "",
         professors: 0,
-        color: facultyInfo?.color || "#6B7280",
-        description: `Program Studi ${prodi.nama_prodi}`,
+        color: facultyInfo?.color || prog.color || "#6B7280",
+        description: `Program Studi ${prog.name ?? prog.nama_prodi ?? ""}`,
       };
     });
   } catch (error) {
-    console.error("Error fetching departments:", error);
+    console.error("Error mapping departments:", error);
     return [];
   }
 };
@@ -326,17 +315,15 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
 
   try {
     const fetchWithRetry = async () => {
-      const [
-        accreditations,
-        assets,
-        programs,
-        departments,
-      ] = await Promise.all([
+      // Fetch programs first so departments can reuse the same data (no duplicate query)
+      const [accreditations, assets, programs] = await Promise.all([
         fetchAccreditations(),
         fetchAssets(),
         fetchPrograms(),
-        fetchDepartments(),
       ]);
+
+      // departments derived from programs — avoids duplicate program_studi query
+      const departments = await fetchDepartments(programs);
 
       return {
         lastUpdated: new Date().toISOString(),

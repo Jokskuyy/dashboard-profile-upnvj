@@ -9,8 +9,8 @@ import {
 } from "lucide-react";
 import SearchOverlay from "./SearchOverlay";
 
-// Install keyboard/mouse interceptor BEFORE Unity framework loads
-import "../../utils/unityKeyboardPatch";
+// NOTE: unityKeyboardPatch is dynamically imported inside loadUnityBuild()
+// to avoid patching EventTarget.prototype on initial page load (TBT reduction)
 
 interface CampusMapViewerProps {
   isFullscreen?: boolean;
@@ -57,11 +57,27 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
+  const [loadingMessage, setLoadingMessage] = useState<string>("Memuat Denah Virtual...");
   const [error, setError] = useState<string | null>(null);
   const unityInstanceRef = useRef<UnityInstance | null>(null);
   const [webglSupported, setWebglSupported] = useState<boolean>(true);
   const [isMobileLandscape, setIsMobileLandscape] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+
+  /** Estimate download time based on connection speed and return hint string */
+  function getDownloadHint(): string {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const connection = (navigator as any).connection;
+    if (connection?.downlink) {
+      // v0.2.11 total: ~39 MB compressed
+      const mbps = connection.downlink; // Mbps
+      const estimatedSeconds = Math.round((39 * 8) / mbps); // MB × 8 bits / Mbps
+      if (estimatedSeconds < 30) return `~${estimatedSeconds} detik`;
+      if (estimatedSeconds < 120) return `~${Math.round(estimatedSeconds / 10) * 10} detik`;
+      return `~${Math.round(estimatedSeconds / 60)} menit`;
+    }
+    return "";
+  }
 
   // Exit mobile fullscreen
   const exitMobileFullscreen = async () => {
@@ -107,12 +123,24 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
     [basePath],
   );
 
-  // Check WebGL support
+  /** Check WebGL2 first, fallback to WebGL1 */
   const checkWebGLSupport = (): boolean => {
     try {
       const canvas = document.createElement("canvas");
-      const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-      return !!gl;
+      // Prefer WebGL2 for better performance
+      const gl =
+        canvas.getContext("webgl2") ||
+        canvas.getContext("webgl") ||
+        canvas.getContext("experimental-webgl");
+      if (!gl) return false;
+
+      // Log GPU info for diagnostics (not user-facing)
+      const debugInfo = (gl as WebGLRenderingContext).getExtension("WEBGL_debug_renderer_info");
+      if (debugInfo) {
+        const renderer = (gl as WebGLRenderingContext).getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+        console.log(`[Unity] GPU: ${renderer}`);
+      }
+      return true;
     } catch {
       return false;
     }
@@ -138,14 +166,35 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         return;
       }
 
+      // Dynamically import keyboard patch here (not at module top-level)
+      // This avoids monkey-patching EventTarget.prototype on initial page load
+      await import("../../utils/unityKeyboardPatch");
+
+      // Set initial loading message with download estimate
+      const hint = getDownloadHint();
+      setLoadingMessage(
+        hint
+          ? `Mengunduh Denah Virtual (~39 MB, estimasi ${hint})...`
+          : "Mengunduh Denah Virtual (~39 MB)..."
+      );
+
+      let msg15s: NodeJS.Timeout | undefined;
+      let msg45s: NodeJS.Timeout | undefined;
+      let msg90s: NodeJS.Timeout | undefined;
+
       try {
         setIsLoading(true);
         setError(null);
 
         timeoutId = setTimeout(() => {
-          setError("Loading timeout. The file may be too large or your connection is slow. Please try again later.");
+          setError("Loading timeout. Ukuran file sangat besar (~39 MB). Periksa koneksi internet Anda dan coba lagi.");
           setIsLoading(false);
-        }, 120000); // 120 second timeout
+        }, 180000); // 3 minute timeout for 39MB
+
+        // Progressive messages to keep user informed during long download
+        msg15s = setTimeout(() => setLoadingMessage("Masih mengunduh... Unity WebGL memerlukan waktu beberapa menit pada koneksi lambat."), 15000);
+        msg45s = setTimeout(() => setLoadingMessage("Hampir selesai... File besar sedang diproses."), 45000);
+        msg90s = setTimeout(() => setLoadingMessage("Proses lebih lama dari biasanya. Periksa koneksi internet Anda."), 90000);
 
         const canvas = canvasRef.current;
         const container = containerRef.current;
@@ -183,12 +232,19 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
 
         console.log("Unity instance created successfully");
         if (timeoutId) clearTimeout(timeoutId);
+        clearTimeout(msg15s);
+        clearTimeout(msg45s);
+        clearTimeout(msg90s);
+        setLoadingMessage("Denah Virtual siap!");
         unityInstanceRef.current = instance;
         window.unityInstance = instance;
         setIsLoading(false);
       } catch (err) {
         console.error("Failed to load Unity WebGL build:", err);
         if (timeoutId) clearTimeout(timeoutId);
+        clearTimeout(msg15s);
+        clearTimeout(msg45s);
+        clearTimeout(msg90s);
 
         let errorMessage = "Failed to load campus map";
         if (err instanceof Error) {
@@ -307,17 +363,20 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         className={`relative ${isFullscreen || isMobileLandscape ? "h-full" : "h-96 lg:h-[500px]"}`}
       >
         {isLoading && (
-          <div className="absolute inset-0 bg-gray-100 flex items-center justify-center z-10">
-            <div className="text-center">
-              <div className="w-12 h-12 border-4 border-[#2C5F2D] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-gray-600 font-medium">{t("loadingCampusMap")}</p>
-              <div className="w-48 h-2 bg-gray-200 rounded-full mx-auto mt-2">
+          <div className="absolute inset-0 bg-gray-900 flex items-center justify-center z-10">
+            <div className="text-center max-w-sm px-6">
+              <div className="w-14 h-14 border-4 border-[#2C5F2D] border-t-transparent rounded-full animate-spin mx-auto mb-5"></div>
+              <p className="text-white font-semibold text-base mb-1">{loadingMessage}</p>
+              <div className="w-64 h-3 bg-gray-700 rounded-full mx-auto mt-4 overflow-hidden">
                 <div
-                  className="h-full bg-[#2C5F2D] rounded-full transition-all duration-300"
+                  className="h-full bg-gradient-to-r from-[#2C5F2D] to-[#4ade80] rounded-full transition-all duration-500"
                   style={{ width: `${loadingProgress}%` }}
                 ></div>
               </div>
-              <p className="text-sm text-gray-500 mt-1">{loadingProgress}%</p>
+              <p className="text-[#4ade80] font-bold text-lg mt-2">{loadingProgress}%</p>
+              <p className="text-gray-500 text-xs mt-3">
+                File besar (~39 MB). Kunjungan berikutnya akan lebih cepat karena file tersimpan di cache browser.
+              </p>
             </div>
           </div>
         )}

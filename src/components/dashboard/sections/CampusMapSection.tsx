@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { MapPin, ExternalLink, Navigation, Building, Compass } from "lucide-react";
+import { MapPin, ExternalLink, Navigation, Building, Compass, CheckCircle } from "lucide-react";
 import { useLanguage } from "../../../contexts/LanguageContext";
 import CampusMapViewer from "../../campus-map/CampusMapViewer";
 import {
   getPreloadStatus,
+  startUnityPreload,
   onPreloadProgress,
   type PreloadStatus,
 } from "../../../utils/unityPreloader";
@@ -35,6 +36,17 @@ const CampusMapSection: React.FC = () => {
       return;
     }
     setShowViewer(true);
+  };
+
+  /**
+   * On hover: start preloading Unity files if not already cached.
+   * This gives a head start before the user clicks "Launch".
+   */
+  const handleButtonHover = () => {
+    const status = getPreloadStatus();
+    if (status === "idle") {
+      startUnityPreload();
+    }
   };
 
   // Auto-fullscreen saat viewer dibuka (PC & mobile)
@@ -181,6 +193,8 @@ const CampusMapSection: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <button
             onClick={handleOpenCampusMap}
+            onMouseEnter={handleButtonHover}
+            onFocus={handleButtonHover}
             disabled={isGitHubPages}
             className={`group inline-flex items-center gap-2 px-6 py-3 font-semibold rounded-xl transition-all duration-200 shadow-md ${
               isGitHubPages
@@ -192,7 +206,18 @@ const CampusMapSection: React.FC = () => {
             {t("launchUnityMap")}
           </button>
 
-          <span className="text-xs text-gray-400">{t("unityWebGLBuild")}</span>
+          <div className="flex flex-col gap-1">
+            <span className="text-xs text-gray-400">{t("unityWebGLBuild")} • ~39 MB</span>
+            {_cacheStatus === "cached" && (
+              <span className="flex items-center gap-1 text-xs text-green-600 font-medium">
+                <CheckCircle className="w-3 h-3" />
+                File tersimpan di cache — loading lebih cepat
+              </span>
+            )}
+            {_cacheStatus === "loading" && (
+              <span className="text-xs text-blue-500">Mengunduh ke cache background...</span>
+            )}
+          </div>
         </div>
 
         {isGitHubPages && (

@@ -11,12 +11,14 @@
  * - Does NOT initialize Unity (no CPU/GPU/RAM usage until user clicks)
  * - Uses low-priority fetch (requestIdleCallback) to avoid blocking UI
  * - Falls back to setTimeout if requestIdleCallback is unavailable
+ * - Skips preload on: mobile, Save-Data mode, 2G connections, GitHub Pages
+ * - Priority order: loader (27KB) → framework (81KB) → wasm (9.2MB) → data (29.3MB)
  */
 
 import logger from "./logger";
 
 /** Status of the pre-loading process */
-export type PreloadStatus = "idle" | "loading" | "cached" | "error";
+export type PreloadStatus = "idle" | "loading" | "cached" | "error" | "skipped";
 
 /** Progress info for each file */
 interface PreloadProgress {
@@ -29,12 +31,15 @@ interface PreloadProgress {
 let preloadStatus: PreloadStatus = "idle";
 let preloadProgress: PreloadProgress = { total: 0, loaded: 0, status: "idle" };
 const listeners: Set<(progress: PreloadProgress) => void> = new Set();
+let abortController: AbortController | null = null;
 
-/** Get the Unity build file URLs based on current BASE_URL */
+/** Get the Unity build file URLs in download-priority order (smallest first) */
 function getUnityFileUrls(): string[] {
   const basePath = import.meta.env.BASE_URL || "/";
   const buildPath = `${basePath}unity-builds/v0.2.11/Build`;
 
+  // Priority: loader (27KB) → framework (81KB) → wasm (9.2MB) → data (29.3MB)
+  // Smallest first so Unity can start bootstrapping ASAP once user clicks
   return [
     `${buildPath}/v0.2.11.loader.js`,
     `${buildPath}/v0.2.11.framework.js.br`,
@@ -49,11 +54,47 @@ function notifyListeners() {
 }
 
 /**
+ * Check if preloading should be skipped based on connection / device / prefs.
+ * Returns { skip: true, reason: string } or { skip: false }
+ */
+function shouldSkipPreload(): { skip: boolean; reason?: string } {
+  // Skip on GitHub Pages (Unity with Brotli doesn't work there)
+  if (window.location.hostname.includes("github.io")) {
+    return { skip: true, reason: "GitHub Pages detected" };
+  }
+
+  // Skip on mobile — Unity WebGL is too heavy for most mobile devices
+  const isMobile =
+    /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    ) || window.innerWidth < 768;
+  if (isMobile) {
+    return { skip: true, reason: "Mobile device detected — Unity WebGL skipped" };
+  }
+
+  // Check navigator.connection (Network Information API)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const connection = (navigator as any).connection;
+  if (connection) {
+    // User explicitly requested reduced data usage
+    if (connection.saveData) {
+      return { skip: true, reason: "Save-Data mode enabled" };
+    }
+    // Slow connection — don't compete with active page resources
+    if (connection.effectiveType === "slow-2g" || connection.effectiveType === "2g") {
+      return { skip: true, reason: `Slow connection: ${connection.effectiveType}` };
+    }
+  }
+
+  return { skip: false };
+}
+
+/**
  * Pre-cache a single file using fetch.
  * The browser will store the response in its HTTP cache.
  * Next time Unity requests the same URL, it'll be served from cache.
  */
-async function precacheFile(url: string): Promise<void> {
+async function precacheFile(url: string, signal: AbortSignal): Promise<void> {
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -61,6 +102,7 @@ async function precacheFile(url: string): Promise<void> {
       cache: "force-cache",
       // Low priority — don't compete with user interactions
       priority: "low",
+      signal,
     } as RequestInit);
 
     if (!response.ok) {
@@ -78,6 +120,10 @@ async function precacheFile(url: string): Promise<void> {
       `Cached (${preloadProgress.loaded}/${preloadProgress.total}): ${url.split("/").pop()}`
     );
   } catch (err) {
+    if ((err as Error).name === "AbortError") {
+      logger.labeled("UnityPreloader", `Aborted: ${url.split("/").pop()}`);
+      return;
+    }
     logger.warn(`[UnityPreloader] Failed to cache: ${url}`, err);
     // Don't throw — one file failing shouldn't stop others
   }
@@ -97,16 +143,37 @@ export async function startUnityPreload(): Promise<void> {
     return;
   }
 
+  const { skip, reason } = shouldSkipPreload();
+  if (skip) {
+    logger.labeled("UnityPreloader", `Skipping — ${reason}`);
+    preloadStatus = "skipped";
+    preloadProgress = { total: 0, loaded: 0, status: "skipped" };
+    notifyListeners();
+    return;
+  }
+
   const urls = getUnityFileUrls();
   preloadStatus = "loading";
   preloadProgress = { total: urls.length, loaded: 0, status: "loading" };
   notifyListeners();
 
+  // Create AbortController so we can cancel on navigation
+  abortController = new AbortController();
+  const { signal } = abortController;
+
   logger.labeled("UnityPreloader", `Starting background pre-cache of ${urls.length} files...`);
 
   // Download sequentially to avoid bandwidth saturation
   for (const url of urls) {
-    await precacheFile(url);
+    if (signal.aborted) break;
+    await precacheFile(url, signal);
+  }
+
+  if (signal.aborted) {
+    preloadStatus = "idle";
+    preloadProgress = { total: 0, loaded: 0, status: "idle" };
+    notifyListeners();
+    return;
   }
 
   if (preloadProgress.loaded === preloadProgress.total) {
@@ -126,6 +193,17 @@ export async function startUnityPreload(): Promise<void> {
 }
 
 /**
+ * Cancel an in-progress preload (e.g. when user navigates away).
+ */
+export function cancelUnityPreload(): void {
+  if (abortController) {
+    abortController.abort();
+    abortController = null;
+    logger.labeled("UnityPreloader", "Preload cancelled");
+  }
+}
+
+/**
  * Schedule Unity pre-loading after the page is idle.
  * Uses requestIdleCallback for truly non-blocking behavior,
  * with a fallback to setTimeout for browsers that don't support it.
@@ -133,12 +211,6 @@ export async function startUnityPreload(): Promise<void> {
  * @param delayMs - Minimum delay after calling before starting (default: 3000ms)
  */
 export function scheduleUnityPreload(delayMs: number = 3000): void {
-  // Don't preload on GitHub Pages (Unity doesn't work there anyway)
-  if (window.location.hostname.includes("github.io")) {
-    logger.labeled("UnityPreloader", "Skipping — GitHub Pages detected");
-    return;
-  }
-
   const startPreload = () => {
     if ("requestIdleCallback" in window) {
       window.requestIdleCallback(() => startUnityPreload(), { timeout: 10000 });

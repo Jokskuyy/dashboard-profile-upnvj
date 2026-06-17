@@ -18,25 +18,35 @@ const Header: React.FC = () => {
   const [activeSection, setActiveSection] = useState("home");
 
   // Track scroll position for header shrink + active section
+  // RAF-throttled to avoid blocking main thread on every scroll event
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    let rafId: number | null = null;
 
-      // Determine active section based on scroll position
-      const scrollY = window.scrollY + 120;
-      let current = "home";
-      for (const item of NAV_ITEMS) {
-        if (item.id === "home") continue;
-        const el = document.getElementById(item.id);
-        if (el && el.offsetTop <= scrollY) {
-          current = item.id;
+    const handleScroll = () => {
+      if (rafId !== null) return; // Skip if a frame is already pending
+      rafId = requestAnimationFrame(() => {
+        setIsScrolled(window.scrollY > 20);
+
+        // Determine active section based on scroll position
+        const scrollY = window.scrollY + 120;
+        let current = "home";
+        for (const item of NAV_ITEMS) {
+          if (item.id === "home") continue;
+          const el = document.getElementById(item.id);
+          if (el && el.offsetTop <= scrollY) {
+            current = item.id;
+          }
         }
-      }
-      setActiveSection(current);
+        setActiveSection(current);
+        rafId = null;
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   // Lock body scroll when mobile menu is open

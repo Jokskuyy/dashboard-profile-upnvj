@@ -46,6 +46,8 @@ export default defineConfig(() => ({
     },
   },
   build: {
+    // Target modern browsers for smaller output
+    target: 'es2020',
     // Allow small assets (< 4KB) to be inlined as base64
     assetsInlineLimit: 4096,
     // Increase chunk size warning limit for Unity files
@@ -58,6 +60,7 @@ export default defineConfig(() => ({
           'vendor-supabase': ['@supabase/supabase-js'],
           'vendor-charts': ['recharts'],
           'vendor-icons': ['lucide-react'],
+          'vendor-search': ['fuse.js'],
         },
       },
     },

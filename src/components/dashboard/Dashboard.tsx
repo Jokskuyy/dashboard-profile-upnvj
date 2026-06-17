@@ -6,12 +6,14 @@ import {
 import { KPICardSkeleton, SectionSkeleton } from "../common/SkeletonLoader";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useDashboard } from "../../contexts/DashboardContext";
-import CampusMapSection from "./sections/CampusMapSection";
 import { trackClick, trackCarousel } from "../analytics/trackingHelpers";
 
 // Lazy-load below-fold sections to reduce initial bundle size (TBT fix)
+// CampusMapSection is lazy to prevent unityKeyboardPatch from monkey-patching
+// EventTarget.prototype on initial page load (significant TBT reduction)
 const AssetsSection = lazy(() => import("./sections/AssetsSection"));
 const TrafficOverview = lazy(() => import("../analytics/TrafficOverview"));
+const CampusMapSection = lazy(() => import("./sections/CampusMapSection"));
 
 const Dashboard: React.FC = () => {
   const { t } = useLanguage();
@@ -202,16 +204,8 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Hero entrance animation */}
-      <style>{`
-        @keyframes heroFadeUp {
-          from { opacity: 0; transform: translateY(24px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .hero-fade-up {
-          animation: heroFadeUp 0.7s ease-out both;
-        }
-      `}</style>
+      {/* Hero entrance animation is defined in index.css as .hero-fade-up */}
+
 
       {/* ─── Content Container ─── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -255,7 +249,9 @@ const Dashboard: React.FC = () => {
         {!loading && (
           <div className="space-y-8">
             <div id="campus-map-section">
-              <CampusMapSection />
+              <Suspense fallback={<SectionSkeleton items={2} />}>
+                <CampusMapSection />
+              </Suspense>
             </div>
           </div>
         )}

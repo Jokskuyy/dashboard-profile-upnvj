@@ -128,12 +128,4 @@ export const DashboardSkeleton: React.FC = () => (
   </div>
 );
 
-// Add keyframes for shimmer animation
-const style = document.createElement("style");
-style.innerHTML = `
-  @keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-`;
-document.head.appendChild(style);
+// Note: @keyframes shimmer is defined in src/index.css

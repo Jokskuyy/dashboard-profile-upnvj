@@ -8,6 +8,7 @@ interface SearchOverlayProps {
 
 const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
   const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<SearchResult | null>(null);
@@ -57,22 +58,28 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
     return () => window.removeEventListener("keydown", handler, true);
   }, [lockUnityInput, isNavigating]);
 
-  // Filter results berdasarkan query
+  // Debounce query — delay search by 300ms to avoid searching every keystroke
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedQuery(query), 300);
+    return () => clearTimeout(timer);
+  }, [query]);
+
+  // Filter results berdasarkan debouncedQuery
   useEffect(() => {
     // Jangan filter saat sedang navigasi
     if (isNavigating) return;
 
-    if (!query.trim()) {
+    if (!debouncedQuery.trim()) {
       setResults([]);
       setIsOpen(false);
       setHighlightedIndex(-1);
       return;
     }
-    const filtered = search(query);
+    const filtered = search(debouncedQuery);
     setResults(filtered);
     setHighlightedIndex(0);
     setIsOpen(true);
-  }, [query, search, isNavigating]);
+  }, [debouncedQuery, search, isNavigating]);
 
   // Tutup dropdown saat klik di luar
   useEffect(() => {

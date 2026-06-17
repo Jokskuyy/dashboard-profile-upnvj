@@ -1,12 +1,13 @@
 /* Self-hosted Material Icons — eliminates render-blocking Google Fonts requests */
 
-/* Material Icons Round */
+/* Material Icons Round — WOFF2 for best compression (56% smaller than OTF) */
 @font-face {
   font-family: 'Material Icons Round';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/fonts/material-icons-round.otf') format('opentype');
+  src: url('/fonts/material-icons-round.woff2') format('woff2'),
+       url('/fonts/material-icons-round.otf') format('opentype');
 }
 
 .material-icons-round {
@@ -27,13 +28,14 @@
   font-feature-settings: 'liga';
 }
 
-/* Material Symbols Outlined */
+/* Material Symbols Outlined — WOFF2 for best compression (67% smaller than TTF) */
 @font-face {
   font-family: 'Material Symbols Outlined';
   font-style: normal;
   font-weight: 100 700;
   font-display: swap;
-  src: url('/fonts/material-symbols-outlined.ttf') format('truetype');
+  src: url('/fonts/material-symbols-outlined.woff2') format('woff2'),
+       url('/fonts/material-symbols-outlined.ttf') format('truetype');
 }
 
 .material-symbols-outlined {

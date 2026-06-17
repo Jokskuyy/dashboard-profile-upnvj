@@ -1,59 +1,47 @@
-# Headers for Unity WebGL Brotli files - v0.2.05 build
-/unity-builds/v0.2.05/build/*.unityweb
+# Headers for Unity WebGL Brotli files - v0.2.11 build (current)
+/unity-builds/v0.2.11/Build/*.br
+  Content-Encoding: br
+  Content-Type: application/octet-stream
+  Cache-Control: public, max-age=31536000, immutable
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: require-corp
+
+/unity-builds/v0.2.11/Build/*.data.br
   Content-Encoding: br
   Content-Type: application/octet-stream
   Cache-Control: public, max-age=31536000, immutable
 
-/unity-builds/v0.2.05/build/*.wasm.unityweb
+/unity-builds/v0.2.11/Build/*.wasm.br
   Content-Encoding: br
   Content-Type: application/wasm
   Cache-Control: public, max-age=31536000, immutable
 
-/unity-builds/v0.2.05/build/*.framework.js.unityweb
+/unity-builds/v0.2.11/Build/*.framework.js.br
   Content-Encoding: br
   Content-Type: application/javascript
   Cache-Control: public, max-age=31536000, immutable
 
-# Headers for Unity WebGL Brotli files - prototipe build
-/unity-builds/downloads/prototipe/Build/*.br
-  Content-Encoding: br
-  Content-Type: application/octet-stream
+/unity-builds/v0.2.11/Build/*.loader.js
   Cache-Control: public, max-age=31536000, immutable
 
-/unity-builds/downloads/prototipe/Build/*.data.br
-  Content-Encoding: br
-  Content-Type: application/octet-stream
+# Static assets — immutable caching
+/assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-/unity-builds/downloads/prototipe/Build/*.wasm.br
-  Content-Encoding: br
-  Content-Type: application/wasm
+# Fonts — immutable caching
+/fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
-/unity-builds/downloads/prototipe/Build/*.framework.js.br
-  Content-Encoding: br
-  Content-Type: application/javascript
-  Cache-Control: public, max-age=31536000, immutable
+# Images — 1 week cache
+/*.webp
+  Cache-Control: public, max-age=604800
 
-# Headers for Unity WebGL Brotli files - old downloads build (deprecated)
-/unity-builds/downloads/Build/*.br
-  Content-Encoding: br
-  Content-Type: application/octet-stream
-
-/unity-builds/downloads/Build/*.data.br
-  Content-Encoding: br
-  Content-Type: application/octet-stream
-
-/unity-builds/downloads/Build/*.wasm.br
-  Content-Encoding: br
-  Content-Type: application/wasm
-
-/unity-builds/downloads/Build/*.framework.js.br
-  Content-Encoding: br
-  Content-Type: application/javascript
+/*.png
+  Cache-Control: public, max-age=604800
 
 # General security headers
 /*
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  X-DNS-Prefetch-Control: on
