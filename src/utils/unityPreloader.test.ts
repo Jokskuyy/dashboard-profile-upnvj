@@ -54,12 +54,12 @@ function shouldSkipPreload(opts: {
 // ── Helper: simulate file download priority order ─────────────────────────
 
 function getUnityFileUrls(basePath = '/'): string[] {
-  const buildPath = `${basePath}unity-builds/v0.2.11/Build`;
+  const buildPath = `${basePath}unity-builds/v0.2.15/Build`;
   return [
-    `${buildPath}/v0.2.11.loader.js`,
-    `${buildPath}/v0.2.11.framework.js.br`,
-    `${buildPath}/v0.2.11.wasm.br`,
-    `${buildPath}/v0.2.11.data.br`,
+    `${buildPath}/v0.2.15.loader.js`,
+    `${buildPath}/v0.2.15.framework.js.unityweb`,
+    `${buildPath}/v0.2.15.wasm.unityweb`,
+    `${buildPath}/v0.2.15.data.unityweb`,
   ];
 }
 
@@ -131,17 +131,17 @@ describe('UnityPreloader — download priority order (behavior)', () => {
 
   it('downloads framework second', () => {
     const urls = getUnityFileUrls();
-    expect(urls[1]).toContain('framework.js.br');
+    expect(urls[1]).toContain('framework.js.unityweb');
   });
 
   it('downloads wasm third', () => {
     const urls = getUnityFileUrls();
-    expect(urls[2]).toContain('wasm.br');
+    expect(urls[2]).toContain('wasm.unityweb');
   });
 
   it('downloads data last (largest file)', () => {
     const urls = getUnityFileUrls();
-    expect(urls[3]).toContain('data.br');
+    expect(urls[3]).toContain('data.unityweb');
   });
 
   it('always returns exactly 4 files', () => {
@@ -149,10 +149,10 @@ describe('UnityPreloader — download priority order (behavior)', () => {
     expect(urls).toHaveLength(4);
   });
 
-  it('all URLs reference v0.2.11 build', () => {
+  it('all URLs reference v0.2.15 build', () => {
     const urls = getUnityFileUrls();
     urls.forEach(url => {
-      expect(url).toContain('v0.2.11');
+      expect(url).toContain('v0.2.15');
     });
   });
 });

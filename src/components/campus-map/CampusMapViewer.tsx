@@ -69,7 +69,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const connection = (navigator as any).connection;
     if (connection?.downlink) {
-      // v0.2.11 total: ~39 MB compressed
+      // v0.2.15 total: ~45 MB compressed
       const mbps = connection.downlink; // Mbps
       const estimatedSeconds = Math.round((39 * 8) / mbps); // MB × 8 bits / Mbps
       if (estimatedSeconds < 30) return `~${estimatedSeconds} detik`;
@@ -110,13 +110,13 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const basePath = import.meta.env.BASE_URL;
   const unityConfig = useMemo(
     () => ({
-      dataUrl: `${basePath}unity-builds/v0.2.11/Build/v0.2.11.data.br`,
-      frameworkUrl: `${basePath}unity-builds/v0.2.11/Build/v0.2.11.framework.js.br`,
-      codeUrl: `${basePath}unity-builds/v0.2.11/Build/v0.2.11.wasm.br`,
+      dataUrl: `${basePath}unity-builds/v0.2.15/Build/v0.2.15.data.unityweb`,
+      frameworkUrl: `${basePath}unity-builds/v0.2.15/Build/v0.2.15.framework.js.unityweb`,
+      codeUrl: `${basePath}unity-builds/v0.2.15/Build/v0.2.15.wasm.unityweb`,
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "T_A",
-      productVersion: "v0.2.11",
+      productVersion: "v0.2.15",
       showBanner: unityShowBanner,
       matchWebGLToCanvasSize: true,
     }),
@@ -202,7 +202,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         canvas.height = container.clientHeight || 600;
 
         // First, dynamically load the Unity loader script - use BASE_URL for GitHub Pages
-        const loaderUrl = `${basePath}unity-builds/v0.2.11/Build/v0.2.11.loader.js`;
+        const loaderUrl = `${basePath}unity-builds/v0.2.15/Build/v0.2.15.loader.js`;
         if (!window.createUnityInstance) {
           console.log("Loading Unity WebGL loader...");
           await new Promise<void>((resolve, reject) => {
