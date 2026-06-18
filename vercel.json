@@ -9,7 +9,7 @@
       ]
     },
     {
-      "source": "/unity-builds/v0.2.05/build/(.*)\\.data\\.unityweb",
+      "source": "/unity-builds/v0.2.16/Build/(.*)\\.data\\.unityweb",
       "headers": [
         { "key": "Content-Type", "value": "application/octet-stream" },
         { "key": "Content-Encoding", "value": "br" },
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "source": "/unity-builds/v0.2.05/build/(.*)\\.wasm\\.unityweb",
+      "source": "/unity-builds/v0.2.16/Build/(.*)\\.wasm\\.unityweb",
       "headers": [
         { "key": "Content-Type", "value": "application/wasm" },
         { "key": "Content-Encoding", "value": "br" },
@@ -25,57 +25,9 @@
       ]
     },
     {
-      "source": "/unity-builds/v0.2.05/build/(.*)\\.framework\\.js\\.unityweb",
+      "source": "/unity-builds/v0.2.16/Build/(.*)\\.framework\\.js\\.unityweb",
       "headers": [
         { "key": "Content-Type", "value": "application/javascript" },
-        { "key": "Content-Encoding", "value": "br" },
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/unity-builds/v0.2.15/Build/(.*)\\.data\\.unityweb",
-      "headers": [
-        { "key": "Content-Type", "value": "application/octet-stream" },
-        { "key": "Content-Encoding", "value": "br" },
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/unity-builds/v0.2.15/Build/(.*)\\.wasm\\.unityweb",
-      "headers": [
-        { "key": "Content-Type", "value": "application/wasm" },
-        { "key": "Content-Encoding", "value": "br" },
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/unity-builds/v0.2.15/Build/(.*)\\.framework\\.js\\.unityweb",
-      "headers": [
-        { "key": "Content-Type", "value": "application/javascript" },
-        { "key": "Content-Encoding", "value": "br" },
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/unity-builds/(.*)/Build/(.*).framework.js.br",
-      "headers": [
-        { "key": "Content-Type", "value": "application/javascript" },
-        { "key": "Content-Encoding", "value": "br" },
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/unity-builds/(.*)/Build/(.*).wasm.br",
-      "headers": [
-        { "key": "Content-Type", "value": "application/wasm" },
-        { "key": "Content-Encoding", "value": "br" },
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
-    },
-    {
-      "source": "/unity-builds/(.*)/Build/(.*).data.br",
-      "headers": [
-        { "key": "Content-Type", "value": "application/octet-stream" },
         { "key": "Content-Encoding", "value": "br" },
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
