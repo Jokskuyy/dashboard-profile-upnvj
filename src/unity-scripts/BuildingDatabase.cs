@@ -56,6 +56,7 @@ public class BuildingDatabase : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("[BuildingDatabase] Awake called.");
         // Override paksa ke URL production — mencegah error net::ERR_CONNECTION_REFUSED
         // jika Inspector masih menyimpan localhost:3000
         apiEndpoint = "https://dashboard-profile-upnvj.vercel.app/api/unity/data";
@@ -63,11 +64,13 @@ public class BuildingDatabase : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("[BuildingDatabase] Start called.");
         StartCoroutine(LoadDatabaseFromApi());
     }
 
     public IEnumerator LoadDatabaseFromApi()
     {
+        Debug.Log("[BuildingDatabase] LoadDatabaseFromApi coroutine started.");
         string url = apiEndpoint;
         
         // Di WebGL Build, selalu gunakan relative URL agar sinkron dengan domain backend hosting tempat game dijalankan

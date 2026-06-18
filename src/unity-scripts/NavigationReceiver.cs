@@ -75,6 +75,11 @@ public class NavigationReceiver : MonoBehaviour
             return;
         }
 
+        if (database != null && !database.isLoaded)
+        {
+            Debug.LogWarning("[NavigationReceiver] Peringatan: Navigasi dipanggil SEBELUM database selesai dimuat dari API! Nama tampilan mungkin menggunakan fallback nama objek.");
+        }
+
         string key = unityObjectName.Trim().ToLower();
         
         // Ambil nama asli dari database jika ada
