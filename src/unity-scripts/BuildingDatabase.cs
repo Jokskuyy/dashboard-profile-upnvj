@@ -70,12 +70,9 @@ public class BuildingDatabase : MonoBehaviour
     {
         string url = apiEndpoint;
         
-        // Di WebGL Build, gunakan relative URL jika apiEndpoint kosong atau tidak diawali http
+        // Di WebGL Build, selalu gunakan relative URL agar sinkron dengan domain backend hosting tempat game dijalankan
         #if !UNITY_EDITOR && UNITY_WEBGL
-        if (string.IsNullOrEmpty(url) || !url.StartsWith("http"))
-        {
-            url = "/api/unity/data";
-        }
+        url = "/api/unity/data";
         #endif
 
         Debug.Log($"[BuildingDatabase] Fetching data from: {url}");
