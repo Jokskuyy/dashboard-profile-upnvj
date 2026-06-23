@@ -1,7 +1,15 @@
 # Project Cleanup Summary
 
 **Date**: November 23, 2025  
-**Status**: Completed  
+**Status**: Completed (arsip historis)  
+
+> **Catatan Koreksi (arsip historis).** Dokumen ini adalah catatan historis dan
+> dipertahankan apa adanya. Satu klaim sudah usang: pada bagian
+> [1 › Image Files](#image-files) tercantum `public/logoupnvj.png` sebagai
+> "Old format logo" yang dihapus. Per keadaan codebase saat ini, berkas
+> `public/logoupnvj.png` **masih ada dan masih dipakai** (dirujuk `index.html`
+> sebagai `apple-touch-icon` 512x512, `og:image`, dan `twitter:image`), sehingga
+> JANGAN dihapus. Sisa isi dokumen tetap berlaku sebagai referensi historis.
 
 ## 1. Files Removed (Redundant/Unused)
 
