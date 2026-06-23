@@ -948,11 +948,29 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Digital Library',
     $$Perpustakaan digital Fakultas Ilmu Komputer yang menyimpan koleksi buku, jurnal, artikel, dan sumber informasi lainnya dalam bentuk digital.$$,
-    'Lainnya',
+    '',
     1,
     'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/digital_library.jpg',
     6,
     'khd_digital_library'
+),
+(
+    'Ruang Kepala Program Studi FIK',
+    $$Ruang Kepala Program Studi FIK$$,
+    '',
+    1,
+    '',
+    6,
+    'khd_prodi'
+),
+(
+    'Ruang Dekan FIK',
+    $$Ruang Dekan FIK$$,
+    '',
+    1,
+    '',
+    6,
+    'khd_prodi'
 ),
 (
     'Ruang Podcast FIK',
@@ -961,7 +979,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     1,
     'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/digital_library.jpg',
     6,
-    NULL
+    'khd_podcast'
 ),
 (
     'Selasar Kihajar Dewantara',
@@ -971,6 +989,24 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/selasar_lantai_1.jpg',
     6,
     'khd_selasar'
+),
+(
+    'Pelayanan Mahasiswa FIK',
+    $$Pelayanan Mahasiswa FIK$$,
+    'Lainnya',
+    1,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/selasar_lantai_1.jpg',
+    6,
+    'khd_pelayanan_mahasiswa'
+),
+(
+    'Ruang Dosen FIK',
+    $$Ruang Dosen FIK$$,
+    '2',
+    2,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_software_engineering_201.jpg',
+    6,
+    'khd_ruang_dosen'
 ),
 (
     'Lab Software Engineering(201)',
@@ -1036,7 +1072,16 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'khd_sekretariat_lab'
 ),
 (
-    'Lab E-Governance',
+    'Sekretariat Laboratorium',
+    $$Ruang sekretariat laboratorium yang berfungsi sebagai pusat administrasi dan koordinasi kegiatan laboratorium.$$,
+    'Laboratorium',
+    2,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/sekretariat_laboratorium.jpg',
+    6,
+    'khd_sekretariat_ikatik'
+),
+(
+    'Lab E-Governance / Database',
     $$Pusat praktikum dan penelitian bidang manajemen basis data dengan komputer berperforma tinggi dan perangkat lunak database terkini seperti SQL Server, Oracle, dan MySQL.$$,
     'Laboratorium',
     4,
@@ -1054,22 +1099,22 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'khd_401_lab'
 ),
 (
-    'Lab Enterprise System',
+    'Lab Enterprise System / Business Intelligence',
     $$Pusat praktikum dan penelitian bidang intelijen bisnis dengan komputer berperforma tinggi, perangkat lunak analitik terkini, dan platform visualisasi data.$$,
     'Laboratorium',
-    NULL,
+    4,
     'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_enterprise_system.jpg',
     6,
-    NULL
+    'khd_402_lab'
 ),
 (
-    'Lab Immersive dan Multimedia',
+    'Lab Immersive dan Multimedia / Programming',
     $$Pusat praktikum dan penelitian di bidang pemrograman komputer dengan fasilitas komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.$$,
     'Laboratorium',
-    NULL,
+    3,
     'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_immersive_dan_multimedia.jpg',
     6,
-    NULL
+    'khd_301_lab'
 ),
 (
     'Masjid',
