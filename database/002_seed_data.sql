@@ -948,29 +948,38 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Digital Library',
     $$Perpustakaan digital Fakultas Ilmu Komputer yang menyimpan koleksi buku, jurnal, artikel, dan sumber informasi lainnya dalam bentuk digital.$$,
-    '',
+    'Perpustakaan & Ruang Baca',
     1,
     'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/digital_library.jpg',
     6,
     'khd_digital_library'
 ),
 (
-    'Ruang Kepala Program Studi FIK',
-    $$Ruang Kepala Program Studi FIK$$,
-    '',
+    'Pelayanan Mahasiswa FIK',
+    $$Pelayanan Mahasiswa FIK$$,
+    'Lainnya',
     1,
-    '',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/selasar_lantai_1.jpg',
     6,
-    'khd_prodi'
+    'khd_pelayanan_mahasiswa'
 ),
 (
     'Ruang Dekan FIK',
     $$Ruang Dekan FIK$$,
-    '',
+    'Administrasi & Layanan',
     1,
-    '',
+    NULL,
     6,
-    'khd_prodi'
+    'khd_ruang_dekan'
+),
+(
+    'Ruang Kepala Program Studi FIK',
+    $$Ruang Kepala Program Studi FIK$$,
+    'Lainnya',
+    1,
+    NULL,
+    6,
+    'khd_kaprodi'
 ),
 (
     'Ruang Podcast FIK',
@@ -991,13 +1000,13 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'khd_selasar'
 ),
 (
-    'Pelayanan Mahasiswa FIK',
-    $$Pelayanan Mahasiswa FIK$$,
-    'Lainnya',
-    1,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/selasar_lantai_1.jpg',
+    'Lab Software Engineering(201)',
+    $$Pusat praktikum dan penelitian di bidang pemrograman komputer dengan komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.$$,
+    'Laboratorium',
+    2,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_software_engineering_201.jpg',
     6,
-    'khd_pelayanan_mahasiswa'
+    'khd_201_lab'
 ),
 (
     'Ruang Dosen FIK',
@@ -1007,15 +1016,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_software_engineering_201.jpg',
     6,
     'khd_ruang_dosen'
-),
-(
-    'Lab Software Engineering(201)',
-    $$Pusat praktikum dan penelitian di bidang pemrograman komputer dengan komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.$$,
-    'Laboratorium',
-    2,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_software_engineering_201.jpg',
-    6,
-    'khd_201_lab'
 ),
 (
     'Ruang Kuliah 202 Ki Hadjar Dewantara',
@@ -1034,6 +1034,15 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL,
     6,
     'khd_203'
+),
+(
+    'Sekretariat Laboratorium',
+    $$Ruang sekretariat laboratorium yang berfungsi sebagai pusat administrasi dan koordinasi kegiatan laboratorium.$$,
+    'Laboratorium',
+    2,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/sekretariat_laboratorium.jpg',
+    6,
+    'khd_sekretariat_ikatik'
 ),
 (
     'Lab Artificial Intelligence dan Robotics(302)',
@@ -1063,6 +1072,15 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'khd_304_lab'
 ),
 (
+    'Lab Immersive dan Multimedia / Programming',
+    $$Pusat praktikum dan penelitian di bidang pemrograman komputer dengan fasilitas komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.$$,
+    'Laboratorium',
+    3,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_immersive_dan_multimedia.jpg',
+    6,
+    'khd_301_lab'
+),
+(
     'Sekretariat Laboratorium',
     $$Ruang sekretariat laboratorium yang berfungsi sebagai pusat administrasi dan koordinasi kegiatan laboratorium.$$,
     'Laboratorium',
@@ -1070,15 +1088,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/sekretariat_laboratorium.jpg',
     6,
     'khd_sekretariat_lab'
-),
-(
-    'Sekretariat Laboratorium',
-    $$Ruang sekretariat laboratorium yang berfungsi sebagai pusat administrasi dan koordinasi kegiatan laboratorium.$$,
-    'Laboratorium',
-    2,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/sekretariat_laboratorium.jpg',
-    6,
-    'khd_sekretariat_ikatik'
 ),
 (
     'Lab E-Governance / Database',
@@ -1090,15 +1099,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'khd_403_lab'
 ),
 (
-    'Lab Internet of Things(401)',
-    $$Pusat kegiatan praktikum dan penelitian bidang teknologi IoT dengan sensor, mikrokontroler, modul komunikasi nirkabel, dan perangkat lunak pengembangan IoT terkini.$$,
-    'Laboratorium',
-    4,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_internet_of_things_401.jpg',
-    6,
-    'khd_401_lab'
-),
-(
     'Lab Enterprise System / Business Intelligence',
     $$Pusat praktikum dan penelitian bidang intelijen bisnis dengan komputer berperforma tinggi, perangkat lunak analitik terkini, dan platform visualisasi data.$$,
     'Laboratorium',
@@ -1108,13 +1108,13 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'khd_402_lab'
 ),
 (
-    'Lab Immersive dan Multimedia / Programming',
-    $$Pusat praktikum dan penelitian di bidang pemrograman komputer dengan fasilitas komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.$$,
+    'Lab Internet of Things(401)',
+    $$Pusat kegiatan praktikum dan penelitian bidang teknologi IoT dengan sensor, mikrokontroler, modul komunikasi nirkabel, dan perangkat lunak pengembangan IoT terkini.$$,
     'Laboratorium',
-    3,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_immersive_dan_multimedia.jpg',
+    4,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_internet_of_things_401.jpg',
     6,
-    'khd_301_lab'
+    'khd_401_lab'
 ),
 (
     'Masjid',
@@ -2168,9 +2168,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL,
     NULL,
     NULL
-),
-(
-    id_gedung NULL
 ),
 (
     'Lab Diplomasi',

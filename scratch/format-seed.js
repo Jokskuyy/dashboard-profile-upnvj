@@ -23,6 +23,7 @@ function splitTuples(body) {
         const next2 = body.slice(i, i + 2);
         if (inDollar) { if (next2 === '$$') { inDollar = false; i++; } continue; }
         if (inSingle) { if (c === "'") inSingle = false; continue; }
+        if (depth === 0 && next2 === '--') { const nl = body.indexOf('\n', i); if (nl === -1) break; i = nl; continue; }
         if (next2 === '$$') { inDollar = true; i++; continue; }
         if (c === "'") { inSingle = true; continue; }
         if (c === '(') { if (depth === 0) start = i + 1; depth++; }
@@ -94,7 +95,7 @@ function main() {
     const idxNama = columns.indexOf('nama_fasilitas');
 
     // --- Parse + urutkan tuple ---
-    const block = sql.slice(headerEnd, semi);
+    const block = sql.slice(headerEnd, semi).split('\n').filter((l) => !/^\s*--/.test(l)).join('\n');
     const rows = splitTuples(block).map((t) => {
         const f = splitFields(t);
         return {
