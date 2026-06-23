@@ -1969,13 +1969,22 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'ds_ukm_catur'
 ),
 (
-    'Ruang UKM Juijutsu',
+    'Ruang UKM Futsal',
     $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
     'Ruang Kegiatan Mahasiswa',
     1,
     NULL,
     13,
-    'ds_ukm_juijutsu'
+    'ds_ukm_futsal'
+),
+(
+    'Ruang UKM Jujitsu',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_jujitsu'
 ),
 (
     'Ruang UKM Katolik',
@@ -2030,15 +2039,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL,
     13,
     'ds_ukm_seni_tari'
-),
-(
-    'Ruang UKM Sepak Bola',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_sepak_bola'
 ),
 (
     'Ruang UKM UBV',
