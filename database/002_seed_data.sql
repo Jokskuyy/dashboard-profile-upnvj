@@ -97,459 +97,8 @@ INSERT INTO public.fakultas (nama_fakultas, deskripsi_fakultas, email, website, 
 -- INSERT FASILITAS
 -- =============================================================================
 
--- FEB
-
 INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, lantai, foto_url, id_gedung, unity_object_name) VALUES
-(
-    'Ruang Kelas 201',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    2,
-    NULL,
-    7,
-    'mht_201'
-),
-
-(
-    'Ruang Kelas 202',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    2,
-    NULL,
-    7,
-    'mht_202'
-),
-
-(
-    'Ruang Dosen Ilmu Ekonomi',
-    $$Ruang kerja dosen Program Studi Ilmu Ekonomi FEB.$$,
-    'Ruang Dosen',
-    2,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Ruang Dosen Manajemen Program Sarjana',
-    $$Ruang kerja dosen Program Studi Manajemen jenjang sarjana FEB.$$,
-    'Ruang Dosen',
-    2,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Ruang Sekretariat Program Studi Manajemen dan Akuntansi Program Magister',
-    $$Ruang administrasi dan sekretariat Program Magister Manajemen dan Akuntansi FEB.$$,
-    'Lainnya',
-    2,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Ruang Kelas 203',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    2,
-    NULL,
-    7,
-    'mht_203'
-),
-
-(
-    'Ruang Kelas 204',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    2,
-    NULL,
-    7,
-    'mht_204'
-),
-
-(
-    'Ruang Kelas 205',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    2,
-    NULL,
-    7,
-    'mht_205'
-),
-
-(
-    'Ruang Kelas 206',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    2,
-    NULL,
-    7,
-    'mht_206'
-),
-
-(
-    'Ruang Kelas 207',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    2,
-    NULL,
-    7,
-    'mht_207'
-),
-
-(
-    'Ruang Kelas 301',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    3,
-    NULL,
-    7,
-    'mht_301'
-),
-
-(
-    'Ruang Kelas 302',
-    $$Laboratorium Ilmu Ekonomi untuk kegiatan praktikum dan pembelajaran mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    3,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Ruang Kelas 303',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    3,
-    NULL,
-    7,
-    'mht_303'
-),
-
-(
-    'Ruang Kelas 304',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    3,
-    NULL,
-    7,
-    'mht_304'
-),
-
-(
-    'Ruang Kelas 305',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    3,
-    NULL,
-    7,
-    'mht_305'
-),
-
-(
-    'Ruang Kelas 306',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    3,
-    NULL,
-    7,
-    'mht_306'
-),
-
-(
-    'Ruang Kelas 307',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    3,
-    NULL,
-    7,
-    'mht_307'
-),
-
-(
-    'Mash Classroom',
-    $$Ruang pembelajaran modern untuk kegiatan akademik mahasiswa FEB.$$,
-    'Lainnya',
-    3,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Laboratorium Akuntansi 2',
-    $$Laboratorium untuk kegiatan praktikum akuntansi mahasiswa FEB.$$,
-    'Laboratorium',
-    3,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Ruang Kelas D.401',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Ruang Kelas D.402',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Ruang Kelas D.403',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Ruang Kelas D.404',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Ruang Kelas C.402',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Ruang Kelas C.403',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Ruang Kelas C.404',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Ruang Kelas C.405',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Ruang Kelas C.406',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Ruang Kelas C.407',
-    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Mushola FEB',
-    $$Fasilitas mushola untuk kegiatan ibadah mahasiswa FEB.$$,
-    'Lainnya',
-    4,
-    NULL,
-    7,
-    NULL
-),
-
-(
-    'Mini Company',
-    $$Fasilitas simulasi perusahaan untuk praktik kewirausahaan dan bisnis mahasiswa FEB.$$,
-    'Lainnya',
-    3,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/mini_company.jpg',
-    7,
-    NULL
-),
-
-(
-    'Sibuni',
-    $$Sistem bisnis universitas yang digunakan untuk pengembangan praktik bisnis dan kewirausahaan mahasiswa.$$,
-    'Lainnya',
-    NULL,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/sibuni.jpg',
-    7,
-    NULL
-),
-
-(
-    'Bank Mini',
-    $$Laboratorium praktik perbankan untuk mahasiswa program studi keuangan dan perbankan.$$,
-    'Lainnya',
-    NULL,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/bank_mini.jpg',
-    7,
-    NULL
-),
-
-(
-    'Lembaga Kajian Ekonomi dan Bisnis',
-    $$Fasilitas penelitian dan pengkajian ekonomi serta bisnis untuk dosen dan mahasiswa.$$,
-    'Lainnya',
-    NULL,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/lembaga_kajian_ekonomi_dan_bisnis.jpg',
-    7,
-    NULL
-),
-
-(
-    'BI Corner',
-    $$Pojok literasi ekonomi dan keuangan hasil kerja sama dengan Bank Indonesia.$$,
-    'Lainnya',
-    NULL,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/bi_corner.jpg',
-    7,
-    NULL
-),
-
-(
-    'Selasar FEB',
-    $$Area terbuka untuk diskusi, kegiatan mahasiswa, dan interaksi akademik.$$,
-    'Lainnya',
-    NULL,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/selasar_feb.jpg',
-    7,
-    NULL
-),
-
-(
-    'Aula BEJ',
-    $$Aula kegiatan seminar, workshop, dan acara akademik Fakultas Ekonomi dan Bisnis.$$,
-    'Auditorium & Aula',
-    NULL,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/aula_bej.jpg',
-    7,
-    NULL
-),
-
-(
-    'Ruang Kelas',
-    $$Ruang perkuliahan reguler untuk kegiatan belajar mengajar mahasiswa FEB.$$,
-    'Ruang Kuliah',
-    NULL,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/ruang_kelas.jpg',
-    7,
-    NULL
-),
-
-(
-    'Ruang Kelas Magister',
-    $$Ruang kelas khusus program magister Fakultas Ekonomi dan Bisnis.$$,
-    'Ruang Kuliah',
-    2,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/ruang_kelas_magister.jpg',
-    7,
-    NULL
-),
-
-(
-    'Sekretariat Magister',
-    $$Ruang administrasi dan pelayanan akademik program magister FEB.$$,
-    'Lainnya',
-    NULL,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/sekretariat_magister.jpg',
-    7,
-    NULL
-),
-
-(
-    'Ruang Kelas Doktoral',
-    $$Ruang pembelajaran untuk program doktoral di lingkungan FEB.$$,
-    'Ruang Kuliah',
-    NULL,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/ruang_kelas_doktoral.jpg',
-    7,
-    NULL
-),
-
-(
-    'Sekretariat Doktoral',
-    $$Fasilitas administrasi dan layanan akademik program doktoral FEB.$$,
-    'Lainnya',
-    NULL,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/sekretariat_doktoral.jpg',
-    7,
-    NULL
-),
-
-(
-    'Laboratorium Akuntansi dan Komputasi',
-    $$Laboratorium untuk praktik akuntansi komputer dan pengolahan data bisnis.$$,
-    'Laboratorium',
-    NULL,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/laboratorium_ilmu_ekonomi_dan_manajemen.jpg',
-    7,
-    NULL
-),
-
-(
-    'Laboratorium Ilmu Ekonomi dan Manajemen',
-    $$Laboratorium penunjang pembelajaran ekonomi dan manajemen berbasis teknologi.$$,
-    'Laboratorium',
-    NULL,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/laboratorium_ilmu_ekonomi_dan_manajemen.jpg',
-    7,
-    NULL
-),
-
-(
-    'Ruang Program Studi Spesialis',
-    $$Fasilitas Ruang Program Studi Spesialis yang mendukung kegiatan operasional dan kemahasiswaan$$,
-    'Lainnya',
-    1,
-    NULL,
-    3,
-    'wsh_program_studi_spesialis'
-),
-
+-- Gedung 3: Gedung Dr. Wahidin Sudiro Husodo
 (
     'Ilmu Kesehatan Matra / UPNVERI',
     $$Fasilitas Ilmu Kesehatan Matra / UPNVERI yang mendukung kegiatan operasional dan kemahasiswaan$$,
@@ -559,187 +108,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     3,
     'wsh_upnveri'
 ),
-
-(
-    'Ruang Dosen FK UPNVJ',
-    $$Ruang kerja dan aktivitas dosen Fakultas Kedokteran UPNVJ.$$,
-    'Ruang Dosen',
-    1,
-    NULL,
-    3,
-    'wsh_ruang_dosen_fk'
-),
-
-(
-    'Pusat Stemcell & Tissue Engineering Research Centre',
-    $$Pusat kegiatan penelitian sel punca dan rekayasa jaringan.$$,
-    'Lainnya',
-    1,
-    NULL,
-    3,
-    'wsh_stem_cell'
-),
-
-(
-    'Ruang Podcast/mitek/meeting FK UPNVJ',
-    $$Fasilitas Ruang Podcast/mitek/meeting FK UPNVJ yang mendukung kegiatan operasional dan kemahasiswaan$$,
-    'Studio & Produksi Media',
-    2,
-    NULL,
-    3,
-    'wsh_podcast_meeting'
-),
-
-(
-    'Musholla FK UPNVJ',
-    $$Fasilitas Musholla FK UPNVJ yang mendukung kegiatan operasional dan kemahasiswaan$$,
-    'Fasilitas Ibadah',
-    2,
-    NULL,
-    3,
-    'wsh_musholla'
-),
-
-(
-    'Ruang Server FK UPNVJ',
-    $$Fasilitas umum dan infrastruktur pendukung gedung$$,
-    'Fasilitas Umum',
-    2,
-    NULL,
-    3,
-    'wsh_server'
-),
-
-(
-    'Ruang Prodi Profesi',
-    $$Fasilitas Ruang Prodi Profesi yang mendukung kegiatan operasional dan kemahasiswaan$$,
-    'Lainnya',
-    2,
-    NULL,
-    3,
-    'wsh_prodi_profesi'
-),
-
-(
-    'Ruang PSKPP',
-    $$Fasilitas Ruang PSKPP yang mendukung kegiatan operasional dan kemahasiswaan$$,
-    'Lainnya',
-    2,
-    NULL,
-    3,
-    'wsh_pskpp'
-),
-
-(
-    'Ruang Akreditasi FK UPNVJ',
-    $$Ruang pengelolaan administrasi dan dokumen akreditasi Fakultas Kedokteran.$$,
-    'Lainnya',
-    1,
-    NULL,
-    3,
-    NULL
-),
-
-(
-    'Ruang BEM FK UPNVJ',
-    $$Ruang organisasi mahasiswa BEM Fakultas Kedokteran.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    3,
-    'wsh_bem'
-),
-
-(
-    'Ruang Dekan FK UPNVJ',
-    $$Ruang kerja Dekan Fakultas Kedokteran.$$,
-    'Lainnya',
-    2,
-    NULL,
-    3,
-    'wsh_dekan'
-),
-
-(
-    'Ruang Wakil Dekan Bidang Akademik',
-    $$Ruang kerja Wakil Dekan bidang akademik.$$,
-    'Ruang Kuliah',
-    2,
-    NULL,
-    3,
-    'wsh_wadek_akademik'
-),
-
-(
-    'Ruang Wakil Dekan Bidang Umum dan Keuangan',
-    $$Ruang kerja Wakil Dekan bidang umum dan keuangan.$$,
-    'Lainnya',
-    2,
-    NULL,
-    3,
-    NULL
-),
-
-(
-    'Ruang Wakil Dekan Bidang Kemahasiswaan dan Kerjasama',
-    $$Ruang kerja Wakil Dekan bidang kemahasiswaan dan kerjasama.$$,
-    'Lainnya',
-    2,
-    NULL,
-    3,
-    'wsh_wadek_kemahasiswaan'
-),
-
-(
-    'Ruang Sekretariat Tata Usaha FK UPNVJ',
-    $$Ruang sekretariat tata usaha Fakultas Kedokteran.$$,
-    'Administrasi & Layanan',
-    2,
-    NULL,
-    3,
-    'wsh_tata_usaha'
-),
-
-(
-    'Ruang Administrasi Keuangan FK UPNVJ',
-    $$Ruang administrasi keuangan Fakultas Kedokteran.$$,
-    'Administrasi & Layanan',
-    2,
-    NULL,
-    3,
-    NULL
-),
-
-(
-    'Medical Education Unit (MEU)',
-    $$Unit pengembangan pendidikan kedokteran.$$,
-    'Lainnya',
-    2,
-    NULL,
-    3,
-    NULL
-),
-
-(
-    'Medical Research Unit (MRU)',
-    $$Unit penelitian medis Fakultas Kedokteran.$$,
-    'Lainnya',
-    2,
-    NULL,
-    3,
-    NULL
-),
-
-(
-    'Medical Assessment Unit (MAU)',
-    $$Unit evaluasi dan asesmen pendidikan medis.$$,
-    'Lainnya',
-    2,
-    NULL,
-    3,
-    NULL
-),
-
 (
     'Medical Quality Assurance (MQA)',
     $$Unit penjaminan mutu pendidikan medis.$$,
@@ -749,7 +117,132 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     3,
     'wsh_mqa'
 ),
-
+(
+    'Pusat Stemcell & Tissue Engineering Research Centre',
+    $$Pusat kegiatan penelitian sel punca dan rekayasa jaringan.$$,
+    'Lainnya',
+    1,
+    NULL,
+    3,
+    'wsh_stem_cell'
+),
+(
+    'Ruang Akreditasi FK UPNVJ',
+    $$Ruang pengelolaan administrasi dan dokumen akreditasi Fakultas Kedokteran.$$,
+    'Lainnya',
+    1,
+    NULL,
+    3,
+    NULL
+),
+(
+    'Ruang BEM FK UPNVJ',
+    $$Ruang organisasi mahasiswa BEM Fakultas Kedokteran.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    3,
+    'wsh_bem'
+),
+(
+    'Ruang Dosen FK UPNVJ',
+    $$Ruang kerja dan aktivitas dosen Fakultas Kedokteran UPNVJ.$$,
+    'Ruang Dosen',
+    1,
+    NULL,
+    3,
+    'wsh_ruang_dosen_fk'
+),
+(
+    'Ruang Program Studi Spesialis',
+    $$Fasilitas Ruang Program Studi Spesialis yang mendukung kegiatan operasional dan kemahasiswaan$$,
+    'Lainnya',
+    1,
+    NULL,
+    3,
+    'wsh_program_studi_spesialis'
+),
+(
+    'Medical Assessment Unit (MAU)',
+    $$Unit evaluasi dan asesmen pendidikan medis.$$,
+    'Lainnya',
+    2,
+    NULL,
+    3,
+    NULL
+),
+(
+    'Medical Education Unit (MEU)',
+    $$Unit pengembangan pendidikan kedokteran.$$,
+    'Lainnya',
+    2,
+    NULL,
+    3,
+    NULL
+),
+(
+    'Medical Research Unit (MRU)',
+    $$Unit penelitian medis Fakultas Kedokteran.$$,
+    'Lainnya',
+    2,
+    NULL,
+    3,
+    NULL
+),
+(
+    'Musholla FK UPNVJ',
+    $$Fasilitas Musholla FK UPNVJ yang mendukung kegiatan operasional dan kemahasiswaan$$,
+    'Fasilitas Ibadah',
+    2,
+    NULL,
+    3,
+    'wsh_musholla'
+),
+(
+    'Ruang Administrasi Keuangan FK UPNVJ',
+    $$Ruang administrasi keuangan Fakultas Kedokteran.$$,
+    'Administrasi & Layanan',
+    2,
+    NULL,
+    3,
+    NULL
+),
+(
+    'Ruang Dekan FK UPNVJ',
+    $$Ruang kerja Dekan Fakultas Kedokteran.$$,
+    'Lainnya',
+    2,
+    NULL,
+    3,
+    'wsh_dekan'
+),
+(
+    'Ruang Podcast/mitek/meeting FK UPNVJ',
+    $$Fasilitas Ruang Podcast/mitek/meeting FK UPNVJ yang mendukung kegiatan operasional dan kemahasiswaan$$,
+    'Studio & Produksi Media',
+    2,
+    NULL,
+    3,
+    'wsh_podcast_meeting'
+),
+(
+    'Ruang Prodi Profesi',
+    $$Fasilitas Ruang Prodi Profesi yang mendukung kegiatan operasional dan kemahasiswaan$$,
+    'Lainnya',
+    2,
+    NULL,
+    3,
+    'wsh_prodi_profesi'
+),
+(
+    'Ruang PSKPP',
+    $$Fasilitas Ruang PSKPP yang mendukung kegiatan operasional dan kemahasiswaan$$,
+    'Lainnya',
+    2,
+    NULL,
+    3,
+    'wsh_pskpp'
+),
 (
     'Ruang Rapat Dekan dan Fakultas Kedokteran',
     $$Ruang rapat untuk kegiatan pimpinan dan fakultas.$$,
@@ -759,28 +252,51 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     3,
     'wsh_rapat_fk'
 ),
-
-
 (
-    'Ruang Kelas Farmasi',
-    $$Fasilitas Ruang Kelas Farmasi yang mendukung kegiatan operasional dan kemahasiswaan$$,
+    'Ruang Sekretariat Tata Usaha FK UPNVJ',
+    $$Ruang sekretariat tata usaha Fakultas Kedokteran.$$,
+    'Administrasi & Layanan',
+    2,
+    NULL,
+    3,
+    'wsh_tata_usaha'
+),
+(
+    'Ruang Server FK UPNVJ',
+    $$Fasilitas umum dan infrastruktur pendukung gedung$$,
+    'Fasilitas Umum',
+    2,
+    NULL,
+    3,
+    'wsh_server'
+),
+(
+    'Ruang Wakil Dekan Bidang Akademik',
+    $$Ruang kerja Wakil Dekan bidang akademik.$$,
     'Ruang Kuliah',
-    3,
+    2,
     NULL,
     3,
-    'wsh_kelas_farmasi'
+    'wsh_wadek_akademik'
 ),
-
 (
-    'Ruang Multimedia',
-    $$Fasilitas Ruang Multimedia yang mendukung kegiatan operasional dan kemahasiswaan$$,
+    'Ruang Wakil Dekan Bidang Kemahasiswaan dan Kerjasama',
+    $$Ruang kerja Wakil Dekan bidang kemahasiswaan dan kerjasama.$$,
     'Lainnya',
-    3,
+    2,
     NULL,
     3,
-    'wsh_multimedia'
+    'wsh_wadek_kemahasiswaan'
 ),
-
+(
+    'Ruang Wakil Dekan Bidang Umum dan Keuangan',
+    $$Ruang kerja Wakil Dekan bidang umum dan keuangan.$$,
+    'Lainnya',
+    2,
+    NULL,
+    3,
+    NULL
+),
 (
     'Auditorium Fakultas Kedokteran',
     $$Auditorium dengan kapasitas sekitar 200 orang.$$,
@@ -790,17 +306,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     3,
     'wsh_auditorium'
 ),
-
-(
-    'Laboratorium Biologi Molekuler',
-    $$Laboratorium untuk praktikum dan penelitian biologi molekuler.$$,
-    'Laboratorium',
-    3,
-    NULL,
-    3,
-    'wsh_lab_biologi_molekuler'
-),
-
 (
     'Laboratorium Biokimia',
     $$Laboratorium untuk kegiatan praktikum biokimia.$$,
@@ -810,77 +315,15 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     3,
     NULL
 ),
-
 (
-    'Ruang Kepala Laboratorium Patologi Klinik',
-    $$Ruang kepala laboratorium patologi klinik.$$,
+    'Laboratorium Biologi Molekuler',
+    $$Laboratorium untuk praktikum dan penelitian biologi molekuler.$$,
     'Laboratorium',
     3,
     NULL,
     3,
-    'wsh_ruang_kalab_patologi_klinik'
+    'wsh_lab_biologi_molekuler'
 ),
-
-(
-    'Ruang Kepala Laboratorium Biologi',
-    $$Ruang kepala laboratorium biologi.$$,
-    'Laboratorium',
-    3,
-    NULL,
-    3,
-    'wsh_ruang_kalab_biologi'
-),
-
-(
-    'Ruang Kepala Laboratorium Biokimia',
-    $$Ruang kepala laboratorium biokimia.$$,
-    'Laboratorium',
-    3,
-    NULL,
-    3,
-    'wsh_ruang_kalab_biokimia'
-),
-
-(
-    'Ruang Laboratorium Biokimia',
-    $$Ruang laboratorium biokimia.$$,
-    'Laboratorium',
-    3,
-    NULL,
-    3,
-    'wsh_ruang_lab_biokimia'
-),
-
-(
-    'Ruang Reagent Biokimia',
-    $$Ruang penyimpanan reagen biokimia.$$,
-    'Lainnya',
-    3,
-    NULL,
-    3,
-    'wsh_reagent_biokimia'
-),
-
-(
-    'Ruang Dosen Patologi Klinik',
-    $$Ruang kerja dan transit untuk Dosen Patologi Klinik$$,
-    'Ruang Dosen',
-    3,
-    NULL,
-    3,
-    'wsh_ruang_dosen_patologi_klinik'
-),
-
-(
-    'Laboratorium Patologi Klinik',
-    $$Laboratorium untuk kegiatan patologi klinik.$$,
-    'Laboratorium',
-    3,
-    NULL,
-    3,
-    'wsh_lab_patologi_klinik'
-),
-
 (
     'Laboratorium IKK/IKM',
     $$Laboratorium Ilmu Kesehatan Komunitas dan Ilmu Kesehatan Masyarakat.$$,
@@ -890,7 +333,15 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     3,
     NULL
 ),
-
+(
+    'Laboratorium Patologi Klinik',
+    $$Laboratorium untuk kegiatan patologi klinik.$$,
+    'Laboratorium',
+    3,
+    NULL,
+    3,
+    'wsh_lab_patologi_klinik'
+),
 (
     'Ruang Diskusi FK',
     $$Ruang diskusi akademik mahasiswa dan dosen.$$,
@@ -900,57 +351,78 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     3,
     NULL
 ),
-
 (
-    'Laboratorium Instrumentasi Farmasi',
-    $$Laboratorium untuk kegiatan praktikum dan penelitian instrumentasi farmasi.$$,
+    'Ruang Dosen Patologi Klinik',
+    $$Ruang kerja dan transit untuk Dosen Patologi Klinik$$,
+    'Ruang Dosen',
+    3,
+    NULL,
+    3,
+    'wsh_ruang_dosen_patologi_klinik'
+),
+(
+    'Ruang Kelas Farmasi',
+    $$Fasilitas Ruang Kelas Farmasi yang mendukung kegiatan operasional dan kemahasiswaan$$,
+    'Ruang Kuliah',
+    3,
+    NULL,
+    3,
+    'wsh_kelas_farmasi'
+),
+(
+    'Ruang Kepala Laboratorium Biokimia',
+    $$Ruang kepala laboratorium biokimia.$$,
     'Laboratorium',
-    4,
+    3,
     NULL,
     3,
-    'wsh_lab_instrumentasi_farmasi'
+    'wsh_ruang_kalab_biokimia'
 ),
-
 (
-    'Ruangan Kepala Farmakologi',
-    $$Ruang kepala laboratorium farmakologi.$$,
-    'Lainnya',
-    4,
-    NULL,
-    3,
-    'wsh_kalab_farmakologi'
-),
-
-(
-    'Kandang Hewan FK UPNVJ',
-    $$Fasilitas kandang hewan untuk penelitian dan praktikum mahasiswa Fakultas Kedokteran.$$,
-    'Lainnya',
-    4,
-    NULL,
-    3,
-    'wsh_kandang_hewan'
-),
-
-(
-    'Laboratorium Farmakologi Dan Farmasi Klinik',
-    $$Laboratorium untuk kegiatan praktikum dan penelitian farmakologi dan farmasi klinik.$$,
+    'Ruang Kepala Laboratorium Biologi',
+    $$Ruang kepala laboratorium biologi.$$,
     'Laboratorium',
-    4,
+    3,
     NULL,
     3,
-    'wsh_lab_farmakologi_dan_farmasi_klinik'
+    'wsh_ruang_kalab_biologi'
 ),
-
 (
-    'Prodi Farmasi UPNVJ',
-    $$Program studi farmasi di Universitas Pembangunan Nasional Veteran Jakarta.$$,
-    'Lainnya',
-    4,
+    'Ruang Kepala Laboratorium Patologi Klinik',
+    $$Ruang kepala laboratorium patologi klinik.$$,
+    'Laboratorium',
+    3,
     NULL,
     3,
-    'wsh_prodi_farmasi'
+    'wsh_ruang_kalab_patologi_klinik'
 ),
-
+(
+    'Ruang Laboratorium Biokimia',
+    $$Ruang laboratorium biokimia.$$,
+    'Laboratorium',
+    3,
+    NULL,
+    3,
+    'wsh_ruang_lab_biokimia'
+),
+(
+    'Ruang Multimedia',
+    $$Fasilitas Ruang Multimedia yang mendukung kegiatan operasional dan kemahasiswaan$$,
+    'Lainnya',
+    3,
+    NULL,
+    3,
+    'wsh_multimedia'
+),
+(
+    'Ruang Reagent Biokimia',
+    $$Ruang penyimpanan reagen biokimia.$$,
+    'Lainnya',
+    3,
+    NULL,
+    3,
+    'wsh_reagent_biokimia'
+),
 (
     'Bimbingan dan Konseling Farmasi UPNVJ',
     $$Bimbingan dan konseling farmasi di Universitas Pembangunan Nasional Veteran Jakarta.$$,
@@ -960,27 +432,15 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     3,
     'wsh_bimbingan_dan_konseling_farmasi'
 ),
-
 (
-    'Laboratorium Farmasi UPNVJ',
-    $$Laboratorium farmasi di Universitas Pembangunan Nasional Veteran Jakarta.$$,
-    'Laboratorium',
+    'Kandang Hewan FK UPNVJ',
+    $$Fasilitas kandang hewan untuk penelitian dan praktikum mahasiswa Fakultas Kedokteran.$$,
+    'Lainnya',
     4,
     NULL,
     3,
-    'wsh_lab_farmasi'
+    'wsh_kandang_hewan'
 ),
-
-(
-    'Ruangan Kalab Mikrobiologi & Parasitologi',
-    $$Ruangan kepala laboratorium mikrobiologi dan parasitologi.$$,
-    'Laboratorium',
-    4,
-    NULL,
-    3,
-    'wsh_kalab_mikrobiologi_dan_parasitologi'
-),
-
 (
     'Lab Mikrobiologi',
     $$Ruangan laboratorium mikrobiologi untuk kegiatan praktikum dan penelitian mahasiswa Fakultas Kedokteran.$$,
@@ -990,7 +450,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     3,
     'wsh_lab_mikrobiologi'
 ),
-
 (
     'Lab Parasitologi',
     $$Ruangan laboratorium parasitologi untuk kegiatan praktikum dan penelitian mahasiswa Fakultas Kedokteran.$$,
@@ -1000,7 +459,60 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     3,
     'wsh_lab_parasitologi'
 ),
-
+(
+    'Laboratorium Farmakologi Dan Farmasi Klinik',
+    $$Laboratorium untuk kegiatan praktikum dan penelitian farmakologi dan farmasi klinik.$$,
+    'Laboratorium',
+    4,
+    NULL,
+    3,
+    'wsh_lab_farmakologi_dan_farmasi_klinik'
+),
+(
+    'Laboratorium Farmasi UPNVJ',
+    $$Laboratorium farmasi di Universitas Pembangunan Nasional Veteran Jakarta.$$,
+    'Laboratorium',
+    4,
+    NULL,
+    3,
+    'wsh_lab_farmasi'
+),
+(
+    'Laboratorium Instrumentasi Farmasi',
+    $$Laboratorium untuk kegiatan praktikum dan penelitian instrumentasi farmasi.$$,
+    'Laboratorium',
+    4,
+    NULL,
+    3,
+    'wsh_lab_instrumentasi_farmasi'
+),
+(
+    'Prodi Farmasi UPNVJ',
+    $$Program studi farmasi di Universitas Pembangunan Nasional Veteran Jakarta.$$,
+    'Lainnya',
+    4,
+    NULL,
+    3,
+    'wsh_prodi_farmasi'
+),
+(
+    'Ruangan Kalab Mikrobiologi & Parasitologi',
+    $$Ruangan kepala laboratorium mikrobiologi dan parasitologi.$$,
+    'Laboratorium',
+    4,
+    NULL,
+    3,
+    'wsh_kalab_mikrobiologi_dan_parasitologi'
+),
+(
+    'Ruangan Kepala Farmakologi',
+    $$Ruang kepala laboratorium farmakologi.$$,
+    'Lainnya',
+    4,
+    NULL,
+    3,
+    'wsh_kalab_farmakologi'
+),
 (
     'Ruangan Laporan & Mitek Prodi Farmasi',
     $$Ruangan untuk kegiatan laporan dan mitek program studi farmasi.$$,
@@ -1011,26 +523,8 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'wsh_laporan_dan_mitek_prodi_farmasi'
 ),
 
-(
-    'Perpustakaan FK UPNVJ',
-    $$Perpustakaan dengan fasilitas ruang baca, e-library, WiFi, hotspot, dan layanan internet.$$,
-    'Perpustakaan & Ruang Baca',
-    1,
-    NULL,
-    4,
-    NULL
-),
 
-(
-    'Laboratorium Komputer FK',
-    $$Laboratorium komputer dengan 150 komputer terhubung internet.$$,
-    'Laboratorium',
-    1,
-    NULL,
-    4,
-    NULL
-),
-
+-- Gedung 4: Gedung Dr. Cipto Mangunkusumo
 (
     'Laboratorium Histologi',
     $$Laboratorium Departemen Histologi.$$,
@@ -1040,7 +534,15 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     4,
     NULL
 ),
-
+(
+    'Laboratorium Komputer FK',
+    $$Laboratorium komputer dengan 150 komputer terhubung internet.$$,
+    'Laboratorium',
+    1,
+    NULL,
+    4,
+    NULL
+),
 (
     'Laboratorium Patologi Anatomi',
     $$Laboratorium Departemen Patologi Anatomi.$$,
@@ -1050,17 +552,15 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     4,
     NULL
 ),
-
 (
-    'Ruang Tutorial FK',
-    $$Enam belas ruang diskusi kelompok untuk proses tutorial mahasiswa.$$,
-    'Lainnya',
-    2,
+    'Perpustakaan FK UPNVJ',
+    $$Perpustakaan dengan fasilitas ruang baca, e-library, WiFi, hotspot, dan layanan internet.$$,
+    'Perpustakaan & Ruang Baca',
+    1,
     NULL,
     4,
     NULL
 ),
-
 (
     'Ruang Tutor Meeting',
     $$Ruang observasi dan monitoring pelaksanaan tutorial.$$,
@@ -1070,27 +570,15 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     4,
     NULL
 ),
-
 (
-    'Skills Lab FK',
-    $$Laboratorium keterampilan klinik dengan ruang coaching dan station OSCE.$$,
-    'Laboratorium',
-    3,
-    NULL,
-    4,
-    NULL
-),
-
-(
-    'Ruang Introduction A dan B',
-    $$Ruang pengenalan pembelajaran berkapasitas 75–100 mahasiswa.$$,
+    'Ruang Tutorial FK',
+    $$Enam belas ruang diskusi kelompok untuk proses tutorial mahasiswa.$$,
     'Lainnya',
-    3,
+    2,
     NULL,
     4,
     NULL
 ),
-
 (
     'Gudang Mannequin Skills Lab',
     $$Gudang penyimpanan mannequin keterampilan medis.$$,
@@ -1100,27 +588,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     4,
     NULL
 ),
-
-(
-    'Ruang Administrasi Skills Lab',
-    $$Ruang administrasi kegiatan skills lab.$$,
-    'Laboratorium',
-    3,
-    NULL,
-    4,
-    NULL
-),
-
-(
-    'Ruang Instruktur Skills Lab',
-    $$Ruang instruktur kegiatan skills lab.$$,
-    'Laboratorium',
-    3,
-    NULL,
-    4,
-    NULL
-),
-
 (
     'Mushola FK',
     $$Fasilitas ibadah untuk mahasiswa dan civitas akademika.$$,
@@ -1130,27 +597,42 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     4,
     NULL
 ),
-
 (
-    'Ruang Lecture A dan B',
-    $$Dua ruang kuliah berkapasitas sekitar 190 orang.$$,
-    'Lainnya',
-    4,
+    'Ruang Administrasi Skills Lab',
+    $$Ruang administrasi kegiatan skills lab.$$,
+    'Laboratorium',
+    3,
     NULL,
     4,
     NULL
 ),
-
 (
-    'Ruang Seminar FK',
-    $$Ruang seminar dengan kapasitas sekitar 40 orang.$$,
-    'Lainnya',
-    4,
+    'Ruang Instruktur Skills Lab',
+    $$Ruang instruktur kegiatan skills lab.$$,
+    'Laboratorium',
+    3,
     NULL,
     4,
     NULL
 ),
-
+(
+    'Ruang Introduction A dan B',
+    $$Ruang pengenalan pembelajaran berkapasitas 75–100 mahasiswa.$$,
+    'Lainnya',
+    3,
+    NULL,
+    4,
+    NULL
+),
+(
+    'Skills Lab FK',
+    $$Laboratorium keterampilan klinik dengan ruang coaching dan station OSCE.$$,
+    'Laboratorium',
+    3,
+    NULL,
+    4,
+    NULL
+),
 (
     'Hall FK',
     $$Hall pendukung perluasan ruang lecture.$$,
@@ -1160,7 +642,24 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     4,
     NULL
 ),
-
+(
+    'Ruang Lecture A dan B',
+    $$Dua ruang kuliah berkapasitas sekitar 190 orang.$$,
+    'Lainnya',
+    4,
+    NULL,
+    4,
+    NULL
+),
+(
+    'Ruang Seminar FK',
+    $$Ruang seminar dengan kapasitas sekitar 40 orang.$$,
+    'Lainnya',
+    4,
+    NULL,
+    4,
+    NULL
+),
 (
     'Ruang Transit Dosen',
     $$Ruang transit dan istirahat dosen.$$,
@@ -1171,6 +670,8 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 
+
+-- Gedung 5: Gedung Abdul Rahman Saleh
 (
     'Laboratorium Anatomi A.101',
     $$Fasilitas laboratorium anatomi Fakultas Kedokteran.$$,
@@ -1180,7 +681,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     5,
     'ars_lab_anatomi_101'
 ),
-
 (
     'Laboratorium Anatomi A.102',
     $$Fasilitas laboratorium anatomi Fakultas Kedokteran.$$,
@@ -1191,16 +691,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'ars_lab_anatomi_102'
 ),
 (
-    'PBU',
-    $$Layanan Pusat Bimbingan Ujian dan Administrasi Terpadu.$$,
-    'Lainnya',
-    1,
-    NULL,
-    5,
-    'ars_pbu'
-),
-
-(
     'Laboratorium Fisiologi',
     $$Laboratorium fisiologi Fakultas Kedokteran.$$,
     'Laboratorium',
@@ -1209,67 +699,15 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     5,
     'ars_lab_fisiologi'
 ),
-
 (
-    'Ruang Tutorial Gedung Abdul Rahman Saleh',
-    $$Tiga ruang tutorial untuk diskusi akademik mahasiswa.$$,
+    'PBU',
+    $$Layanan Pusat Bimbingan Ujian dan Administrasi Terpadu.$$,
     'Lainnya',
-    3,
+    1,
     NULL,
     5,
-    NULL
+    'ars_pbu'
 ),
-
-(
-    'Ruang Gugus Kendali Mutu',
-    $$Ruang operasional Gugus Kendali Mutu untuk penjaminan standar mutu akademik dan pelayanan.$$,
-    'Lainnya',
-    2,
-    NULL,
-    5,
-    'ars_gugus_kendali_mutu'
-),
-
-(
-    'Ruang Kelas F.201',
-    $$Fasilitas ruang kelas pembelajaran teori F.201.$$,
-    'Ruang Kuliah',
-    2,
-    NULL,
-    5,
-    'ars_ruang_kelas_f201'
-),
-
-(
-    'Ruang Dosen',
-    $$Fasilitas ruang istirahat dan kerja bagi tenaga pendidik atau dosen.$$,
-    'Ruang Dosen',
-    2,
-    NULL,
-    5,
-    'ars_ruang_dosen'
-),
-
-(
-    'Ruang Server Wifi',
-    $$Pusat kontrol dan server jaringan WiFi untuk menjamin konektivitas internet di area gedung.$$,
-    'Fasilitas Umum',
-    2,
-    NULL,
-    5,
-    'ars_ruang_server_wifi'
-),
-
-(
-    'Pantry',
-    $$Fasilitas dapur kecil untuk kebutuhan konsumsi staf dan dosen.$$,
-    'Fasilitas Umum',
-    2,
-    NULL,
-    5,
-    'ars_pantry'
-),
-
 (
     'Musholla',
     $$Fasilitas tempat ibadah bagi mahasiswa, staf, dan dosen.$$,
@@ -1279,37 +717,15 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     5,
     'ars_musholla'
 ),
-
 (
-    'Ruang Konseling dan Bimbingan Karir',
-    $$Ruangan khusus untuk memberikan layanan bimbingan konseling dan pengembangan karir mahasiswa.$$,
-    'Lainnya',
+    'Pantry',
+    $$Fasilitas dapur kecil untuk kebutuhan konsumsi staf dan dosen.$$,
+    'Fasilitas Umum',
     2,
     NULL,
     5,
-    'ars_ruang_konseling_dan_bimbingan_karir'
+    'ars_pantry'
 ),
-
-(
-    'Ruang HIMASIFO',
-    $$Ruang sekretariat operasional Himpunan Mahasiswa Sistem Informasi (HIMASIFO).$$,
-    'Ruang Kegiatan Mahasiswa',
-    2,
-    NULL,
-    5,
-    'ars_ruang_himasifo'
-),
-
-(
-    'Ruang EOS',
-    $$Ruang sekretariat unit kegiatan kemahasiswaan EOS.$$,
-    'Lainnya',
-    2,
-    NULL,
-    5,
-    'ars_ruang_eos'
-),
-
 (
     'Ruang BEM FISIP',
     $$Ruang sekretariat Badan Eksekutif Mahasiswa (BEM) Fakultas Ilmu Sosial dan Ilmu Politik.$$,
@@ -1319,7 +735,69 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     5,
     'ars_ruang_bem_fisip'
 ),
-
+(
+    'Ruang Dosen',
+    $$Fasilitas ruang istirahat dan kerja bagi tenaga pendidik atau dosen.$$,
+    'Ruang Dosen',
+    2,
+    NULL,
+    5,
+    'ars_ruang_dosen'
+),
+(
+    'Ruang EOS',
+    $$Ruang sekretariat unit kegiatan kemahasiswaan EOS.$$,
+    'Lainnya',
+    2,
+    NULL,
+    5,
+    'ars_ruang_eos'
+),
+(
+    'Ruang Gugus Kendali Mutu',
+    $$Ruang operasional Gugus Kendali Mutu untuk penjaminan standar mutu akademik dan pelayanan.$$,
+    'Lainnya',
+    2,
+    NULL,
+    5,
+    'ars_gugus_kendali_mutu'
+),
+(
+    'Ruang HIMASIFO',
+    $$Ruang sekretariat operasional Himpunan Mahasiswa Sistem Informasi (HIMASIFO).$$,
+    'Ruang Kegiatan Mahasiswa',
+    2,
+    NULL,
+    5,
+    'ars_ruang_himasifo'
+),
+(
+    'Ruang Kelas F.201',
+    $$Fasilitas ruang kelas pembelajaran teori F.201.$$,
+    'Ruang Kuliah',
+    2,
+    NULL,
+    5,
+    'ars_ruang_kelas_f201'
+),
+(
+    'Ruang Konseling dan Bimbingan Karir',
+    $$Ruangan khusus untuk memberikan layanan bimbingan konseling dan pengembangan karir mahasiswa.$$,
+    'Lainnya',
+    2,
+    NULL,
+    5,
+    'ars_ruang_konseling_dan_bimbingan_karir'
+),
+(
+    'Ruang Server Wifi',
+    $$Pusat kontrol dan server jaringan WiFi untuk menjamin konektivitas internet di area gedung.$$,
+    'Fasilitas Umum',
+    2,
+    NULL,
+    5,
+    'ars_ruang_server_wifi'
+),
 (
     'Ruang Kelas F.301',
     $$Fasilitas ruang kelas pembelajaran teori F.301.$$,
@@ -1329,7 +807,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     5,
     'ars_ruang_kelas_f301'
 ),
-
 (
     'Ruang Kelas F.302',
     $$Fasilitas ruang kelas pembelajaran teori F.302.$$,
@@ -1339,7 +816,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     5,
     'ars_ruang_kelas_f302'
 ),
-
 (
     'Ruang Kelas F.303',
     $$Fasilitas ruang kelas pembelajaran teori F.303.$$,
@@ -1349,7 +825,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     5,
     'ars_ruang_kelas_f303'
 ),
-
 (
     'Ruang Kelas F.304',
     $$Fasilitas ruang kelas pembelajaran teori F.304.$$,
@@ -1359,7 +834,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     5,
     'ars_ruang_kelas_f304'
 ),
-
 (
     'Ruang Kelas F.305',
     $$Fasilitas ruang kelas pembelajaran teori F.305.$$,
@@ -1369,7 +843,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     5,
     'ars_ruang_kelas_f305'
 ),
-
 (
     'Ruang Kelas F.306',
     $$Fasilitas ruang kelas pembelajaran teori F.306.$$,
@@ -1379,7 +852,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     5,
     'ars_ruang_kelas_f306'
 ),
-
 (
     'Ruang Kelas F.307',
     $$Fasilitas ruang kelas pembelajaran teori F.307.$$,
@@ -1389,47 +861,15 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     5,
     'ars_ruang_kelas_f307'
 ),
-
 (
-    'Ruang Kelas F.401',
-    $$Fasilitas ruang kelas pembelajaran teori F.401.$$,
-    'Ruang Kuliah',
-    4,
+    'Ruang Tutorial Gedung Abdul Rahman Saleh',
+    $$Tiga ruang tutorial untuk diskusi akademik mahasiswa.$$,
+    'Lainnya',
+    3,
     NULL,
     5,
-    'ars_ruang_kelas_f401'
+    NULL
 ),
-
-(
-    'Ruang Kelas F.402',
-    $$Fasilitas ruang kelas pembelajaran teori F.402.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    5,
-    'ars_ruang_kelas_f402'
-),
-
-(
-    'Ruang Kelas F.403',
-    $$Fasilitas ruang kelas pembelajaran teori F.403.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    5,
-    'ars_ruang_kelas_f403'
-),
-
-(
-    'Ruang Kelas F.404',
-    $$Fasilitas ruang kelas pembelajaran teori F.404.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    5,
-    'ars_ruang_kelas_f404'
-),
-
 (
     'OSCE Center FKUPN',
     $$Pusat ujian OSCE dengan 24 ruang ujian, control panel, dan gudang manekin.$$,
@@ -1439,7 +879,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     5,
     NULL
 ),
-
 (
     'Ruang Alumni I',
     $$Ruang kegiatan alumni Fakultas Kedokteran.$$,
@@ -1449,7 +888,51 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     5,
     NULL
 ),
-
+(
+    'Ruang Kelas F.401',
+    $$Fasilitas ruang kelas pembelajaran teori F.401.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    5,
+    'ars_ruang_kelas_f401'
+),
+(
+    'Ruang Kelas F.402',
+    $$Fasilitas ruang kelas pembelajaran teori F.402.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    5,
+    'ars_ruang_kelas_f402'
+),
+(
+    'Ruang Kelas F.403',
+    $$Fasilitas ruang kelas pembelajaran teori F.403.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    5,
+    'ars_ruang_kelas_f403'
+),
+(
+    'Ruang Kelas F.404',
+    $$Fasilitas ruang kelas pembelajaran teori F.404.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    5,
+    'ars_ruang_kelas_f404'
+),
+(
+    'Ruang Komisi Etik',
+    $$Ruang kegiatan komisi etik Fakultas Kedokteran.$$,
+    'Lainnya',
+    4,
+    NULL,
+    5,
+    NULL
+),
 (
     'Ruang Peserta Alumni FK UPNVJ',
     $$Ruang peserta alumni Fakultas Kedokteran UPNVJ.$$,
@@ -1460,67 +943,17 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 
-(
-    'Ruang Komisi Etik',
-    $$Ruang kegiatan komisi etik Fakultas Kedokteran.$$,
-    'Lainnya',
-    4,
-    NULL,
-    5,
-    NULL
-),
 
-
+-- Gedung 6: Gedung Ki Hadjar Dewantara
 (
-    'Ruang Kuliah 203 Ki Hadjar Dewantara',
-    $$Ruang kuliah yang berada di Gedung Ki Hadjar Dewantara lantai 2.$$,
-    'Ruang Kuliah',
-    2,
-    NULL,
-    6,
-    'khd_203'
-),
-
-(
-    'Ruang Kuliah 202 Ki Hadjar Dewantara',
-    $$Ruang kuliah yang berada di Gedung Ki Hadjar Dewantara lantai 2.$$,
-    'Ruang Kuliah',
-    2,
-    NULL,
-    6,
-    'khd_202'
-),
-
-(
-    'Selasar Lantai 1',
-    $$Selasar pada lantai 1 Gedung Ki Hadjar Dewantara.$$,
+    'Digital Library',
+    $$Perpustakaan digital Fakultas Ilmu Komputer yang menyimpan koleksi buku, jurnal, artikel, dan sumber informasi lainnya dalam bentuk digital.$$,
     'Lainnya',
     1,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/selasar_lantai_1.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/digital_library.jpg',
     6,
-    NULL
+    'khd_digital_library'
 ),
-
-(
-    'Sekretariat Laboratorium',
-    $$Ruang sekretariat laboratorium yang berfungsi sebagai pusat administrasi dan koordinasi kegiatan laboratorium.$$,
-    'Laboratorium',
-    3,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/sekretariat_laboratorium.jpg',
-    6,
-    NULL
-),
-
-(
-    'Lab Immersive dan Multimedia',
-    $$Pusat praktikum dan penelitian di bidang pemrograman komputer dengan fasilitas komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.$$,
-    'Laboratorium',
-    NULL,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_immersive_dan_multimedia.jpg',
-    6,
-    NULL
-),
-
 (
     'Ruang Podcast FIK',
     $$Ruang podcast Fakultas Ilmu Komputer yang dilengkapi dengan peralatan rekaman audio dan video profesional, digunakan untuk produksi konten digital, wawancara, dan kegiatan penyiaran mahasiswa.$$,
@@ -1530,77 +963,15 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     6,
     NULL
 ),
-
 (
-    'Digital Library',
-    $$Perpustakaan digital Fakultas Ilmu Komputer yang menyimpan koleksi buku, jurnal, artikel, dan sumber informasi lainnya dalam bentuk digital.$$,
+    'Selasar Kihajar Dewantara',
+    $$Selasar pada lantai 1 Gedung Ki Hadjar Dewantara.$$,
     'Lainnya',
     1,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/digital_library.jpg',
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/selasar_lantai_1.jpg',
     6,
-    NULL
+    'khd_selasar'
 ),
-
-(
-    'Lab Cybersecurity dan Networking (304)',
-    $$Pusat praktikum dan penelitian bidang keamanan siber dengan perangkat keras canggih, perangkat lunak keamanan terkini, dan jaringan simulasi serangan siber.$$,
-    'Laboratorium',
-    3,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_cybersecurity_dan_networking_304.jpg',
-    6,
-    'khd_304_lab'
-),
-
-(
-    'Lab Big Data dan Data Science(303)',
-    $$Pusat praktikum dan penelitian dalam bidang penambangan data dan ilmu data dengan komputer berkinerja tinggi dan perangkat lunak analisis data terkini.$$,
-    'Laboratorium',
-    3,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_big_data_dan_data_science_303.jpg',
-    6,
-    'khd_303_lab'
-),
-
-(
-    'Lab Artificial Intelligence dan Robotics(302)',
-    $$Pusat praktikum dan penelitian bidang kecerdasan buatan dengan fasilitas komputer berperforma tinggi, perangkat lunak AI terbaru, big data, dan machine learning.$$,
-    'Laboratorium',
-    3,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_artificial_intelligence_dan_robotics_302.jpg',
-    6,
-    'khd_302_lab'
-),
-
-(
-    'Lab Enterprise System',
-    $$Pusat praktikum dan penelitian bidang intelijen bisnis dengan komputer berperforma tinggi, perangkat lunak analitik terkini, dan platform visualisasi data.$$,
-    'Laboratorium',
-    NULL,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_enterprise_system.jpg',
-    6,
-    NULL
-),
-
-(
-    'Lab E-Governance',
-    $$Pusat praktikum dan penelitian bidang manajemen basis data dengan komputer berperforma tinggi dan perangkat lunak database terkini seperti SQL Server, Oracle, dan MySQL.$$,
-    'Laboratorium',
-    NULL,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_e_governance.jpg',
-    6,
-    NULL
-),
-
-(
-    'Lab Internet of Things(401)',
-    $$Pusat kegiatan praktikum dan penelitian bidang teknologi IoT dengan sensor, mikrokontroler, modul komunikasi nirkabel, dan perangkat lunak pengembangan IoT terkini.$$,
-    'Laboratorium',
-    4,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_internet_of_things_401.jpg',
-    6,
-    'khd_401_lab'
-),
-
 (
     'Lab Software Engineering(201)',
     $$Pusat praktikum dan penelitian di bidang pemrograman komputer dengan komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.$$,
@@ -1610,7 +981,96 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     6,
     'khd_201_lab'
 ),
-
+(
+    'Ruang Kuliah 202 Ki Hadjar Dewantara',
+    $$Ruang kuliah yang berada di Gedung Ki Hadjar Dewantara lantai 2.$$,
+    'Ruang Kuliah',
+    2,
+    NULL,
+    6,
+    'khd_202'
+),
+(
+    'Ruang Kuliah 203 Ki Hadjar Dewantara',
+    $$Ruang kuliah yang berada di Gedung Ki Hadjar Dewantara lantai 2.$$,
+    'Ruang Kuliah',
+    2,
+    NULL,
+    6,
+    'khd_203'
+),
+(
+    'Lab Artificial Intelligence dan Robotics(302)',
+    $$Pusat praktikum dan penelitian bidang kecerdasan buatan dengan fasilitas komputer berperforma tinggi, perangkat lunak AI terbaru, big data, dan machine learning.$$,
+    'Laboratorium',
+    3,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_artificial_intelligence_dan_robotics_302.jpg',
+    6,
+    'khd_302_lab'
+),
+(
+    'Lab Big Data dan Data Science(303)',
+    $$Pusat praktikum dan penelitian dalam bidang penambangan data dan ilmu data dengan komputer berkinerja tinggi dan perangkat lunak analisis data terkini.$$,
+    'Laboratorium',
+    3,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_big_data_dan_data_science_303.jpg',
+    6,
+    'khd_303_lab'
+),
+(
+    'Lab Cybersecurity dan Networking (304)',
+    $$Pusat praktikum dan penelitian bidang keamanan siber dengan perangkat keras canggih, perangkat lunak keamanan terkini, dan jaringan simulasi serangan siber.$$,
+    'Laboratorium',
+    3,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_cybersecurity_dan_networking_304.jpg',
+    6,
+    'khd_304_lab'
+),
+(
+    'Sekretariat Laboratorium',
+    $$Ruang sekretariat laboratorium yang berfungsi sebagai pusat administrasi dan koordinasi kegiatan laboratorium.$$,
+    'Laboratorium',
+    3,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/sekretariat_laboratorium.jpg',
+    6,
+    'khd_sekretariat_lab'
+),
+(
+    'Lab E-Governance',
+    $$Pusat praktikum dan penelitian bidang manajemen basis data dengan komputer berperforma tinggi dan perangkat lunak database terkini seperti SQL Server, Oracle, dan MySQL.$$,
+    'Laboratorium',
+    4,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_e_governance.jpg',
+    6,
+    'khd_403_lab'
+),
+(
+    'Lab Internet of Things(401)',
+    $$Pusat kegiatan praktikum dan penelitian bidang teknologi IoT dengan sensor, mikrokontroler, modul komunikasi nirkabel, dan perangkat lunak pengembangan IoT terkini.$$,
+    'Laboratorium',
+    4,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_internet_of_things_401.jpg',
+    6,
+    'khd_401_lab'
+),
+(
+    'Lab Enterprise System',
+    $$Pusat praktikum dan penelitian bidang intelijen bisnis dengan komputer berperforma tinggi, perangkat lunak analitik terkini, dan platform visualisasi data.$$,
+    'Laboratorium',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_enterprise_system.jpg',
+    6,
+    NULL
+),
+(
+    'Lab Immersive dan Multimedia',
+    $$Pusat praktikum dan penelitian di bidang pemrograman komputer dengan fasilitas komputer terbaru, internet berkecepatan tinggi, proyektor, dan papan tulis digital.$$,
+    'Laboratorium',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_immersive_dan_multimedia.jpg',
+    6,
+    NULL
+),
 (
     'Masjid',
     $$Masjid di lingkungan kampus UPNVJ$$,
@@ -1622,6 +1082,784 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 ),
 
 
+-- Gedung 7: Gedung Moh. Husni Thamrin
+(
+    'Ruang Dosen Ilmu Ekonomi',
+    $$Ruang kerja dosen Program Studi Ilmu Ekonomi FEB.$$,
+    'Ruang Dosen',
+    2,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Ruang Dosen Manajemen Program Sarjana',
+    $$Ruang kerja dosen Program Studi Manajemen jenjang sarjana FEB.$$,
+    'Ruang Dosen',
+    2,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Ruang Kelas 201',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    2,
+    NULL,
+    7,
+    'mht_201'
+),
+(
+    'Ruang Kelas 202',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    2,
+    NULL,
+    7,
+    'mht_202'
+),
+(
+    'Ruang Kelas 203',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    2,
+    NULL,
+    7,
+    'mht_203'
+),
+(
+    'Ruang Kelas 204',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    2,
+    NULL,
+    7,
+    'mht_204'
+),
+(
+    'Ruang Kelas 205',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    2,
+    NULL,
+    7,
+    'mht_205'
+),
+(
+    'Ruang Kelas 206',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    2,
+    NULL,
+    7,
+    'mht_206'
+),
+(
+    'Ruang Kelas 207',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    2,
+    NULL,
+    7,
+    'mht_207'
+),
+(
+    'Ruang Kelas Magister',
+    $$Ruang kelas khusus program magister Fakultas Ekonomi dan Bisnis.$$,
+    'Ruang Kuliah',
+    2,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/ruang_kelas_magister.jpg',
+    7,
+    NULL
+),
+(
+    'Ruang Sekretariat Program Studi Manajemen dan Akuntansi Program Magister',
+    $$Ruang administrasi dan sekretariat Program Magister Manajemen dan Akuntansi FEB.$$,
+    'Lainnya',
+    2,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Laboratorium Akuntansi 2',
+    $$Laboratorium untuk kegiatan praktikum akuntansi mahasiswa FEB.$$,
+    'Laboratorium',
+    3,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Mash Classroom',
+    $$Ruang pembelajaran modern untuk kegiatan akademik mahasiswa FEB.$$,
+    'Lainnya',
+    3,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Mini Company',
+    $$Fasilitas simulasi perusahaan untuk praktik kewirausahaan dan bisnis mahasiswa FEB.$$,
+    'Lainnya',
+    3,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/mini_company.jpg',
+    7,
+    NULL
+),
+(
+    'Ruang Kelas 301',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    3,
+    NULL,
+    7,
+    'mht_301'
+),
+(
+    'Ruang Kelas 302',
+    $$Laboratorium Ilmu Ekonomi untuk kegiatan praktikum dan pembelajaran mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    3,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Ruang Kelas 303',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    3,
+    NULL,
+    7,
+    'mht_303'
+),
+(
+    'Ruang Kelas 304',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    3,
+    NULL,
+    7,
+    'mht_304'
+),
+(
+    'Ruang Kelas 305',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    3,
+    NULL,
+    7,
+    'mht_305'
+),
+(
+    'Ruang Kelas 306',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    3,
+    NULL,
+    7,
+    'mht_306'
+),
+(
+    'Ruang Kelas 307',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    3,
+    NULL,
+    7,
+    'mht_307'
+),
+(
+    'Mushola FEB',
+    $$Fasilitas mushola untuk kegiatan ibadah mahasiswa FEB.$$,
+    'Lainnya',
+    4,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Ruang Kelas C.402',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Ruang Kelas C.403',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Ruang Kelas C.404',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Ruang Kelas C.405',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Ruang Kelas C.406',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Ruang Kelas C.407',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Ruang Kelas D.401',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Ruang Kelas D.402',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Ruang Kelas D.403',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Ruang Kelas D.404',
+    $$Ruang kelas untuk kegiatan perkuliahan mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    7,
+    NULL
+),
+(
+    'Aula BEJ',
+    $$Aula kegiatan seminar, workshop, dan acara akademik Fakultas Ekonomi dan Bisnis.$$,
+    'Auditorium & Aula',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/aula_bej.jpg',
+    7,
+    NULL
+),
+(
+    'Bank Mini',
+    $$Laboratorium praktik perbankan untuk mahasiswa program studi keuangan dan perbankan.$$,
+    'Lainnya',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/bank_mini.jpg',
+    7,
+    NULL
+),
+(
+    'BI Corner',
+    $$Pojok literasi ekonomi dan keuangan hasil kerja sama dengan Bank Indonesia.$$,
+    'Lainnya',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/bi_corner.jpg',
+    7,
+    NULL
+),
+(
+    'Laboratorium Akuntansi dan Komputasi',
+    $$Laboratorium untuk praktik akuntansi komputer dan pengolahan data bisnis.$$,
+    'Laboratorium',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/laboratorium_ilmu_ekonomi_dan_manajemen.jpg',
+    7,
+    NULL
+),
+(
+    'Laboratorium Ilmu Ekonomi dan Manajemen',
+    $$Laboratorium penunjang pembelajaran ekonomi dan manajemen berbasis teknologi.$$,
+    'Laboratorium',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/laboratorium_ilmu_ekonomi_dan_manajemen.jpg',
+    7,
+    NULL
+),
+(
+    'Lembaga Kajian Ekonomi dan Bisnis',
+    $$Fasilitas penelitian dan pengkajian ekonomi serta bisnis untuk dosen dan mahasiswa.$$,
+    'Lainnya',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/lembaga_kajian_ekonomi_dan_bisnis.jpg',
+    7,
+    NULL
+),
+(
+    'Ruang Kelas',
+    $$Ruang perkuliahan reguler untuk kegiatan belajar mengajar mahasiswa FEB.$$,
+    'Ruang Kuliah',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/ruang_kelas.jpg',
+    7,
+    NULL
+),
+(
+    'Ruang Kelas Doktoral',
+    $$Ruang pembelajaran untuk program doktoral di lingkungan FEB.$$,
+    'Ruang Kuliah',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/ruang_kelas_doktoral.jpg',
+    7,
+    NULL
+),
+(
+    'Sekretariat Doktoral',
+    $$Fasilitas administrasi dan layanan akademik program doktoral FEB.$$,
+    'Lainnya',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/sekretariat_doktoral.jpg',
+    7,
+    NULL
+),
+(
+    'Sekretariat Magister',
+    $$Ruang administrasi dan pelayanan akademik program magister FEB.$$,
+    'Lainnya',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/sekretariat_magister.jpg',
+    7,
+    NULL
+),
+(
+    'Selasar FEB',
+    $$Area terbuka untuk diskusi, kegiatan mahasiswa, dan interaksi akademik.$$,
+    'Lainnya',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/selasar_feb.jpg',
+    7,
+    NULL
+),
+(
+    'Sibuni',
+    $$Sistem bisnis universitas yang digunakan untuk pengembangan praktik bisnis dan kewirausahaan mahasiswa.$$,
+    'Lainnya',
+    NULL,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/sibuni.jpg',
+    7,
+    NULL
+),
+
+
+-- Gedung 8: Gedung Muhammad Yamin
+(
+    'Auditorium FISIP',
+    $$Auditorium Fakultas Ilmu Sosial dan Ilmu Politik untuk seminar, kuliah umum, dan kegiatan akademik.$$,
+    'Auditorium & Aula',
+    1,
+    NULL,
+    8,
+    NULL
+),
+(
+    'Lab Podcast',
+    $$Laboratorium podcast untuk produksi konten audio digital dan broadcasting.$$,
+    'Laboratorium',
+    3,
+    NULL,
+    8,
+    NULL
+),
+(
+    'Lab Politik',
+    $$Laboratorium pembelajaran dan penelitian di bidang ilmu politik.$$,
+    'Laboratorium',
+    3,
+    NULL,
+    8,
+    NULL
+),
+(
+    'Lab Big Data',
+    $$Laboratorium untuk praktikum dan penelitian big data serta analisis data.$$,
+    'Laboratorium',
+    4,
+    NULL,
+    8,
+    NULL
+),
+(
+    'Lab Film dan Televisi',
+    $$Laboratorium produksi film dan televisi untuk mendukung pembelajaran media audiovisual.$$,
+    'Laboratorium',
+    4,
+    NULL,
+    8,
+    NULL
+),
+(
+    'Lab Fotografi',
+    $$Laboratorium fotografi untuk praktikum dan pengembangan keterampilan fotografi mahasiswa.$$,
+    'Laboratorium',
+    4,
+    NULL,
+    8,
+    NULL
+),
+
+
+-- Gedung 9: Gedung Yos Sudarso
+(
+    'Ruang Administrasi Yos Sudarso',
+    $$Ruang administrasi pada Gedung Yos Sudarso.$$,
+    'Administrasi & Layanan',
+    1,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_administrasi_yos_sudarso.png',
+    9,
+    NULL
+),
+(
+    'Ruang Dosen Yos Sudarso Lantai 1',
+    $$Ruang dosen pada lantai 1 Gedung Yos Sudarso.$$,
+    'Ruang Dosen',
+    1,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_dosen_yos_sudarso_lantai_1.png',
+    9,
+    NULL
+),
+(
+    'Selasar Kanan Yos Sudarso',
+    $$Selasar kanan pada lantai 1 Gedung Yos Sudarso.$$,
+    'Lainnya',
+    1,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/selasar_kanan_yos_sudarso.jpg',
+    9,
+    NULL
+),
+(
+    'Selasar Kiri Yos Sudarso',
+    $$Selasar kiri pada lantai 1 Gedung Yos Sudarso.$$,
+    'Lainnya',
+    1,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/selasar_kiri_yos_sudarso.jpg',
+    9,
+    NULL
+),
+(
+    'Lab Perancangan Kontrak',
+    $$Laboratorium perancangan kontrak pada lantai 2 Gedung Yos Sudarso.$$,
+    'Laboratorium',
+    2,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/lab_perancangan_kontrak.jpg',
+    9,
+    NULL
+),
+(
+    'Ruang Dosen Yos Sudarso Lantai 2',
+    $$Ruang dosen pada lantai 2 Gedung Yos Sudarso.$$,
+    'Ruang Dosen',
+    2,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_dosen_yos_sudarso_lantai_2.png',
+    9,
+    NULL
+),
+(
+    'Ruang Rapat Yos Sudarso Lantai 2',
+    $$Ruang rapat pada lantai 2 Gedung Yos Sudarso.$$,
+    'Lainnya',
+    2,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_rapat_yos_sudarso_lantai_2.jpg',
+    9,
+    NULL
+),
+(
+    'Smartclass Yos Sudarso Lantai 2',
+    $$Smartclass yang digunakan pada lantai 2 Gedung Yos Sudarso.$$,
+    'Lainnya',
+    2,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/smartclass_yos_sudarso_lantai_3.jpg',
+    9,
+    NULL
+),
+(
+    'Ruang Baca Yos Sudarso',
+    $$Ruang baca pada lantai 3 Gedung Yos Sudarso.$$,
+    'Perpustakaan & Ruang Baca',
+    3,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_baca_yos_sudarso.jpg',
+    9,
+    NULL
+),
+(
+    'Smartclass Yos Sudarso Lantai 3',
+    $$Smartclass yang digunakan pada lantai 3 Gedung Yos Sudarso.$$,
+    'Lainnya',
+    3,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/smartclass_yos_sudarso_lantai_3.jpg',
+    9,
+    NULL
+),
+(
+    'Ruang Podcast Yos Sudarso',
+    $$Ruang podcast pada lantai 4 Gedung Yos Sudarso.$$,
+    'Studio & Produksi Media',
+    4,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_praktik_peradilan_semu.png',
+    9,
+    NULL
+),
+(
+    'Ruang Praktik Peradilan Semu',
+    $$Ruang praktik peradilan semu pada lantai 4 Gedung Yos Sudarso.$$,
+    'Lainnya',
+    4,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_praktik_peradilan_semu.png',
+    9,
+    NULL
+),
+
+
+-- Gedung 10: Gedung RA Kartini
+(
+    'Ruang Dosen dan Staff Administrasi Prodi Doktor Hukum',
+    $$Ruang dosen dan staff administrasi program doktor pada lantai 1 Gedung RA Kartini.$$,
+    'Ruang Dosen',
+    1,
+    NULL,
+    10,
+    'rak_dosen_staff_doktor'
+),
+(
+    'Ruang Kelas Magister 101',
+    $$Ruang kelas program magister pada lantai 1 Gedung RA Kartini.$$,
+    'Ruang Kuliah',
+    1,
+    NULL,
+    10,
+    'rak_magister_101'
+),
+(
+    'Ruang Kelas Magister 102',
+    $$Ruang kelas program magister pada lantai 1 Gedung RA Kartini.$$,
+    'Ruang Kuliah',
+    1,
+    NULL,
+    10,
+    'rak_magister_102'
+),
+(
+    'Ruang UPT Pengembangan Karir dan Kewirausahaan',
+    $$Ruang UPT Pengembangan Karir dan Kewirausahaan pada lantai 1 Gedung RA Kartini.$$,
+    'Lainnya',
+    1,
+    NULL,
+    10,
+    'rak_upt_penkawan'
+),
+(
+    'Ruangan Laboratorium Farmasi Fakultas Kedokteran',
+    $$Ruangan Laboratorium Farmasi Fakultas Kedokteran pada lantai 1 Gedung RA Kartini.$$,
+    'Laboratorium',
+    1,
+    NULL,
+    10,
+    'rak_lab_farmasi'
+),
+(
+    'Ruangan Diskusi dan Ruang Instruktur',
+    $$Ruangan Diskusi dan Ruang Instruktur pada lantai 2 Gedung RA Kartini.$$,
+    'Lainnya',
+    2,
+    NULL,
+    10,
+    'rak_diskusi_instruktur'
+),
+(
+    'Ruangan Guru Besar Fakultas Teknik',
+    $$Ruangan guru besar fakultas teknik pada lantai 2 Gedung RA Kartini.$$,
+    'Lainnya',
+    2,
+    NULL,
+    10,
+    'rak_guru_besar'
+),
+(
+    'Ruangan Kelas 201',
+    $$Ruangan kelas pada lantai 2 Gedung RA Kartini.$$,
+    'Ruang Kuliah',
+    2,
+    NULL,
+    10,
+    'rak_201'
+),
+(
+    'Ruangan Lab Bahasa dan Ruang ujian',
+    $$Ruangan Lab Bahasa dan Ruang ujian pada lantai 2 Gedung RA Kartini.$$,
+    'Laboratorium',
+    2,
+    NULL,
+    10,
+    'rak_lab_bahasa_ruang_ujian'
+),
+(
+    'Ruangan Ujian dan Ruang Sidang Doktor',
+    $$Ruangan ujian dan ruang sidang Doktor pada lantai 2 Gedung RA Kartini.$$,
+    'Lainnya',
+    2,
+    NULL,
+    10,
+    'rak_ujian_sidang_doktor'
+),
+(
+    'Ruangan UPA Bahasa',
+    $$Ruangan UPA Bahasa pada lantai 2 Gedung RA Kartini.$$,
+    'Lainnya',
+    2,
+    NULL,
+    10,
+    'rak_upa_bahasa'
+),
+(
+    'Ruangan 303',
+    $$Ruangan 303 pada lantai 3 Gedung RA Kartini.$$,
+    'Lainnya',
+    3,
+    NULL,
+    10,
+    'rak_303'
+),
+(
+    'Ruangan 304',
+    $$Ruangan 304 pada lantai 3 Gedung RA Kartini.$$,
+    'Lainnya',
+    3,
+    NULL,
+    10,
+    'rak_304'
+),
+(
+    'Ruangan Kelas 301',
+    $$Ruangan Kelas 301 pada lantai 3 Gedung RA Kartini.$$,
+    'Ruang Kuliah',
+    3,
+    NULL,
+    10,
+    'rak_301'
+),
+(
+    'Ruangan Kelas 302',
+    $$Ruangan 302 pada lantai 3 Gedung RA Kartini.$$,
+    'Ruang Kuliah',
+    3,
+    NULL,
+    10,
+    'rak_302'
+),
+(
+    'Ruangan Ujian 305',
+    $$Ruangan ujian 305 pada lantai 3 Gedung RA Kartini.$$,
+    'Lainnya',
+    3,
+    NULL,
+    10,
+    'rak_305'
+),
+(
+    'Ruangan Ujian 306',
+    $$Ruangan ujian 306 pada lantai 3 Gedung RA Kartini.$$,
+    'Lainnya',
+    3,
+    NULL,
+    10,
+    'rak_306'
+),
+(
+    'Ruangan 404',
+    $$Ruangan 404 pada lantai 4 Gedung RA Kartini.$$,
+    'Lainnya',
+    4,
+    NULL,
+    10,
+    'rak_404'
+),
+(
+    'Ruangan 405',
+    $$Ruangan 405 pada lantai 4 Gedung RA Kartini.$$,
+    'Lainnya',
+    4,
+    NULL,
+    10,
+    'rak_405'
+),
+(
+    'Ruangan 406',
+    $$Ruangan 406 pada lantai 4 Gedung RA Kartini.$$,
+    'Lainnya',
+    4,
+    NULL,
+    10,
+    'rak_406'
+),
+(
+    'Ruangan Kelas 402',
+    $$Ruangan kelas 402 pada lantai 4 Gedung RA Kartini.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    10,
+    'rak_402'
+),
+(
+    'Ruangan Kelas 403',
+    $$Ruangan kelas 403 pada lantai 4 Gedung RA Kartini.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    10,
+    'rak_403'
+),
+(
+    'Ruangan Ujian 401',
+    $$Ruangan ujian 401 pada lantai 4 Gedung RA Kartini.$$,
+    'Lainnya',
+    4,
+    NULL,
+    10,
+    'rak_401'
+),
+
+
+-- Gedung 13: Gedung Dewi Sartika
 (
     'Lapangan dan Alat Olahraga FIK',
     $$Fasilitas Olahraga yang terletak di depan Gedung Dewi Sartika lantai 1.$$,
@@ -1631,157 +1869,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     NULL
 ),
-
-(
-    'Ruang UKM UBV',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_ubv'
-),
-
-(
-    'Ruang UKM Sepak Bola',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_sepak_bola'
-),
-
-(
-    'Ruang UKM Basket',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_basket'
-),
-
-(
-    'Ruang UKM UFO',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_ufo'
-),
-
-(
-    'Ruang UKM Catur',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_catur'
-),
-
-(
-    'Ruang UKM Juijutsu',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_juijutsu'
-),
-
-(
-    'Ruang UKM Seni tari',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_seni_tari'
-),
-
-(
-    'Ruang UKM Boxer',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_boxer'
-),
-
-(
-    'Ruang UKM Voli',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_voli'
-),
-
-(
-    'Ruang UKM Pencak Silat',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_pencak_silat'
-),
-
-(
-    'Ruang UKM MC',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_mc'
-),
-
-(
-    'Ruang UKM Bulu Tangkis',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_bulu_tangkis'
-),
-
-(
-    'Ruang UKM Paduan Suara',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_paduan_suara'
-),
-
-(
-    'Ruang UKM Protestan',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_protestan'
-),
-
-(
-    'Ruang UKM Katolik',
-    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
-    'Ruang Kegiatan Mahasiswa',
-    1,
-    NULL,
-    13,
-    'ds_ukm_katolik'
-),
-
 (
     'Ruang BEM FIK',
     $$Ruang kegiatan Badan Eksekutif Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
@@ -1791,7 +1878,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_bem'
 ),
-
 (
     'Ruang SENAT FIK',
     $$Ruang kegiatan SENAT Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
@@ -1801,7 +1887,141 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_senat'
 ),
-
+(
+    'Ruang UKM Basket',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_basket'
+),
+(
+    'Ruang UKM Boxer',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_boxer'
+),
+(
+    'Ruang UKM Bulu Tangkis',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_bulu_tangkis'
+),
+(
+    'Ruang UKM Catur',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_catur'
+),
+(
+    'Ruang UKM Juijutsu',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_juijutsu'
+),
+(
+    'Ruang UKM Katolik',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_katolik'
+),
+(
+    'Ruang UKM MC',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_mc'
+),
+(
+    'Ruang UKM Paduan Suara',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_paduan_suara'
+),
+(
+    'Ruang UKM Pencak Silat',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_pencak_silat'
+),
+(
+    'Ruang UKM Protestan',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_protestan'
+),
+(
+    'Ruang UKM Seni tari',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_seni_tari'
+),
+(
+    'Ruang UKM Sepak Bola',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_sepak_bola'
+),
+(
+    'Ruang UKM UBV',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_ubv'
+),
+(
+    'Ruang UKM UFO',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_ufo'
+),
+(
+    'Ruang UKM Voli',
+    $$Ruang kegiatan Unit Kegiatan Mahasiswa di Gedung Dewi Sartika lantai 1.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_voli'
+),
 (
     'Ruang Kuliah 201 Dewi Sartika',
     $$Ruang kuliah yang berada di Gedung Dewi Sartika lantai 2.$$,
@@ -1811,7 +2031,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_201'
 ),
-
 (
     'Ruang Kuliah 202 Dewi Sartika',
     $$Ruang kuliah yang berada di Gedung Dewi Sartika lantai 2.$$,
@@ -1821,7 +2040,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_202'
 ),
-
 (
     'Ruang Kuliah 203 Dewi Sartika',
     $$Ruang kuliah yang berada di Gedung Dewi Sartika lantai 2.$$,
@@ -1831,7 +2049,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_203'
 ),
-
 (
     'Ruang Kuliah 301',
     $$Ruang kuliah yang berada di Gedung Dewi Sartika lantai 3.$$,
@@ -1841,7 +2058,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_301'
 ),
-
 (
     'Ruang Kuliah 302',
     $$Ruang kuliah yang berada di Gedung Dewi Sartika lantai 3.$$,
@@ -1851,7 +2067,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_302'
 ),
-
 (
     'Ruang Kuliah 303',
     $$Ruang kuliah yang berada di Gedung Dewi Sartika lantai 3.$$,
@@ -1861,7 +2076,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_303'
 ),
-
 (
     'Ruang Kuliah 401',
     $$Ruang kuliah yang berada di Gedung Dewi Sartika lantai 4.$$,
@@ -1871,7 +2085,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_401'
 ),
-
 (
     'Ruang Kuliah 402',
     $$Ruang kuliah yang berada di Gedung Dewi Sartika lantai 4.$$,
@@ -1881,7 +2094,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     13,
     'ds_402'
 ),
-
 (
     'Ruang Kuliah 403(mesh room)',
     $$Ruang kuliah yang berada di Gedung Dewi Sartika lantai 4.$$,
@@ -1893,367 +2105,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 ),
 
 
-(
-    'Ruang Dosen Yos Sudarso Lantai 1',
-    $$Ruang dosen pada lantai 1 Gedung Yos Sudarso.$$,
-    'Ruang Dosen',
-    1,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_dosen_yos_sudarso_lantai_1.png',
-    9,
-    NULL
-),
-
-(
-    'Ruang Dosen Yos Sudarso Lantai 2',
-    $$Ruang dosen pada lantai 2 Gedung Yos Sudarso.$$,
-    'Ruang Dosen',
-    2,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_dosen_yos_sudarso_lantai_2.png',
-    9,
-    NULL
-),
-
-(
-    'Ruang Administrasi Yos Sudarso',
-    $$Ruang administrasi pada Gedung Yos Sudarso.$$,
-    'Administrasi & Layanan',
-    1,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_administrasi_yos_sudarso.png',
-    9,
-    NULL
-),
-
-(
-    'Ruang Rapat Yos Sudarso Lantai 2',
-    $$Ruang rapat pada lantai 2 Gedung Yos Sudarso.$$,
-    'Lainnya',
-    2,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_rapat_yos_sudarso_lantai_2.jpg',
-    9,
-    NULL
-),
-
-(
-    'Ruang Podcast Yos Sudarso',
-    $$Ruang podcast pada lantai 4 Gedung Yos Sudarso.$$,
-    'Studio & Produksi Media',
-    4,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_praktik_peradilan_semu.png',
-    9,
-    NULL
-),
-
-(
-    'Ruang Praktik Peradilan Semu',
-    $$Ruang praktik peradilan semu pada lantai 4 Gedung Yos Sudarso.$$,
-    'Lainnya',
-    4,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_praktik_peradilan_semu.png',
-    9,
-    NULL
-),
-
-(
-    'Smartclass Yos Sudarso Lantai 2',
-    $$Smartclass yang digunakan pada lantai 2 Gedung Yos Sudarso.$$,
-    'Lainnya',
-    2,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/smartclass_yos_sudarso_lantai_3.jpg',
-    9,
-    NULL
-),
-
-(
-    'Smartclass Yos Sudarso Lantai 3',
-    $$Smartclass yang digunakan pada lantai 3 Gedung Yos Sudarso.$$,
-    'Lainnya',
-    3,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/smartclass_yos_sudarso_lantai_3.jpg',
-    9,
-    NULL
-),
-
-(
-    'Ruang Baca Yos Sudarso',
-    $$Ruang baca pada lantai 3 Gedung Yos Sudarso.$$,
-    'Perpustakaan & Ruang Baca',
-    3,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_baca_yos_sudarso.jpg',
-    9,
-    NULL
-),
-
-(
-    'Lab Perancangan Kontrak',
-    $$Laboratorium perancangan kontrak pada lantai 2 Gedung Yos Sudarso.$$,
-    'Laboratorium',
-    2,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/lab_perancangan_kontrak.jpg',
-    9,
-    NULL
-),
-
-(
-    'Selasar Kanan Yos Sudarso',
-    $$Selasar kanan pada lantai 1 Gedung Yos Sudarso.$$,
-    'Lainnya',
-    1,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/selasar_kanan_yos_sudarso.jpg',
-    9,
-    NULL
-),
-
-(
-    'Selasar Kiri Yos Sudarso',
-    $$Selasar kiri pada lantai 1 Gedung Yos Sudarso.$$,
-    'Lainnya',
-    1,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/selasar_kiri_yos_sudarso.jpg',
-    9,
-    NULL
-),
-
-
-(
-    'Ruang Kelas Magister 101',
-    $$Ruang kelas program magister pada lantai 1 Gedung RA Kartini.$$,
-    'Ruang Kuliah',
-    1,
-    NULL,
-    10,
-    'rak_magister_101'
-),
-
-(
-    'Ruang Kelas Magister 102',
-    $$Ruang kelas program magister pada lantai 1 Gedung RA Kartini.$$,
-    'Ruang Kuliah',
-    1,
-    NULL,
-    10,
-    'rak_magister_102'
-),
-
-(
-    'Ruang Dosen dan Staff Administrasi Prodi Doktor Hukum',
-    $$Ruang dosen dan staff administrasi program doktor pada lantai 1 Gedung RA Kartini.$$,
-    'Ruang Dosen',
-    1,
-    NULL,
-    10,
-    'rak_dosen_staff_doktor'
-),
-
-(
-    'Ruang UPT Pengembangan Karir dan Kewirausahaan',
-    $$Ruang UPT Pengembangan Karir dan Kewirausahaan pada lantai 1 Gedung RA Kartini.$$,
-    'Lainnya',
-    1,
-    NULL,
-    10,
-    'rak_upt_penkawan'
-),
-
-(
-    'Ruangan Laboratorium Farmasi Fakultas Kedokteran',
-    $$Ruangan Laboratorium Farmasi Fakultas Kedokteran pada lantai 1 Gedung RA Kartini.$$,
-    'Laboratorium',
-    1,
-    NULL,
-    10,
-    'rak_lab_farmasi'
-),
-
-(
-    'Ruangan UPA Bahasa',
-    $$Ruangan UPA Bahasa pada lantai 2 Gedung RA Kartini.$$,
-    'Lainnya',
-    2,
-    NULL,
-    10,
-    'rak_upa_bahasa'
-),
-
-(
-    'Ruangan Guru Besar Fakultas Teknik',
-    $$Ruangan guru besar fakultas teknik pada lantai 2 Gedung RA Kartini.$$,
-    'Lainnya',
-    2,
-    NULL,
-    10,
-    'rak_guru_besar'
-),
-
-(
-    'Ruangan Kelas 201',
-    $$Ruangan kelas pada lantai 2 Gedung RA Kartini.$$,
-    'Ruang Kuliah',
-    2,
-    NULL,
-    10,
-    'rak_201'
-),
-
-(
-    'Ruangan Lab Bahasa dan Ruang ujian',
-    $$Ruangan Lab Bahasa dan Ruang ujian pada lantai 2 Gedung RA Kartini.$$,
-    'Laboratorium',
-    2,
-    NULL,
-    10,
-    'rak_lab_bahasa_ruang_ujian'
-),
-
-(
-    'Ruangan Diskusi dan Ruang Instruktur',
-    $$Ruangan Diskusi dan Ruang Instruktur pada lantai 2 Gedung RA Kartini.$$,
-    'Lainnya',
-    2,
-    NULL,
-    10,
-    'rak_diskusi_instruktur'
-),
-
-(
-    'Ruangan Ujian dan Ruang Sidang Doktor',
-    $$Ruangan ujian dan ruang sidang Doktor pada lantai 2 Gedung RA Kartini.$$,
-    'Lainnya',
-    2,
-    NULL,
-    10,
-    'rak_ujian_sidang_doktor'
-),
-
-(
-    'Ruangan Kelas 301',
-    $$Ruangan Kelas 301 pada lantai 3 Gedung RA Kartini.$$,
-    'Ruang Kuliah',
-    3,
-    NULL,
-    10,
-    'rak_301'
-),
-
-(
-    'Ruangan Kelas 302',
-    $$Ruangan 302 pada lantai 3 Gedung RA Kartini.$$,
-    'Ruang Kuliah',
-    3,
-    NULL,
-    10,
-    'rak_302'
-),
-
-(
-    'Ruangan 303',
-    $$Ruangan 303 pada lantai 3 Gedung RA Kartini.$$,
-    'Lainnya',
-    3,
-    NULL,
-    10,
-    'rak_303'
-),
-
-(
-    'Ruangan 304',
-    $$Ruangan 304 pada lantai 3 Gedung RA Kartini.$$,
-    'Lainnya',
-    3,
-    NULL,
-    10,
-    'rak_304'
-),
-
-(
-    'Ruangan Ujian 305',
-    $$Ruangan ujian 305 pada lantai 3 Gedung RA Kartini.$$,
-    'Lainnya',
-    3,
-    NULL,
-    10,
-    'rak_305'
-),
-
-(
-    'Ruangan Ujian 306',
-    $$Ruangan ujian 306 pada lantai 3 Gedung RA Kartini.$$,
-    'Lainnya',
-    3,
-    NULL,
-    10,
-    'rak_306'
-),
-
-(
-    'Ruangan Ujian 401',
-    $$Ruangan ujian 401 pada lantai 4 Gedung RA Kartini.$$,
-    'Lainnya',
-    4,
-    NULL,
-    10,
-    'rak_401'
-),
-
-(
-    'Ruangan Kelas 402',
-    $$Ruangan kelas 402 pada lantai 4 Gedung RA Kartini.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    10,
-    'rak_402'
-),
-
-(
-    'Ruangan Kelas 403',
-    $$Ruangan kelas 403 pada lantai 4 Gedung RA Kartini.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    10,
-    'rak_403'
-),
-
-(
-    'Ruangan 404',
-    $$Ruangan 404 pada lantai 4 Gedung RA Kartini.$$,
-    'Lainnya',
-    4,
-    NULL,
-    10,
-    'rak_404'
-),
-
-(
-    'Ruangan 405',
-    $$Ruangan 405 pada lantai 4 Gedung RA Kartini.$$,
-    'Lainnya',
-    4,
-    NULL,
-    10,
-    'rak_405'
-),
-
-(
-    'Ruangan 406',
-    $$Ruangan 406 pada lantai 4 Gedung RA Kartini.$$,
-    'Lainnya',
-    4,
-    NULL,
-    10,
-    'rak_406'
-),
-
-(
-    'Auditorium FISIP',
-    $$Auditorium Fakultas Ilmu Sosial dan Ilmu Politik untuk seminar, kuliah umum, dan kegiatan akademik.$$,
-    'Auditorium & Aula',
-    1,
-    NULL,
-    8,
-    NULL
-),
-
+-- Tanpa Gedung (id_gedung NULL)
 (
     'Ruang Baca FISIP',
     'Ruang baca dengan koleksi buku, jurnal, referensi digital, serta akses internet untuk mendukung kegiatan akademik.',
@@ -2263,97 +2115,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL,
     NULL
 ),
-
-(
-    'Lab Multimedia',
-    'Laboratorium multimedia untuk pembelajaran produksi video, audio, animasi, dan desain grafis.',
-    'Laboratorium',
-    NULL,
-    NULL,
-    NULL,
-    NULL
-),
-
-(
-    'Lab Politik',
-    $$Laboratorium pembelajaran dan penelitian di bidang ilmu politik.$$,
-    'Laboratorium',
-    3,
-    NULL,
-    8,
-    NULL
-),
-
-(
-    'Lab Big Data',
-    $$Laboratorium untuk praktikum dan penelitian big data serta analisis data.$$,
-    'Laboratorium',
-    4,
-    NULL,
-    8,
-    NULL
-),
-
-(
-    'Lab Fotografi',
-    $$Laboratorium fotografi untuk praktikum dan pengembangan keterampilan fotografi mahasiswa.$$,
-    'Laboratorium',
-    4,
-    NULL,
-    8,
-    NULL
-),
-
-(
-    'Lab Radio',
-    'Laboratorium radio untuk praktik penyiaran dan produksi audio.',
-    'Laboratorium',
-    NULL,
-    NULL,
-    NULL,
-    NULL
-),
-
-(
-    'Lab Podcast',
-    $$Laboratorium podcast untuk produksi konten audio digital dan broadcasting.$$,
-    'Laboratorium',
-    3,
-    NULL,
-    8,
-    NULL
-),
-
-(
-    'Lab Film dan Televisi',
-    $$Laboratorium produksi film dan televisi untuk mendukung pembelajaran media audiovisual.$$,
-    'Laboratorium',
-    4,
-    NULL,
-    8,
-    NULL
-),
-
-(
-    'Lab Diplomasi',
-    'Laboratorium diplomasi untuk simulasi dan pembelajaran hubungan internasional.',
-    'Laboratorium',
-    NULL,
-    NULL,
-    NULL,
-    NULL
-),
-
-(
-    'Ruang Kelas FISIP',
-    'Ruang kelas untuk kegiatan belajar mengajar mahasiswa FISIP.',
-    'Ruang Kuliah & Akademik',
-    NULL,
-    NULL,
-    NULL,
-    NULL
-),
-
 (
     'Area Lounge Mahasiswa FISIP',
     'Area bersantai dan diskusi mahasiswa di lingkungan FISIP.',
@@ -2363,10 +2124,48 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL,
     NULL
 ),
-
+(
+    id_gedung NULL
+),
+(
+    'Lab Diplomasi',
+    'Laboratorium diplomasi untuk simulasi dan pembelajaran hubungan internasional.',
+    'Laboratorium',
+    NULL,
+    NULL,
+    NULL,
+    NULL
+),
+(
+    'Lab Multimedia',
+    'Laboratorium multimedia untuk pembelajaran produksi video, audio, animasi, dan desain grafis.',
+    'Laboratorium',
+    NULL,
+    NULL,
+    NULL,
+    NULL
+),
+(
+    'Lab Radio',
+    'Laboratorium radio untuk praktik penyiaran dan produksi audio.',
+    'Laboratorium',
+    NULL,
+    NULL,
+    NULL,
+    NULL
+),
 (
     'Ruang Diskusi FISIP',
     'Ruang diskusi mahasiswa untuk kegiatan akademik dan kolaborasi.',
+    'Ruang Kuliah & Akademik',
+    NULL,
+    NULL,
+    NULL,
+    NULL
+),
+(
+    'Ruang Kelas FISIP',
+    'Ruang kelas untuk kegiatan belajar mengajar mahasiswa FISIP.',
     'Ruang Kuliah & Akademik',
     NULL,
     NULL,
