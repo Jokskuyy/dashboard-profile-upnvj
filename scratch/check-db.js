@@ -1,3 +1,12 @@
+/**
+ * check-db.js — Skrip utilitas ad-hoc (read-only).
+ *
+ * Cek koneksi Supabase dan tampilkan jumlah baris tabel `gedung` & `fasilitas`,
+ * serta daftar gedung yang memiliki `unity_object_name`.
+ *
+ * Jalankan dari root proyek: `node scratch/check-db.js`
+ * Memerlukan VITE_SUPABASE_URL & VITE_SUPABASE_ANON_KEY di `.env`.
+ */
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 

@@ -1,3 +1,15 @@
+/**
+ * facility-filler.js — Modul util fasilitas (dipakai skrip ad-hoc + diuji).
+ *
+ * Berisi fungsi murni untuk kategorisasi fasilitas dan generasi deskripsi
+ * berdasarkan nama, plus `processFacilityLine` yang menormalkan satu baris
+ * tuple INSERT SQL fasilitas (mengisi deskripsi & memperbaiki tipe).
+ *
+ * BUKAN skrip yang dijalankan langsung — diimpor oleh `apply-filler.js` dan
+ * diuji oleh `facility-filler.test.js` (bagian Test_Gate `npm run test`).
+ * Pertahankan kontrak ekspor (`processFacilityLine`, `categorizeFacility`,
+ * `generateDescription`) agar test tetap lulus.
+ */
 function categorizeFacility(name) {
     const lowerName = name.toLowerCase();
     

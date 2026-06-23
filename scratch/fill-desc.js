@@ -1,3 +1,13 @@
+/**
+ * fill-desc.js — Skrip utilitas ad-hoc (MENULIS berkas seed SQL).
+ *
+ * Isi deskripsi & tipe untuk daftar fasilitas spesifik (mis. ruang kelas
+ * F.30x/F.40x, PBU, Musholla, dll.) yang deskripsinya masih kosong pada
+ * `database/002_seed_data.sql`.
+ *
+ * Jalankan dari root proyek: `node scratch/fill-desc.js`
+ * ⚠️ Memodifikasi `database/002_seed_data.sql` di tempat — buat cadangan dulu.
+ */
 import fs from 'fs';
 
 const sqlPath = 'database/002_seed_data.sql';

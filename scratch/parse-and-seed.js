@@ -1,3 +1,14 @@
+/**
+ * parse-and-seed.js — Skrip utilitas ad-hoc (MENGUBAH database).
+ *
+ * Parse statement `INSERT INTO public.<tabel> (...) VALUES ...` dari
+ * `database/002_seed_data.sql`, lalu hapus & isi ulang tabel Supabase
+ * (gedung, fakultas, program_studi, fasilitas) sesuai urutan foreign key.
+ *
+ * Jalankan dari root proyek: `node scratch/parse-and-seed.js`
+ * Memerlukan VITE_SUPABASE_URL & SUPABASE_SERVICE_ROLE_KEY di `.env`.
+ * ⚠️ DESTRUKTIF: menghapus seluruh baris tabel terkait sebelum insert ulang.
+ */
 import fs from 'fs';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';

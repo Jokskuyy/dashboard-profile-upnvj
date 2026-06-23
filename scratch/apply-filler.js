@@ -1,3 +1,13 @@
+/**
+ * apply-filler.js — Skrip utilitas ad-hoc (MENULIS berkas seed SQL).
+ *
+ * Terapkan `categorizeFacility` & `generateDescription` (dari
+ * facility-filler.js) ke tuple INSERT pada `database/002_seed_data.sql`:
+ * mengisi deskripsi yang kosong/terlalu pendek dan memperbaiki tipe fasilitas.
+ *
+ * Jalankan dari root proyek: `node scratch/apply-filler.js`
+ * ⚠️ Memodifikasi `database/002_seed_data.sql` di tempat — buat cadangan dulu.
+ */
 import fs from 'fs';
 import { categorizeFacility, generateDescription } from './facility-filler.js';
 

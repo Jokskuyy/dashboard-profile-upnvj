@@ -1,3 +1,13 @@
+/**
+ * check-ars.js — Skrip utilitas ad-hoc (read-only).
+ *
+ * Tampilkan seluruh fasilitas pada Gedung "Abdul Rahman Saleh" (nama,
+ * deskripsi, unity_object_name) untuk inspeksi data.
+ *
+ * Jalankan dari root proyek: `node scratch/check-ars.js`
+ * Memerlukan VITE_SUPABASE_URL & (SUPABASE_SERVICE_ROLE_KEY atau
+ * VITE_SUPABASE_ANON_KEY) di `.env`.
+ */
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import path from 'path';

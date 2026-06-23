@@ -1,3 +1,12 @@
+/**
+ * fix-type.js — Skrip utilitas ad-hoc (MENULIS berkas seed SQL).
+ *
+ * Koreksi tipe fasilitas tertentu (mis. "Ruang Dosen" dan "Gugus Kendali Mutu")
+ * pada `database/002_seed_data.sql` setelah pengisian deskripsi.
+ *
+ * Jalankan dari root proyek: `node scratch/fix-type.js`
+ * ⚠️ Memodifikasi `database/002_seed_data.sql` di tempat — buat cadangan dulu.
+ */
 import fs from 'fs';
 
 const sqlPath = 'database/002_seed_data.sql';

@@ -1,3 +1,13 @@
+/**
+ * check-compression.js — Skrip utilitas ad-hoc (read-only).
+ *
+ * Deteksi apakah berkas `.wasm.unityweb` pada build Unity dikompres dengan
+ * GZIP atau Brotli (dengan mencoba dekompresi).
+ *
+ * Jalankan dari root proyek: `node scratch/check-compression.js`
+ * Catatan: sesuaikan `filePath` dengan versi build terbaru di
+ * `public/unity-builds/` bila perlu.
+ */
 import fs from 'fs';
 import zlib from 'zlib';
 
