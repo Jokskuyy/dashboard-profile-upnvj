@@ -70,7 +70,9 @@ EventTarget.prototype.addEventListener = function (
 };
 
 // Mark as patched for debugging
-(document.addEventListener as any).__patched = true;
+(document.addEventListener as typeof document.addEventListener & {
+  __patched?: boolean;
+}).__patched = true;
 
 /**
  * Pointer Lock Patch
@@ -88,13 +90,13 @@ const originalRequestPointerLock = HTMLElement.prototype.requestPointerLock;
 
 HTMLElement.prototype.requestPointerLock = function (
   this: HTMLElement,
-  ...args: any[]
+  ...args: Parameters<typeof originalRequestPointerLock>
 ): Promise<void> {
   try {
-    const result = originalRequestPointerLock.apply(this, args as any);
+    const result = originalRequestPointerLock.apply(this, args) as unknown;
     // requestPointerLock may return a Promise in modern browsers
-    if (result && typeof (result as any).catch === "function") {
-      return (result as any).catch((err: Error) => {
+    if (result && typeof (result as { catch?: unknown }).catch === "function") {
+      return (result as Promise<void>).catch((err: Error) => {
         if (err.name === "NotAllowedError") {
           // Silently ignore — not triggered by user gesture
           return;
@@ -102,15 +104,15 @@ HTMLElement.prototype.requestPointerLock = function (
         console.warn("[PointerLockPatch] Unexpected error:", err);
       });
     }
-    return result || Promise.resolve();
-  } catch (err: any) {
-    if (err?.name === "NotAllowedError") {
+    return (result as Promise<void> | undefined) || Promise.resolve();
+  } catch (err) {
+    if (err instanceof Error && err.name === "NotAllowedError") {
       // Silently ignore
       return Promise.resolve();
     }
     throw err;
   }
-};
+} as typeof HTMLElement.prototype.requestPointerLock;
 
 console.log("[UnityKeyboardPatch] Installed — intercepting keyboard/mouse events on document & window");
 console.log("[PointerLockPatch] Installed — suppressing non-gesture pointer lock errors");

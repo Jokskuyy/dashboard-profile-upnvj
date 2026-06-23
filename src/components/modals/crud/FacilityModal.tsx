@@ -134,7 +134,8 @@ export default function FacilityModal({
     setLoading(true);
     try {
       // Strip nested join objects before saving — only send DB columns
-      const { gedung: _gedung, ...cleanData } = formData;
+      const cleanData = { ...formData };
+      delete cleanData.gedung;
       await onSave(cleanData);
     } catch {
       // Error is handled by parent (AdminDashboard)

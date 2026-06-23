@@ -139,7 +139,12 @@ const FacilitySearch: React.FC = () => {
 
       if (error) throw error;
 
-      const transformed: FacilityResult[] = (data || []).map((f: any) => ({
+      type RawFacility = Omit<FacilityResult, "gedung"> & {
+        gedung?: FacilityResult["gedung"] | FacilityResult["gedung"][];
+      };
+      const transformed: FacilityResult[] = (
+        (data ?? []) as unknown as RawFacility[]
+      ).map((f) => ({
         ...f,
         gedung: Array.isArray(f.gedung) ? f.gedung[0] : f.gedung,
       }));

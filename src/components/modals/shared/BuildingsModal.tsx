@@ -64,7 +64,12 @@ const BuildingsModal: React.FC<BuildingsModalProps> = ({ isOpen, onClose }) => {
 
       if (error) throw error;
 
-      const mapped: Building[] = (data || []).map((b: any) => ({
+      type RawBuilding = Omit<Building, "facilities"> & {
+        fasilitas?: Facility[] | null;
+      };
+      const mapped: Building[] = (
+        (data ?? []) as unknown as RawBuilding[]
+      ).map((b) => ({
         id: b.id,
         nama_gedung: b.nama_gedung,
         deskripsi_gedung: b.deskripsi_gedung,

@@ -1,4 +1,5 @@
 import { describe, test, expect, vi, beforeEach } from "vitest";
+import type { Session, User, AuthError } from "@supabase/supabase-js";
 
 // Mock the supabase client import
 vi.mock("../../lib/supabase", () => {
@@ -35,7 +36,7 @@ describe("SupabaseAuthAdapter", () => {
 
   test("getSession maps supabase session correctly", async () => {
     vi.mocked(supabase.auth.getSession).mockResolvedValue({
-      data: { session: dummySession as any },
+      data: { session: dummySession as unknown as Session },
       error: null,
     });
 
@@ -52,7 +53,7 @@ describe("SupabaseAuthAdapter", () => {
   test("getSession returns null session and maps error correctly", async () => {
     vi.mocked(supabase.auth.getSession).mockResolvedValue({
       data: { session: null },
-      error: { message: "Invalid session key" } as any,
+      error: { message: "Invalid session key" } as unknown as AuthError,
     });
 
     const { session, error } = await supabaseAuthAdapter.getSession();
@@ -64,7 +65,10 @@ describe("SupabaseAuthAdapter", () => {
 
   test("signInWithPassword returns mapped session and user", async () => {
     vi.mocked(supabase.auth.signInWithPassword).mockResolvedValue({
-      data: { session: dummySession, user: dummyUser } as any,
+      data: { session: dummySession, user: dummyUser } as unknown as {
+        session: Session;
+        user: User;
+      },
       error: null,
     });
 
@@ -86,7 +90,7 @@ describe("SupabaseAuthAdapter", () => {
 
   test("signOut throws error if supabase signout fails", async () => {
     vi.mocked(supabase.auth.signOut).mockResolvedValue({
-      error: { message: "SignOut error occurred" } as any,
+      error: { message: "SignOut error occurred" } as unknown as AuthError,
     });
 
     await expect(supabaseAuthAdapter.signOut()).rejects.toThrow("SignOut error occurred");
@@ -102,8 +106,8 @@ describe("SupabaseAuthAdapter", () => {
   test("onAuthStateChange sets up callback and unsubscribe", () => {
     const unsubscribeMock = vi.fn();
     vi.mocked(supabase.auth.onAuthStateChange).mockReturnValue({
-      data: { subscription: { unsubscribe: unsubscribeMock } as any },
-    });
+      data: { subscription: { unsubscribe: unsubscribeMock } },
+    } as unknown as ReturnType<typeof supabase.auth.onAuthStateChange>);
 
     const callback = vi.fn();
     const { unsubscribe } = supabaseAuthAdapter.onAuthStateChange(callback);
@@ -112,7 +116,7 @@ describe("SupabaseAuthAdapter", () => {
 
     // Call the inner callback from supabase
     const authStateChangeCallback = vi.mocked(supabase.auth.onAuthStateChange).mock.calls[0][0];
-    authStateChangeCallback("SIGNED_IN", dummySession as any);
+    authStateChangeCallback("SIGNED_IN", dummySession as unknown as Session);
 
     expect(callback).toHaveBeenCalledWith("SIGNED_IN", {
       user: {

@@ -83,7 +83,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const exitMobileFullscreen = async () => {
     try {
       if (document.fullscreenElement) await document.exitFullscreen();
-      (screen.orientation as any).unlock?.();
+      (screen.orientation as ScreenOrientation & { unlock?: () => void }).unlock?.();
     } catch {
       // ignore
     }
@@ -96,7 +96,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       if (!document.fullscreenElement && isMobileLandscape) {
         setIsMobileLandscape(false);
         try {
-          (screen.orientation as any).unlock?.();
+          (screen.orientation as ScreenOrientation & { unlock?: () => void }).unlock?.();
         } catch {
           // ignore
         }
@@ -273,7 +273,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         }
       }
       try {
-        (screen.orientation as any).unlock?.();
+        (screen.orientation as ScreenOrientation & { unlock?: () => void }).unlock?.();
       } catch {
         // ignore
       }

@@ -19,16 +19,16 @@ describe("getTranslation Utility", () => {
 
   test("falls back to default language ('id') if key is missing in target language", () => {
     // Add custom test keys directly to translations
-    (translations.id as any).testOnlyKey = "Indonesian Only Value";
+    (translations.id as Record<string, unknown>).testOnlyKey = "Indonesian Only Value";
     // Ensure it's not present in 'en'
-    delete (translations.en as any).testOnlyKey;
+    delete (translations.en as Record<string, unknown>).testOnlyKey;
 
     expect(getTranslation("en", "testOnlyKey")).toBe("Indonesian Only Value");
   });
 
   test("interpolates parameters in translation strings", () => {
-    (translations.id as any).testInterpolation = "Halo {name}, selamat datang di {campus}!";
-    (translations.en as any).testInterpolation = "Hello {name}, welcome to {campus}!";
+    (translations.id as Record<string, unknown>).testInterpolation = "Halo {name}, selamat datang di {campus}!";
+    (translations.en as Record<string, unknown>).testInterpolation = "Hello {name}, welcome to {campus}!";
 
     expect(
       getTranslation("id", "testInterpolation", { name: "Iman", campus: "UPNVJ" })
@@ -40,12 +40,12 @@ describe("getTranslation Utility", () => {
   });
 
   test("handles numeric parameters in interpolation", () => {
-    (translations.id as any).testNumber = "Kapasitas: {count} orang";
+    (translations.id as Record<string, unknown>).testNumber = "Kapasitas: {count} orang";
     expect(getTranslation("id", "testNumber", { count: 50 })).toBe("Kapasitas: 50 orang");
   });
 
   test("leaves unresolved placeholders intact", () => {
-    (translations.id as any).testUnresolved = "Halo {name} dan {friend}!";
+    (translations.id as Record<string, unknown>).testUnresolved = "Halo {name} dan {friend}!";
     expect(getTranslation("id", "testUnresolved", { name: "Iman" })).toBe("Halo Iman dan {friend}!");
   });
 });

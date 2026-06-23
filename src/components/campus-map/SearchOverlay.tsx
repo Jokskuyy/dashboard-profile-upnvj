@@ -32,6 +32,19 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
     if (canvas) canvas.style.pointerEvents = "auto";
   }, []);
 
+  const handleCancelNavigation = useCallback(() => {
+    setQuery("");
+    setSelectedItem(null);
+    setIsOpen(false);
+    setIsNavigating(false);
+    setResults([]);
+    unlockUnityInput();
+
+    if (window.unityInstance) {
+      window.unityInstance.SendMessage("NavigationReceiver", "StopNavigation", "");
+    }
+  }, [unlockUnityInput]);
+
   // Global shortcut: Enter → fokus ke search bar + lock Unity input
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -56,7 +69,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
 
     window.addEventListener("keydown", handler, true);
     return () => window.removeEventListener("keydown", handler, true);
-  }, [lockUnityInput, isNavigating]);
+  }, [lockUnityInput, isNavigating, handleCancelNavigation]);
 
   // Debounce query — delay search by 300ms to avoid searching every keystroke
   useEffect(() => {
@@ -113,19 +126,6 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
     },
     [unlockUnityInput]
   );
-
-  const handleCancelNavigation = useCallback(() => {
-    setQuery("");
-    setSelectedItem(null);
-    setIsOpen(false);
-    setIsNavigating(false);
-    setResults([]);
-    unlockUnityInput();
-
-    if (window.unityInstance) {
-      window.unityInstance.SendMessage("NavigationReceiver", "StopNavigation", "");
-    }
-  }, [unlockUnityInput]);
 
   const handleClearSearch = useCallback(() => {
     setQuery("");

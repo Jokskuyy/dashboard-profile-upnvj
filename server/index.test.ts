@@ -1,6 +1,11 @@
 // @vitest-environment node
 import { describe, test, expect, vi, beforeAll, afterAll } from "vitest";
 import express from "express";
+import type { Application } from "express";
+import type { Server } from "node:http";
+
+/** Callback type for the thenable Supabase query mocks. */
+type ThenCallback = (value: { data: unknown; error: unknown }) => unknown;
 
 // 1. Setup mock data
 const mockRooms = [
@@ -36,15 +41,15 @@ const mockBuildings = [
 ];
 
 // 2. Intercept Express listen BEFORE importing the server
-let serverInstance: any;
+let serverInstance: Server | undefined;
 const originalListen = express.application.listen;
 
-express.application.listen = function (this: any, ...args: any[]) {
+express.application.listen = function (this: Application, ...args: unknown[]): Server {
   // Force ephemeral port
   args[0] = 0;
-  serverInstance = originalListen.apply(this, args as any);
+  serverInstance = (originalListen as (...a: unknown[]) => Server).apply(this, args);
   return serverInstance;
-};
+} as typeof express.application.listen;
 
 // 3. Mock Supabase
 vi.mock("@supabase/supabase-js", () => {
@@ -61,15 +66,15 @@ vi.mock("@supabase/supabase-js", () => {
     return {
       single: mockSingle,
       eq: mockEq,
-      then: (cb: any) => Promise.resolve({ data: mockRooms, error: null }).then(cb),
+      then: (cb: ThenCallback) => Promise.resolve({ data: mockRooms, error: null }).then(cb),
     };
   });
 
-  const mockSelect = vi.fn().mockImplementation((query) => {
+  const mockSelect = vi.fn().mockImplementation((_query) => {
     return {
       eq: mockEq,
       single: mockSingle,
-      then: (cb: any) => {
+      then: (cb: ThenCallback) => {
         return Promise.resolve({ data: mockRooms, error: null }).then(cb);
       },
     };
@@ -79,7 +84,7 @@ vi.mock("@supabase/supabase-js", () => {
     if (table === "gedung") {
       return {
         select: vi.fn().mockImplementation(() => ({
-          then: (cb: any) => Promise.resolve({ data: mockBuildings, error: null }).then(cb),
+          then: (cb: ThenCallback) => Promise.resolve({ data: mockBuildings, error: null }).then(cb),
         })),
       };
     }
