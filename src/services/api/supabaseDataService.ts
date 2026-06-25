@@ -406,6 +406,7 @@ export const getTotalStats = (data: DashboardData) => {
 export const createProgram = async (
   program: Omit<ProgramData, "id">,
 ): Promise<ProgramData> => {
+  if (!program.nama_prodi && !program.name) throw new Error("Nama prodi wajib diisi.");
   clearCache();
 
   let fakultasId = program.id_fakultas;
@@ -418,7 +419,10 @@ export const createProgram = async (
       .eq("nama_fakultas", program.faculty)
       .single();
 
-    if (fakultasError) throw fakultasError;
+    if (fakultasError) {
+      console.error(fakultasError);
+      throw new Error("Gagal mengambil data fakultas.");
+    }
     fakultasId = fakultas.id;
   }
 
@@ -431,10 +435,6 @@ export const createProgram = async (
   if ((program as Record<string, unknown>).akreditasi !== undefined) {
     insertPayload.akreditasi = (program as Record<string, unknown>).akreditasi;
   }
-
-  // Debug: log the exact payload being sent
-  console.log("[createProgram] Input:", JSON.stringify(program));
-  console.log("[createProgram] Payload:", JSON.stringify(insertPayload));
 
   const { data, error } = await supabase
     .from("program_studi")
@@ -450,8 +450,8 @@ export const createProgram = async (
     .single();
 
   if (error) {
-    console.error("[createProgram] Supabase error:", JSON.stringify(error));
-    throw error;
+    console.error("[createProgram] Supabase error:", error);
+    throw new Error("Gagal membuat program studi.");
   }
 
   // Audit log (fire-and-forget)
@@ -509,7 +509,10 @@ export const updateProgram = async (
     )
     .single();
 
-  if (error) throw error;
+  if (error) {
+    console.error("Supabase error:", error);
+    throw new Error("Gagal update program studi.");
+  }
 
   // Audit log (fire-and-forget)
   logUpdate("program_studi", id, oldData || {}, data);
@@ -543,7 +546,10 @@ export const deleteProgram = async (id: string): Promise<void> => {
     .delete()
     .eq("id", parseInt(id));
 
-  if (error) throw error;
+  if (error) {
+    console.error("Supabase error:", error);
+    throw new Error("Gagal hapus program studi.");
+  }
 
   // Audit log (fire-and-forget)
   logDelete("program_studi", id, oldData || {});
@@ -567,6 +573,8 @@ export interface FacilityData {
 export const createFacility = async (
   facility: Omit<FacilityData, "id">,
 ): Promise<FacilityData> => {
+  if (!facility.nama_fasilitas) throw new Error("Nama fasilitas wajib diisi.");
+  if (!facility.id_gedung) throw new Error("ID gedung wajib diisi.");
   clearCache();
 
   const { data, error } = await supabase
@@ -584,7 +592,10 @@ export const createFacility = async (
     .select()
     .single();
 
-  if (error) throw error;
+  if (error) {
+    console.error("Supabase error:", error);
+    throw new Error("Gagal membuat fasilitas.");
+  }
 
   // Audit log (fire-and-forget)
   logCreate("fasilitas", data.id.toString(), data);
@@ -631,7 +642,10 @@ export const updateFacility = async (
     .select()
     .single();
 
-  if (error) throw error;
+  if (error) {
+    console.error("Supabase error:", error);
+    throw new Error("Gagal update fasilitas.");
+  }
 
   // Audit log (fire-and-forget)
   logUpdate("fasilitas", id.toString(), oldData || {}, data);
@@ -651,7 +665,10 @@ export const deleteFacility = async (id: number): Promise<void> => {
 
   const { error } = await supabase.from("fasilitas").delete().eq("id", id);
 
-  if (error) throw error;
+  if (error) {
+    console.error("Supabase error:", error);
+    throw new Error("Gagal hapus fasilitas.");
+  }
 
   // Audit log (fire-and-forget)
   logDelete("fasilitas", id.toString(), oldData || {});
@@ -672,6 +689,7 @@ export interface GedungData {
 export const createGedung = async (
   gedung: Omit<GedungData, "id">,
 ): Promise<GedungData> => {
+  if (!gedung.nama_gedung) throw new Error("Nama gedung wajib diisi.");
   clearCache();
 
   const { data, error } = await supabase
@@ -687,7 +705,10 @@ export const createGedung = async (
     .select()
     .single();
 
-  if (error) throw error;
+  if (error) {
+    console.error("Supabase error:", error);
+    throw new Error("Gagal membuat gedung.");
+  }
 
   logCreate("gedung", data.id.toString(), data);
 
@@ -728,7 +749,10 @@ export const updateGedung = async (
     .select()
     .single();
 
-  if (error) throw error;
+  if (error) {
+    console.error("Supabase error:", error);
+    throw new Error("Gagal update gedung.");
+  }
 
   logUpdate("gedung", id.toString(), oldData || {}, data);
 
@@ -746,7 +770,10 @@ export const deleteGedung = async (id: number): Promise<void> => {
 
   const { error } = await supabase.from("gedung").delete().eq("id", id);
 
-  if (error) throw error;
+  if (error) {
+    console.error("Supabase error:", error);
+    throw new Error("Gagal hapus gedung.");
+  }
 
   logDelete("gedung", id.toString(), oldData || {});
 };

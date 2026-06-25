@@ -107,7 +107,8 @@ export function useBuildingSearch() {
   const search = useCallback((query: string): SearchResult[] => {
     if (!query.trim()) return [];
     
-    let q = query.toLowerCase().trim();
+    // Hapus karakter non-alfanumerik/spasi/dash untuk sanitasi
+    let q = query.toLowerCase().replace(/[^\w\s-]/g, "").trim();
     
     // Ganti kata-kata tertentu jika query mengandung singkatan, 
     // misal "gedung fik" -> "gedung fakultas ilmu komputer"

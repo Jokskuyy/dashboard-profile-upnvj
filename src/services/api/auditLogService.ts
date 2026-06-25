@@ -165,8 +165,8 @@ export const fetchAuditLogs = async (
       query = query.lte("created_at", filters.to_date);
     }
 
-    const limit = filters?.limit ?? 50;
-    const offset = filters?.offset ?? 0;
+    const limit = Math.min(Math.max(1, filters?.limit ?? 50), 1000);
+    const offset = Math.max(0, filters?.offset ?? 0);
     query = query.range(offset, offset + limit - 1);
 
     const { data, error } = await query;
