@@ -447,6 +447,10 @@ audit_logs      → id, actor_id, actor_email, action (INSERT/UPDATE/DELETE), ta
 ### Keamanan
 - **Supabase Anon Key** aman diekspos di sisi klien karena perlindungan data sepenuhnya mengandalkan RLS di PostgreSQL
 - **JWT Auth** untuk semua operasi admin
+- **Strict RLS Mutation**: Insert/Update/Delete divalidasi dengan mencocokkan email JWT Supabase Auth dengan tabel admin_users
+- **Sanitasi Pencarian React**: Teks query divalidasi dengan Regex strict untuk mencegah serangan XSS dan RegExp Injection.
+- **Rate Limiting Pagination**: Batas hard-limit pada endpoint Supabase untuk mencegah Resource Exhaustion/DoS.
+- **Validasi Mass Assignment**: Implementasi whitelisting payload API untuk mencegah overwriting field di luar izin saat update.
 
 ### Konvensi & Dependencies
 - **`unity_object_name` naming:** Wajib lowercase + underscore. Harus sama persis (case-insensitive) dengan nama GameObject di folder `Pointer`
