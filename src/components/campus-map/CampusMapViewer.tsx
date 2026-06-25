@@ -154,15 +154,21 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   }
 
   useEffect(() => {
+    let isMounted = true;
     let timeoutId: NodeJS.Timeout | null = null;
+    let msg15s: NodeJS.Timeout | undefined;
+    let msg45s: NodeJS.Timeout | undefined;
+    let msg90s: NodeJS.Timeout | undefined;
 
     const loadUnityBuild = async () => {
       if (!canvasRef.current || !containerRef.current) return;
 
       if (!checkWebGLSupport()) {
-        setWebglSupported(false);
-        setError("WebGL is not supported on this device. Please use a modern browser with WebGL enabled.");
-        setIsLoading(false);
+        if (isMounted) {
+          setWebglSupported(false);
+          setError("WebGL is not supported on this device. Please use a modern browser with WebGL enabled.");
+          setIsLoading(false);
+        }
         return;
       }
 
@@ -170,31 +176,32 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       // This avoids monkey-patching EventTarget.prototype on initial page load
       await import("../../utils/unityKeyboardPatch");
 
+      if (!isMounted) return;
+
       // Set initial loading message with download estimate
       const hint = getDownloadHint();
-      setLoadingMessage(
-        hint
-          ? `Mengunduh Denah Virtual (~39 MB, estimasi ${hint})...`
-          : "Mengunduh Denah Virtual (~39 MB)..."
-      );
-
-      let msg15s: NodeJS.Timeout | undefined;
-      let msg45s: NodeJS.Timeout | undefined;
-      let msg90s: NodeJS.Timeout | undefined;
-
-      try {
+      if (isMounted) {
+        setLoadingMessage(
+          hint
+            ? `Mengunduh Denah Virtual (~39 MB, estimasi ${hint})...`
+            : "Mengunduh Denah Virtual (~39 MB)..."
+        );
         setIsLoading(true);
         setError(null);
+      }
 
+      try {
         timeoutId = setTimeout(() => {
-          setError("Loading timeout. Ukuran file sangat besar (~39 MB). Periksa koneksi internet Anda dan coba lagi.");
-          setIsLoading(false);
+          if (isMounted) {
+            setError("Loading timeout. Ukuran file sangat besar (~39 MB). Periksa koneksi internet Anda dan coba lagi.");
+            setIsLoading(false);
+          }
         }, 180000); // 3 minute timeout for 39MB
 
         // Progressive messages to keep user informed during long download
-        msg15s = setTimeout(() => setLoadingMessage("Masih mengunduh... Unity WebGL memerlukan waktu beberapa menit pada koneksi lambat."), 15000);
-        msg45s = setTimeout(() => setLoadingMessage("Hampir selesai... File besar sedang diproses."), 45000);
-        msg90s = setTimeout(() => setLoadingMessage("Proses lebih lama dari biasanya. Periksa koneksi internet Anda."), 90000);
+        msg15s = setTimeout(() => { if (isMounted) setLoadingMessage("Masih mengunduh... Unity WebGL memerlukan waktu beberapa menit pada koneksi lambat."); }, 15000);
+        msg45s = setTimeout(() => { if (isMounted) setLoadingMessage("Hampir selesai... File besar sedang diproses."); }, 45000);
+        msg90s = setTimeout(() => { if (isMounted) setLoadingMessage("Proses lebih lama dari biasanya. Periksa koneksi internet Anda."); }, 90000);
 
         const canvas = canvasRef.current;
         const container = containerRef.current;
@@ -220,6 +227,8 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
           });
         }
 
+        if (!isMounted) return;
+
         if (!window.createUnityInstance) {
           throw new Error("Unity WebGL createUnityInstance not available");
         }
@@ -227,20 +236,28 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         console.log("Creating Unity instance with config:", unityConfig);
 
         const instance = await window.createUnityInstance(canvas, unityConfig, (progress: number) => {
-          setLoadingProgress(Math.round(progress * 100));
+          if (isMounted) setLoadingProgress(Math.round(progress * 100));
         });
+
+        if (!isMounted) {
+          instance.Quit();
+          return;
+        }
 
         console.log("Unity instance created successfully");
         if (timeoutId) clearTimeout(timeoutId);
         clearTimeout(msg15s);
         clearTimeout(msg45s);
         clearTimeout(msg90s);
+        
         setLoadingMessage("Denah Virtual siap!");
         unityInstanceRef.current = instance;
         window.unityInstance = instance;
         setIsLoading(false);
       } catch (err) {
         console.error("Failed to load Unity WebGL build:", err);
+        if (!isMounted) return;
+        
         if (timeoutId) clearTimeout(timeoutId);
         clearTimeout(msg15s);
         clearTimeout(msg45s);
@@ -265,9 +282,17 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
     loadUnityBuild();
 
     return () => {
+      isMounted = false;
+      if (timeoutId) clearTimeout(timeoutId);
+      clearTimeout(msg15s);
+      clearTimeout(msg45s);
+      clearTimeout(msg90s);
+      
       if (unityInstanceRef.current) {
         try {
           unityInstanceRef.current.Quit();
+          unityInstanceRef.current = null;
+          window.unityInstance = null;
         } catch (err) {
           console.error("Error cleaning up Unity instance:", err);
         }
