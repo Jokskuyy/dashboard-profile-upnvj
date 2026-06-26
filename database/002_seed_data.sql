@@ -2581,3 +2581,65 @@ INSERT INTO public.audit_logs (actor_id, actor_email, action, table_name, record
 ('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'delete', 'gedung', '17', '{"id":17,"lokasi":"sss","url_foto":"","nama_gedung":"asdasd","jumlah_lantai":1,"deskripsi_gedung":"asd"}'::jsonb, NULL, '2026-05-11T02:41:56.804048'),
 ('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'create', 'fasilitas', '204', NULL, '{"id":204,"color":"gray","lantai":1,"foto_url":"","id_gedung":14,"nama_fasilitas":"sdassad","tipe_fasilitas":"Laboratorium","deskripsi_fasilitas":"asd"}'::jsonb, '2026-05-11T04:22:02.913079'),
 ('cef4ca0b-cc5a-4cf5-9e07-bb87b4affef6', 'admin@admin.upnvj.ac.id', 'delete', 'fasilitas', '106', '{"id":106,"color":"pink","lantai":null,"foto_url":"https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/husni%20thamrin/sekretariat_doktoral.jpg","id_gedung":7,"nama_fasilitas":"Sekretariat Doktoral","tipe_fasilitas":"Administrasi","deskripsi_fasilitas":"Fasilitas administrasi dan layanan akademik program doktoral FEB."}'::jsonb, NULL, '2026-05-11T04:22:06.983021');
+-- ==========================================
+-- PATCH: Unity Pointers Gedung Yos Sudarso
+-- ==========================================
+-- ID Gedung Yos Sudarso: 9
+
+-- 1. UPDATE FASILITAS YANG SUDAH ADA (Menjaga foto URL tetap aman)
+UPDATE public.fasilitas SET unity_object_name = 'yos_ruang_pelayanan_mahasiswa_fh' WHERE id_gedung = 9 AND nama_fasilitas = 'Ruang Administrasi Yos Sudarso';
+UPDATE public.fasilitas SET unity_object_name = 'yos_podcast' WHERE id_gedung = 9 AND nama_fasilitas = 'Ruang Podcast Yos Sudarso';
+UPDATE public.fasilitas SET unity_object_name = 'yos_praktek_peradilan_semu_1' WHERE id_gedung = 9 AND nama_fasilitas = 'Ruang Praktik Peradilan Semu';
+UPDATE public.fasilitas SET unity_object_name = 'yos_ruang_perancangan_kontrak' WHERE id_gedung = 9 AND nama_fasilitas = 'Lab Perancangan Kontrak';
+
+-- UPDATE Selasar (Digabung jadi 1)
+UPDATE public.fasilitas 
+SET nama_fasilitas = 'Selasar Fakultas Hukum', 
+    deskripsi_fasilitas = 'Area selasar dan lorong utama Fakultas Hukum.',
+    unity_object_name = 'yos_selasar' 
+WHERE id_gedung = 9 AND nama_fasilitas = 'Selasar Kanan Yos Sudarso';
+
+-- UPDATE Ruang Baca menjadi Perpustakaan (tambah keyword agar bisa di-search)
+UPDATE public.fasilitas 
+SET nama_fasilitas = 'Perpustakaan Fakultas Hukum', 
+    deskripsi_fasilitas = 'Fasilitas perpustakaan dan ruang baca spesifik Fakultas Hukum. Keyword pencarian: ruang baca fh, perpus fh.',
+    unity_object_name = 'yos_perpustakaan_fh' 
+WHERE id_gedung = 9 AND nama_fasilitas = 'Ruang Baca Yos Sudarso';
+
+
+-- 2. INSERT RUANGAN/KELAS BARU (Yang belum ada di seed asli)
+INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, lantai, id_gedung, unity_object_name) VALUES
+-- Lantai 1
+('Ruang Transit Dosen FH', 'Ruang tunggu dan transit bagi dosen Fakultas Hukum.', 'Ruang Dosen', 1, 9, 'yos_ruang_transit_dosen'),
+('Lobby Yos Sudarso', 'Area penerimaan tamu dan lobby utama Gedung Yos Sudarso.', 'Lainnya', 1, 9, 'yos_lobby'),
+('Ruang BEM dan Senat FH', 'Ruang sekretariat Badan Eksekutif Mahasiswa dan Senat Mahasiswa Fakultas Hukum.', 'Organisasi Mahasiswa', 1, 9, 'yos_ruang_bem_dan_senat_fh'),
+-- Lantai 2
+('Kelas 201', 'Ruang kelas teori 201 Gedung Yos Sudarso.', 'Ruang Kelas', 2, 9, 'yos_kelas_201'),
+('Kelas 202', 'Ruang kelas teori 202 Gedung Yos Sudarso.', 'Ruang Kelas', 2, 9, 'yos_kelas_202'),
+('Kelas 203', 'Ruang kelas teori 203 Gedung Yos Sudarso.', 'Ruang Kelas', 2, 9, 'yos_kelas_203'),
+('Kelas 204', 'Ruang kelas teori 204 Gedung Yos Sudarso.', 'Ruang Kelas', 2, 9, 'yos_kelas_204'),
+('Kelas 205', 'Ruang kelas teori 205 Gedung Yos Sudarso.', 'Ruang Kelas', 2, 9, 'yos_kelas_205'),
+-- Lantai 3
+('Kelas 301', 'Ruang kelas teori 301 Gedung Yos Sudarso.', 'Ruang Kelas', 3, 9, 'yos_kelas_301'),
+('Kelas 302', 'Ruang kelas teori 302 Gedung Yos Sudarso.', 'Ruang Kelas', 3, 9, 'yos_kelas_302'),
+('Kelas 303', 'Ruang kelas teori 303 Gedung Yos Sudarso.', 'Ruang Kelas', 3, 9, 'yos_kelas_303'),
+('Kelas 304', 'Ruang kelas teori 304 Gedung Yos Sudarso.', 'Ruang Kelas', 3, 9, 'yos_kelas_304'),
+('Kelas 305', 'Ruang kelas teori 305 Gedung Yos Sudarso.', 'Ruang Kelas', 3, 9, 'yos_kelas_305'),
+('Kelas 306', 'Ruang kelas teori 306 Gedung Yos Sudarso.', 'Ruang Kelas', 3, 9, 'yos_kelas_306'),
+('Kelas 307', 'Ruang kelas teori 307 Gedung Yos Sudarso.', 'Ruang Kelas', 3, 9, 'yos_kelas_307'),
+-- Lantai 4
+('Unit Peradilan Semu', 'Ruangan administrasi dan persiapan Unit Peradilan Semu Fakultas Hukum.', 'Lainnya', 4, 9, 'yos_unit_peradilan_semu'),
+('Ruang Praktik Peradilan Semu 2', 'Ruang sidang untuk praktik peradilan semu (Ruang 2).', 'Lainnya', 4, 9, 'yos_praktek_peradilan_semu_2');
+
+-- Gedung 2 (id_gedung = 9)
+INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, lantai, id_gedung, unity_object_name) VALUES
+('Ruang Dosen Pidana', 'Ruang kerja khusus dosen hukum pidana.', 'Ruang Dosen', 1, 9, 'yos_ruang_dosen_pidana'),
+('Ruang Dosen FH (Pintu 1)', 'Ruang dosen fakultas hukum pintu masuk utama.', 'Ruang Dosen', 1, 9, 'yos_ruang_dosen_1'),
+('Ruang Dosen FH (Pintu 2)', 'Ruang dosen fakultas hukum pintu akses alternatif.', 'Ruang Dosen', 1, 9, 'yos_ruang_dosen_2'),
+('Ruang Dosen Perdata dan Bisnis', 'Ruang kerja khusus dosen hukum perdata dan hukum bisnis.', 'Ruang Dosen', 2, 9, 'yos_ruang_dosen_perdata_dan_bisnis'),
+('Ruang Forum Riset & Debat Mahasiswa', 'Ruangan khusus untuk kegiatan riset dan latihan debat hukum.', 'Organisasi Mahasiswa', 2, 9, 'yos_ruang_forum_riset_dan_debat_mahasiswa'),
+('Ruang Asosiasi Mahasiswa Hukum Internasional', 'Ruang sekretariat Asosiasi Mahasiswa Hukum Internasional.', 'Organisasi Mahasiswa', 3, 9, 'yos_ruang_asosiasi_mahasiswa_hukum_internasional');
+
+
+-- 3. DELETE DATA INTERNET YANG TIDAK TERPAKAI (Tidak punya pointer)
+DELETE FROM public.fasilitas WHERE id_gedung = 9 AND nama_fasilitas = 'Selasar Kiri Yos Sudarso';
