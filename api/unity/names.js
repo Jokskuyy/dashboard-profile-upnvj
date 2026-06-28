@@ -25,13 +25,29 @@ export default async function handler(req, res) {
 
     if (fasilitasError) throw fasilitasError;
 
-    // Combine and extract names into a clean string list
-    const combinedData = [...(gedungData || []), ...(fasilitasData || [])];
-    const unityObjectNames = combinedData
-      .map((item) => item.unity_object_name)
-      .filter((name) => typeof name === "string" && name.trim().length > 0);
+    // Helper to extract non-empty names
+    const extractNames = (rows) =>
+      rows
+        ?.map((item) => item.unity_object_name)
+        .filter((name) => typeof name === "string" && name.trim().length > 0)
+        .sort((a, b) => a.localeCompare(b)) ?? [];
 
-    return res.status(200).json({ unityObjectNames });
+    const gedungNames = extractNames(gedungData);
+    const fasilitasNames = extractNames(fasilitasData);
+
+    let resultNames;
+    const { type } = req.query;
+
+    if (type === "gedung") {
+      resultNames = gedungNames;
+    } else if (type === "fasilitas") {
+      resultNames = fasilitasNames;
+    } else {
+      // Return combined list sorted (default)
+      resultNames = [...gedungNames, ...fasilitasNames].sort((a, b) => a.localeCompare(b));
+    }
+
+    return res.status(200).json({ unityObjectNames: resultNames });
   } catch (error) {
     console.error("Error fetching unity object names:", error);
     return res.status(500).json({ error: error.message });
