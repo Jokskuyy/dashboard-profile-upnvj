@@ -25,8 +25,8 @@ import {
   deleteGedung,
   type DashboardData,
   type FacultyInfo,
-  type FacilityData,
-  type GedungData,
+  type Fasilitas,
+  type Gedung,
 } from "../../services/api/dataService";
 import type { ProgramData } from "../../types";
 import ProgramModal from "../modals/crud/ProgramModal";
@@ -62,12 +62,12 @@ export default function AdminDashboard() {
 
   const [facilityModal, setFacilityModal] = useState<{
     isOpen: boolean;
-    facility?: FacilityData;
+    facility?: Fasilitas;
   }>({ isOpen: false });
 
   const [buildingModal, setBuildingModal] = useState<{
     isOpen: boolean;
-    building?: GedungData;
+    building?: Gedung;
   }>({ isOpen: false });
 
   const [deleteModal, setDeleteModal] = useState<{
@@ -157,7 +157,7 @@ export default function AdminDashboard() {
 
   // ── CRUD: Facilities ──────────────────────────────
   const handleSaveFacility = async (
-    facility: Omit<FacilityData, "id"> | FacilityData,
+    facility: Omit<Fasilitas, "id"> | Fasilitas,
   ) => {
     try {
       if ("id" in facility && facility.id) {
@@ -178,7 +178,7 @@ export default function AdminDashboard() {
 
   // ── CRUD: Buildings ────────────────────────────────
   const handleSaveBuilding = async (
-    building: Omit<GedungData, "id"> | GedungData,
+    building: Omit<Gedung, "id"> | Gedung,
   ) => {
     try {
       if ("id" in building && building.id) {

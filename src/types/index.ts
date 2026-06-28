@@ -68,16 +68,17 @@ export interface Gedung {
   lokasi?: string;
   jumlah_lantai?: number;
   unity_object_name?: string;
+  foto_url?: string;
 }
 
 // Database Fasilitas type (for Supabase)
 export interface Fasilitas {
   id: number;
   nama_fasilitas: string;
-  deskripsi_fasilitas?: string;
-  tipe_fasilitas?: string;
+  deskripsi_fasilitas: string;
+  tipe_fasilitas: string;
   id_gedung: number;
-  color?: string;
+  color: string;
   lantai?: number;
   foto_url?: string;
   unity_object_name?: string;

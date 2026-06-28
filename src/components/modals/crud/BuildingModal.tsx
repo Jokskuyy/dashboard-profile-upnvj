@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { X, Save, Loader2 } from "lucide-react";
-import type { GedungData } from "../../../services/api/dataService";
+import type { Gedung } from "../../../services/api/dataService";
 
 interface BuildingModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (building: GedungData) => void;
-  building?: GedungData;
+  onSave: (building: Gedung) => void;
+  building?: Gedung;
 }
 
-const INITIAL_FORM: GedungData = {
+const INITIAL_FORM: Gedung = {
   nama_gedung: "",
   deskripsi_gedung: "",
   lokasi: "",
@@ -24,7 +24,7 @@ export default function BuildingModal({
   onSave,
   building,
 }: BuildingModalProps) {
-  const [form, setForm] = useState<GedungData>(INITIAL_FORM);
+  const [form, setForm] = useState<Gedung>(INITIAL_FORM);
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 

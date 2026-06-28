@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Plus, Package, Edit2, Trash2, RefreshCw, Search } from "lucide-react";
 import { supabase } from "../../../lib/supabase";
-import type { FacilityData } from "../../../services/api/dataService";
+import type { Fasilitas } from "../../../services/api/dataService";
 import { usePagination } from "../hooks/usePagination";
 import Pagination from "../shared/Pagination";
 
-interface FacilityRow extends FacilityData {
+interface FacilityRow extends Fasilitas {
   gedung?: {
     id: number;
     nama_gedung: string;
@@ -14,8 +14,8 @@ interface FacilityRow extends FacilityData {
 
 interface FacilitiesTableProps {
   onAdd: () => void;
-  onEdit: (facility: FacilityData) => void;
-  onDelete: (facility: FacilityData) => void;
+  onEdit: (facility: Fasilitas) => void;
+  onDelete: (facility: Fasilitas) => void;
 }
 
 export default function FacilitiesTable({
@@ -48,7 +48,7 @@ export default function FacilitiesTable({
         .order("nama_fasilitas", { ascending: true });
 
       if (error) throw error;
-      setFacilities(data || []);
+      setFacilities((data ?? []) as FacilityRow[]);
     } catch (error) {
       console.error("Error fetching facilities:", error);
     } finally {

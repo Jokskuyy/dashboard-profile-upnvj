@@ -6,6 +6,8 @@ import type {
   AssetCategory,
   ProgramData,
   DepartmentData,
+  Gedung,
+  Fasilitas,
 } from "../../types";
 
 // ===== Supabase Row Types (query results with joins) =====
@@ -556,23 +558,11 @@ export const deleteProgram = async (id: string): Promise<void> => {
 };
 
 // ===== ASSETS CRUD =====
-// New facility-based CRUD operations (replacing category-based approach)
-
-export interface FacilityData {
-  id?: number;
-  nama_fasilitas: string;
-  deskripsi_fasilitas: string;
-  tipe_fasilitas: string;
-  id_gedung: number;
-  color: string;
-  lantai?: number | null;
-  foto_url?: string;
-  unity_object_name?: string;
-}
+// Facility and Building interfaces are now imported from types
 
 export const createFacility = async (
-  facility: Omit<FacilityData, "id">,
-): Promise<FacilityData> => {
+  facility: Omit<Fasilitas, "id">,
+): Promise<Fasilitas> => {
   if (!facility.nama_fasilitas) throw new Error("Nama fasilitas wajib diisi.");
   if (!facility.id_gedung) throw new Error("ID gedung wajib diisi.");
   clearCache();
@@ -600,13 +590,13 @@ export const createFacility = async (
   // Audit log (fire-and-forget)
   logCreate("fasilitas", data.id.toString(), data);
 
-  return data;
+  return data as Fasilitas;
 };
 
 export const updateFacility = async (
   id: number,
-  facility: Partial<FacilityData>,
-): Promise<FacilityData> => {
+  facility: Partial<Fasilitas>,
+): Promise<Fasilitas> => {
   clearCache();
 
   // Fetch old data for audit log
@@ -650,7 +640,7 @@ export const updateFacility = async (
   // Audit log (fire-and-forget)
   logUpdate("fasilitas", id.toString(), oldData || {}, data);
 
-  return data;
+  return data as Fasilitas;
 };
 
 export const deleteFacility = async (id: number): Promise<void> => {
@@ -676,19 +666,9 @@ export const deleteFacility = async (id: number): Promise<void> => {
 
 // ===== GEDUNG CRUD =====
 
-export interface GedungData {
-  id?: number;
-  nama_gedung: string;
-  deskripsi_gedung?: string;
-  lokasi?: string;
-  jumlah_lantai?: number;
-  foto_url?: string;
-  unity_object_name?: string;
-}
-
 export const createGedung = async (
-  gedung: Omit<GedungData, "id">,
-): Promise<GedungData> => {
+  gedung: Omit<Gedung, "id">,
+): Promise<Gedung> => {
   if (!gedung.nama_gedung) throw new Error("Nama gedung wajib diisi.");
   clearCache();
 
@@ -712,13 +692,13 @@ export const createGedung = async (
 
   logCreate("gedung", data.id.toString(), data);
 
-  return data;
+  return data as Gedung;
 };
 
 export const updateGedung = async (
   id: number,
-  gedung: Partial<GedungData>,
-): Promise<GedungData> => {
+  gedung: Partial<Gedung>,
+): Promise<Gedung> => {
   clearCache();
 
   const { data: oldData } = await supabase
@@ -756,7 +736,7 @@ export const updateGedung = async (
 
   logUpdate("gedung", id.toString(), oldData || {}, data);
 
-  return data;
+  return data as Gedung;
 };
 
 export const deleteGedung = async (id: number): Promise<void> => {

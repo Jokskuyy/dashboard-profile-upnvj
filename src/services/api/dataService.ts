@@ -18,6 +18,6 @@ export {
 export type {
   FacultyInfo,
   DashboardData,
-  FacilityData,
-  GedungData,
 } from "./supabaseDataService";
+
+export type { Gedung, Fasilitas } from "../../types";

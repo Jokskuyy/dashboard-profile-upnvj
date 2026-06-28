@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Plus, Building2, Edit2, Trash2, RefreshCw, Search } from "lucide-react";
 import { supabase } from "../../../lib/supabase";
-import type { GedungData } from "../../../services/api/dataService";
+import type { Gedung } from "../../../services/api/dataService";
 import { usePagination } from "../hooks/usePagination";
 import Pagination from "../shared/Pagination";
 
 interface BuildingsTableProps {
   onAdd: () => void;
-  onEdit: (building: GedungData) => void;
-  onDelete: (building: GedungData) => void;
+  onEdit: (building: Gedung) => void;
+  onDelete: (building: Gedung) => void;
 }
 
 export default function BuildingsTable({
@@ -16,7 +16,7 @@ export default function BuildingsTable({
   onEdit,
   onDelete,
 }: BuildingsTableProps) {
-  const [buildings, setBuildings] = useState<GedungData[]>([]);
+  const [buildings, setBuildings] = useState<Gedung[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
@@ -33,7 +33,7 @@ export default function BuildingsTable({
         .order("nama_gedung", { ascending: true });
 
       if (error) throw error;
-      setBuildings(data || []);
+      setBuildings((data ?? []) as Gedung[]);
     } catch (error) {
       console.error("Error fetching buildings:", error);
     } finally {
@@ -64,7 +64,7 @@ export default function BuildingsTable({
     isFirstPage,
     isLastPage,
     setCurrentPage,
-  } = usePagination<GedungData>({ totalItems: filteredBuildings.length, itemsPerPage: 10 });
+  } = usePagination<Gedung>({ totalItems: filteredBuildings.length, itemsPerPage: 10 });
 
   const currentItems = paginate(filteredBuildings);
 

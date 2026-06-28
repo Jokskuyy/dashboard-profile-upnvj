@@ -13,34 +13,27 @@ import {
   FACILITY_TYPES,
   COLOR_OPTIONS,
 } from "../../../constants/facilityConstants";
+import type { Fasilitas } from "../../../services/api/dataService";
 
 interface Building {
   id: number;
   nama_gedung: string;
 }
 
-interface FacilityData {
+type FacilityFormData = Fasilitas & {
   id?: number;
-  nama_fasilitas: string;
-  deskripsi_fasilitas: string;
-  tipe_fasilitas: string;
-  id_gedung: number;
-  color: string;
-  lantai?: number | null;
-  foto_url?: string;
-  unity_object_name?: string;
-  // May contain nested join objects from Supabase
   gedung?: { id: number; nama_gedung: string };
-}
+};
 
 interface FacilityModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (facility: FacilityData) => void;
-  facility?: FacilityData;
+  onSave: (facility: Fasilitas) => void;
+  facility?: FacilityFormData;
 }
 
-const INITIAL_FORM: FacilityData = {
+const INITIAL_FORM: FacilityFormData = {
+  id: undefined,
   nama_fasilitas: "",
   deskripsi_fasilitas: "",
   tipe_fasilitas: "Laboratorium",
@@ -76,7 +69,7 @@ export default function FacilityModal({
 }: FacilityModalProps) {
   const [buildings, setBuildings] = useState<Building[]>([]);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<FacilityData>({ ...INITIAL_FORM });
+  const [formData, setFormData] = useState<FacilityFormData>({ ...INITIAL_FORM });
   const [imageError, setImageError] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -144,9 +137,9 @@ export default function FacilityModal({
     }
   };
 
-  const updateField = <K extends keyof FacilityData>(
+  const updateField = <K extends keyof FacilityFormData>(
     key: K,
-    value: FacilityData[K]
+    value: FacilityFormData[K]
   ) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
@@ -165,10 +158,7 @@ export default function FacilityModal({
       }}
     >
       <div
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-200"
-        style={{
-          animation: "modalIn 0.2s ease-out",
-        }}
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col"
       >
         {/* ─── Header ─────────────────────────────────── */}
         <div className="relative px-6 py-5 border-b border-slate-100">
@@ -423,13 +413,6 @@ export default function FacilityModal({
           </button>
         </div>
       </div>
-
-      <style>{`
-        @keyframes modalIn {
-          from { opacity: 0; transform: scale(0.95) translateY(10px); }
-          to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-      `}</style>
     </div>
   );
 }
