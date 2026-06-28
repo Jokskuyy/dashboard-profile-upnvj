@@ -33,7 +33,7 @@ interface FacilityModalProps {
 }
 
 const INITIAL_FORM: FacilityFormData = {
-  id: undefined,
+  id: 0,
   nama_fasilitas: "",
   deskripsi_fasilitas: "",
   tipe_fasilitas: "Laboratorium",
@@ -300,7 +300,10 @@ export default function FacilityModal({
                 value={formData.lantai ?? ""}
                 onChange={(e) => {
                   const val = e.target.value;
-                  updateField("lantai", val === "" ? null : parseInt(val) || 1);
+                  updateField(
+                    "lantai",
+                    val === "" ? undefined : parseInt(val) || 1
+                  );
                 }}
                 className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none bg-white placeholder:text-slate-300"
                 placeholder="1"
