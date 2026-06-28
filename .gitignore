@@ -69,3 +69,4 @@ playwright-report/
 test-results/
 temp/
 scratch/anonymized/
+.aider*
