@@ -1,0 +1,39 @@
+
+# 2026-06-28 22:01:26.564566
++Unify duplicate Gedung types and Fasilitas types across the codebase.
++
++STEP 1 - Update types/index.ts:
++- Add `foto_url?: string` to the `Gedung` interface (after unity_object_name)
++- Update `Fasilitas` interface: make deskripsi_fasilitas, tipe_fasilitas, and color REQUIRED (not optional). Keep lantai, foto_url, unity_object_name as optional.
++
++STEP 2 - Update supabaseDataService.ts:
++- DELETE the `GedungData` interface entirely
++- DELETE the `FacilityData` interface entirely  
++- Replace all usages of `GedungData` with `Gedung` (import from ../../types)
++- Replace all usages of `FacilityData` with `Fasilitas` (import from ../../types)
++- Update function signatures accordingly
++
++STEP 3 - Update dataService.ts:
++- Change re-exports: replace GedungData with Gedung, FacilityData with Fasilitas
++- Update the import source if needed
++
++STEP 4 - Update ALL consumer files:
++- src/components/admin/AdminDashboard.tsx: change GedungData->Gedung, FacilityData->Fasilitas in imports and all usages
++- src/components/admin/tables/BuildingsTable.tsx: change GedungData->Gedung
++- src/components/admin/tables/FacilitiesTable.tsx: change FacilityData->Fasilitas  
++- src/components/modals/crud/BuildingModal.tsx: change GedungData->Gedung
++- src/components/modals/crud/FacilityModal.tsx: change FacilityData->Fasilitas (remove local interface if exists, import from dataService)
++
++Make sure NO references to GedungData or FacilityData remain anywhere in src/.
+
+# 2026-06-28 22:13:44.078098
++Fix these 3 TypeScript build errors:
++
++1. src/components/modals/crud/BuildingModal.tsx(12,7): error TS2741: Property "id" is missing in type "{ nama_gedung: string; deskripsi_gedung: string; lokasi: string; jumlah_lantai: number; foto_url: string; unity_object_name: string; }" but required in type "Gedung".
++FIX: Add `id: 0` to the INITIAL_FORM object.
++
++2. src/components/modals/crud/FacilityModal.tsx(36,3): error TS2322: Type "undefined" is not assignable to type "number".
++FIX: The id field in INITIAL_FORM should be `id: 0` instead of `id: undefined`.
++
++3. src/components/modals/crud/FacilityModal.tsx(303,41): error TS2345: Argument of type "number | null" is not assignable to parameter of type "number | undefined".
++FIX: Change `lantai: facility.lantai ?? null` to `lantai: facility.lantai ?? undefined` or use `Number(facility.lantai) || undefined`.

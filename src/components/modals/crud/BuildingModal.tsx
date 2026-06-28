@@ -10,6 +10,7 @@ interface BuildingModalProps {
 }
 
 const INITIAL_FORM: Gedung = {
+  id: 0,
   nama_gedung: "",
   deskripsi_gedung: "",
   lokasi: "",
