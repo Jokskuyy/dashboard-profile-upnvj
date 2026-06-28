@@ -81,7 +81,6 @@ const AssetsSection: React.FC = () => {
             ruangKuliah:   ["ruang kuliah", "ruang kelas", "akademik", "ruang akademik"],
             auditorium:    ["auditorium", "aula"],
             olahraga:      ["olahraga", "sport"],
-
             ibadah:        ["ibadah", "masjid", "musholla"],
             kantin:        ["kantin", "food"],
             administrasi:  ["administrasi", "sekretariat", "layanan", "dosen", "umum", "mahasiswa"],
@@ -93,9 +92,22 @@ const AssetsSection: React.FC = () => {
           }
 
           for (const f of allFacilities) {
-            const tipe = f.tipe_fasilitas?.toLowerCase() ?? "";
+            const raw = f.tipe_fasilitas ?? "";
+            const tipeLower = raw.toLowerCase().trim();
+            const tokens = tipeLower.split(/\s+/);
+
             for (const [key, keywords] of Object.entries(categoryMatchers)) {
-              if (keywords.some((kw: string) => tipe.includes(kw))) {
+              const match = keywords.some(kw => {
+                const kwLower = kw.toLowerCase();
+                // Multi-word keyword: keep substring match (low chance of false positive)
+                if (kwLower.includes(' ')) {
+                  return tipeLower.includes(kwLower);
+                }
+                // Single-word keyword: match whole token to avoid false partial matches
+                return tokens.includes(kwLower);
+              });
+
+              if (match) {
                 counts[key]++;
               }
             }

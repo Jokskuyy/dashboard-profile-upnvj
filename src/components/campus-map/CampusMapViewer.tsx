@@ -118,7 +118,6 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       productName: "T_A",
       productVersion: "v0.2.16",
       showBanner: unityShowBanner,
-      matchWebGLToCanvasSize: true,
     }),
     [basePath],
   );
