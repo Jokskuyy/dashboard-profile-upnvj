@@ -31,7 +31,7 @@ INSERT INTO public.gedung (nama_gedung, deskripsi_gedung, lokasi, jumlah_lantai,
 ('Lapangan Upacara', 'Tempat upacara dan parkir mobil apabila sedang tidak dipakai', 'Area tengah kampus', 1, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_lapangan_upacara.jpg', NULL),
 ('Gedung Kuliah dan Kegiatan Mahasiswa', 'Gedung ruang kuliah dan sekretariat UKM', 'Area belakang kampus', 8, NULL, NULL),
 ('Area Parkir Belakang UPNVJ', 'Area parkir terbuka parkir untuk kendaraan mahasiswa dan staf', 'Sisi belakang kampus', 1, NULL, NULL),
-('Gedung Soetomo', 'Gedung perpustakaan utama kampus, ruang organisasi mahasiswa, dan Unit Kegiatan Mahasiswa UPN Veteran Jakarta', 'Kampus Pondok Labu', 3, NULL, 'STM');
+('Gedung Soetomo', 'Gedung perpustakaan utama kampus, ruang organisasi mahasiswa, dan Unit Kegiatan Mahasiswa UPN Veteran Jakarta', 'Kampus Pondok Labu', 3, NULL, 'Soetomo');
 
 -- =============================================================================
 -- INSERT FAKULTAS
