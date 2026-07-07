@@ -2072,3 +2072,54 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 -- =============================================================================
 -- DATA FASILITAS GEDUNG REKTORAT (id_gedung = 1)
 -- =============================================================================
+-- =============================================================================
+-- DATA FASILITAS GEDUNG MOH. HUSNI THAMRIN (id_gedung = 7)
+-- =============================================================================
+INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, lantai, id_gedung, unity_object_name) VALUES
+-- Lantai 1
+('Ruang Baca dan BI Corner', 'Ruang baca dan BI Corner pada lantai 1 Gedung Moh. Husni Thamrin (FEB).', 'Fasilitas Umum', 1, 7, 'mt_bi_corner'),
+('Ruang Jurusan Ilmu Ekonomi S1 dan Akuntansi', 'Ruang jurusan Ilmu Ekonomi S1 dan Akuntansi pada lantai 1 Gedung Moh. Husni Thamrin.', 'Kantor/Administrasi', 1, 7, 'mt_ekonomi_akutansi'),
+('HMJ S1 Manajemen', 'Ruang Himpunan Mahasiswa Jurusan (HMJ) S1 Manajemen pada lantai 1 Gedung Moh. Husni Thamrin.', 'Ruang Kegiatan Mahasiswa', 1, 7, 'mt_hmj_manajemen'),
+('HMJ S1 Akuntansi', 'Ruang Himpunan Mahasiswa Jurusan (HMJ) S1 Akuntansi pada lantai 1 Gedung Moh. Husni Thamrin.', 'Ruang Kegiatan Mahasiswa', 1, 7, 'mt_hmj_akutansi'),
+('Ruang Tunggu Dosen FEB', 'Ruang tunggu dosen Fakultas Ekonomi dan Bisnis (FEB) pada lantai 1 Gedung Moh. Husni Thamrin.', 'Kantor/Administrasi', 1, 7, 'mt_ruang_dosen_feb'),
+('Ruang LKEB dan Guru Besar', 'Ruang LKEB dan Guru Besar pada lantai 1 Gedung Moh. Husni Thamrin.', 'Kantor/Administrasi', 1, 7, 'mt_lkeb_guru_besar'),
+('Ruangan Layanan Akademik dan Kemahasiswaan FEB', 'Ruangan layanan akademik dan kemahasiswaan Fakultas Ekonomi dan Bisnis pada lantai 1 Gedung Moh. Husni Thamrin.', 'Pelayanan', 1, 7, 'mt_layanan_mahasiswa'),
+('Selasar FEB', 'Selasar Fakultas Ekonomi dan Bisnis pada lantai 1 Gedung Moh. Husni Thamrin.', 'Fasilitas Umum', 1, 7, 'mt_selasar'),
+('Ruang HIMA Akuntansi, Manajemen & Perbankan', 'Ruang Himpunan Mahasiswa (Hima) Akuntansi S1 & D3, Manajemen S1, Perbankan dan Keuangan D3 pada lantai 1 Gedung Moh. Husni Thamrin.', 'Ruang Kegiatan Mahasiswa', 1, 7, 'mt_hima'),
+
+-- Lantai 2
+('Ruang Sekretariat Program Magister Manajemen dan Akuntansi', 'Ruang sekretariat program Magister Manajemen dan Akuntansi pada lantai 2 Gedung Moh. Husni Thamrin.', 'Kantor/Administrasi', 2, 7, 'mt_sekretariat'),
+('Ruang Kuliah Program Magister (1)', 'Ruang kuliah program magister (1) pada lantai 2 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 2, 7, 'mt_kuliah_magister_1'),
+('Ruang Jurusan Ilmu Ekonomi S1 dan Akuntansi', 'Ruang jurusan Ilmu Ekonomi S1 dan ruangan jurusan Akuntansi pada lantai 2 Gedung Moh. Husni Thamrin.', 'Kantor/Administrasi', 2, 7, 'mt_ekonomi_akuntansi'),
+('Ruang Kuliah Program Magister (2)', 'Ruang kuliah program magister (2) pada lantai 2 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 2, 7, 'mt_kuliah_magister_2'),
+('Ruang Kelas 205', 'Ruang kelas 205 pada lantai 2 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 2, 7, 'mt_205'),
+('Ruang Kelas 206', 'Ruang kelas 206 pada lantai 2 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 2, 7, 'mt_206'),
+('Ruang Kelas 207', 'Ruang kelas 207 pada lantai 2 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 2, 7, 'mt_207'),
+('Ruang Kelas 208', 'Ruang kelas 208 pada lantai 2 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 2, 7, 'mt_208'),
+('Ruang Kelas 209', 'Ruang kelas 209 pada lantai 2 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 2, 7, 'mt_209'),
+('Ruang Kelas 210', 'Ruang kelas 210 pada lantai 2 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 2, 7, 'mt_210'),
+
+-- Lantai 3
+('Ruang Mini Company (301)', 'Ruang Mini Company (Kelas 301) pada lantai 3 Gedung Moh. Husni Thamrin.', 'Laboratorium', 3, 7, 'mt_mini_company'),
+('Mesh Classroom (302)', 'Mesh Classroom (Kelas 302) pada lantai 3 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 3, 7, 'mt_mesh'),
+('Ruang Kelas 303', 'Ruang kelas 303 pada lantai 3 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 3, 7, 'mt_303'),
+('Ruang Kelas 304', 'Ruang kelas 304 pada lantai 3 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 3, 7, 'mt_304'),
+('Ruang Kelas 305', 'Ruang kelas 305 pada lantai 3 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 3, 7, 'mt_305'),
+('Ruang Kelas 306', 'Ruang kelas 306 pada lantai 3 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 3, 7, 'mt_306'),
+('Ruang Kelas 307', 'Ruang kelas 307 pada lantai 3 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 3, 7, 'mt_307'),
+('Ruang Kelas 308', 'Ruang kelas 308 pada lantai 3 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 3, 7, 'mt_308'),
+('Ruang Kelas 309', 'Ruang kelas 309 pada lantai 3 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 3, 7, 'mt_309'),
+('Ruang Kelas 310', 'Ruang kelas 310 pada lantai 3 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 3, 7, 'mt_310'),
+('Ruang Kelas 311', 'Ruang kelas 311 pada lantai 3 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 3, 7, 'mt_311'),
+
+-- Lantai 4
+('Mushola FEB', 'Fasilitas ibadah Mushola FEB pada lantai 4 Gedung Moh. Husni Thamrin.', 'Fasilitas Ibadah', 4, 7, 'mt_mushola'),
+('Ruang Kelas 402', 'Ruang kelas 402 pada lantai 4 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 4, 7, 'mt_402'),
+('Ruang Kelas 403', 'Ruang kelas 403 pada lantai 4 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 4, 7, 'mt_403'),
+('Ruang Kelas 404', 'Ruang kelas 404 pada lantai 4 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 4, 7, 'mt_404'),
+('Ruang Kelas 405', 'Ruang kelas 405 pada lantai 4 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 4, 7, 'mt_405'),
+('Ruang Kelas 406', 'Ruang kelas 406 pada lantai 4 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 4, 7, 'mt_406'),
+('Ruang Kelas 407', 'Ruang kelas 407 pada lantai 4 Gedung Moh. Husni Thamrin.', 'Ruang Kelas', 4, 7, 'mt_407');
+-- =============================================================================
+-- DATA FASILITAS GEDUNG MOH. HUSNI THAMRIN (id_gedung = 7)
+-- =============================================================================
