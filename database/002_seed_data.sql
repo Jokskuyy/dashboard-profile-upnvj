@@ -2123,3 +2123,41 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 -- =============================================================================
 -- DATA FASILITAS GEDUNG MOH. HUSNI THAMRIN (id_gedung = 7)
 -- =============================================================================
+-- =============================================================================
+-- DATA FASILITAS GEDUNG DR. SOEPOMO (id_gedung = 2)
+-- =============================================================================
+INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, lantai, id_gedung, unity_object_name) VALUES
+-- Lantai 1
+('BEM FEB', 'Ruang organisasi Badan Eksekutif Mahasiswa (BEM) FEB pada lantai 1 Gedung DR. Soepomo.', 'Ruang Kegiatan Mahasiswa', 1, 2, 'spm_bem'),
+('HIMA Ekonomi Syariah', 'Ruang Himpunan Mahasiswa (Hima) Ekonomi Syariah pada lantai 1 Gedung DR. Soepomo.', 'Ruang Kegiatan Mahasiswa', 1, 2, 'spm_hima_ekonomi_syariah'),
+('HIMA Perbankan Syariah', 'Ruang Himpunan Mahasiswa (Hima) Ekonomi Perbankan pada lantai 1 Gedung DR. Soepomo.', 'Ruang Kegiatan Mahasiswa', 1, 2, 'spm_hima_ekonomi_perbankan'),
+('KSPM dan Galeri Investasi', 'Kelompok Studi Pasar Modal (KSPM) dan Galeri Investasi pada lantai 1 Gedung DR. Soepomo.', 'Fasilitas Umum', 1, 2, 'spm_kspm'),
+('Ruang Dekanat FEB', 'Ruang Dekanat Fakultas Ekonomi dan Bisnis (FEB) pada lantai 1 Gedung DR. Soepomo.', 'Kantor/Administrasi', 1, 2, 'spm_dekanat'),
+('Ruangan Tata Usaha FEB', 'Ruangan Tata Usaha FEB pada lantai 1 Gedung DR. Soepomo.', 'Kantor/Administrasi', 1, 2, 'spm_tu'),
+('Ruang Rapat', 'Ruang Rapat utama pada lantai 1 Gedung DR. Soepomo.', 'Ruang Rapat', 1, 2, 'spm_ruang_rapat'),
+
+-- Lantai 2
+('Ruang Dosen Manajemen Program Sarjana', 'Ruang Dosen Manajemen Program Sarjana pada lantai 2 Gedung DR. Soepomo.', 'Kantor/Administrasi', 2, 2, 'spm_dosen_manajemen'),
+('Ruang Komputasi 1', 'Laboratorium Komputasi 1 pada lantai 2 Gedung DR. Soepomo.', 'Laboratorium', 2, 2, 'spm_komputasi_1'),
+('Ruangan Dosen FEB', 'Ruangan Dosen Fakultas Ekonomi dan Bisnis (FEB) pada lantai 2 Gedung DR. Soepomo.', 'Kantor/Administrasi', 2, 2, 'spm_dosen'),
+('Ruang Kelas D 201', 'Ruang kelas D 201 pada lantai 2 Gedung DR. Soepomo.', 'Ruang Kelas', 2, 2, 'spm_d_201'),
+('Ruang Kelas D 202', 'Ruang kelas D 202 pada lantai 2 Gedung DR. Soepomo.', 'Ruang Kelas', 2, 2, 'spm_d_202'),
+
+
+-- Lantai 3
+('Ruang Komputasi 1 (Lt 3)', 'Laboratorium Komputasi 1 pada lantai 3 Gedung DR. Soepomo.', 'Laboratorium', 3, 2, 'spm_komputasi_2'), -- di-suffix agar unik
+('Ruang Komputasi 2 (Lt 3)', 'Laboratorium Komputasi 2 pada lantai 3 Gedung DR. Soepomo.', 'Laboratorium', 3, 2, 'spm_komputasi_3'),
+('Ruang Kelas D 301', 'Ruang kelas D 301 pada lantai 3 Gedung DR. Soepomo.', 'Ruang Kelas', 3, 2, 'spm_d_301'),
+('Ruang Kelas D 302', 'Ruang kelas D 302 pada lantai 3 Gedung DR. Soepomo.', 'Ruang Kelas', 3, 2, 'spm_d_302'),
+('Ruang Kelas D 303', 'Ruang kelas D 303 pada lantai 3 Gedung DR. Soepomo.', 'Ruang Kelas', 3, 2, 'spm_d_303'),
+('Ruang Kelas D 304', 'Ruang kelas D 304 pada lantai 3 Gedung DR. Soepomo.', 'Ruang Kelas', 3, 2, 'spm_d_304'),
+
+
+-- Lantai 4
+('Ruang Kelas D 401', 'Ruang kelas D 401 pada lantai 4 Gedung DR. Soepomo.', 'Ruang Kelas', 4, 2, 'spm_d_401'),
+('Ruang Kelas D 402', 'Ruang kelas D 402 pada lantai 4 Gedung DR. Soepomo.', 'Ruang Kelas', 4, 2, 'spm_d_402'),
+('Ruang Kelas D 403', 'Ruang kelas D 403 pada lantai 4 Gedung DR. Soepomo.', 'Ruang Kelas', 4, 2, 'spm_d_403'),
+('Ruang Kelas D 404', 'Ruang kelas D 404 pada lantai 4 Gedung DR. Soepomo.', 'Ruang Kelas', 4, 2, 'spm_d_404'),
+
+('Ruang Bursa Efek Jakarta 1', 'Laboratorium/Ruang Bursa Efek Jakarta 1 pada lantai 4 Gedung DR. Soepomo.', 'Laboratorium', 4, 2, 'spm_bursa_efek_1'),
+('Ruang Bursa Efek Jakarta 2', 'Laboratorium/Ruang Bursa Efek Jakarta 2 pada lantai 4 Gedung DR. Soepomo.', 'Laboratorium', 4, 2, 'spm_bursa_efek_2');
