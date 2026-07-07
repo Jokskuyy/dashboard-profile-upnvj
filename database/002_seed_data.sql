@@ -1586,7 +1586,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 
 -- Gedung 9: Gedung Yos Sudarso
 (
-    'Ruang Administrasi Yos Sudarso',
+    'Ruang Administrasi',
     $$Ruang administrasi pada Gedung Yos Sudarso.$$,
     'Administrasi & Layanan',
     1,
@@ -1595,7 +1595,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 (
-    'Ruang Dosen Yos Sudarso Lantai 1',
+    'Ruang Dosen Lantai 1',
     $$Ruang dosen pada lantai 1 Gedung Yos Sudarso.$$,
     'Ruang Dosen',
     1,
@@ -1604,7 +1604,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 (
-    'Selasar Kanan Yos Sudarso',
+    'Selasar Kanan',
     $$Selasar kanan pada lantai 1 Gedung Yos Sudarso.$$,
     'Lainnya',
     1,
@@ -1613,7 +1613,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 (
-    'Selasar Kiri Yos Sudarso',
+    'Selasar Kiri',
     $$Selasar kiri pada lantai 1 Gedung Yos Sudarso.$$,
     'Lainnya',
     1,
@@ -1631,7 +1631,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 (
-    'Ruang Dosen Yos Sudarso Lantai 2',
+    'Ruang Dosen Lantai 2',
     $$Ruang dosen pada lantai 2 Gedung Yos Sudarso.$$,
     'Ruang Dosen',
     2,
@@ -1640,7 +1640,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 (
-    'Ruang Rapat Yos Sudarso Lantai 2',
+    'Ruang Rapat Lantai 2',
     $$Ruang rapat pada lantai 2 Gedung Yos Sudarso.$$,
     'Lainnya',
     2,
@@ -1649,7 +1649,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 (
-    'Smartclass Yos Sudarso Lantai 2',
+    'Smartclass Lantai 2',
     $$Smartclass yang digunakan pada lantai 2 Gedung Yos Sudarso.$$,
     'Lainnya',
     2,
@@ -1658,7 +1658,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 (
-    'Ruang Baca Yos Sudarso',
+    'Ruang Baca',
     $$Ruang baca pada lantai 3 Gedung Yos Sudarso.$$,
     'Perpustakaan & Ruang Baca',
     3,
@@ -1667,7 +1667,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 (
-    'Smartclass Yos Sudarso Lantai 3',
+    'Smartclass Lantai 3',
     $$Smartclass yang digunakan pada lantai 3 Gedung Yos Sudarso.$$,
     'Lainnya',
     3,
@@ -1676,7 +1676,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL
 ),
 (
-    'Ruang Podcast Yos Sudarso',
+    'Ruang Podcast',
     $$Ruang podcast pada lantai 4 Gedung Yos Sudarso.$$,
     'Studio & Produksi Media',
     4,
@@ -2004,6 +2004,187 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL,
     13,
     'ds_ukm_mc'
+),
+-- Restored dari commit 024ba7a (fasilitas Dewi Sartika yang sebelumnya terpotong)
+(
+    'Ruang UKM UBV',
+    $$Ruang sekretariat dan kegiatan UKM UBV di Gedung Dewi Sartika, menjadi tempat berkumpul, berlatih, dan berkoordinasi bagi anggota.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_ubv'
+),
+(
+    'Ruang UKM Sepak Bola',
+    $$Ruang sekretariat dan kegiatan UKM Sepak Bola di Gedung Dewi Sartika, menjadi tempat berkumpul, berlatih, dan berkoordinasi bagi anggota.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_sepak_bola'
+),
+(
+    'Ruang UKM UFO',
+    $$Ruang sekretariat dan kegiatan UKM UFO di Gedung Dewi Sartika, menjadi tempat berkumpul, berlatih, dan berkoordinasi bagi anggota.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_ufo'
+),
+(
+    'Ruang UKM Seni Tari',
+    $$Ruang sekretariat dan kegiatan UKM Seni Tari di Gedung Dewi Sartika, menjadi tempat berkumpul, berlatih, dan berkoordinasi bagi anggota.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_seni_tari'
+),
+(
+    'Ruang UKM Voli',
+    $$Ruang sekretariat dan kegiatan UKM Voli di Gedung Dewi Sartika, menjadi tempat berkumpul, berlatih, dan berkoordinasi bagi anggota.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_voli'
+),
+(
+    'Ruang UKM Pencak Silat',
+    $$Ruang sekretariat dan kegiatan UKM Pencak Silat di Gedung Dewi Sartika, menjadi tempat berkumpul, berlatih, dan berkoordinasi bagi anggota.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_pencak_silat'
+),
+(
+    'Ruang UKM Paduan Suara',
+    $$Ruang sekretariat dan kegiatan UKM Paduan Suara di Gedung Dewi Sartika, menjadi tempat berkumpul, berlatih, dan berkoordinasi bagi anggota.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_paduan_suara'
+),
+(
+    'Ruang UKM Protestan',
+    $$Ruang sekretariat dan kegiatan UKM Protestan di Gedung Dewi Sartika, menjadi tempat berkumpul, berlatih, dan berkoordinasi bagi anggota.$$,
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_protestan'
+),
+(
+    'Ruang Kuliah 201',
+    $$Ruang perkuliahan di lantai 2 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
+    'Ruang Kuliah',
+    2,
+    NULL,
+    13,
+    'ds_201'
+),
+(
+    'Ruang Kuliah 202',
+    $$Ruang perkuliahan di lantai 2 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
+    'Ruang Kuliah',
+    2,
+    NULL,
+    13,
+    'ds_202'
+),
+(
+    'Ruang Kuliah 203',
+    $$Ruang perkuliahan di lantai 2 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
+    'Ruang Kuliah',
+    2,
+    NULL,
+    13,
+    'ds_203'
+),
+(
+    'Ruang Kuliah 204',
+    $$Ruang perkuliahan di lantai 2 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
+    'Ruang Kuliah',
+    2,
+    NULL,
+    13,
+    'ds_204'
+),
+(
+    'Ruang Kuliah 301',
+    $$Ruang perkuliahan di lantai 3 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
+    'Ruang Kuliah',
+    3,
+    NULL,
+    13,
+    'ds_301'
+),
+(
+    'Ruang Kuliah 302',
+    $$Ruang perkuliahan di lantai 3 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
+    'Ruang Kuliah',
+    3,
+    NULL,
+    13,
+    'ds_302'
+),
+(
+    'Ruang Kuliah 303',
+    $$Ruang perkuliahan di lantai 3 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
+    'Ruang Kuliah',
+    3,
+    NULL,
+    13,
+    'ds_303'
+),
+(
+    'Ruang Kuliah 304',
+    $$Ruang perkuliahan di lantai 3 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
+    'Ruang Kuliah',
+    3,
+    NULL,
+    13,
+    'ds_304'
+),
+(
+    'Ruang Kuliah 401',
+    $$Ruang perkuliahan di lantai 4 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    13,
+    'ds_401'
+),
+(
+    'Ruang Kuliah 402',
+    $$Ruang perkuliahan di lantai 4 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    13,
+    'ds_402'
+),
+(
+    'Ruang Kuliah 403',
+    $$Ruang perkuliahan di lantai 4 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    13,
+    'ds_403'
+),
+(
+    'Ruang Kuliah 404',
+    $$Ruang perkuliahan di lantai 4 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
+    'Ruang Kuliah',
+    4,
+    NULL,
+    13,
+    'ds_404'
 );
 
 
