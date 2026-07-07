@@ -2161,3 +2161,89 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 
 ('Ruang Bursa Efek Jakarta 1', 'Laboratorium/Ruang Bursa Efek Jakarta 1 pada lantai 4 Gedung DR. Soepomo.', 'Laboratorium', 4, 2, 'spm_bursa_efek_1'),
 ('Ruang Bursa Efek Jakarta 2', 'Laboratorium/Ruang Bursa Efek Jakarta 2 pada lantai 4 Gedung DR. Soepomo.', 'Laboratorium', 4, 2, 'spm_bursa_efek_2');
+-- =============================================================================
+-- DATA FASILITAS GEDUNG MUHAMMAD YAMIN (id_gedung = 8)
+-- Gedung FISIP (Fakultas Ilmu Sosial dan Ilmu Politik)
+-- jumlah_lantai: 4
+-- =============================================================================
+INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, lantai, id_gedung, unity_object_name) VALUES
+-- Lantai 1
+('Lobby dan Pelayanan Mahasiswa FISIP', 'Lobby utama dan area pelayanan mahasiswa Fakultas Ilmu Sosial dan Ilmu Politik pada lantai 1 Gedung Muhammad Yamin.', 'Pelayanan', 1, 8, 'ymn_lobby'),
+('Auditorium FISIP', 'Auditorium Fakultas Ilmu Sosial dan Ilmu Politik untuk seminar, kuliah umum, dan kegiatan akademik pada lantai 1 Gedung Muhammad Yamin.', 'Auditorium & Aula', 1, 8, 'ymn_auditorium'),
+
+-- Lantai 2
+('Ruangan Staff Program Studi FISIP', 'Ruangan staff program studi Fakultas Ilmu Sosial dan Ilmu Politik pada lantai 2 Gedung Muhammad Yamin.', 'Kantor/Administrasi', 2, 8, 'ymn_staff'),
+('Ruangan Dosen FISIP', 'Ruangan dosen Fakultas Ilmu Sosial dan Ilmu Politik pada lantai 2 Gedung Muhammad Yamin.', 'Kantor/Administrasi', 2, 8, 'ymn_dosen'),
+('Ruang Guru Besar', 'Ruang Guru Besar Fakultas Ilmu Sosial dan Ilmu Politik pada lantai 2 Gedung Muhammad Yamin.', 'Kantor/Administrasi', 2, 8, 'ymn_guru_besar'),
+
+-- Lantai 3
+('Ruang Kelas 301', 'Ruang kelas 301 pada lantai 3 Gedung Muhammad Yamin.', 'Ruang Kelas', 3, 8, 'ymn_301'),
+('Lab Politik (302)', 'Laboratorium politik (ruang 302) untuk pembelajaran dan penelitian di bidang ilmu politik pada lantai 3 Gedung Muhammad Yamin.', 'Laboratorium', 3, 8, 'ymn_302'),
+('Ruang Kelas 303', 'Ruang kelas 303 pada lantai 3 Gedung Muhammad Yamin.', 'Ruang Kelas', 3, 8, 'ymn_303'),
+('Ruang Kelas 304', 'Ruang kelas 304 pada lantai 3 Gedung Muhammad Yamin.', 'Ruang Kelas', 3, 8, 'ymn_304'),
+('Ruang Kelas 305', 'Ruang kelas 305 pada lantai 3 Gedung Muhammad Yamin.', 'Ruang Kelas', 3, 8, 'ymn_305'),
+('Ruang Kelas 306', 'Ruang kelas 306 pada lantai 3 Gedung Muhammad Yamin.', 'Ruang Kelas', 3, 8, 'ymn_306'),
+('Ruang Kelas 307', 'Ruang kelas 307 pada lantai 3 Gedung Muhammad Yamin.', 'Ruang Kelas', 3, 8, 'ymn_307'),
+('Ruang Kelas 308', 'Ruang kelas 308 pada lantai 3 Gedung Muhammad Yamin.', 'Ruang Kelas', 3, 8, 'ymn_308'),
+
+('Mushola FISIP', 'Fasilitas ibadah Mushola FISIP pada lantai 3 Gedung Muhammad Yamin.', 'Fasilitas Ibadah', 3, 8, 'ymn_mushola'),
+('Ruang Podcast FISIP', 'Ruang podcast FISIP untuk produksi konten audio digital dan broadcasting pada lantai 3 Gedung Muhammad Yamin.', 'Laboratorium', 3, 8, 'ymn_podcast'),
+
+-- Lantai 4
+('Lab Fotografi', 'Laboratorium fotografi untuk praktikum dan pengembangan keterampilan fotografi mahasiswa pada lantai 4 Gedung Muhammad Yamin.', 'Laboratorium', 4, 8, 'ymn_fotografi'),
+('Lab Sinematografi', 'Laboratorium sinematografi untuk produksi film dan konten visual pada lantai 4 Gedung Muhammad Yamin.', 'Laboratorium', 4, 8, 'ymn_sinematografi'),
+('Ruangan Lab Televisi & Radio', 'Laboratorium produksi televisi dan radio pada lantai 4 Gedung Muhammad Yamin.', 'Laboratorium', 4, 8, 'ymn_televisi'),
+('Lab Multimedia FISIP', 'Laboratorium multimedia FISIP untuk praktikum dan pengembangan konten digital pada lantai 4 Gedung Muhammad Yamin.', 'Laboratorium', 4, 8, 'ymn_multimedia'),
+('Lab Big Data FISIP', 'Laboratorium big data FISIP untuk praktikum dan penelitian analisis data pada lantai 4 Gedung Muhammad Yamin.', 'Laboratorium', 4, 8, 'ymn_big_data');
+WITH cipto AS (
+    SELECT id FROM public.gedung WHERE nama_gedung ILIKE '%Cipto%' LIMIT 1
+)
+INSERT INTO public.fasilitas (id_gedung, nama_fasilitas, lantai, unity_object_name, deskripsi_fasilitas)
+SELECT cipto.id, data.nama, data.lt, data.unity, data.desc
+FROM cipto, (VALUES
+    -- Lantai 1
+    ('Perpustakaan', 1, 'cpt_perpustakaan', NULL),
+    ('Laboratorium Histologi & Patologi', 1, 'cpt_histologi_patologi', NULL),
+    ('Laboratorium Komputer', 1, 'cpt_komputer', NULL),
+    ('Ruang Medical Information and Technology Education, and Communication (MITECH)', 1, 'cpt_mitech', NULL),
+    ('Kepala Laboratorium Histologi & Patologi', 1, 'cpt_kalab_histologi_patologi', NULL),
+    ('Ruangan Laboratorium Farmakologi & Farmasi Klinik', 1, 'cpt_lab_farmakologi_farmasi_klinik', NULL),
+    ('Student Lounge', 1, 'cpt_student_lounge', NULL),
+
+    -- Lantai 2
+    ('Ruangan Medical Education Unit', 2, 'cpt_medical_education_unit', NULL),
+    ('Tutor Meeting', 2, 'cpt_tutor', NULL),
+('Ruang Tutorial A1', 2, 'cpt_tutorial_a_1', NULL),
+    ('Ruang Tutorial A2', 2, 'cpt_tutorial_a_2', NULL),
+    ('Ruang Tutorial A3', 2, 'cpt_tutorial_a_3', NULL),
+    ('Ruang Tutorial A4', 2, 'cpt_tutorial_a_4', NULL),
+('Ruang Tutorial B1', 2, 'cpt_tutorial_b_1', NULL),
+    ('Ruang Tutorial B2', 2, 'cpt_tutorial_b_2', NULL),
+    ('Ruang Tutorial B3', 2, 'cpt_tutorial_b_3', NULL),
+    ('Ruang Tutorial B4', 2, 'cpt_tutorial_b_4', NULL),
+('Ruang Tutorial C1', 2, 'cpt_tutorial_c_1', NULL),
+    ('Ruang Tutorial C2', 2, 'cpt_tutorial_c_2', NULL),
+    ('Ruang Tutorial C3', 2, 'cpt_tutorial_c_3', NULL),
+    ('Ruang Tutorial C4', 2, 'cpt_tutorial_c_4', NULL),
+('Ruang Tutorial D1', 2, 'cpt_tutorial_d_1', NULL),
+    ('Ruang Tutorial D2', 2, 'cpt_tutorial_d_2', NULL),
+    ('Ruang Tutorial D3', 2, 'cpt_tutorial_d_3', NULL),
+    ('Ruang Tutorial D4', 2, 'cpt_tutorial_d_4', NULL),
+    ('Ruangan prodi Biologi & ruangan Redaksi jurnal profesi medika', 2, 'cpt_biologi_jurnal', NULL),
+
+    -- Lantai 3
+    ('Ruangan (Objective Structured Clinical Examination) OSCE CENTER/ LAB Keterampilan Klinis B', 3, 'cpt_osce', NULL),
+    ('Ruang Penyimpanan Manekin 1', 3, 'cpt_penyimpanan_manekin_1', NULL),
+    ('Ruang Penyimpanan Manekin 2', 3, 'cpt_penyimpanan_manekin_2', NULL),
+    ('Ruangan Instruktur keterampilan klinis', 3, 'cpt_instruktur_keterampilan', NULL),
+    ('Ruang Manekin', 3, 'cpt_manekin', NULL),
+    ('Ruangan LAB Keterampilan klinis A (Skills Lab)', 3, 'cpt_skills', NULL),
+
+    -- Lantai 4
+    ('CBT (Computer Based Test) Center', 4, 'cpt_cbt', NULL),
+    ('Ruang Lecture A', 4, 'cpt_lecture_a', NULL),
+    ('Ruang Lecture B', 4, 'cpt_lecture_b', NULL),
+    ('Aula', 4, 'cpt_aula', 'Biasa dipakai sidang'),
+    ('Ruang Mini Lecture 2', 4, 'cpt_mini_lecture_2', NULL),
+    ('Ruang Mini Lecture 3', 4, 'cpt_mini_lecture_3', NULL)
+) AS data(nama, lt, unity, desc);
