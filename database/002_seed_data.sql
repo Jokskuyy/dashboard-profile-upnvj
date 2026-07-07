@@ -2020,3 +2020,55 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 ('Ruang UKM Bulutangkis', 'Ruang sekretariat Unit Kegiatan Mahasiswa Bulutangkis pada lantai 2 area Ekstension Gedung Soetomo. Berbeda dari Ruang UKM Bulu Tangkis di Gedung Dewi Sartika.', 'Ruang Kegiatan Mahasiswa', 2, 16, 'stm_ukm_bulutangkis'),
 ('Perpustakaan Utama Kampus', 'Perpustakaan utama kampus pada lantai 3 Gedung Soetomo. Mencakup area: Pojok Bela Negara, Kazakhstan Corner, German Corner, Ruang Selasar, Ruang Komputer, Komputer E-paper, Ruang Diskusi, dan Rak Koleksi. Seluruh area ini merupakan bagian integral dari satu fasilitas perpustakaan.', 'Perpustakaan', 3, 16, 'stm_perpustakaan_utama'),
 ('Perpustakaan Lantai 4', 'Area perpustakaan yang menempati keseluruhan lantai 4 Gedung Soetomo.', 'Perpustakaan', 4, 16, 'stm_perpustakaan_l4');
+-- =============================================================================
+-- DATA FASILITAS GEDUNG REKTORAT (id_gedung = 1)
+-- =============================================================================
+-- DATA FASILITAS GEDUNG REKTORAT (id_gedung = 1)
+-- =============================================================================
+INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, lantai, id_gedung, unity_object_name) VALUES
+-- Lantai 1
+('Ruangan Senat Universitas Lembaga Konsultasi dan Bantuan Hukum', 'Ruangan Senat Universitas Lembaga Konsultasi dan Bantuan Hukum pada Lantai 1 Gedung Rektorat.', 'Kantor/Administrasi', 1, 1, 'rt_senat_univ'),
+('Ruangan Mata Kuliah Wajib Kurikulum (MKWK)', 'Ruangan Mata Kuliah Wajib Kurikulum (MKWK) pada Lantai 1 Gedung Rektorat.', 'Kantor/Administrasi', 1, 1, 'rt_mkwk'),
+('Ruangan Kantor Urusan Internasional', 'Ruangan Kantor Urusan Internasional (KUI) pada Lantai 1 Gedung Rektorat.', 'Kantor/Administrasi', 1, 1, 'rt_kui'),
+('Ruangan Kepala Pusat Pemeringkatan & Kepala Pusat MKWU', 'Ruangan Kepala Pusat Pemeringkatan & Kepala Pusat MKWU pada Lantai 1 Gedung Rektorat.', 'Kantor/Administrasi', 1, 1, 'rt_kep_pemeringkatan'),
+('Ruang Tamu Bersama', 'Ruang Tamu Bersama pada Lantai 1 Gedung Rektorat.', 'Fasilitas Umum', 1, 1, 'rt_ruang_tamu_bersama'),
+('Ruangan HUMAS', 'Ruangan Hubungan Masyarakat (HUMAS) pada Lantai 1 Gedung Rektorat.', 'Kantor/Administrasi', 1, 1, 'rt_humas'),
+('Ruang Dewan Pengawas', 'Ruang Dewan Pengawas pada Lantai 1 Gedung Rektorat.', 'Kantor/Administrasi', 1, 1, 'rt_dewas'),
+('Ruang Pusat Kajian Bela Negara', 'Ruang Pusat Kajian Bela Negara pada Lantai 1 Gedung Rektorat.', 'Kantor/Administrasi', 1, 1, 'rt_puska'),
+('Ruangan unit Layanan Terpadu & Informasi Publik', 'Ruangan unit Layanan Terpadu & Informasi Publik pada Lantai 1 Gedung Rektorat.', 'Pelayanan', 1, 1, 'rt_layanan_terpadu'),
+('Bank BNI', 'Fasilitas perbankan BNI pada Lantai 1 Gedung Rektorat.', 'Fasilitas Umum', 1, 1, 'rt_bni'),
+('Plaza Penmaru Wardiman', 'Plaza Penmaru Wardiman pada Lantai 1 Gedung Rektorat.', 'Fasilitas Umum', 1, 1, 'rt_wardiman'),
+
+-- Lantai 2
+('Ruangan Rapat Nusantara 1', 'Ruangan Rapat Nusantara 1 pada Lantai 2 Gedung Rektorat.', 'Ruang Rapat', 2, 1, 'rt_rapat_nusantara_1'),
+('Ruangan Rapat Nusantara 2', 'Ruangan Rapat Nusantara 2 pada Lantai 2 Gedung Rektorat.', 'Ruang Rapat', 2, 1, 'rt_rapat_nusantara_2'),
+('Ruangan Wakil Rektor 1', 'Ruangan Wakil Rektor 1 pada Lantai 2 Gedung Rektorat.', 'Kantor/Administrasi', 2, 1, 'rt_warek_1'),
+('Ruangan Wakil Rektor 3', 'Ruangan Wakil Rektor 3 pada Lantai 2 Gedung Rektorat.', 'Kantor/Administrasi', 2, 1, 'rt_warek_3'),
+('Ruangan Rapat Nusantara dan Ruangan Wakil Rektor 2', 'Ruangan Rapat Nusantara dan Ruangan Wakil Rektor 2 pada Lantai 2 Gedung Rektorat.', 'Kantor/Administrasi', 2, 1, 'rt_warek_2'),
+('Ruang Kepegawaian', 'Ruang Kepegawaian pada Lantai 2 Gedung Rektorat.', 'Kantor/Administrasi', 2, 1, 'rt_kepegawaian'),
+('UPA TIK', 'Unit Penunjang Akademik Teknologi Informasi dan Komunikasi (UPA TIK) pada Lantai 2 Gedung Rektorat.', 'Fasilitas Terpadu', 2, 1, 'rt_upa_tik'),
+('Ruangan Rektor', 'Ruangan Rektor pada Lantai 2 Gedung Rektorat.', 'Kantor/Administrasi', 2, 1, 'rt_rektorat'),
+('Bagian Hukum & Tata Laksana', 'Bagian Hukum & Tata Laksana pada Lantai 2 Gedung Rektorat.', 'Kantor/Administrasi', 2, 1, 'rt_hukum_tata_laksana'),
+('Ruang Staff', 'Ruang Staff pada Lantai 2 Gedung Rektorat.', 'Kantor/Administrasi', 2, 1, 'rt_staff'),
+
+-- Lantai 3
+('Ruangan Biro Perencanaan Umum Keuangan Dan Umum', 'Ruangan Biro Perencanaan Umum Keuangan Dan Umum pada Lantai 3 Gedung Rektorat.', 'Kantor/Administrasi', 3, 1, 'rt_ruku'),
+('Ruangan Biro AKPK', 'Ruangan Biro Akademik, Kemahasiswaan, Perencanaan, dan Kerjasama (AKPK) pada Lantai 3 Gedung Rektorat.', 'Kantor/Administrasi', 3, 1, 'rt_akpk'),
+('Pusat Pelayanan Keuangan Mahasiswa', 'Pusat Pelayanan Keuangan Mahasiswa pada Lantai 3 Gedung Rektorat.', 'Pelayanan', 3, 1, 'rt_pusat_keuangan'),
+('Bagian Keuangan Biro Umum & Keuangan', 'Bagian Keuangan Biro Umum & Keuangan pada Lantai 3 Gedung Rektorat.', 'Kantor/Administrasi', 3, 1, 'rt_biro_keuangan'),
+('Ruangan Rapat Nusantara 4', 'Ruangan Rapat Nusantara 4 pada Lantai 3 Gedung Rektorat.', 'Ruang Rapat', 3, 1, 'rt_rapat_nusantara_4'),
+('Ruang Tax Center', 'Ruang Tax Center pada Lantai 3 Gedung Rektorat.', 'Kantor/Administrasi', 3, 1, 'rt_tax_center'),
+('Ruangan Pusat Kajian Bela Negara', 'Ruangan Pusat Kajian Bela Negara pada Lantai 3 Gedung Rektorat.', 'Kantor/Administrasi', 3, 1, 'rt_pkbn'),
+('Ruangan Bidang Kemahasiswaan', 'Ruangan Bidang Kemahasiswaan pada Lantai 3 Gedung Rektorat.', 'Kantor/Administrasi', 3, 1, 'rt_kemahasiswaan'),
+('Ruang Kelas Bank Mini 302', 'Ruang Kelas Bank Mini 302 pada Lantai 3 Gedung Rektorat.', 'Ruang Kelas', 3, 1, 'rt_302'),
+
+-- Lantai 4
+('Ruang UPA LUK/LSP', 'Ruang UPA LUK/LSP (Lembaga Sertifikasi Profesi) pada Lantai 4 Gedung Rektorat.', 'Kantor/Administrasi', 4, 1, 'rt_upa_luk'),
+('Ruangan Sub Bagian Pendanaan Barang dan Jasa', 'Ruangan Sub Bagian Pendanaan Barang dan Jasa pada Lantai 4 Gedung Rektorat.', 'Kantor/Administrasi', 4, 1, 'rt_pendanaan'),
+('Ruangan Simulasi Bank Mini', 'Ruangan Simulasi Bank Mini pada Lantai 4 Gedung Rektorat.', 'Laboratorium', 4, 1, 'rt_simulasi_bank_mini'),
+('Ruangan LPPM', 'Ruangan Lembaga Penelitian dan Pengabdian kepada Masyarakat (LPPM) pada Lantai 4 Gedung Rektorat.', 'Kantor/Administrasi', 4, 1, 'rt_lppm'),
+('Lembaga Penjaminan Mutu dan Pengembangan Pembelajaran (LPMPP)', 'Ruangan Lembaga Penjaminan Mutu dan Pengembangan Pembelajaran (LPMPP) pada Lantai 4 Gedung Rektorat.', 'Kantor/Administrasi', 4, 1, 'rt_lpmpp'),
+('Auditorium Bhineka Tunggal Ika', 'Auditorium Bhineka Tunggal Ika pada Lantai 4 Gedung Rektorat.', 'Auditorium/Aula', 4, 1, 'rt_auditorium_bki');
+-- =============================================================================
+-- DATA FASILITAS GEDUNG REKTORAT (id_gedung = 1)
+-- =============================================================================
