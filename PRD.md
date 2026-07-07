@@ -368,17 +368,27 @@ audit_logs      → id, actor_id, actor_email, action (INSERT/UPDATE/DELETE), ta
 
 ## Known Issues & Planned Fixes
 
-### 🔴 BuildingDatabase Endpoint/Parser Mismatch
-- **Masalah:** `Awake()` override ke `/api/unity/names` (returns `{"unityObjectNames":[...]}`), tapi parser expect `{"gedung":[], "fasilitas":[]}` (format `/api/unity/data`). Akibatnya cache `realNames` dan `unityObjectNames` kosong. Navigasi tetap berfungsi via brute-force fallback (`FindInactiveByName`), tapi label menampilkan kode internal (`mht_201`) bukan nama tampilan ("Ruang MHT 201").
-- **Fix:** Ubah endpoint di `BuildingDatabase.cs` ke `/api/unity/data` + tambahkan `unity_object_name` ke select query di `api/unity/data.js`
+> **Status per 7 Juli 2026** — diverifikasi terhadap kode aktual (`src/`, `api/`, `public/unity-builds/`).
 
-### 🟡 Joystick Virtual Tidak Responsive
-- **Masalah:** Joystick tampil di desktop dan mobile
-- **Fix:** Tambahkan platform detection (cek `SystemInfo.deviceType` atau `#if UNITY_WEBGL` + JS bridge untuk detect touch device)
+### 🔴 Build Path Version Mismatch (BARU — Blocker untuk Testing)
+- **Masalah:** File build Unity yang ada di disk dan yang dilayani produksi adalah `v0.2.16` (`public/unity-builds/v0.2.16/Build/v0.2.16.*`, dikonfirmasi di `vercel.json` dan `public/_headers`). Namun kode frontend masih menunjuk ke folder `v0.2.2` yang **tidak ada**:
+  - `CampusMapViewer.tsx` → `unity-builds/v0.2.2/Build/v0.2.2.{data,framework.js,wasm}.unityweb` + `v0.2.2.loader.js` (folder **dan** nama file salah)
+  - `unityPreloader.ts` → `unity-builds/v0.2.2/Build/v0.2.16.*` (folder salah, nama file benar)
+- **Dampak:** Denah Virtual 3D gagal load (404 pada aset Unity). Ini memblokir seluruh alur navigasi saat black box test & UAT.
+- **Fix:** Ganti semua path `v0.2.2` → `v0.2.16` di `CampusMapViewer.tsx` dan `unityPreloader.ts` agar konsisten dengan folder build, `vercel.json`, dan `_headers`. Pertimbangkan menyentralisasi versi build ke satu konstanta agar tidak drift lagi.
 
-### 🟡 Preloading Tidak Mobile-Aware
-- **Masalah:** WebGL files di-preload otomatis termasuk di mobile → boros kuota data
-- **Fix:** Cek `navigator.connection.saveData` / `effectiveType`, skip preload di koneksi lambat/metered
+### ✅ BuildingDatabase Endpoint/Parser Mismatch (RESOLVED)
+- **Sebelumnya:** `Awake()` override ke `/api/unity/names` tapi parser expect format `/api/unity/data`.
+- **Status saat ini:** `BuildingDatabase.cs` `Awake()` sudah menunjuk ke `/api/unity/data` (relative URL di WebGL build), parser `UnityApiResponse` cocok dengan `{gedung, fasilitas}`, dan `api/unity/data.js` sudah menyertakan `unity_object_name` di select query untuk gedung & fasilitas. `GetRealName()` mengisi cache `realNames` dan fallback ke input asli (bukan `null`).
+
+### ✅ Preloading Mobile-Aware (RESOLVED)
+- **Sebelumnya:** WebGL files di-preload otomatis termasuk di mobile.
+- **Status saat ini:** `unityPreloader.ts` → `shouldSkipPreload()` melewati preload pada mobile (user-agent / lebar < 768px), `navigator.connection.saveData`, koneksi `2g`/`slow-2g`, dan GitHub Pages. (Catatan: masih terhalang oleh 🔴 Build Path Mismatch di atas — path preload perlu diperbaiki agar caching benar-benar berjalan.)
+
+### 🟡 Joystick Virtual Tidak Responsive (belum diverifikasi — repo Unity terpisah)
+- **Masalah:** Joystick tampil di desktop dan mobile.
+- **Fix:** Tambahkan platform detection (cek `SystemInfo.deviceType` atau `#if UNITY_WEBGL` + JS bridge untuk detect touch device).
+- **Catatan:** Berada di repo Unity `T_A---Copy`, tidak dapat diverifikasi dari repo web ini.
 
 ---
 
@@ -461,7 +471,7 @@ audit_logs      → id, actor_id, actor_email, action (INSERT/UPDATE/DELETE), ta
 ### Deployment
 - **Supabase self-hosted** = rencana masa depan saat server kampus sudah tersedia. Saat ini menggunakan Supabase Cloud agar online 24/7
 - **docker-compose.yml** di repo web = **khusus Umami Analytics**, bukan untuk Supabase atau dashboard UPNVJ
-- **Unity WebGL builds** disimpan di `/unity-builds/` pada Vercel static hosting, versi saat ini: `v0.2.05`
+- **Unity WebGL builds** disimpan di `/unity-builds/` pada Vercel static hosting, versi saat ini: `v0.2.16`
 
 ### Dua Repository
 - Unity: `T_A---Copy`
