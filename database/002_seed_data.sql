@@ -148,7 +148,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Dosen FK UPNVJ',
     $$Ruang kerja dan aktivitas dosen Fakultas Kedokteran UPNVJ.$$,
-    'Ruang Dosen',
+    'Administrasi & Layanan',
     1,
     NULL,
     3,
@@ -220,7 +220,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Podcast/mitek/meeting FK UPNVJ',
     $$Ruang Podcast/mitek/meeting FK UPNVJ yang mendukung kegiatan akademik, operasional, dan pelayanan di lingkungan Fakultas Kedokteran UPNVJ.$$,
-    'Studio & Produksi Media',
+    'Laboratorium',
     2,
     NULL,
     3,
@@ -265,7 +265,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Server FK UPNVJ',
     $$Fasilitas umum dan infrastruktur pendukung gedung$$,
-    'Fasilitas Umum',
+    'Administrasi & Layanan',
     2,
     NULL,
     3,
@@ -355,7 +355,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Dosen Patologi Klinik',
     $$Ruang kerja dan transit untuk Dosen Patologi Klinik$$,
-    'Ruang Dosen',
+    'Administrasi & Layanan',
     3,
     NULL,
     3,
@@ -664,7 +664,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Transit Dosen',
     $$Ruang transit dan istirahat dosen.$$,
-    'Ruang Dosen',
+    'Administrasi & Layanan',
     4,
     NULL,
     4,
@@ -721,7 +721,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Pantry',
     $$Fasilitas dapur kecil untuk kebutuhan konsumsi staf dan dosen.$$,
-    'Fasilitas Umum',
+    'Administrasi & Layanan',
     2,
     NULL,
     5,
@@ -739,7 +739,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Dosen',
     $$Fasilitas ruang istirahat dan kerja bagi tenaga pendidik atau dosen.$$,
-    'Ruang Dosen',
+    'Administrasi & Layanan',
     2,
     NULL,
     5,
@@ -793,7 +793,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Server Wifi',
     $$Pusat kontrol dan server jaringan WiFi untuk menjamin konektivitas internet di area gedung.$$,
-    'Fasilitas Umum',
+    'Administrasi & Layanan',
     2,
     NULL,
     5,
@@ -985,7 +985,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Podcast FIK',
     $$Ruang podcast Fakultas Ilmu Komputer yang dilengkapi dengan peralatan rekaman audio dan video profesional, digunakan untuk produksi konten digital, wawancara, dan kegiatan penyiaran mahasiswa.$$,
-    'Studio & Produksi Media',
+    'Laboratorium',
     1,
     'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/digital_library.jpg',
     6,
@@ -1012,7 +1012,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Dosen FIK',
     $$Ruang kerja dan transit dosen Fakultas Ilmu Komputer untuk persiapan mengajar, bimbingan mahasiswa, dan kegiatan akademik.$$,
-    'Ruang Dosen',
+    'Administrasi & Layanan',
     2,
     'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/kihadjar/lab_software_engineering_201.jpg',
     6,
@@ -1132,7 +1132,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Dosen Ilmu Ekonomi',
     $$Ruang kerja dosen Program Studi Ilmu Ekonomi FEB.$$,
-    'Ruang Dosen',
+    'Administrasi & Layanan',
     2,
     NULL,
     7,
@@ -1141,7 +1141,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Dosen Manajemen Program Sarjana',
     $$Ruang kerja dosen Program Studi Manajemen jenjang sarjana FEB.$$,
-    'Ruang Dosen',
+    'Administrasi & Layanan',
     2,
     NULL,
     7,
@@ -1597,7 +1597,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Dosen Lantai 1',
     $$Ruang dosen pada lantai 1 Gedung Yos Sudarso.$$,
-    'Ruang Dosen',
+    'Administrasi & Layanan',
     1,
     'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_dosen_yos_sudarso_lantai_1.png',
     9,
@@ -1633,7 +1633,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Dosen Lantai 2',
     $$Ruang dosen pada lantai 2 Gedung Yos Sudarso.$$,
-    'Ruang Dosen',
+    'Administrasi & Layanan',
     2,
     'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_dosen_yos_sudarso_lantai_2.png',
     9,
@@ -1678,7 +1678,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Podcast',
     $$Ruang podcast pada lantai 4 Gedung Yos Sudarso.$$,
-    'Studio & Produksi Media',
+    'Laboratorium',
     4,
     'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_praktik_peradilan_semu.png',
     9,
@@ -1699,7 +1699,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Dosen dan Staff Administrasi Doktor (S3) Hukum',
     $$Ruang dosen dan staff administrasi Program Doktor (S3) Hukum pada lantai 1 Gedung RA Kartini.$$,
-    'Ruang Dosen',
+    'Administrasi & Layanan',
     1,
     NULL,
     10,
@@ -1744,7 +1744,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Ujian UPA Bahasa dan Ruang Sidang S3',
     $$1 ruang fisik yang difungsikan sebagai Ruang Ujian UPA Bahasa sekaligus Ruang Sidang S3 pada lantai 2 Gedung RA Kartini. Alias: Ruang Sidang Doktor, Ruang Sidang S3.$$,
-    'Ruang Ujian',
+    'Ruang Kuliah',
     2,
     NULL,
     10,
@@ -1753,7 +1753,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Diskusi dan Ruang Instruktur UPA Bahasa',
     $$1 ruang fisik yang difungsikan sebagai ruang diskusi dan ruang instruktur UPA Bahasa pada lantai 2 Gedung RA Kartini.$$,
-    'Ruang Diskusi',
+    'Ruang Kuliah',
     2,
     NULL,
     10,
@@ -1780,7 +1780,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Guru Besar dan Pengelola Jurnal',
     $$Ruang Guru Besar dan Pengelola Jurnal pada lantai 2 Gedung RA Kartini.$$,
-    'Ruang Dosen',
+    'Administrasi & Layanan',
     2,
     NULL,
     10,
@@ -1798,7 +1798,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Ujian UPA Bahasa R.301',
     $$Ruang ujian UPA Bahasa R.301 di lantai 3 Gedung RA Kartini untuk pelaksanaan tes kemampuan bahasa bagi mahasiswa.$$,
-    'Ruang Ujian',
+    'Ruang Kuliah',
     3,
     NULL,
     10,
@@ -1807,7 +1807,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Ujian UPA Bahasa R.302',
     $$Ruang ujian UPA Bahasa R.302 di lantai 3 Gedung RA Kartini untuk pelaksanaan tes kemampuan bahasa bagi mahasiswa.$$,
-    'Ruang Ujian',
+    'Ruang Kuliah',
     3,
     NULL,
     10,
@@ -1816,7 +1816,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Ujian UPA Bahasa R.303',
     $$Ruang ujian UPA Bahasa R.303 di lantai 3 Gedung RA Kartini untuk pelaksanaan tes kemampuan bahasa bagi mahasiswa.$$,
-    'Ruang Ujian',
+    'Ruang Kuliah',
     3,
     NULL,
     10,
@@ -1825,7 +1825,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Ujian UPA Bahasa R.304',
     $$Ruang ujian UPA Bahasa R.304 di lantai 3 Gedung RA Kartini untuk pelaksanaan tes kemampuan bahasa bagi mahasiswa.$$,
-    'Ruang Ujian',
+    'Ruang Kuliah',
     3,
     NULL,
     10,
@@ -1834,7 +1834,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Ujian UPA Bahasa R.305',
     $$Ruang ujian UPA Bahasa R.305 di lantai 3 Gedung RA Kartini untuk pelaksanaan tes kemampuan bahasa bagi mahasiswa.$$,
-    'Ruang Ujian',
+    'Ruang Kuliah',
     3,
     NULL,
     10,
@@ -1843,7 +1843,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 (
     'Ruang Ujian UPA Bahasa R.306',
     $$Ruang ujian UPA Bahasa R.306 di lantai 3 Gedung RA Kartini untuk pelaksanaan tes kemampuan bahasa bagi mahasiswa.$$,
-    'Ruang Ujian',
+    'Ruang Kuliah',
     3,
     NULL,
     10,
@@ -2194,13 +2194,13 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 ('Ruang Majelis Permusyawaratan Mahasiswa (MPM)', 'Ruang organisasi Majelis Permusyawaratan Mahasiswa (MPM) pada lantai 1 Gedung Soetomo. Dikenal juga sebagai MPM UPNVJ.', 'Ruang Kegiatan Mahasiswa', 1, 17, 'stm_mpm'),
 ('Ruang Badan Perwakilan Mahasiswa (BPM)', 'Ruang organisasi Badan Perwakilan Mahasiswa (BPM) pada lantai 1 Gedung Soetomo. Dikenal juga sebagai BPM UPNVJ.', 'Ruang Kegiatan Mahasiswa', 1, 17, 'stm_bpm'),
 ('Ruang Teater', 'Ruang teater pada lantai 1 Gedung Soetomo untuk kegiatan pertunjukan seni, latihan, dan aktivitas kemahasiswaan.', 'Auditorium & Aula', 1, 17, 'stm_ruang_teater'),
-('Studio Latihan Tari', 'Studio latihan tari pada lantai 1 Gedung Soetomo untuk kegiatan seni tari dan latihan Unit Kegiatan Mahasiswa.', 'Studio & Produksi Media', 1, 17, 'stm_studio_latihan_tari'),
-('Lobby Perpustakaan', 'Area lobby perpustakaan pada lantai 1 Gedung Soetomo sebagai area penerima dan akses utama menuju fasilitas perpustakaan.', 'Fasilitas Umum', 1, 17, 'stm_lobby_perpustakaan'),
-('Ruang Diskusi', 'Ruang diskusi pada lantai 1 Gedung Soetomo untuk kegiatan belajar kelompok dan diskusi mahasiswa.', 'Ruang Diskusi', 1, 17, 'stm_ruang_diskusi_l1'),
+('Studio Latihan Tari', 'Studio latihan tari pada lantai 1 Gedung Soetomo untuk kegiatan seni tari dan latihan Unit Kegiatan Mahasiswa.', 'Laboratorium', 1, 17, 'stm_studio_latihan_tari'),
+('Lobby Perpustakaan', 'Area lobby perpustakaan pada lantai 1 Gedung Soetomo sebagai area penerima dan akses utama menuju fasilitas perpustakaan.', 'Administrasi & Layanan', 1, 17, 'stm_lobby_perpustakaan'),
+('Ruang Diskusi', 'Ruang diskusi pada lantai 1 Gedung Soetomo untuk kegiatan belajar kelompok dan diskusi mahasiswa.', 'Ruang Kuliah', 1, 17, 'stm_ruang_diskusi_l1'),
 ('Ruang UKM Girigahana', 'Ruang sekretariat Unit Kegiatan Mahasiswa Girigahana pada lantai 1 area Ekstension Gedung Soetomo.', 'Ruang Kegiatan Mahasiswa', 1, 17, 'stm_ukm_girigahana'),
 ('Ruang Aspirasi', 'Ruang pada lantai 1 area Ekstension Gedung Soetomo dengan tulisan "Aspirasi". Fungsi spesifik perlu dikonfirmasi (kemungkinan organisasi atau media mahasiswa).', 'Ruang Kegiatan Mahasiswa', 1, 17, 'stm_aspirasi'),
 ('Ruang Akses Digital', 'Ruang akses digital pada lantai 2 Gedung Soetomo untuk pemanfaatan layanan digital dan akses informasi akademik perpustakaan.', 'Administrasi & Layanan', 2, 17, 'stm_ruang_akses_digital'),
-('Ruang Multimedia', 'Ruang multimedia pada lantai 2 Gedung Soetomo untuk kegiatan pembelajaran, presentasi, dan akses media digital.', 'Studio & Produksi Media', 2, 17, 'stm_ruang_multimedia'),
+('Ruang Multimedia', 'Ruang multimedia pada lantai 2 Gedung Soetomo untuk kegiatan pembelajaran, presentasi, dan akses media digital.', 'Laboratorium', 2, 17, 'stm_ruang_multimedia'),
 ('Ruang UKM Pencak Silat Veteran Jakarta (PSVJ)', 'Ruang sekretariat Unit Kegiatan Mahasiswa Pencak Silat Veteran Jakarta (PSVJ) pada lantai 2 area Ekstension Gedung Soetomo. Berbeda dari Ruang UKM Pencak Silat di Gedung Dewi Sartika.', 'Ruang Kegiatan Mahasiswa', 2, 17, 'stm_ukm_psvj'),
 ('Ruang UKM Tae Kwon Do', 'Ruang sekretariat Unit Kegiatan Mahasiswa Tae Kwon Do pada lantai 2 area Ekstension Gedung Soetomo.', 'Ruang Kegiatan Mahasiswa', 2, 17, 'stm_ukm_taekwondo'),
 ('Ruang UKM KSR PMI', 'Ruang sekretariat Unit Kegiatan Mahasiswa Korps Sukarela Palang Merah Indonesia (KSR PMI) pada lantai 2 area Ekstension Gedung Soetomo.', 'Ruang Kegiatan Mahasiswa', 2, 17, 'stm_ukm_ksr_pmi'),
@@ -2218,17 +2218,17 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 ('Ruangan Mata Kuliah Wajib Kurikulum (MKWK)', 'Ruangan Mata Kuliah Wajib Kurikulum (MKWK) pada Lantai 1 Gedung Rektorat.', 'Administrasi & Layanan', 1, 1, 'rt_mkwk'),
 ('Ruangan Kantor Urusan Internasional', 'Ruangan Kantor Urusan Internasional (KUI) pada Lantai 1 Gedung Rektorat.', 'Administrasi & Layanan', 1, 1, 'rt_kui'),
 ('Ruangan Kepala Pusat Pemeringkatan & Kepala Pusat MKWU', 'Ruangan Kepala Pusat Pemeringkatan & Kepala Pusat MKWU pada Lantai 1 Gedung Rektorat.', 'Administrasi & Layanan', 1, 1, 'rt_kep_pemeringkatan'),
-('Ruang Tamu Bersama', 'Ruang Tamu Bersama pada Lantai 1 Gedung Rektorat.', 'Fasilitas Umum', 1, 1, 'rt_ruang_tamu_bersama'),
+('Ruang Tamu Bersama', 'Ruang Tamu Bersama pada Lantai 1 Gedung Rektorat.', 'Administrasi & Layanan', 1, 1, 'rt_ruang_tamu_bersama'),
 ('Ruangan HUMAS', 'Ruangan Hubungan Masyarakat (HUMAS) pada Lantai 1 Gedung Rektorat.', 'Administrasi & Layanan', 1, 1, 'rt_humas'),
 ('Ruang Dewan Pengawas', 'Ruang Dewan Pengawas pada Lantai 1 Gedung Rektorat.', 'Administrasi & Layanan', 1, 1, 'rt_dewas'),
 ('Ruang Pusat Kajian Bela Negara', 'Ruang Pusat Kajian Bela Negara pada Lantai 1 Gedung Rektorat.', 'Administrasi & Layanan', 1, 1, 'rt_puska'),
 ('Ruangan unit Layanan Terpadu & Informasi Publik', 'Ruangan unit Layanan Terpadu & Informasi Publik pada Lantai 1 Gedung Rektorat.', 'Administrasi & Layanan', 1, 1, 'rt_layanan_terpadu'),
-('Bank BNI', 'Fasilitas perbankan BNI pada Lantai 1 Gedung Rektorat.', 'Fasilitas Umum', 1, 1, 'rt_bni'),
-('Plaza Penmaru Wardiman', 'Plaza Penmaru Wardiman pada Lantai 1 Gedung Rektorat.', 'Fasilitas Umum', 1, 1, 'rt_wardiman'),
+('Bank BNI', 'Fasilitas perbankan BNI pada Lantai 1 Gedung Rektorat.', 'Administrasi & Layanan', 1, 1, 'rt_bni'),
+('Plaza Penmaru Wardiman', 'Plaza Penmaru Wardiman pada Lantai 1 Gedung Rektorat.', 'Administrasi & Layanan', 1, 1, 'rt_wardiman'),
 
 -- Lantai 2
-('Ruangan Rapat Nusantara 1', 'Ruangan Rapat Nusantara 1 pada Lantai 2 Gedung Rektorat.', 'Ruang Rapat', 2, 1, 'rt_rapat_nusantara_1'),
-('Ruangan Rapat Nusantara 2', 'Ruangan Rapat Nusantara 2 pada Lantai 2 Gedung Rektorat.', 'Ruang Rapat', 2, 1, 'rt_rapat_nusantara_2'),
+('Ruangan Rapat Nusantara 1', 'Ruangan Rapat Nusantara 1 pada Lantai 2 Gedung Rektorat.', 'Administrasi & Layanan', 2, 1, 'rt_rapat_nusantara_1'),
+('Ruangan Rapat Nusantara 2', 'Ruangan Rapat Nusantara 2 pada Lantai 2 Gedung Rektorat.', 'Administrasi & Layanan', 2, 1, 'rt_rapat_nusantara_2'),
 ('Ruangan Wakil Rektor 1', 'Ruangan Wakil Rektor 1 pada Lantai 2 Gedung Rektorat.', 'Administrasi & Layanan', 2, 1, 'rt_warek_1'),
 ('Ruangan Wakil Rektor 3', 'Ruangan Wakil Rektor 3 pada Lantai 2 Gedung Rektorat.', 'Administrasi & Layanan', 2, 1, 'rt_warek_3'),
 ('Ruangan Rapat Nusantara dan Ruangan Wakil Rektor 2', 'Ruangan Rapat Nusantara dan Ruangan Wakil Rektor 2 pada Lantai 2 Gedung Rektorat.', 'Administrasi & Layanan', 2, 1, 'rt_warek_2'),
@@ -2243,7 +2243,7 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 ('Ruangan Biro AKPK', 'Ruangan Biro Akademik, Kemahasiswaan, Perencanaan, dan Kerjasama (AKPK) pada Lantai 3 Gedung Rektorat.', 'Administrasi & Layanan', 3, 1, 'rt_akpk'),
 ('Pusat Pelayanan Keuangan Mahasiswa', 'Pusat Pelayanan Keuangan Mahasiswa pada Lantai 3 Gedung Rektorat.', 'Administrasi & Layanan', 3, 1, 'rt_pusat_keuangan'),
 ('Bagian Keuangan Biro Umum & Keuangan', 'Bagian Keuangan Biro Umum & Keuangan pada Lantai 3 Gedung Rektorat.', 'Administrasi & Layanan', 3, 1, 'rt_biro_keuangan'),
-('Ruangan Rapat Nusantara 4', 'Ruangan Rapat Nusantara 4 pada Lantai 3 Gedung Rektorat.', 'Ruang Rapat', 3, 1, 'rt_rapat_nusantara_4'),
+('Ruangan Rapat Nusantara 4', 'Ruangan Rapat Nusantara 4 pada Lantai 3 Gedung Rektorat.', 'Administrasi & Layanan', 3, 1, 'rt_rapat_nusantara_4'),
 ('Ruang Tax Center', 'Ruang Tax Center pada Lantai 3 Gedung Rektorat.', 'Administrasi & Layanan', 3, 1, 'rt_tax_center'),
 ('Ruangan Pusat Kajian Bela Negara', 'Ruangan Pusat Kajian Bela Negara pada Lantai 3 Gedung Rektorat.', 'Administrasi & Layanan', 3, 1, 'rt_pkbn'),
 ('Ruangan Bidang Kemahasiswaan', 'Ruangan Bidang Kemahasiswaan pada Lantai 3 Gedung Rektorat.', 'Administrasi & Layanan', 3, 1, 'rt_kemahasiswaan'),
@@ -2264,14 +2264,14 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 -- =============================================================================
 INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilitas, lantai, id_gedung, unity_object_name) VALUES
 -- Lantai 1
-('Ruang Baca dan BI Corner', 'Ruang baca dan BI Corner pada lantai 1 Gedung Moh. Husni Thamrin (FEB).', 'Fasilitas Umum', 1, 7, 'mt_bi_corner'),
+('Ruang Baca dan BI Corner', 'Ruang baca dan BI Corner pada lantai 1 Gedung Moh. Husni Thamrin (FEB).', 'Administrasi & Layanan', 1, 7, 'mt_bi_corner'),
 ('Ruang Jurusan Ilmu Ekonomi S1 dan Akuntansi', 'Ruang jurusan Ilmu Ekonomi S1 dan Akuntansi pada lantai 1 Gedung Moh. Husni Thamrin.', 'Administrasi & Layanan', 1, 7, 'mt_ekonomi_akutansi'),
 ('HMJ S1 Manajemen', 'Ruang Himpunan Mahasiswa Jurusan (HMJ) S1 Manajemen pada lantai 1 Gedung Moh. Husni Thamrin.', 'Ruang Kegiatan Mahasiswa', 1, 7, 'mt_hmj_manajemen'),
 ('HMJ S1 Akuntansi', 'Ruang Himpunan Mahasiswa Jurusan (HMJ) S1 Akuntansi pada lantai 1 Gedung Moh. Husni Thamrin.', 'Ruang Kegiatan Mahasiswa', 1, 7, 'mt_hmj_akutansi'),
 ('Ruang Tunggu Dosen FEB', 'Ruang tunggu dosen Fakultas Ekonomi dan Bisnis (FEB) pada lantai 1 Gedung Moh. Husni Thamrin.', 'Administrasi & Layanan', 1, 7, 'mt_ruang_dosen_feb'),
 ('Ruang LKEB dan Guru Besar', 'Ruang LKEB dan Guru Besar pada lantai 1 Gedung Moh. Husni Thamrin.', 'Administrasi & Layanan', 1, 7, 'mt_lkeb_guru_besar'),
 ('Ruangan Layanan Akademik dan Kemahasiswaan FEB', 'Ruangan layanan akademik dan kemahasiswaan Fakultas Ekonomi dan Bisnis pada lantai 1 Gedung Moh. Husni Thamrin.', 'Administrasi & Layanan', 1, 7, 'mt_layanan_mahasiswa'),
-('Selasar FEB', 'Selasar Fakultas Ekonomi dan Bisnis pada lantai 1 Gedung Moh. Husni Thamrin.', 'Fasilitas Umum', 1, 7, 'mt_selasar'),
+('Selasar FEB', 'Selasar Fakultas Ekonomi dan Bisnis pada lantai 1 Gedung Moh. Husni Thamrin.', 'Administrasi & Layanan', 1, 7, 'mt_selasar'),
 ('Ruang HIMA Akuntansi, Manajemen & Perbankan', 'Ruang Himpunan Mahasiswa (Hima) Akuntansi S1 & D3, Manajemen S1, Perbankan dan Keuangan D3 pada lantai 1 Gedung Moh. Husni Thamrin.', 'Ruang Kegiatan Mahasiswa', 1, 7, 'mt_hima'),
 
 -- Lantai 2
@@ -2318,10 +2318,10 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 ('BEM FEB', 'Ruang organisasi Badan Eksekutif Mahasiswa (BEM) FEB pada lantai 1 Gedung DR. Soepomo.', 'Ruang Kegiatan Mahasiswa', 1, 2, 'spm_bem'),
 ('HIMA Ekonomi Syariah', 'Ruang Himpunan Mahasiswa (Hima) Ekonomi Syariah pada lantai 1 Gedung DR. Soepomo.', 'Ruang Kegiatan Mahasiswa', 1, 2, 'spm_hima_ekonomi_syariah'),
 ('HIMA Perbankan Syariah', 'Ruang Himpunan Mahasiswa (Hima) Ekonomi Perbankan pada lantai 1 Gedung DR. Soepomo.', 'Ruang Kegiatan Mahasiswa', 1, 2, 'spm_hima_ekonomi_perbankan'),
-('KSPM dan Galeri Investasi', 'Kelompok Studi Pasar Modal (KSPM) dan Galeri Investasi pada lantai 1 Gedung DR. Soepomo.', 'Fasilitas Umum', 1, 2, 'spm_kspm'),
+('KSPM dan Galeri Investasi', 'Kelompok Studi Pasar Modal (KSPM) dan Galeri Investasi pada lantai 1 Gedung DR. Soepomo.', 'Administrasi & Layanan', 1, 2, 'spm_kspm'),
 ('Ruang Dekanat FEB', 'Ruang Dekanat Fakultas Ekonomi dan Bisnis (FEB) pada lantai 1 Gedung DR. Soepomo.', 'Administrasi & Layanan', 1, 2, 'spm_dekanat'),
 ('Ruangan Tata Usaha FEB', 'Ruangan Tata Usaha FEB pada lantai 1 Gedung DR. Soepomo.', 'Administrasi & Layanan', 1, 2, 'spm_tu'),
-('Ruang Rapat', 'Ruang Rapat utama pada lantai 1 Gedung DR. Soepomo.', 'Ruang Rapat', 1, 2, 'spm_ruang_rapat'),
+('Ruang Rapat', 'Ruang Rapat utama pada lantai 1 Gedung DR. Soepomo.', 'Administrasi & Layanan', 1, 2, 'spm_ruang_rapat'),
 
 -- Lantai 2
 ('Ruang Dosen Manajemen Program Sarjana', 'Ruang Dosen Manajemen Program Sarjana pada lantai 2 Gedung DR. Soepomo.', 'Administrasi & Layanan', 2, 2, 'spm_dosen_manajemen'),
@@ -2442,13 +2442,13 @@ FROM cipto, (VALUES
 -- =============================================================================
 UPDATE public.fasilitas
 SET tipe_fasilitas = CASE
-    WHEN nama_fasilitas ILIKE '%CBT%'                                   THEN 'Ruang Ujian'
+    WHEN nama_fasilitas ILIKE '%CBT%'                                   THEN 'Ruang Kuliah'
     WHEN nama_fasilitas ILIKE '%Lecture%'                               THEN 'Ruang Kuliah'
     WHEN nama_fasilitas ILIKE 'Aula%'                                   THEN 'Auditorium & Aula'
-    WHEN nama_fasilitas ILIKE '%Tutorial%' OR nama_fasilitas ILIKE 'Tutor Meeting%' THEN 'Ruang Diskusi'
-    WHEN nama_fasilitas ILIKE 'Student Lounge%'                         THEN 'Fasilitas Umum'
+    WHEN nama_fasilitas ILIKE '%Tutorial%' OR nama_fasilitas ILIKE 'Tutor Meeting%' THEN 'Ruang Kuliah'
+    WHEN nama_fasilitas ILIKE 'Student Lounge%'                         THEN 'Administrasi & Layanan'
     WHEN nama_fasilitas ILIKE 'Perpustakaan%'                           THEN 'Perpustakaan & Ruang Baca'
-    WHEN nama_fasilitas ILIKE '%MITECH%'                                THEN 'Studio & Produksi Media'
+    WHEN nama_fasilitas ILIKE '%MITECH%'                                THEN 'Laboratorium'
     WHEN nama_fasilitas ILIKE '%Lab%'
       OR nama_fasilitas ILIKE 'Laboratorium%'
       OR nama_fasilitas ILIKE '%OSCE%'

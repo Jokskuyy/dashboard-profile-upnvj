@@ -76,7 +76,7 @@ const AssetsSection: React.FC = () => {
 
         if (!countError && allFacilities) {
           const categoryMatchers: Record<string, string[]> = {
-            laboratorium:  ["lab", "penelitian", "studio"],
+            laboratorium:  ["lab", "laboratorium", "penelitian", "studio"],
             perpustakaan:  ["perpustakaan", "ruang baca"],
             ruangKuliah:   ["ruang kuliah", "ruang kelas", "akademik", "ruang akademik"],
             auditorium:    ["auditorium", "aula"],

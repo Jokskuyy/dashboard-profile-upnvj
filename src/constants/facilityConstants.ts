@@ -1,21 +1,15 @@
-// Daftar tipe fasilitas yang tersedia
+// Daftar tipe fasilitas yang tersedia.
+// Harus selaras dengan nilai tipe_fasilitas pada seed database (002_seed_data.sql)
+// dan dengan kategori yang difilter di dashboard publik.
 export const FACILITY_TYPES = [
   "Laboratorium",
-  "Perpustakaan",
+  "Perpustakaan & Ruang Baca",
   "Ruang Kuliah",
-  "Auditorium",
-  "Aula",
-  "Olahraga",
-  "Ibadah",
-  "Kantin",
-  "Studio",
-  "Ruang Baca",
-  "Klinik",
-  "Masjid",
-  "Musholla",
-  "Lapangan",
-  "Ruang Seminar",
-  "Ruang Rapat",
+  "Auditorium & Aula",
+  "Fasilitas Olahraga",
+  "Fasilitas Ibadah",
+  "Administrasi & Layanan",
+  "Ruang Kegiatan Mahasiswa",
   "Lainnya",
 ];
 
