@@ -2106,15 +2106,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'ds_203'
 ),
 (
-    'Ruang Kuliah 204',
-    $$Ruang perkuliahan di lantai 2 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
-    'Ruang Kuliah',
-    2,
-    NULL,
-    13,
-    'ds_204'
-),
-(
     'Ruang Kuliah 301',
     $$Ruang perkuliahan di lantai 3 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
     'Ruang Kuliah',
@@ -2142,15 +2133,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'ds_303'
 ),
 (
-    'Ruang Kuliah 304',
-    $$Ruang perkuliahan di lantai 3 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
-    'Ruang Kuliah',
-    3,
-    NULL,
-    13,
-    'ds_304'
-),
-(
     'Ruang Kuliah 401',
     $$Ruang perkuliahan di lantai 4 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
     'Ruang Kuliah',
@@ -2175,17 +2157,9 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     4,
     NULL,
     13,
-    'ds_403'
-),
-(
-    'Ruang Kuliah 404',
-    $$Ruang perkuliahan di lantai 4 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer, dilengkapi proyektor dan papan tulis.$$,
-    'Ruang Kuliah',
-    4,
-    NULL,
-    13,
-    'ds_404'
-);
+    'ds_403_mesh'
+)
+;
 
 
 -- Gedung 17: Gedung Soetomo
