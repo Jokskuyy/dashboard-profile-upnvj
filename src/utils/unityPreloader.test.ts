@@ -149,10 +149,10 @@ describe('UnityPreloader — download priority order (behavior)', () => {
     expect(urls).toHaveLength(4);
   });
 
-  it('all URLs reference v0.2.2 build', () => {
+  it('all URLs reference v0.5 build', () => {
     const urls = getUnityFileUrls();
     urls.forEach(url => {
-      expect(url).toContain('v0.2.2');
+      expect(url).toContain('v0.5');
     });
   });
 });
