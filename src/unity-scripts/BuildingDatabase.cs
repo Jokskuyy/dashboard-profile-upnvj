@@ -150,12 +150,6 @@ public class BuildingDatabase : MonoBehaviour
                     receiver.RebuildCache();
                 }
 
-                // Beritahu BuildingCulling untuk me-rebuild cache
-                BuildingCulling culling = FindAnyObjectByType<BuildingCulling>();
-                if (culling != null)
-                {
-                    culling.RebuildCullingCache();
-                }
             }
         }
         catch (System.Exception ex)
