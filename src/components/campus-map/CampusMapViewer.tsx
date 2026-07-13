@@ -152,13 +152,13 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const basePath = import.meta.env.BASE_URL;
   const unityConfig = useMemo(
     () => ({
-      dataUrl: `${basePath}unity-builds/v0.6.6/Build/v0.6.6.data.unityweb`,
-      frameworkUrl: `${basePath}unity-builds/v0.6.6/Build/v0.6.6.framework.js.unityweb`,
-      codeUrl: `${basePath}unity-builds/v0.6.6/Build/v0.6.6.wasm.unityweb`,
+      dataUrl: `${basePath}unity-builds/V0.6.7/Build/V0.6.7.data.unityweb`,
+      frameworkUrl: `${basePath}unity-builds/V0.6.7/Build/V0.6.7.framework.js.unityweb`,
+      codeUrl: `${basePath}unity-builds/V0.6.7/Build/V0.6.7.wasm.unityweb`,
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "T_A",
-      productVersion: "v0.6.6",
+      productVersion: "V0.6.7",
       showBanner: unityShowBanner,
     }),
     [basePath],
@@ -250,7 +250,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         canvas.height = container.clientHeight || 600;
 
         // First, dynamically load the Unity loader script - use BASE_URL for GitHub Pages
-        const loaderUrl = `${basePath}unity-builds/v0.6.6/Build/v0.6.6.loader.js`;
+        const loaderUrl = `${basePath}unity-builds/V0.6.7/Build/V0.6.7.loader.js`;
         if (!window.createUnityInstance) {
           console.log("Loading Unity WebGL loader...");
           await new Promise<void>((resolve, reject) => {
@@ -440,7 +440,13 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         {isLoading && (
           <div className="absolute inset-0 bg-gray-900 flex items-center justify-center z-10">
             <div className="text-center max-w-sm px-6">
-              <div className="w-14 h-14 border-4 border-[#2C5F2D] border-t-transparent rounded-full animate-spin mx-auto mb-5"></div>
+              <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+                {/* Circular loader around */}
+                <div className="absolute inset-0 border-4 border-[#2C5F2D]/30 rounded-full"></div>
+                <div className="absolute inset-0 border-4 border-[#4ade80] border-t-transparent rounded-full animate-spin"></div>
+                {/* Logo inside */}
+                <img src={`${basePath}logoupnvj.webp`} alt="UPNVJ Logo" className="w-16 h-16 object-contain animate-pulse" />
+              </div>
               <p className="text-white font-semibold text-base mb-1">{loadingMessage}</p>
               <div className="w-64 h-3 bg-gray-700 rounded-full mx-auto mt-4 overflow-hidden">
                 <div
