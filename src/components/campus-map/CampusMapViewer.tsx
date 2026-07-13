@@ -71,6 +71,41 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
     setIsMobileDevice(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || ('ontouchstart' in window) || window.innerWidth <= 768);
   }, []);
 
+  // Prevent Unity WebGL canvas from resizing when virtual keyboard opens on mobile
+  // (Resizing the canvas causes Unity to reallocate render buffers, resulting in a black screen flash)
+  useEffect(() => {
+    if (!isMobileDevice) return;
+
+    const handleFocusIn = (e: FocusEvent) => {
+      const target = e.target as HTMLElement;
+      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) {
+        if (containerRef.current) {
+          // Lock height to current pixel height to prevent resize flicker
+          containerRef.current.style.height = `${containerRef.current.offsetHeight}px`;
+        }
+      }
+    };
+    
+    const handleFocusOut = (e: FocusEvent) => {
+      const target = e.target as HTMLElement;
+      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) {
+        // Unlock height after keyboard closes (with a slight delay)
+        setTimeout(() => {
+          if (containerRef.current) {
+            containerRef.current.style.height = "";
+          }
+        }, 300);
+      }
+    };
+
+    document.addEventListener("focusin", handleFocusIn);
+    document.addEventListener("focusout", handleFocusOut);
+    return () => {
+      document.removeEventListener("focusin", handleFocusIn);
+      document.removeEventListener("focusout", handleFocusOut);
+    };
+  }, [isMobileDevice]);
+
   /** Estimate download time based on connection speed and return hint string */
   function getDownloadHint(): string {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
