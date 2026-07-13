@@ -59,7 +59,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
-  const [loadingMessage, setLoadingMessage] = useState<string>("Memuat Denah Virtual...");
+  const [loadingMessage, setLoadingMessage] = useState<string>(t("campusMapLoading"));
   const [error, setError] = useState<string | null>(null);
   const unityInstanceRef = useRef<UnityInstance | null>(null);
   const [webglSupported, setWebglSupported] = useState<boolean>(true);
@@ -79,9 +79,9 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       // v0.2.15 total: ~45 MB compressed
       const mbps = connection.downlink; // Mbps
       const estimatedSeconds = Math.round((39 * 8) / mbps); // MB × 8 bits / Mbps
-      if (estimatedSeconds < 30) return `~${estimatedSeconds} detik`;
-      if (estimatedSeconds < 120) return `~${Math.round(estimatedSeconds / 10) * 10} detik`;
-      return `~${Math.round(estimatedSeconds / 60)} menit`;
+      if (estimatedSeconds < 30) return `~${estimatedSeconds} ${t("campusMapSeconds")}`;
+      if (estimatedSeconds < 120) return `~${Math.round(estimatedSeconds / 10) * 10} ${t("campusMapSeconds")}`;
+      return `~${Math.round(estimatedSeconds / 60)} ${t("campusMapMinutes")}`;
     }
     return "";
   }
@@ -189,8 +189,8 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       if (isMounted) {
         setLoadingMessage(
           hint
-            ? `Mengunduh Denah Virtual (~39 MB, estimasi ${hint})...`
-            : "Mengunduh Denah Virtual (~39 MB)..."
+            ? `${t("campusMapDownloading")}, ${t("campusMapEstimated")} ${hint}...`
+            : `${t("campusMapDownloading")}...`
         );
         setIsLoading(true);
         setError(null);
@@ -199,15 +199,15 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       try {
         timeoutId = setTimeout(() => {
           if (isMounted) {
-            setError("Loading timeout. Ukuran file sangat besar (~39 MB). Periksa koneksi internet Anda dan coba lagi.");
+            setError(t("campusMapTimeout"));
             setIsLoading(false);
           }
         }, 180000); // 3 minute timeout for 39MB
 
         // Progressive messages to keep user informed during long download
-        msg15s = setTimeout(() => { if (isMounted) setLoadingMessage("Masih mengunduh... Unity WebGL memerlukan waktu beberapa menit pada koneksi lambat."); }, 15000);
-        msg45s = setTimeout(() => { if (isMounted) setLoadingMessage("Hampir selesai... File besar sedang diproses."); }, 45000);
-        msg90s = setTimeout(() => { if (isMounted) setLoadingMessage("Proses lebih lama dari biasanya. Periksa koneksi internet Anda."); }, 90000);
+        msg15s = setTimeout(() => { if (isMounted) setLoadingMessage(t("campusMapStillDownloading")); }, 15000);
+        msg45s = setTimeout(() => { if (isMounted) setLoadingMessage(t("campusMapAlmostDone")); }, 45000);
+        msg90s = setTimeout(() => { if (isMounted) setLoadingMessage(t("campusMapTakingLonger")); }, 90000);
 
         const canvas = canvasRef.current;
         const container = containerRef.current;
@@ -256,7 +256,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         clearTimeout(msg45s);
         clearTimeout(msg90s);
         
-        setLoadingMessage("Denah Virtual siap!");
+        setLoadingMessage(t("campusMapReady"));
         unityInstanceRef.current = instance;
         window.unityInstance = instance;
         
@@ -415,7 +415,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
               </div>
               <p className="text-[#4ade80] font-bold text-lg mt-2">{loadingProgress}%</p>
               <p className="text-gray-500 text-xs mt-3">
-                File besar (~39 MB). Kunjungan berikutnya akan lebih cepat karena file tersimpan di cache browser.
+                {t("campusMapLargeFileWarning")}
               </p>
             </div>
           </div>
@@ -452,7 +452,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
                 {/* Title */}
                 <div className="absolute top-[15%] left-0 right-0 flex justify-center w-full z-20">
                   <h3 className="text-xl md:text-2xl font-bold text-white drop-shadow-lg tracking-wide animate-pulse bg-black/40 px-6 py-2 rounded-full border border-white/20">
-                    Sentuh Layar Untuk Mulai
+                    {t("campusMapTouchToStart")}
                   </h3>
                 </div>
                 
@@ -461,9 +461,9 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
                   <div className="bg-white/20 p-4 rounded-full border border-white/30 mb-4 backdrop-blur-sm">
                     <Gamepad2 className="w-10 h-10 text-white drop-shadow-lg" />
                   </div>
-                  <h4 className="text-lg md:text-xl font-bold text-white drop-shadow-md mb-1">Bergerak</h4>
+                  <h4 className="text-lg md:text-xl font-bold text-white drop-shadow-md mb-1">{t("campusMapMove")}</h4>
                   <p className="text-white/80 text-xs md:text-sm font-medium text-center max-w-[150px]">
-                    Gunakan joystick di area kiri
+                    {t("campusMapUseJoystick")}
                   </p>
                 </div>
 
@@ -472,9 +472,9 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
                   <div className="bg-white/20 p-4 rounded-full border border-white/30 mb-4 backdrop-blur-sm animate-bounce">
                     <Hand className="w-10 h-10 text-white drop-shadow-lg" />
                   </div>
-                  <h4 className="text-lg md:text-xl font-bold text-white drop-shadow-md mb-1">Menengok</h4>
+                  <h4 className="text-lg md:text-xl font-bold text-white drop-shadow-md mb-1">{t("campusMapLook")}</h4>
                   <p className="text-white/80 text-xs md:text-sm font-medium text-center max-w-[150px]">
-                    Geser jari Anda di area kanan
+                    {t("campusMapSwipeToLook")}
                   </p>
                 </div>
               </div>
@@ -485,8 +485,8 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
                 </div>
                 
                 <div className="flex flex-col items-center">
-                  <h3 className="text-3xl font-bold text-white drop-shadow-lg tracking-wide mb-2">Klik untuk Mulai Eksplorasi</h3>
-                  <p className="text-white/90 text-base drop-shadow-md font-medium mb-8">Klik pada area ini untuk mengunci kursor dan mulai</p>
+                  <h3 className="text-3xl font-bold text-white drop-shadow-lg tracking-wide mb-2">{t("campusMapClickToStart")}</h3>
+                  <p className="text-white/90 text-base drop-shadow-md font-medium mb-8">{t("campusMapClickToLock")}</p>
                   
                   <div className="flex items-center space-x-10 p-6 bg-black/40 rounded-2xl border border-white/20 backdrop-blur-md shadow-2xl">
                     {/* Move */}
