@@ -24,6 +24,8 @@ export interface SearchResult {
   unityObjectName: string;
   /** Tipe hasil untuk ikon dan styling */
   type: "gedung" | "fasilitas";
+  /** Gabungan teks untuk pencarian fuzzy yang lebih optimal */
+  searchText?: string;
 }
 
 export function useBuildingSearch() {
@@ -34,10 +36,11 @@ export function useBuildingSearch() {
   // Setup Fuse.js instance memoized based on allResults
   const fuse = useMemo(() => {
     return new Fuse(allResults, {
-      keys: ["label", "sublabel"],
-      threshold: 0.3, // Tolerance for typos
+      keys: ["label", "sublabel", "searchText"],
+      threshold: 0.3, // Kembalikan ke 0.3 karena kita pakai extended search
       ignoreLocation: true,
       minMatchCharLength: 2,
+      useExtendedSearch: true,
     });
   }, [allResults]);
 
@@ -68,6 +71,7 @@ export function useBuildingSearch() {
               label: gedung.nama_gedung,
               type: "gedung",
               unityObjectName: gedung.unity_object_name,
+              searchText: gedung.nama_gedung,
             });
           }
 
@@ -84,6 +88,7 @@ export function useBuildingSearch() {
                 sublabel: gedung.nama_gedung,
                 type: "fasilitas",
                 unityObjectName: targetName,
+                searchText: `${f.nama_fasilitas} ${gedung.nama_gedung}`,
               });
             }
           }
@@ -114,9 +119,12 @@ export function useBuildingSearch() {
     // misal "gedung fik" -> "gedung fakultas ilmu komputer"
     const words = q.split(/\s+/);
     const expandedWords = words.map(w => ABBREVIATIONS[w] || w);
-    q = expandedWords.join(" ");
+    
+    // Gunakan extended search format: "'word1 'word2" (artinya includes word1 AND includes word2)
+    // Jika kata kurang dari 2 huruf, fuse.js mungkin mengabaikannya, tapi kita biarkan saja format ini.
+    const extendedQuery = expandedWords.map(w => `'${w}`).join(" ");
 
-    const results = fuse.search(q);
+    const results = fuse.search(extendedQuery);
     return results.map(r => r.item);
   }, [fuse]);
 

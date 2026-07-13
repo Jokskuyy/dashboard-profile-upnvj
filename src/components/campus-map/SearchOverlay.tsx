@@ -67,8 +67,18 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
       }
     };
 
+    const handleNavigationCompleted = () => {
+      console.log("[SearchOverlay] Navigation completed event received from Unity");
+      handleCancelNavigation();
+    };
+
     window.addEventListener("keydown", handler, true);
-    return () => window.removeEventListener("keydown", handler, true);
+    window.addEventListener("OnNavigationCompleted", handleNavigationCompleted as EventListener);
+    
+    return () => {
+      window.removeEventListener("keydown", handler, true);
+      window.removeEventListener("OnNavigationCompleted", handleNavigationCompleted as EventListener);
+    };
   }, [lockUnityInput, isNavigating, handleCancelNavigation]);
 
   // Debounce query — delay search by 300ms to avoid searching every keystroke

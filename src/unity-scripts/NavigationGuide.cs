@@ -3,9 +3,12 @@ using UnityEngine.AI; // Wajib untuk NavMesh
 using UnityEngine.InputSystem; // New Input System
 using TMPro;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 public class NavigationGuide : MonoBehaviour
 {
+    [DllImport("__Internal")]
+    private static extern void DispatchReactEvent(string eventName, string eventData);
     [Header("Reference")]
     public Transform player;
     [Tooltip("Garis yang dirender di lantai. Buat GameObject kosong + LineRenderer di scene.")]
@@ -75,7 +78,13 @@ public class NavigationGuide : MonoBehaviour
 
         if (currentTarget == null || player == null) return;
 
-        float distance = Vector3.Distance(player.position, currentTarget.position);
+        // Hitung jarak 2D (abaikan sumbu Y) karena titik origin gedung/fasilitas 
+        // mungkin berada jauh di atas atau di bawah permukaan tanah (player)
+        Vector3 p1 = player.position;
+        Vector3 p2 = currentTarget.position;
+        p1.y = 0;
+        p2.y = 0;
+        float distance = Vector3.Distance(p1, p2);
 
         // Update Path HANYA jika player berpindah > 1 meter (sangat menghemat performa WebGL)
         if (Vector3.Distance(player.position, lastCalculatedPlayerPos) > pathUpdateDistance)
@@ -307,6 +316,8 @@ public class NavigationGuide : MonoBehaviour
 
     public void StopNavigation()
     {
+        if (currentTarget == null) return;
+        
         Debug.Log("[NavigationGuide] StopNavigation called.");
         currentTarget = null;
         currentBuildingName = null;
@@ -320,6 +331,17 @@ public class NavigationGuide : MonoBehaviour
             currentText = null;
             textComponent = null;
         }
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        try
+        {
+            DispatchReactEvent("OnNavigationCompleted", "");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning("[NavigationGuide] Failed to dispatch event: " + e.Message);
+        }
+#endif
     }
 
     public Transform GetCurrentTarget()
