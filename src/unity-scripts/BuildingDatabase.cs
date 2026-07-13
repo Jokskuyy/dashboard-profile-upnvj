@@ -149,7 +149,6 @@ public class BuildingDatabase : MonoBehaviour
                 {
                     receiver.RebuildCache();
                 }
-
             }
         }
         catch (System.Exception ex)

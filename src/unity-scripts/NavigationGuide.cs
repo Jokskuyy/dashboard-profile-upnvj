@@ -18,7 +18,18 @@ public class NavigationGuide : MonoBehaviour
     public float stopDistance = 5f;
     public Vector3 textOffset = new Vector3(0, 2f, 0);
     [Tooltip("Minimal jarak player bergerak (meter) sebelum rute dihitung ulang agar performa WebGL tetap ringan.")]
-    public float pathUpdateDistance = 1.0f; 
+    public float pathUpdateDistance = 1.0f;
+
+    [Header("Line Smoothing")]
+    [Tooltip("Jarak antar titik garis (meter). JANGAN lebih kecil dari lebar (width) LineRenderer, kalau tidak garis akan 'berduri'. Naikkan jika garis bergerigi.")]
+    public float pointSpacing = 0.4f;
+    [Tooltip("Jumlah tetangga kiri-kanan yang dirata-rata untuk menghaluskan garis (X/Y/Z). 0 = nonaktif. Nilai lebih besar = lebih halus.")]
+    [Range(0, 20)]
+    public int smoothingWindow = 4;
+    [Tooltip("Offset ketinggian garis di atas permukaan (meter) agar tidak clipping ke anak tangga.")]
+    public float lineHeightOffset = 0.20f;
+    [Tooltip("Layer permukaan yang boleh dikenai raycast garis (lantai, tangga, dll). Default: semua layer.")]
+    public LayerMask groundMask = ~0;
 
     private Transform currentTarget;
     private GameObject currentText;
@@ -161,7 +172,7 @@ public class NavigationGuide : MonoBehaviour
             controlPoints.Add(corners[corners.Length - 1]); // Pad akhir
 
             List<Vector3> splinePoints = new List<Vector3>();
-            float resolution = 0.1f; // Jarak tiap titik = 10cm (sangat mulus untuk anak tangga super kecil)
+            float resolution = Mathf.Max(0.05f, pointSpacing); // Jarak antar titik
 
             // 2. Generate Catmull-Rom Spline Points
             for (int i = 1; i < controlPoints.Count - 2; i++)
@@ -181,25 +192,69 @@ public class NavigationGuide : MonoBehaviour
                 }
             }
 
-            // 3. Render ke LineRenderer dengan Raycast
-            pathLine.positionCount = splinePoints.Count;
+            // 3. Render ke LineRenderer dengan Raycast + height smoothing
+            int count = splinePoints.Count;
+            pathLine.positionCount = count;
 
-            for (int i = 0; i < splinePoints.Count; i++)
+            // 3a. Ambil ketinggian permukaan (groundY) untuk tiap titik via raycast.
+            //     Nonaktifkan collider player sesaat agar raycast tidak mengenai badan/kepala
+            //     player (yang membuat garis melompat ke atas kepala). Aman karena tidak ada
+            //     step fisika di antara disable & enable dalam satu fungsi ini.
+            Collider[] playerColliders = player != null
+                ? player.GetComponentsInChildren<Collider>()
+                : new Collider[0];
+            foreach (var col in playerColliders)
+                if (col != null) col.enabled = false;
+
+            float[] groundY = new float[count];
+            for (int i = 0; i < count; i++)
             {
                 Vector3 point = splinePoints[i];
+                Vector3 rayOrigin = point + Vector3.up * 3f;
+                float y = point.y;
 
-                RaycastHit surfaceHit;
-                Vector3 rayOrigin = point + Vector3.up * 2f;
-                float groundY = point.y;
-
-                if (Physics.Raycast(rayOrigin, Vector3.down, out surfaceHit, 5f))
+                if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit surfaceHit, 6f, groundMask, QueryTriggerInteraction.Ignore))
                 {
-                    groundY = surfaceHit.point.y;
+                    y = surfaceHit.point.y;
                 }
-
-                // Beri offset Y 0.20 meter (20 cm) agar aman dari clipping anak tangga super kecil
-                pathLine.SetPosition(i, new Vector3(point.x, groundY + 0.20f, point.z));
+                groundY[i] = y;
             }
+
+            // Aktifkan kembali collider player
+            foreach (var col in playerColliders)
+                if (col != null) col.enabled = true;
+
+            // 3b. Susun posisi mentah (X/Z dari spline, Y dari permukaan + offset)
+            Vector3[] rawPos = new Vector3[count];
+            for (int i = 0; i < count; i++)
+            {
+                Vector3 p = splinePoints[i];
+                rawPos[i] = new Vector3(p.x, groundY[i] + lineHeightOffset, p.z);
+            }
+
+            // 3c. Haluskan SELURUH posisi (X, Y, Z) dengan moving average agar tidak bergerigi
+            //     maupun 'berduri'. Ujung garis (titik awal & akhir) dipertahankan.
+            Vector3[] finalPos = rawPos;
+            if (smoothingWindow > 0 && count > 2)
+            {
+                finalPos = new Vector3[count];
+                for (int i = 0; i < count; i++)
+                {
+                    int lo = Mathf.Max(0, i - smoothingWindow);
+                    int hi = Mathf.Min(count - 1, i + smoothingWindow);
+                    Vector3 sum = Vector3.zero;
+                    for (int k = lo; k <= hi; k++)
+                        sum += rawPos[k];
+                    finalPos[i] = sum / (hi - lo + 1);
+                }
+                // Jaga titik awal tetap menempel di player agar garis tidak "lepas"
+                finalPos[0] = rawPos[0];
+                finalPos[count - 1] = rawPos[count - 1];
+            }
+
+            // 3d. Kirim ke LineRenderer
+            for (int i = 0; i < count; i++)
+                pathLine.SetPosition(i, finalPos[i]);
         }
         else
         {

@@ -63,6 +63,11 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const [webglSupported, setWebglSupported] = useState<boolean>(true);
   const [isMobileLandscape, setIsMobileLandscape] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+
+  useEffect(() => {
+    setIsMobileDevice(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || ('ontouchstart' in window) || window.innerWidth <= 768);
+  }, []);
 
   /** Estimate download time based on connection speed and return hint string */
   function getDownloadHint(): string {
@@ -440,52 +445,54 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
               }
             }}
           >
-            <div className="bg-white/20 p-4 rounded-full border border-white/30 mb-6 animate-bounce">
-              <MousePointerClick className="w-10 h-10 text-white drop-shadow-lg" />
-            </div>
-            
-            {/* Desktop View */}
-            <div className="hidden md:flex flex-col items-center">
-              <h3 className="text-3xl font-bold text-white drop-shadow-lg tracking-wide mb-2">Klik untuk Mulai Eksplorasi</h3>
-              <p className="text-white/90 text-base drop-shadow-md font-medium mb-8">Klik pada area ini untuk mengunci kursor dan mulai</p>
-              
-              <div className="flex items-center space-x-10 p-6 bg-black/40 rounded-2xl border border-white/20 backdrop-blur-md shadow-2xl">
-                {/* Move */}
+            {isMobileDevice ? (
+              <div className="flex flex-col items-center text-center px-6">
+                <h3 className="text-2xl font-bold text-white drop-shadow-lg tracking-wide mb-2">Sentuh untuk Mulai</h3>
+                <p className="text-white/90 text-sm drop-shadow-md font-medium">Gunakan joystick virtual untuk berkeliling kampus</p>
+              </div>
+            ) : (
+              <>
+                <div className="bg-white/20 p-4 rounded-full border border-white/30 mb-6 animate-bounce">
+                  <MousePointerClick className="w-10 h-10 text-white drop-shadow-lg" />
+                </div>
+                
                 <div className="flex flex-col items-center">
-                  <div className="flex flex-col items-center space-y-1.5">
-                    <kbd className="w-10 h-10 flex items-center justify-center bg-white/10 border-b-4 border-white/30 rounded-lg text-white font-mono font-bold text-base shadow-sm">W</kbd>
-                    <div className="flex space-x-1.5">
-                      <kbd className="w-10 h-10 flex items-center justify-center bg-white/10 border-b-4 border-white/30 rounded-lg text-white font-mono font-bold text-base shadow-sm">A</kbd>
-                      <kbd className="w-10 h-10 flex items-center justify-center bg-white/10 border-b-4 border-white/30 rounded-lg text-white font-mono font-bold text-base shadow-sm">S</kbd>
-                      <kbd className="w-10 h-10 flex items-center justify-center bg-white/10 border-b-4 border-white/30 rounded-lg text-white font-mono font-bold text-base shadow-sm">D</kbd>
+                  <h3 className="text-3xl font-bold text-white drop-shadow-lg tracking-wide mb-2">Klik untuk Mulai Eksplorasi</h3>
+                  <p className="text-white/90 text-base drop-shadow-md font-medium mb-8">Klik pada area ini untuk mengunci kursor dan mulai</p>
+                  
+                  <div className="flex items-center space-x-10 p-6 bg-black/40 rounded-2xl border border-white/20 backdrop-blur-md shadow-2xl">
+                    {/* Move */}
+                    <div className="flex flex-col items-center">
+                      <div className="flex flex-col items-center space-y-1.5">
+                        <kbd className="w-10 h-10 flex items-center justify-center bg-white/10 border-b-4 border-white/30 rounded-lg text-white font-mono font-bold text-base shadow-sm">W</kbd>
+                        <div className="flex space-x-1.5">
+                          <kbd className="w-10 h-10 flex items-center justify-center bg-white/10 border-b-4 border-white/30 rounded-lg text-white font-mono font-bold text-base shadow-sm">A</kbd>
+                          <kbd className="w-10 h-10 flex items-center justify-center bg-white/10 border-b-4 border-white/30 rounded-lg text-white font-mono font-bold text-base shadow-sm">S</kbd>
+                          <kbd className="w-10 h-10 flex items-center justify-center bg-white/10 border-b-4 border-white/30 rounded-lg text-white font-mono font-bold text-base shadow-sm">D</kbd>
+                        </div>
+                      </div>
+                      <span className="text-white/80 text-xs mt-4 font-bold uppercase tracking-widest">Bergerak</span>
+                    </div>
+
+                    {/* Jump */}
+                    <div className="flex flex-col items-center">
+                      <div className="h-[86px] flex items-end">
+                        <kbd className="w-40 h-10 flex items-center justify-center bg-white/10 border-b-4 border-white/30 rounded-lg text-white font-mono font-bold text-base shadow-sm px-4">Space</kbd>
+                      </div>
+                      <span className="text-white/80 text-xs mt-4 font-bold uppercase tracking-widest">Lompat</span>
+                    </div>
+
+                    {/* Run */}
+                    <div className="flex flex-col items-center">
+                      <div className="h-[86px] flex items-end">
+                        <kbd className="w-24 h-10 flex items-center justify-center bg-white/10 border-b-4 border-white/30 rounded-lg text-white font-mono font-bold text-base shadow-sm px-4">Shift</kbd>
+                      </div>
+                      <span className="text-white/80 text-xs mt-4 font-bold uppercase tracking-widest">Lari</span>
                     </div>
                   </div>
-                  <span className="text-white/80 text-xs mt-4 font-bold uppercase tracking-widest">Bergerak</span>
                 </div>
-
-                {/* Jump */}
-                <div className="flex flex-col items-center">
-                  <div className="h-[86px] flex items-end">
-                    <kbd className="w-40 h-10 flex items-center justify-center bg-white/10 border-b-4 border-white/30 rounded-lg text-white font-mono font-bold text-base shadow-sm px-4">Space</kbd>
-                  </div>
-                  <span className="text-white/80 text-xs mt-4 font-bold uppercase tracking-widest">Lompat</span>
-                </div>
-
-                {/* Run */}
-                <div className="flex flex-col items-center">
-                  <div className="h-[86px] flex items-end">
-                    <kbd className="w-24 h-10 flex items-center justify-center bg-white/10 border-b-4 border-white/30 rounded-lg text-white font-mono font-bold text-base shadow-sm px-4">Shift</kbd>
-                  </div>
-                  <span className="text-white/80 text-xs mt-4 font-bold uppercase tracking-widest">Lari</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Mobile View */}
-            <div className="md:hidden flex flex-col items-center text-center px-6">
-              <h3 className="text-2xl font-bold text-white drop-shadow-lg tracking-wide mb-2">Pencet untuk Mulai</h3>
-              <p className="text-white/90 text-sm drop-shadow-md font-medium">Gunakan sentuhan layar (joystick virtual) untuk melihat kampus</p>
-            </div>
+              </>
+            )}
           </div>
         )}
 
