@@ -38,6 +38,8 @@ const TIPE_ICON_MAP: Record<string, string> = {
   "ruang dosen": "person",
   "pusat penelitian": "science",
   "area mahasiswa": "groups",
+  "kegiatan mahasiswa": "groups",
+  studio: "podcasts",
 };
 
 function getIconForTipe(tipe: string): string {

@@ -6,6 +6,8 @@ import {
   Minimize2,
   Mouse,
   MousePointerClick,
+  Hand,
+  Gamepad2,
 } from "lucide-react";
 import SearchOverlay from "./SearchOverlay";
 
@@ -446,9 +448,35 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
             }}
           >
             {isMobileDevice ? (
-              <div className="flex flex-col items-center text-center px-6">
-                <h3 className="text-2xl font-bold text-white drop-shadow-lg tracking-wide mb-2">Sentuh untuk Mulai</h3>
-                <p className="text-white/90 text-sm drop-shadow-md font-medium">Gunakan joystick virtual untuk berkeliling kampus</p>
+              <div className="w-full h-full flex flex-row relative">
+                {/* Title */}
+                <div className="absolute top-[15%] left-0 right-0 flex justify-center w-full z-20">
+                  <h3 className="text-xl md:text-2xl font-bold text-white drop-shadow-lg tracking-wide animate-pulse bg-black/40 px-6 py-2 rounded-full border border-white/20">
+                    Sentuh Layar Untuk Mulai
+                  </h3>
+                </div>
+                
+                {/* Left Side: Joystick */}
+                <div className="flex-1 flex flex-col items-center justify-center border-r border-white/10 px-2 bg-gradient-to-r from-black/40 to-transparent pt-10">
+                  <div className="bg-white/20 p-4 rounded-full border border-white/30 mb-4 backdrop-blur-sm">
+                    <Gamepad2 className="w-10 h-10 text-white drop-shadow-lg" />
+                  </div>
+                  <h4 className="text-lg md:text-xl font-bold text-white drop-shadow-md mb-1">Bergerak</h4>
+                  <p className="text-white/80 text-xs md:text-sm font-medium text-center max-w-[150px]">
+                    Gunakan joystick di area kiri
+                  </p>
+                </div>
+
+                {/* Right Side: Swipe */}
+                <div className="flex-1 flex flex-col items-center justify-center px-2 bg-gradient-to-l from-black/40 to-transparent pt-10">
+                  <div className="bg-white/20 p-4 rounded-full border border-white/30 mb-4 backdrop-blur-sm animate-bounce">
+                    <Hand className="w-10 h-10 text-white drop-shadow-lg" />
+                  </div>
+                  <h4 className="text-lg md:text-xl font-bold text-white drop-shadow-md mb-1">Menengok</h4>
+                  <p className="text-white/80 text-xs md:text-sm font-medium text-center max-w-[150px]">
+                    Geser jari Anda di area kanan
+                  </p>
+                </div>
               </div>
             ) : (
               <>
