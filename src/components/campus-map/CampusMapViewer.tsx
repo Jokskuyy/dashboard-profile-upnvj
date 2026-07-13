@@ -110,13 +110,13 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const basePath = import.meta.env.BASE_URL;
   const unityConfig = useMemo(
     () => ({
-      dataUrl: `${basePath}unity-builds/v0.5.5/Build/v0.5.5.data.unityweb`,
-      frameworkUrl: `${basePath}unity-builds/v0.5.5/Build/v0.5.5.framework.js.unityweb`,
-      codeUrl: `${basePath}unity-builds/v0.5.5/Build/v0.5.5.wasm.unityweb`,
+      dataUrl: `${basePath}unity-builds/v0.5.6/Build/v0.5.6.data.unityweb`,
+      frameworkUrl: `${basePath}unity-builds/v0.5.6/Build/v0.5.6.framework.js.unityweb`,
+      codeUrl: `${basePath}unity-builds/v0.5.6/Build/v0.5.6.wasm.unityweb`,
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "T_A",
-      productVersion: "v0.5.5",
+      productVersion: "v0.5.6",
       showBanner: unityShowBanner,
     }),
     [basePath],
@@ -208,7 +208,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         canvas.height = container.clientHeight || 600;
 
         // First, dynamically load the Unity loader script - use BASE_URL for GitHub Pages
-        const loaderUrl = `${basePath}unity-builds/v0.5.5/Build/v0.5.5.loader.js`;
+        const loaderUrl = `${basePath}unity-builds/v0.5.6/Build/v0.5.6.loader.js`;
         if (!window.createUnityInstance) {
           console.log("Loading Unity WebGL loader...");
           await new Promise<void>((resolve, reject) => {
@@ -252,6 +252,15 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         setLoadingMessage("Denah Virtual siap!");
         unityInstanceRef.current = instance;
         window.unityInstance = instance;
+        
+        // --- Sync Device Platform to Unity ---
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        try {
+          instance.SendMessage("WebPlatformSync", "SetDevice", isMobile ? "mobile" : "desktop");
+        } catch (e) {
+          console.warn("Could not send SetDevice message to Unity, maybe GameObject 'WebPlatformSync' doesn't exist yet", e);
+        }
+        
         setIsLoading(false);
       } catch (err) {
         console.error("Failed to load Unity WebGL build:", err);
