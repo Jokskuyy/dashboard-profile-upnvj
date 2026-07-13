@@ -30,9 +30,9 @@ INSERT INTO public.gedung (nama_gedung, deskripsi_gedung, lokasi, jumlah_lantai,
 ('Gedung Dewi Sartika', 'Gedung Fakultas Ilmu Komputer', 'Klaster Fakultas Ilmu Komputer', 4, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_gedung_dewi_sartika.webp', 'dewi_sartika'),
 ('Lapangan Upacara', 'Tempat upacara dan parkir mobil apabila sedang tidak dipakai', 'Area tengah kampus', 1, 'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/gedung/gedung_lapangan_upacara.jpg', 'lapangan_upacara'),
 ('Gedung Kuliah dan Kegiatan Mahasiswa', 'Gedung ruang kuliah dan sekretariat UKM', 'Area belakang kampus', 8, NULL, 'ukm'),
-('Gedung Soetomo', 'Gedung perpustakaan utama kampus, ruang organisasi mahasiswa, dan Unit Kegiatan Mahasiswa UPN Veteran Jakarta', 'Kampus Pondok Labu', 4, NULL, 'soetomo');
-('Lapangan Basket', 'Lapangan basket outdoor untuk kegiatan olahraga mahasiswa dan staf', 'Area belakang kampus', 1, NULL, 'lapangan_basket');
-('Parkir Hukum', 'Parkir untuk kendaraan mahasiswa dan staf Fakultas Hukum', 'Sisi belakang kampus', 4, NULL, 'parkir_hukum');
+('Gedung Soetomo', 'Gedung perpustakaan utama kampus, ruang organisasi mahasiswa, dan Unit Kegiatan Mahasiswa UPN Veteran Jakarta', 'Kampus Pondok Labu', 4, NULL, 'soetomo'),
+('Lapangan Basket', 'Lapangan basket outdoor untuk kegiatan olahraga mahasiswa dan staf', 'Area belakang kampus', 1, NULL, 'lapangan_basket'),
+('Parkir Hukum', 'Parkir untuk kendaraan mahasiswa dan staf Fakultas Hukum', 'Sisi belakang kampus', 4, NULL, 'parkir_hukum'),
 ('Kantin', 'Kantin dan tempat makan mahasiswa, staf, dan dosen', 'Area samping kampus', 1, NULL, 'kantin');
 -- =============================================================================
 -- INSERT FAKULTAS
