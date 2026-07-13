@@ -36,15 +36,15 @@ let abortController: AbortController | null = null;
 /** Get the Unity build file URLs in download-priority order (smallest first) */
 function getUnityFileUrls(): string[] {
   const basePath = import.meta.env.BASE_URL || "/";
-  const buildPath = `${basePath}unity-builds/v0.6.2/Build`;
+  const buildPath = `${basePath}unity-builds/v0.6.3/Build`;
 
   // Priority: loader (118KB) → framework (77KB) → wasm (6.7MB) → data (35.8MB)
   // Smallest first so Unity can start bootstrapping ASAP once user clicks
   return [
-    `${buildPath}/v0.6.2.loader.js`,
-    `${buildPath}/v0.6.2.framework.js.unityweb`,
-    `${buildPath}/v0.6.2.wasm.unityweb`,
-    `${buildPath}/v0.6.2.data.unityweb`,
+    `${buildPath}/v0.6.3.loader.js`,
+    `${buildPath}/v0.6.3.framework.js.unityweb`,
+    `${buildPath}/v0.6.3.wasm.unityweb`,
+    `${buildPath}/v0.6.3.data.unityweb`,
   ];
 }
 
