@@ -276,9 +276,24 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
 
         console.log("Creating Unity instance with config:", unityConfig);
 
-        const instance = await window.createUnityInstance(canvas, unityConfig, (progress: number) => {
-          if (isMounted) setLoadingProgress(Math.round(progress * 100));
-        });
+        const configWithProgress = {
+          ...unityConfig,
+          onProgress: (progress: number) => {
+            if (isMounted) {
+              const pct = typeof progress === 'number' && !Number.isNaN(progress) 
+                ? Math.round(progress * 100) 
+                : 0;
+              setLoadingProgress(pct);
+            }
+          }
+        };
+
+        // Pass onProgress both inside config and as 3rd parameter to support different Unity WebGL loader versions
+        const instance = await window.createUnityInstance(
+          canvas, 
+          configWithProgress, 
+          configWithProgress.onProgress
+        );
 
         if (!isMounted) {
           instance.Quit();

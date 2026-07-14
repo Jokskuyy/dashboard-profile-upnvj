@@ -49,6 +49,7 @@ export default function FacilityModal({
   isOpen,
   onClose,
   onSave,
+  onError,
   facility,
 }: FacilityModalProps) {
   const [buildings, setBuildings] = useState<Building[]>([]);

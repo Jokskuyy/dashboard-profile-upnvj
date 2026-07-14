@@ -112,9 +112,7 @@ const FacilitySearch: React.FC = () => {
 
     setLoading(true);
     try {
-      const q = `%${searchQuery.trim()}%`;
-
-      const { data, error } = await supabase
+      let queryObj = supabase
         .from("fasilitas")
         .select(
           `
@@ -131,11 +129,27 @@ const FacilitySearch: React.FC = () => {
             lokasi,
             deskripsi_gedung
           )
-        `,
-        )
-        .or(
-          `nama_fasilitas.ilike.${q},tipe_fasilitas.ilike.${q},deskripsi_fasilitas.ilike.${q}`,
-        )
+        `
+        );
+
+      // Normalisasi kata-kata umum agar pencarian lebih fleksibel
+      const normalizedQuery = searchQuery
+        .toLowerCase()
+        .replace(/\bruangan\b/g, "ruang")
+        .replace(/\brektorat\b/g, "rektor");
+
+      // Pecah menjadi array per kata
+      const tokens = normalizedQuery.split(/\s+/).filter((t) => t.length > 0);
+
+      // Chain .or() untuk setiap token sehingga hasilnya harus mengandung SEMUA kata yang diketik (logika AND antar kata)
+      tokens.forEach((token) => {
+        const q = `%${token}%`;
+        queryObj = queryObj.or(
+          `nama_fasilitas.ilike.${q},tipe_fasilitas.ilike.${q},deskripsi_fasilitas.ilike.${q}`
+        );
+      });
+
+      const { data, error } = await queryObj
         .order("nama_fasilitas", { ascending: true })
         .limit(20);
 
