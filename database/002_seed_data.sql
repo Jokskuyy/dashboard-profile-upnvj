@@ -96,6 +96,56 @@ INSERT INTO public.fakultas (nama_fakultas, deskripsi_fakultas, email, website, 
 );
 
 -- =============================================================================
+-- INSERT PROGRAM STUDI
+-- =============================================================================
+
+INSERT INTO public.program_studi (nama_prodi, jenjang, id_fakultas, akreditasi) VALUES
+('Perbankan dan Keuangan', 'Vokasi', 2, 'Unggul'),
+('Akuntansi', 'Vokasi', 2, 'Unggul'),
+('Manajemen', 'Sarjana', 2, 'Unggul'),
+('Akuntansi', 'Sarjana', 2, 'Unggul'),
+('Ekonomi Pembangunan', 'Sarjana', 2, 'Baik Sekali'),
+('Ekonomi Syariah', 'Sarjana', 2, 'Unggul'),
+('Manajemen', 'Magister', 2, 'B'),
+('Akuntansi', 'Magister', 2, 'Baik Sekali'),
+('Kedokteran', 'Sarjana', 1, 'Unggul'),
+('Farmasi', 'Sarjana', 1, 'Baik Sekali'),
+('Biologi', 'Sarjana', 1, 'Izin Operasional'),
+('Pendidikan Profesi Dokter', 'Profesi', 1, 'Unggul'),
+('Apoteker', 'Profesi', 1, 'Izin Operasional'),
+('Sains Biomedis', 'Magister', 1, 'Izin Operasional'),
+('Radiologi', 'Spesialis', 1, 'Izin Operasional'),
+('Sistem Informasi', 'Vokasi', 3, 'B'),
+('Informatika', 'Sarjana', 3, 'Unggul'),
+('Sistem Informasi', 'Sarjana', 3, 'Baik Sekali'),
+('Sains Data', 'Sarjana', 3, 'Ijin Operasional'),
+('Hukum', 'Sarjana', 4, 'Unggul'),
+('Hukum Bisnis', 'Sarjana', 4, 'Ijin Operasional'),
+('Hukum', 'Magister', 4, 'Baik Sekali'),
+('Hukum', 'Doktor', 4, 'Ijin Operasional'),
+('Ilmu Komunikasi', 'Sarjana', 5, 'Unggul'),
+('Hubungan Internasional', 'Sarjana', 5, 'B'),
+('Ilmu Politik', 'Sarjana', 5, 'Baik Sekali'),
+('Sains Informasi', 'Sarjana', 5, 'Baik'),
+('Kajian Film, Televisi dan Media', 'Sarjana', 5, 'Izin Operasional'),
+('Hubungan Internasional', 'Magister', 5, 'Baik'),
+('Ilmu Politik', 'Magister', 5, 'Baik'),
+('Ilmu Komunikasi', 'Magister', 5, 'Baik Sekali'),
+('Teknik Mesin', 'Sarjana', 6, 'Unggul'),
+('Teknik Industri', 'Sarjana', 6, 'Unggul'),
+('Teknik Perkapalan', 'Sarjana', 6, 'Unggul'),
+('Teknik Elektro', 'Sarjana', 6, 'Unggul'),
+('Keperawatan', 'Vokasi', 7, 'Unggul'),
+('Fisioterapi', 'Vokasi', 7, 'Unggul'),
+('Kesehatan Masyarakat', 'Sarjana', 7, 'Unggul'),
+('Gizi', 'Sarjana', 7, 'Unggul'),
+('Keperawatan', 'Sarjana', 7, 'Baik Sekali'),
+('Fisioterapi', 'Sarjana', 7, 'Unggul'),
+('Pendidikan Profesi Ners', 'Profesi', 7, 'Baik Sekali'),
+('Kesehatan Masyarakat', 'Magister', 7, 'Baik'),
+('Keperawatan', 'Magister', 7, 'Ijin Operasional');
+
+-- =============================================================================
 -- INSERT FASILITAS
 -- =============================================================================
 
