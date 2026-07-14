@@ -438,23 +438,23 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         className={`relative ${isFullscreen || isMobileLandscape ? "h-full" : "h-96 lg:h-[500px]"}`}
       >
         {isLoading && (
-          <div className="absolute inset-0 bg-gray-900 flex items-center justify-center z-10">
+          <div className="absolute inset-0 bg-white flex items-center justify-center z-10">
             <div className="text-center max-w-sm px-6">
               <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
                 {/* Circular loader around */}
-                <div className="absolute inset-0 border-4 border-[#2C5F2D]/30 rounded-full"></div>
-                <div className="absolute inset-0 border-4 border-[#4ade80] border-t-transparent rounded-full animate-spin"></div>
+                <div className="absolute inset-0 border-4 border-gray-100 rounded-full"></div>
+                <div className="absolute inset-0 border-4 border-[#2C5F2D] border-t-transparent rounded-full animate-spin"></div>
                 {/* Logo inside */}
                 <img src={`${basePath}logoupnvj.webp`} alt="UPNVJ Logo" className="w-16 h-16 object-contain animate-pulse" />
               </div>
-              <p className="text-white font-semibold text-base mb-1">{loadingMessage}</p>
-              <div className="w-64 h-3 bg-gray-700 rounded-full mx-auto mt-4 overflow-hidden">
+              <p className="text-gray-800 font-semibold text-base mb-1">{loadingMessage}</p>
+              <div className="w-64 h-3 bg-gray-200 rounded-full mx-auto mt-4 overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-[#2C5F2D] to-[#4ade80] rounded-full transition-all duration-500"
+                  className="h-full bg-gradient-to-r from-[#2C5F2D] to-emerald-500 rounded-full transition-all duration-500"
                   style={{ width: `${loadingProgress}%` }}
                 ></div>
               </div>
-              <p className="text-[#4ade80] font-bold text-lg mt-2">{loadingProgress}%</p>
+              <p className="text-[#2C5F2D] font-bold text-lg mt-2">{loadingProgress}%</p>
               <p className="text-gray-500 text-xs mt-3">
                 {t("campusMapLargeFileWarning")}
               </p>
