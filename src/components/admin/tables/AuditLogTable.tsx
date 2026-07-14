@@ -254,7 +254,10 @@ export default function AuditLogTable() {
                     <>
                       <tr
                         key={log.id}
-                        className="hover:bg-slate-50/50 transition-colors"
+                        onClick={() =>
+                          setExpandedRow(isExpanded ? null : log.id ?? null)
+                        }
+                        className="hover:bg-slate-50/50 transition-colors cursor-pointer"
                       >
                         <td className="py-3 px-4">
                           <div className="text-slate-900 font-medium text-xs">
@@ -293,18 +296,15 @@ export default function AuditLogTable() {
                           </div>
                         </td>
                         <td className="py-3 px-4 text-center">
-                          <button
-                            onClick={() =>
-                              setExpandedRow(isExpanded ? null : log.id ?? null)
-                            }
-                            className="p-1.5 hover:bg-slate-100 rounded-lg transition-colors"
+                          <div
+                            className="p-1.5 hover:bg-slate-100 rounded-lg transition-colors inline-block"
                           >
                             {isExpanded ? (
                               <ChevronUp className="w-4 h-4 text-slate-500" />
                             ) : (
                               <ChevronDown className="w-4 h-4 text-slate-500" />
                             )}
-                          </button>
+                          </div>
                         </td>
                       </tr>
                       {isExpanded && (
