@@ -55,7 +55,8 @@ const TABLE_DISPLAY: Record<string, string> = {
 
 /** Format ISO date to local readable */
 const formatDate = (iso: string): string => {
-  const d = new Date(iso);
+  const utcIso = iso.endsWith("Z") || iso.includes("+") ? iso : `${iso}Z`;
+  const d = new Date(utcIso);
   return d.toLocaleDateString("id-ID", {
     day: "2-digit",
     month: "short",
@@ -67,7 +68,8 @@ const formatDate = (iso: string): string => {
 
 /** Format relative time */
 const timeAgo = (iso: string): string => {
-  const diff = Date.now() - new Date(iso).getTime();
+  const utcIso = iso.endsWith("Z") || iso.includes("+") ? iso : `${iso}Z`;
+  const diff = Date.now() - new Date(utcIso).getTime();
   const mins = Math.floor(diff / 60000);
   if (mins < 1) return "baru saja";
   if (mins < 60) return `${mins} menit lalu`;

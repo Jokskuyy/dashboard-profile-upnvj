@@ -4,20 +4,19 @@ import {
   Building2,
   ImageIcon,
   Layers,
-  Palette,
   Save,
   Loader2,
 } from "lucide-react";
 import { supabase } from "../../../lib/supabase";
 import {
   FACILITY_TYPES,
-  COLOR_OPTIONS,
 } from "../../../constants/facilityConstants";
 import type { Fasilitas } from "../../../services/api/dataService";
 
 interface Building {
   id: number;
   nama_gedung: string;
+  jumlah_lantai?: number;
 }
 
 type FacilityFormData = Fasilitas & {
@@ -29,6 +28,7 @@ interface FacilityModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (facility: Fasilitas) => void;
+  onError?: (message: string) => void;
   facility?: FacilityFormData;
 }
 
@@ -44,22 +44,6 @@ const INITIAL_FORM: FacilityFormData = {
   unity_object_name: "",
 };
 
-// Tailwind color mapping for the color picker swatches
-const COLOR_CLASS_MAP: Record<string, string> = {
-  gray: "bg-gray-500",
-  red: "bg-red-500",
-  orange: "bg-orange-500",
-  amber: "bg-amber-500",
-  green: "bg-green-500",
-  emerald: "bg-emerald-500",
-  teal: "bg-teal-500",
-  cyan: "bg-cyan-500",
-  blue: "bg-blue-500",
-  indigo: "bg-indigo-500",
-  violet: "bg-violet-500",
-  purple: "bg-purple-500",
-  pink: "bg-pink-500",
-};
 
 export default function FacilityModal({
   isOpen,
@@ -108,7 +92,7 @@ export default function FacilityModal({
     try {
       const { data, error } = await supabase
         .from("gedung")
-        .select("id, nama_gedung")
+        .select("id, nama_gedung, jumlah_lantai")
         .order("nama_gedung", { ascending: true });
 
       if (error) throw error;
@@ -121,8 +105,14 @@ export default function FacilityModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.nama_fasilitas.trim()) return;
-    if (!formData.id_gedung) return;
+    if (!formData.nama_fasilitas.trim()) {
+      if (onError) onError("Nama Fasilitas wajib diisi");
+      return;
+    }
+    if (!formData.id_gedung) {
+      if (onError) onError("Anda wajib memilih Gedung");
+      return;
+    }
 
     setLoading(true);
     try {
@@ -193,6 +183,7 @@ export default function FacilityModal({
         <form
           ref={formRef}
           onSubmit={handleSubmit}
+          noValidate
           className="flex-1 overflow-y-auto p-6 space-y-6"
         >
           {/* Nama Fasilitas */}
@@ -270,14 +261,14 @@ export default function FacilityModal({
                 Gedung <span className="text-red-500">*</span>
               </label>
               <select
-                value={formData.id_gedung}
+                value={formData.id_gedung || ""}
                 onChange={(e) =>
                   updateField("id_gedung", parseInt(e.target.value) || 0)
                 }
                 className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none bg-white appearance-none cursor-pointer"
                 required
               >
-                <option value={0}>Pilih Gedung</option>
+                <option value="" disabled>Pilih Gedung</option>
                 {buildings.map((b) => (
                   <option key={b.id} value={b.id}>
                     {b.nama_gedung}
@@ -296,14 +287,19 @@ export default function FacilityModal({
               <input
                 type="number"
                 min={1}
-                max={20}
+                max={buildings.find(b => b.id === formData.id_gedung)?.jumlah_lantai || 20}
                 value={formData.lantai ?? ""}
                 onChange={(e) => {
                   const val = e.target.value;
-                  updateField(
-                    "lantai",
-                    val === "" ? undefined : parseInt(val) || 1
-                  );
+                  const parsed = parseInt(val);
+                  const maxLantai = buildings.find(b => b.id === formData.id_gedung)?.jumlah_lantai || 20;
+                  
+                  if (val === "") {
+                    updateField("lantai", undefined);
+                  } else if (!isNaN(parsed)) {
+                    // Batasi input secara manual agar tidak lebih dari maxLantai
+                    updateField("lantai", parsed > maxLantai ? maxLantai : parsed);
+                  }
                 }}
                 className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none bg-white placeholder:text-slate-300"
                 placeholder="1"
@@ -347,43 +343,7 @@ export default function FacilityModal({
             </div>
           )}
 
-          {/* ─── Color Picker ─────────────────────────── */}
-          <div>
-            <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-2">
-              <Palette className="w-3.5 h-3.5 text-slate-400" />
-              Warna Label
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {COLOR_OPTIONS.map((color) => {
-                const isSelected = formData.color === color.value;
-                const bgClass =
-                  COLOR_CLASS_MAP[color.value] || color.class || "bg-gray-500";
-                return (
-                  <button
-                    key={color.value}
-                    type="button"
-                    onClick={() => updateField("color", color.value)}
-                    className={`group relative w-9 h-9 rounded-lg ${bgClass} transition-all duration-150 hover:scale-110 ${
-                      isSelected
-                        ? "ring-[3px] ring-offset-2 ring-emerald-500 scale-110"
-                        : "ring-1 ring-black/10"
-                    }`}
-                    title={color.label}
-                  >
-                    {isSelected && (
-                      <span className="absolute inset-0 flex items-center justify-center text-white text-sm font-bold drop-shadow">
-                        ✓
-                      </span>
-                    )}
-                    {/* Tooltip */}
-                    <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 text-[10px] text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none font-medium">
-                      {color.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+
         </form>
 
         {/* ─── Footer ─────────────────────────────────── */}

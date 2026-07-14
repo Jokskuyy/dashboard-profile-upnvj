@@ -456,8 +456,8 @@ export const createProgram = async (
     throw new Error("Gagal membuat program studi.");
   }
 
-  // Audit log (fire-and-forget)
-  logCreate("program_studi", data.id.toString(), data);
+  // Audit log
+  await logCreate("program_studi", data.id.toString(), data);
 
   return {
     id: data.id,
@@ -516,8 +516,8 @@ export const updateProgram = async (
     throw new Error("Gagal update program studi.");
   }
 
-  // Audit log (fire-and-forget)
-  logUpdate("program_studi", id, oldData || {}, data);
+  // Audit log
+  await logUpdate("program_studi", id, oldData || {}, data);
 
   return {
     id: data.id,
@@ -553,8 +553,8 @@ export const deleteProgram = async (id: string): Promise<void> => {
     throw new Error("Gagal hapus program studi.");
   }
 
-  // Audit log (fire-and-forget)
-  logDelete("program_studi", id, oldData || {});
+  // Audit log
+  await logDelete("program_studi", id, oldData || {});
 };
 
 // ===== ASSETS CRUD =====
@@ -587,8 +587,8 @@ export const createFacility = async (
     throw new Error("Gagal membuat fasilitas.");
   }
 
-  // Audit log (fire-and-forget)
-  logCreate("fasilitas", data.id.toString(), data);
+  // Audit log
+  await logCreate("fasilitas", data.id.toString(), data);
 
   return data as Fasilitas;
 };
@@ -637,8 +637,8 @@ export const updateFacility = async (
     throw new Error("Gagal update fasilitas.");
   }
 
-  // Audit log (fire-and-forget)
-  logUpdate("fasilitas", id.toString(), oldData || {}, data);
+  // Audit log
+  await logUpdate("fasilitas", id.toString(), oldData || {}, data);
 
   return data as Fasilitas;
 };
@@ -660,8 +660,8 @@ export const deleteFacility = async (id: number): Promise<void> => {
     throw new Error("Gagal hapus fasilitas.");
   }
 
-  // Audit log (fire-and-forget)
-  logDelete("fasilitas", id.toString(), oldData || {});
+  // Audit log
+  await logDelete("fasilitas", id.toString(), oldData || {});
 };
 
 // ===== GEDUNG CRUD =====
