@@ -200,6 +200,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
     let msg15s: NodeJS.Timeout | undefined;
     let msg45s: NodeJS.Timeout | undefined;
     let msg90s: NodeJS.Timeout | undefined;
+    let fakeProgressInterval: NodeJS.Timeout | undefined;
 
     const loadUnityBuild = async () => {
       if (!canvasRef.current || !containerRef.current) return;
@@ -243,6 +244,15 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         msg15s = setTimeout(() => { if (isMounted) setLoadingMessage(t("campusMapStillDownloading")); }, 15000);
         msg45s = setTimeout(() => { if (isMounted) setLoadingMessage(t("campusMapAlmostDone")); }, 45000);
         msg90s = setTimeout(() => { if (isMounted) setLoadingMessage(t("campusMapTakingLonger")); }, 90000);
+
+        // Simulate progress for cached loads (Unity sometimes skips progress events on fast cache hits)
+        fakeProgressInterval = setInterval(() => {
+          if (!isMounted) return;
+          setLoadingProgress((prev) => {
+            if (prev >= 90) return prev; // Stop at 90%
+            return prev + 1; // 1% every 30ms (~2.7s to 90%)
+          });
+        }, 30);
 
         const canvas = canvasRef.current;
         const container = containerRef.current;
@@ -305,7 +315,9 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         clearTimeout(msg15s);
         clearTimeout(msg45s);
         clearTimeout(msg90s);
+        clearInterval(fakeProgressInterval);
         
+        setLoadingProgress(100);
         setLoadingMessage(t("campusMapReady"));
         unityInstanceRef.current = instance;
         window.unityInstance = instance;
@@ -327,6 +339,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         clearTimeout(msg15s);
         clearTimeout(msg45s);
         clearTimeout(msg90s);
+        clearInterval(fakeProgressInterval);
 
         let errorMessage = "Failed to load campus map";
         if (err instanceof Error) {
@@ -352,6 +365,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       clearTimeout(msg15s);
       clearTimeout(msg45s);
       clearTimeout(msg90s);
+      clearInterval(fakeProgressInterval);
       
       if (unityInstanceRef.current) {
         try {
