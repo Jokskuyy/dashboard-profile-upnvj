@@ -9,7 +9,7 @@
       ]
     },
     {
-      "source": "/unity-builds/v0.7.1/Build/(.*)\\.data\\.unityweb",
+      "source": "/unity-builds/V0.7.2/Build/(.*)\\.data\\.unityweb",
       "headers": [
         { "key": "Content-Type", "value": "application/octet-stream" },
         { "key": "Content-Encoding", "value": "br" },
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "source": "/unity-builds/v0.7.1/Build/(.*)\\.wasm\\.unityweb",
+      "source": "/unity-builds/V0.7.2/Build/(.*)\\.wasm\\.unityweb",
       "headers": [
         { "key": "Content-Type", "value": "application/wasm" },
         { "key": "Content-Encoding", "value": "br" },
@@ -25,7 +25,7 @@
       ]
     },
     {
-      "source": "/unity-builds/v0.7.1/Build/(.*)\\.framework\\.js\\.unityweb",
+      "source": "/unity-builds/V0.7.2/Build/(.*)\\.framework\\.js\\.unityweb",
       "headers": [
         { "key": "Content-Type", "value": "application/javascript" },
         { "key": "Content-Encoding", "value": "br" },
