@@ -13,6 +13,8 @@ const ABBREVIATIONS: Record<string, string> = {
   faperta: "fakultas pertanian",
   rektorat: "gedung rektorat",
   perpus: "perpustakaan",
+  ruang: "ruangan",
+  rektor: "rektorat",
 };
 
 export interface SearchResult {
@@ -48,14 +50,17 @@ export function useBuildingSearch() {
     async function fetchData() {
       setLoading(true);
       try {
-        // Fetch semua gedung dan fasilitasnya
+        // Fetch semua gedung dan fasilitasnya, beserta deskripsi dan lokasi untuk pencarian
         const { data, error: fetchError } = await supabase
           .from("gedung")
           .select(`
             nama_gedung,
+            deskripsi_gedung,
+            lokasi,
             unity_object_name,
             fasilitas (
               nama_fasilitas,
+              deskripsi_fasilitas,
               unity_object_name
             )
           `);
@@ -64,31 +69,46 @@ export function useBuildingSearch() {
 
         const results: SearchResult[] = [];
 
+        // Fungsi bantu untuk memperkaya searchText dengan singkatan dan kepanjangannya
+        const enrichSearchText = (baseText: string) => {
+          let text = baseText.toLowerCase();
+          Object.entries(ABBREVIATIONS).forEach(([abbr, full]) => {
+            // Jika teks mengandung singkatan, tambahkan kepanjangannya
+            if (new RegExp(`\\b${abbr}\\b`, 'i').test(text)) {
+              text += ` ${full}`;
+            }
+            // Jika teks mengandung kepanjangannya, tambahkan singkatannya
+            else if (text.includes(full)) {
+              text += ` ${abbr}`;
+            }
+          });
+          return text;
+        };
+
         for (const gedung of data || []) {
           // Tambah gedung sebagai hasil JIKA terdaftar di Unity
           if (gedung.unity_object_name) {
+            const baseSearch = `${gedung.nama_gedung} ${gedung.deskripsi_gedung || ""} ${gedung.lokasi || ""}`;
             results.push({
               label: gedung.nama_gedung,
               type: "gedung",
               unityObjectName: gedung.unity_object_name,
-              searchText: gedung.nama_gedung,
+              searchText: enrichSearchText(baseSearch),
             });
           }
 
           // Tambah setiap fasilitas
           for (const f of gedung.fasilitas || []) {
-            // Gunakan unity_object_name milik fasilitas JIKA ada,
-            // JIKA TIDAK ada, fallback ke gedung.unity_object_name.
             const targetName = f.unity_object_name || gedung.unity_object_name;
             
-            // JIKA targetName ada (fasilitas punya nama di Unity ATAU gedung punya nama di Unity), tambahkan ke search
             if (targetName) {
+              const baseSearch = `${f.nama_fasilitas} ${f.deskripsi_fasilitas || ""} ${gedung.nama_gedung} ${gedung.deskripsi_gedung || ""} ${gedung.lokasi || ""}`;
               results.push({
                 label: f.nama_fasilitas,
                 sublabel: gedung.nama_gedung,
                 type: "fasilitas",
                 unityObjectName: targetName,
-                searchText: `${f.nama_fasilitas} ${gedung.nama_gedung}`,
+                searchText: enrichSearchText(baseSearch),
               });
             }
           }
@@ -107,7 +127,7 @@ export function useBuildingSearch() {
   }, []);
 
   /**
-   * Filter hasil berdasarkan query menggunakan Fuse.js dan Abbreviation mapping
+   * Filter hasil berdasarkan query menggunakan Fuse.js
    */
   const search = useCallback((query: string): SearchResult[] => {
     if (!query.trim()) return [];
@@ -115,14 +135,9 @@ export function useBuildingSearch() {
     // Hapus karakter non-alfanumerik/spasi/dash untuk sanitasi
     let q = query.toLowerCase().replace(/[^\w\s-]/g, "").trim();
     
-    // Ganti kata-kata tertentu jika query mengandung singkatan, 
-    // misal "gedung fik" -> "gedung fakultas ilmu komputer"
-    const words = q.split(/\s+/);
-    const expandedWords = words.map(w => ABBREVIATIONS[w] || w);
-    
     // Gunakan extended search format: "'word1 'word2" (artinya includes word1 AND includes word2)
-    // Jika kata kurang dari 2 huruf, fuse.js mungkin mengabaikannya, tapi kita biarkan saja format ini.
-    const extendedQuery = expandedWords.map(w => `'${w}`).join(" ");
+    const words = q.split(/\s+/).filter(w => w.length > 0);
+    const extendedQuery = words.map(w => `'${w}`).join(" ");
 
     const results = fuse.search(extendedQuery);
     return results.map(r => r.item);
