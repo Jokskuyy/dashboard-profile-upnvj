@@ -26,6 +26,8 @@ export default function FacilitiesTable({
   const [facilities, setFacilities] = useState<FacilityRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedType, setSelectedType] = useState<string>("Semua");
+  const [selectedBuilding, setSelectedBuilding] = useState<string>("Semua");
+  const [selectedFloor, setSelectedFloor] = useState<string>("Semua");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -62,14 +64,32 @@ export default function FacilitiesTable({
     ...new Set(facilities.map((f) => f.tipe_fasilitas)),
   ];
 
-  // Filter by type + search
+  // Unique buildings
+  const buildings = [
+    "Semua",
+    ...Array.from(new Set(facilities.map((f) => f.gedung?.nama_gedung).filter(Boolean))),
+  ].sort();
+
+  // Unique floors
+  const floors = [
+    "Semua",
+    ...Array.from(new Set(facilities.map((f) => f.lantai?.toString()).filter(Boolean))),
+  ].sort((a, b) => {
+    if (a === "Semua") return -1;
+    if (b === "Semua") return 1;
+    return parseInt(a) - parseInt(b);
+  });
+
+  // Filter by type, building, floor + search
   const filteredFacilities = facilities.filter((f) => {
     const matchesType = selectedType === "Semua" || f.tipe_fasilitas === selectedType;
+    const matchesBuilding = selectedBuilding === "Semua" || f.gedung?.nama_gedung === selectedBuilding;
+    const matchesFloor = selectedFloor === "Semua" || f.lantai?.toString() === selectedFloor;
     const matchesSearch =
       !search ||
       f.nama_fasilitas.toLowerCase().includes(search.toLowerCase()) ||
       f.gedung?.nama_gedung?.toLowerCase().includes(search.toLowerCase());
-    return matchesType && matchesSearch;
+    return matchesType && matchesBuilding && matchesFloor && matchesSearch;
   });
 
   // Paginate flat list of filtered facilities
@@ -90,8 +110,18 @@ export default function FacilitiesTable({
   const currentItems = paginate(filteredFacilities);
 
   // Reset page when filter changes
-  const handleFilterChange = (value: string) => {
+  const handleTypeChange = (value: string) => {
     setSelectedType(value);
+    setCurrentPage(1);
+  };
+  
+  const handleBuildingChange = (value: string) => {
+    setSelectedBuilding(value);
+    setCurrentPage(1);
+  };
+
+  const handleFloorChange = (value: string) => {
+    setSelectedFloor(value);
     setCurrentPage(1);
   };
 
@@ -129,7 +159,7 @@ export default function FacilitiesTable({
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-2 mb-4">
+      <div className="flex flex-col sm:flex-row gap-3 mb-5">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
@@ -137,18 +167,38 @@ export default function FacilitiesTable({
             placeholder="Cari nama fasilitas atau gedung..."
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            className="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow"
           />
         </div>
-        <select
-          value={selectedType}
-          onChange={(e) => handleFilterChange(e.target.value)}
-          className="px-3 py-2 border border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-transparent sm:w-48"
-        >
-          {facilityTypes.map((type) => (
-            <option key={type} value={type}>{type}</option>
-          ))}
-        </select>
+        <div className="flex gap-2 overflow-x-auto pb-1 sm:pb-0">
+          <select
+            value={selectedType}
+            onChange={(e) => handleTypeChange(e.target.value)}
+            className="px-3 py-2.5 border border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-transparent w-36 shrink-0 bg-white"
+          >
+            {facilityTypes.map((type) => (
+              <option key={type} value={type}>{type === "Semua" ? "Semua Tipe" : type}</option>
+            ))}
+          </select>
+          <select
+            value={selectedBuilding}
+            onChange={(e) => handleBuildingChange(e.target.value)}
+            className="px-3 py-2.5 border border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-transparent w-40 shrink-0 bg-white"
+          >
+            {buildings.map((b) => (
+              <option key={b} value={b}>{b === "Semua" ? "Semua Gedung" : b}</option>
+            ))}
+          </select>
+          <select
+            value={selectedFloor}
+            onChange={(e) => handleFloorChange(e.target.value)}
+            className="px-3 py-2.5 border border-slate-200 rounded-xl text-sm text-slate-700 focus:ring-2 focus:ring-emerald-500 focus:border-transparent w-32 shrink-0 bg-white"
+          >
+            {floors.map((f) => (
+              <option key={f} value={f}>{f === "Semua" ? "Semua Lantai" : `Lantai ${f}`}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
       {/* Desktop table */}
@@ -160,6 +210,7 @@ export default function FacilitiesTable({
                 <th className="px-5 py-3">Nama</th>
                 <th className="px-5 py-3">Tipe</th>
                 <th className="px-5 py-3">Gedung</th>
+                <th className="px-5 py-3">Lantai</th>
                 <th className="px-5 py-3 text-center w-20">Aksi</th>
               </tr>
             </thead>
@@ -188,6 +239,9 @@ export default function FacilitiesTable({
                   </td>
                   <td className="px-5 py-3 text-slate-500">
                     {facility.gedung?.nama_gedung || "—"}
+                  </td>
+                  <td className="px-5 py-3 text-slate-500 font-medium">
+                    {facility.lantai ? `Lantai ${facility.lantai}` : "—"}
                   </td>
                   <td className="px-5 py-3">
                     <div className="flex items-center justify-center gap-1">
@@ -231,6 +285,7 @@ export default function FacilitiesTable({
                 </span>
                 <span className="text-xs text-slate-400">
                   {facility.gedung?.nama_gedung || "—"}
+                  {facility.lantai ? ` • Lt. ${facility.lantai}` : ""}
                 </span>
               </div>
             </div>
