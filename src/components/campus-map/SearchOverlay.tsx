@@ -184,7 +184,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
       <div ref={wrapperRef} className="search-overlay">
         {/* DESTINATION REACHED TOAST */}
         {hasReachedDestination && (
-          <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[60] animate-[bounce_0.5s_ease-out]">
+          <div className="fixed top-20 md:top-24 left-1/2 -translate-x-1/2 z-[60] animate-[bounce_0.5s_ease-out]">
             <div className="flex items-center space-x-3 bg-white/95 backdrop-blur-md px-5 py-3 md:px-6 md:py-4 rounded-2xl shadow-2xl border border-green-200">
               <div className="flex-shrink-0 w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
                 <CheckCircle2 size={24} />
