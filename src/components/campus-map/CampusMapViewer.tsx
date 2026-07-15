@@ -695,11 +695,11 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
                 </h4>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between bg-white p-3.5 rounded-xl shadow-sm border border-gray-100 hover:border-green-200 hover:shadow-md transition-all group">
-                    <span className="text-sm font-semibold text-gray-700">Layanan Informasi</span>
+                    <span className="text-sm font-semibold text-gray-700">Pelayanan Kampus</span>
                     <a href="tel:0217699431" className="text-sm font-bold text-[#2C5F2D] group-hover:text-green-600 transition-colors bg-green-50 px-3 py-1 rounded-lg">021-7699431</a>
                   </div>
                   <div className="flex items-center justify-between bg-white p-3.5 rounded-xl shadow-sm border border-gray-100 hover:border-green-200 hover:shadow-md transition-all group">
-                    <span className="text-sm font-semibold text-gray-700">Layanan Mahasiswa</span>
+                    <span className="text-sm font-semibold text-gray-700">Pelayanan Kampus</span>
                     <a href="tel:0217656971" className="text-sm font-bold text-[#2C5F2D] group-hover:text-green-600 transition-colors bg-green-50 px-3 py-1 rounded-lg">021-7656971</a>
                   </div>
                 </div>
