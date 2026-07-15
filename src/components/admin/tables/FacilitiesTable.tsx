@@ -241,7 +241,7 @@ export default function FacilitiesTable({
                     {facility.gedung?.nama_gedung || "—"}
                   </td>
                   <td className="px-5 py-3 text-slate-500 font-medium">
-                    {facility.lantai ? `Lantai ${facility.lantai}` : "—"}
+                    {facility.lantai || "—"}
                   </td>
                   <td className="px-5 py-3">
                     <div className="flex items-center justify-center gap-1">
