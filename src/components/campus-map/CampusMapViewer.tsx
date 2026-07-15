@@ -483,7 +483,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
               <p className="text-gray-800 font-semibold text-base mb-1">{loadingMessage}</p>
               <div className="w-64 h-3 bg-gray-200 rounded-full mx-auto mt-4 overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-[#2C5F2D] to-emerald-500 rounded-full transition-all duration-500"
+                  className="h-full bg-gradient-to-r from-[#2C5F2D] to-emerald-500 rounded-full transition-[width] duration-75 ease-out"
                   style={{ width: `${loadingProgress}%` }}
                 ></div>
               </div>
