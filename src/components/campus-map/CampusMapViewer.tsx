@@ -297,7 +297,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
               const pct = typeof progress === 'number' && !Number.isNaN(progress) 
                 ? Math.round(progress * 100) 
                 : 0;
-              setLoadingProgress(pct);
+              setLoadingProgress(prev => Math.max(prev, pct));
             }
           }
         };
