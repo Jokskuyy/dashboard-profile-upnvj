@@ -8,6 +8,9 @@ import {
   MousePointerClick,
   Hand,
   Gamepad2,
+  Headset,
+  Phone,
+  X,
 } from "lucide-react";
 import SearchOverlay from "./SearchOverlay";
 
@@ -66,6 +69,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   const [isMobileLandscape, setIsMobileLandscape] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [isMobileDevice, setIsMobileDevice] = useState(false);
+  const [showHelpModal, setShowHelpModal] = useState(false);
 
   useEffect(() => {
     setIsMobileDevice(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || ('ontouchstart' in window) || window.innerWidth <= 768);
@@ -615,6 +619,17 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
             <span className="text-white text-sm font-medium">Minimize</span>
           </button>
         )}
+
+        {/* Floating Help Button */}
+        {!isLoading && !error && (
+          <button
+            onClick={() => setShowHelpModal(true)}
+            className="absolute bottom-6 right-6 z-[30] flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 bg-white hover:bg-gray-50 text-[#2C5F2D] rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all hover:scale-105 hover:-translate-y-1 border border-gray-100"
+            title="Bantuan & Kontak Darurat"
+          >
+            <Headset className="w-6 h-6 lg:w-7 lg:h-7" />
+          </button>
+        )}
       </div>
 
       {/* Info Panel */}
@@ -632,6 +647,64 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
               </div>
             </div>
             <div className="text-xs text-gray-500">{t("unityWebGLBuild")}</div>
+          </div>
+        </div>
+      )}
+
+      {/* Help & Support Modal */}
+      {showHelpModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200 border border-gray-100">
+            <div className="bg-gradient-to-r from-[#2C5F2D] to-[#3d7a3e] p-5 flex items-center justify-between relative overflow-hidden">
+              {/* Decorative circle */}
+              <div className="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 rounded-full bg-white/10 blur-2xl"></div>
+              
+              <div className="flex items-center space-x-3 relative z-10">
+                <div className="bg-white/20 p-2.5 rounded-xl backdrop-blur-md">
+                  <Headset className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-lg font-bold text-white tracking-wide">Bantuan & Kontak</h3>
+              </div>
+              <button 
+                onClick={() => setShowHelpModal(false)}
+                className="text-white/80 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition-colors relative z-10"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="p-6">
+              <div className="mb-6">
+                <h4 className="font-bold text-gray-800 mb-2 flex items-center">
+                  <span className="w-1.5 h-1.5 bg-[#2C5F2D] rounded-full mr-2"></span>
+                  Panduan Navigasi
+                </h4>
+                <p className="text-sm text-gray-600 mb-3 leading-relaxed">
+                  Gunakan <strong className="text-gray-800">Kotak Pencarian</strong> di bagian atas untuk menemukan ruangan atau fasilitas. 
+                  Setelah memilih, ikuti garis putus-putus di lantai.
+                </p>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Untuk memutar kamera, <strong className="text-gray-800">klik kiri & tahan</strong> mouse Anda, atau geser layar pada perangkat mobile. Tekan <strong className="text-gray-800 bg-gray-100 px-1 rounded">ESC</strong> untuk melepas kursor.
+                </p>
+              </div>
+
+              <div className="bg-gray-50 border border-gray-100 rounded-xl p-5">
+                <h4 className="font-bold text-gray-800 mb-3 flex items-center">
+                  <Phone className="w-4 h-4 mr-2 text-green-600" />
+                  Kontak Darurat Kampus
+                </h4>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between bg-white p-3.5 rounded-xl shadow-sm border border-gray-100 hover:border-green-200 hover:shadow-md transition-all group">
+                    <span className="text-sm font-semibold text-gray-700">Layanan Informasi</span>
+                    <a href="tel:0217699431" className="text-sm font-bold text-[#2C5F2D] group-hover:text-green-600 transition-colors bg-green-50 px-3 py-1 rounded-lg">021-7699431</a>
+                  </div>
+                  <div className="flex items-center justify-between bg-white p-3.5 rounded-xl shadow-sm border border-gray-100 hover:border-green-200 hover:shadow-md transition-all group">
+                    <span className="text-sm font-semibold text-gray-700">Layanan Mahasiswa</span>
+                    <a href="tel:0217656971" className="text-sm font-bold text-[#2C5F2D] group-hover:text-green-600 transition-colors bg-green-50 px-3 py-1 rounded-lg">021-7656971</a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
