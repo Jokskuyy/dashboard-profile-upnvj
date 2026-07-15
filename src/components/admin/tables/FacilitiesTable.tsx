@@ -67,13 +67,13 @@ export default function FacilitiesTable({
   // Unique buildings
   const buildings = [
     "Semua",
-    ...Array.from(new Set(facilities.map((f) => f.gedung?.nama_gedung).filter(Boolean))),
+    ...Array.from(new Set(facilities.map((f) => f.gedung?.nama_gedung).filter(Boolean) as string[])),
   ].sort();
 
   // Unique floors
   const floors = [
     "Semua",
-    ...Array.from(new Set(facilities.map((f) => f.lantai?.toString()).filter(Boolean))),
+    ...Array.from(new Set(facilities.map((f) => f.lantai?.toString()).filter(Boolean) as string[])),
   ].sort((a, b) => {
     if (a === "Semua") return -1;
     if (b === "Semua") return 1;
