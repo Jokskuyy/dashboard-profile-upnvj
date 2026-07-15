@@ -624,7 +624,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         {!isLoading && !error && (
           <button
             onClick={() => setShowHelpModal(true)}
-            className="absolute bottom-6 right-6 z-[30] flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 bg-white hover:bg-gray-50 text-[#2C5F2D] rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all hover:scale-105 hover:-translate-y-1 border border-gray-100"
+            className="absolute top-4 left-4 z-[30] flex items-center justify-center w-12 h-12 lg:w-14 lg:h-14 bg-white hover:bg-gray-50 text-[#2C5F2D] rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all hover:scale-105 border border-gray-100"
             title="Bantuan & Kontak Darurat"
           >
             <Headset className="w-6 h-6 lg:w-7 lg:h-7" />
