@@ -38,6 +38,8 @@ interface UnityConfig {
   companyName: string;
   productName: string;
   productVersion: string;
+  matchWebGLToBrowser?: boolean;
+  devicePixelRatio?: number;
   showBanner?: (msg: string, type: string) => void;
 }
 
@@ -163,6 +165,8 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       companyName: "DefaultCompany",
       productName: "T_A",
       productVersion: "v0.7.4",
+      matchWebGLToBrowser: true,
+      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
       showBanner: unityShowBanner,
     }),
     [basePath],
@@ -218,6 +222,16 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         return;
       }
 
+      let fakeProgressInterval: ReturnType<typeof setInterval>;
+
+      const updateCanvasSize = () => {
+        const canvas = canvasRef.current;
+        const container = containerRef.current;
+        if (!canvas || !container) return;
+        canvas.width = container.clientWidth || 960;
+        canvas.height = container.clientHeight || 600;
+      };
+
       // Dynamically import keyboard patch here (not at module top-level)
       // This avoids monkey-patching EventTarget.prototype on initial page load
       await import("../../utils/unityKeyboardPatch");
@@ -257,11 +271,9 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
             return prev + 1; // 1% every 30ms (~2.7s to 90%)
           });
         }, 30);
-
-        const canvas = canvasRef.current;
-        const container = containerRef.current;
-        canvas.width = container.clientWidth || 960;
-        canvas.height = container.clientHeight || 600;
+        
+        updateCanvasSize();
+        window.addEventListener("resize", updateCanvasSize);
 
         // First, dynamically load the Unity loader script - use BASE_URL for GitHub Pages
         const loaderUrl = `${basePath}unity-builds/v0.7.4/Build/v0.7.4.loader.js`;
@@ -380,6 +392,10 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
           console.error("Error cleaning up Unity instance:", err);
         }
       }
+      
+      // Attempt to clean up the resize listener (by redefining or just ignoring it if it's hoisted)
+      // Actually, since updateCanvasSize is scoped to the effect, we can remove it directly because it's in the same scope!
+      window.removeEventListener("resize", updateCanvasSize);
       try {
         (screen.orientation as ScreenOrientation & { unlock?: () => void }).unlock?.();
       } catch {
@@ -498,7 +514,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         <canvas
           ref={canvasRef}
           id="unity-canvas"
-          className={`w-full h-full ${isLoading ? "opacity-0" : "opacity-100"} transition-opacity duration-500`}
+          className={`w-full h-full touch-none cursor-grab active:cursor-grabbing ${isLoading ? "opacity-0" : "opacity-100"} transition-opacity duration-500`}
           style={{
             display: "block",
             background: "linear-gradient(135deg, #2C5F2D 0%, #3d7a3e 100%)",
