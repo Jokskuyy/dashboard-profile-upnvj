@@ -18,6 +18,7 @@ const CampusMapSection: React.FC = () => {
   );
 
   const isGitHubPages = window.location.hostname.includes("github.io");
+  const sectionRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const unsubscribe = onPreloadProgress((progress) => {
@@ -26,8 +27,6 @@ const CampusMapSection: React.FC = () => {
     return unsubscribe;
   }, []);
 
-  const viewerWrapperRef = React.useRef<HTMLDivElement>(null);
-
   const handleOpenCampusMap = async () => {
     if (isGitHubPages) {
       alert(
@@ -35,12 +34,33 @@ const CampusMapSection: React.FC = () => {
       );
       return;
     }
+    
+    // Auto-fullscreen trigger directly on user interaction (fixes iOS Safari issue)
+    const isMobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+    
+    if (sectionRef.current) {
+      const el = sectionRef.current;
+      const elWithWebkit = el as HTMLElement & { webkitRequestFullscreen?: () => Promise<void> };
+      try {
+        if (el.requestFullscreen) {
+          await el.requestFullscreen();
+        } else if (elWithWebkit.webkitRequestFullscreen) {
+          await elWithWebkit.webkitRequestFullscreen();
+        }
+        if (isMobile) {
+          await (screen.orientation as ScreenOrientation & { lock?: (orientation: string) => Promise<void> }).lock?.("landscape");
+        }
+      } catch {
+        // Fullscreen/orientation lock may fail silently on some iOS devices
+      }
+    }
+    
     setShowViewer(true);
+    setIsFullscreen(true);
   };
 
   /**
    * On hover: start preloading Unity files if not already cached.
-   * This gives a head start before the user clicks "Launch".
    */
   const handleButtonHover = () => {
     const status = getPreloadStatus();
@@ -48,39 +68,6 @@ const CampusMapSection: React.FC = () => {
       startUnityPreload();
     }
   };
-
-  // Auto-fullscreen saat viewer dibuka (PC & mobile)
-  useEffect(() => {
-    if (!showViewer) return;
-
-    const isMobile =
-      /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent,
-      ) || window.innerWidth < 768;
-
-    const timer = setTimeout(async () => {
-      const el = viewerWrapperRef.current;
-      if (!el) return;
-      const elWithWebkit = el as HTMLElement & {
-        webkitRequestFullscreen?: () => Promise<void>;
-      };
-      try {
-        if (el.requestFullscreen) {
-          await el.requestFullscreen();
-        } else if (elWithWebkit.webkitRequestFullscreen) {
-          await elWithWebkit.webkitRequestFullscreen();
-        }
-        // Lock landscape hanya untuk mobile
-        if (isMobile) {
-          await (screen.orientation as ScreenOrientation & { lock?: (orientation: string) => Promise<void> }).lock?.("landscape");
-        }
-      } catch {
-        // Fullscreen/orientation lock may fail
-      }
-      setIsFullscreen(true);
-    }, 100);
-    return () => clearTimeout(timer);
-  }, [showViewer]);
 
   const toggleFullscreen = () => {
     if (isFullscreen && document.fullscreenElement) {
@@ -90,44 +77,22 @@ const CampusMapSection: React.FC = () => {
       } catch {
         /* empty */
       }
+    } else if (!isFullscreen && sectionRef.current) {
+      const el = sectionRef.current;
+      const elWithWebkit = el as HTMLElement & { webkitRequestFullscreen?: () => Promise<void> };
+      try {
+        if (el.requestFullscreen) {
+          el.requestFullscreen().catch(() => {});
+        } else if (elWithWebkit.webkitRequestFullscreen) {
+          elWithWebkit.webkitRequestFullscreen().catch(() => {});
+        }
+      } catch {
+        // ignore
+      }
     }
     setIsFullscreen(!isFullscreen);
   };
 
-  // ── Active viewer mode ──
-  if (showViewer) {
-    return (
-      <div
-        ref={viewerWrapperRef}
-        className={`bg-white rounded-2xl shadow-lg overflow-hidden ${isFullscreen ? "fixed inset-0 z-50 rounded-none" : ""}`}
-      >
-        <CampusMapViewer
-          isFullscreen={isFullscreen}
-          onToggleFullscreen={toggleFullscreen}
-          onClose={() => {
-            setShowViewer(false);
-            setIsFullscreen(false);
-          }}
-        />
-
-        {!isFullscreen && (
-          <div className="p-4 border-t bg-gray-50 flex justify-between items-center">
-            <div className="text-sm text-gray-600">
-              {t("unity3DInteractiveCampusMap")} — {t("useMouseToNavigate")}
-            </div>
-            <button
-              onClick={() => setShowViewer(false)}
-              className="px-4 py-2 text-sm bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors"
-            >
-              {t("closeMap")}
-            </button>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  // ── Preview card ──
   const features = [
     {
       icon: Navigation,
@@ -156,82 +121,116 @@ const CampusMapSection: React.FC = () => {
   ];
 
   return (
-    <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-white">
-      {/* Card Header — green accent bar */}
-      <div className="bg-gradient-to-r from-[#2C5F2D] to-[#3d7a3e] px-6 sm:px-8 py-5">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/20">
-            <MapPin className="w-5 h-5 text-white" />
+    <div 
+      ref={sectionRef} 
+      className={showViewer && isFullscreen ? "fixed inset-0 z-50 w-full h-[100dvh] bg-white flex flex-col" : ""}
+    >
+      {showViewer ? (
+        <div className={`flex-1 flex flex-col ${!isFullscreen ? "bg-white rounded-2xl shadow-lg overflow-hidden" : ""}`}>
+          <div className="flex-1 relative min-h-0">
+            <CampusMapViewer
+              isFullscreen={isFullscreen}
+              onToggleFullscreen={toggleFullscreen}
+              onClose={() => {
+                setShowViewer(false);
+                setIsFullscreen(false);
+              }}
+            />
           </div>
-          <div>
-            <h3 className="text-lg sm:text-xl font-bold text-white">
-              {t("campusMapTitle")}
-            </h3>
-            <p className="text-sm text-white/70">{t("campusMapSubtitle")}</p>
-          </div>
-        </div>
-      </div>
 
-      {/* Card Body */}
-      <div className="p-6 sm:p-8">
-        {/* Feature Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-8">
-          {features.map((f, i) => (
-            <div
-              key={i}
-              className={`rounded-xl p-4 ${f.bg} border ${f.border} hover:shadow-md transition-all duration-300`}
-            >
-              <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center mb-3 shadow-sm">
-                <f.icon className={`w-[18px] h-[18px] ${f.color}`} />
+          {!isFullscreen && (
+            <div className="p-4 border-t bg-gray-50 flex justify-between items-center shrink-0">
+              <div className="text-sm text-gray-600">
+                {t("unity3DInteractiveCampusMap")} — {t("useMouseToNavigate")}
               </div>
-              <p className="font-semibold text-gray-800 text-sm mb-0.5">
-                {f.title}
-              </p>
-              <p className="text-gray-500 text-xs leading-relaxed">{f.desc}</p>
+              <button
+                onClick={() => setShowViewer(false)}
+                className="px-4 py-2 text-sm bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors"
+              >
+                {t("closeMap")}
+              </button>
             </div>
-          ))}
+          )}
         </div>
+      ) : (
+        <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-white">
+          {/* Card Header — green accent bar */}
+          <div className="bg-gradient-to-r from-[#2C5F2D] to-[#3d7a3e] px-6 sm:px-8 py-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                <MapPin className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="text-lg sm:text-xl font-bold text-white">
+                  {t("campusMapTitle")}
+                </h3>
+                <p className="text-sm text-white/70">{t("campusMapSubtitle")}</p>
+              </div>
+            </div>
+          </div>
 
-        {/* CTA */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <button
-            onClick={handleOpenCampusMap}
-            onMouseEnter={handleButtonHover}
-            onFocus={handleButtonHover}
-            disabled={isGitHubPages}
-            className={`group inline-flex items-center gap-2 px-6 py-3 font-semibold rounded-xl transition-all duration-200 shadow-md ${
-              isGitHubPages
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-[#2C5F2D] text-white hover:bg-[#245025] hover:shadow-lg hover:shadow-green-900/15 hover:scale-[1.02] active:scale-[0.98]"
-            }`}
-          >
-            <ExternalLink className="w-[18px] h-[18px]" />
-            {t("launchUnityMap")}
-          </button>
+          {/* Card Body */}
+          <div className="p-6 sm:p-8">
+            {/* Feature Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-8">
+              {features.map((f, i) => (
+                <div
+                  key={i}
+                  className={`rounded-xl p-4 ${f.bg} border ${f.border} hover:shadow-md transition-all duration-300`}
+                >
+                  <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center mb-3 shadow-sm">
+                    <f.icon className={`w-[18px] h-[18px] ${f.color}`} />
+                  </div>
+                  <p className="font-semibold text-gray-800 text-sm mb-0.5">
+                    {f.title}
+                  </p>
+                  <p className="text-gray-500 text-xs leading-relaxed">{f.desc}</p>
+                </div>
+              ))}
+            </div>
 
-          <div className="flex flex-col gap-1">
-            <span className="text-xs text-gray-400">{t("unityWebGLBuild")} • ~39 MB</span>
-            {_cacheStatus === "cached" && (
-              <span className="flex items-center gap-1 text-xs text-green-600 font-medium">
-                <CheckCircle className="w-3 h-3" />
-                File tersimpan di cache — loading lebih cepat
-              </span>
-            )}
-            {_cacheStatus === "loading" && (
-              <span className="text-xs text-blue-500">Mengunduh ke cache background...</span>
+            {/* CTA */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <button
+                onClick={handleOpenCampusMap}
+                onMouseEnter={handleButtonHover}
+                onFocus={handleButtonHover}
+                disabled={isGitHubPages}
+                className={`group inline-flex items-center gap-2 px-6 py-3 font-semibold rounded-xl transition-all duration-200 shadow-md ${
+                  isGitHubPages
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-[#2C5F2D] text-white hover:bg-[#245025] hover:shadow-lg hover:shadow-green-900/15 hover:scale-[1.02] active:scale-[0.98]"
+                }`}
+              >
+                <ExternalLink className="w-[18px] h-[18px]" />
+                {t("launchUnityMap")}
+              </button>
+
+              <div className="flex flex-col gap-1">
+                <span className="text-xs text-gray-400">{t("unityWebGLBuild")} • ~39 MB</span>
+                {_cacheStatus === "cached" && (
+                  <span className="flex items-center gap-1 text-xs text-green-600 font-medium">
+                    <CheckCircle className="w-3 h-3" />
+                    File tersimpan di cache — loading lebih cepat
+                  </span>
+                )}
+                {_cacheStatus === "loading" && (
+                  <span className="text-xs text-blue-500">Mengunduh ke cache background...</span>
+                )}
+              </div>
+            </div>
+
+            {isGitHubPages && (
+              <div className="mt-5 p-3 bg-amber-50 border border-amber-200 rounded-xl">
+                <p className="text-xs text-amber-700">
+                  ⚠️ Unity WebGL is not available on GitHub Pages due to Brotli
+                  compression limitations.
+                </p>
+              </div>
             )}
           </div>
         </div>
-
-        {isGitHubPages && (
-          <div className="mt-5 p-3 bg-amber-50 border border-amber-200 rounded-xl">
-            <p className="text-xs text-amber-700">
-              ⚠️ Unity WebGL is not available on GitHub Pages due to Brotli
-              compression limitations.
-            </p>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 };

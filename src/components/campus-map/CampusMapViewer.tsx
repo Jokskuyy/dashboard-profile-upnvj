@@ -435,8 +435,8 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`bg-white rounded-xl shadow-lg overflow-hidden ${
-        isFullscreen || isMobileLandscape ? "fixed inset-0 z-50 rounded-none" : ""
+      className={`bg-white overflow-hidden ${
+        isFullscreen || isMobileLandscape ? "w-full h-full flex flex-col rounded-none" : "rounded-xl shadow-lg"
       }`}
     >
       {/* Header - hidden in fullscreen */}
@@ -468,7 +468,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       {/* Unity WebGL Canvas Container */}
       <div
         id="unity-container"
-        className={`relative ${isFullscreen || isMobileLandscape ? "h-full" : "h-96 lg:h-[500px]"}`}
+        className={`relative ${isFullscreen || isMobileLandscape ? "flex-1 w-full min-h-0" : "h-96 lg:h-[500px]"}`}
       >
         {isLoading && (
           <div className="absolute inset-0 bg-white flex items-center justify-center z-10">
