@@ -286,7 +286,6 @@ export default function AdminDashboard() {
         isOpen={facilityModal.isOpen}
         onClose={() => setFacilityModal({ isOpen: false })}
         onSave={handleSaveFacility}
-        onError={(msg) => showToast(msg, "error")}
         facility={facilityModal.facility}
       />
       <BuildingModal

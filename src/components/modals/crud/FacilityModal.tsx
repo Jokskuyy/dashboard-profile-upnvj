@@ -24,11 +24,14 @@ type FacilityFormData = Fasilitas & {
   gedung?: { id: number; nama_gedung: string };
 };
 
+type FacilityFormErrors = Partial<
+  Record<"nama_fasilitas" | "tipe_fasilitas" | "id_gedung", string>
+>;
+
 interface FacilityModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (facility: Fasilitas) => void;
-  onError?: (message: string) => void;
   facility?: FacilityFormData;
 }
 
@@ -49,12 +52,12 @@ export default function FacilityModal({
   isOpen,
   onClose,
   onSave,
-  onError,
   facility,
 }: FacilityModalProps) {
   const [buildings, setBuildings] = useState<Building[]>([]);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<FacilityFormData>({ ...INITIAL_FORM });
+  const [errors, setErrors] = useState<FacilityFormErrors>({});
   const [imageError, setImageError] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -84,6 +87,7 @@ export default function FacilityModal({
       } else {
         setFormData({ ...INITIAL_FORM });
       }
+      setErrors({});
       setImageError(false);
       setLoading(false);
     }
@@ -106,14 +110,18 @@ export default function FacilityModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const newErrors: FacilityFormErrors = {};
     if (!formData.nama_fasilitas.trim()) {
-      if (onError) onError("Nama Fasilitas wajib diisi");
-      return;
+      newErrors.nama_fasilitas = "Nama fasilitas wajib diisi";
+    }
+    if (!formData.tipe_fasilitas) {
+      newErrors.tipe_fasilitas = "Tipe fasilitas wajib dipilih";
     }
     if (!formData.id_gedung) {
-      if (onError) onError("Anda wajib memilih Gedung");
-      return;
+      newErrors.id_gedung = "Gedung wajib dipilih";
     }
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
 
     setLoading(true);
     try {
@@ -133,6 +141,12 @@ export default function FacilityModal({
     value: FacilityFormData[K]
   ) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
+    setErrors((prev) => {
+      if (!prev[key as keyof FacilityFormErrors]) return prev;
+      const next = { ...prev };
+      delete next[key as keyof FacilityFormErrors];
+      return next;
+    });
   };
 
   if (!isOpen) return null;
@@ -189,17 +203,27 @@ export default function FacilityModal({
         >
           {/* Nama Fasilitas */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+            <label htmlFor="nama-fasilitas" className="block text-sm font-semibold text-slate-700 mb-1.5">
               Nama Fasilitas <span className="text-red-500">*</span>
             </label>
             <input
+              id="nama-fasilitas"
               type="text"
               value={formData.nama_fasilitas}
               onChange={(e) => updateField("nama_fasilitas", e.target.value)}
-              className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none bg-white placeholder:text-slate-300"
+              aria-invalid={Boolean(errors.nama_fasilitas)}
+              aria-describedby={errors.nama_fasilitas ? "nama-fasilitas-error" : undefined}
+              className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none bg-white placeholder:text-slate-300 ${
+                errors.nama_fasilitas ? "border-red-300" : "border-slate-200"
+              }`}
               placeholder="cth. Laboratorium Komputer 1"
               required
             />
+            {errors.nama_fasilitas && (
+              <p id="nama-fasilitas-error" className="text-xs text-red-500 mt-1">
+                {errors.nama_fasilitas}
+              </p>
+            )}
           </div>
 
           {/* Deskripsi */}
@@ -238,14 +262,19 @@ export default function FacilityModal({
           {/* ─── Row: Tipe + Gedung ───────────────────── */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1.5">
+              <label htmlFor="tipe-fasilitas" className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1.5">
                 <Layers className="w-3.5 h-3.5 text-slate-400" />
                 Tipe <span className="text-red-500">*</span>
               </label>
               <select
+                id="tipe-fasilitas"
                 value={formData.tipe_fasilitas}
                 onChange={(e) => updateField("tipe_fasilitas", e.target.value)}
-                className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none bg-white appearance-none cursor-pointer"
+                aria-invalid={Boolean(errors.tipe_fasilitas)}
+                aria-describedby={errors.tipe_fasilitas ? "tipe-fasilitas-error" : undefined}
+                className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none bg-white appearance-none cursor-pointer ${
+                  errors.tipe_fasilitas ? "border-red-300" : "border-slate-200"
+                }`}
                 required
               >
                 {FACILITY_TYPES.map((type) => (
@@ -254,19 +283,29 @@ export default function FacilityModal({
                   </option>
                 ))}
               </select>
+              {errors.tipe_fasilitas && (
+                <p id="tipe-fasilitas-error" className="text-xs text-red-500 mt-1">
+                  {errors.tipe_fasilitas}
+                </p>
+              )}
             </div>
 
             <div>
-              <label className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1.5">
+              <label htmlFor="gedung-fasilitas" className="flex items-center gap-1.5 text-sm font-semibold text-slate-700 mb-1.5">
                 <Building2 className="w-3.5 h-3.5 text-slate-400" />
                 Gedung <span className="text-red-500">*</span>
               </label>
               <select
+                id="gedung-fasilitas"
                 value={formData.id_gedung || ""}
                 onChange={(e) =>
                   updateField("id_gedung", parseInt(e.target.value) || 0)
                 }
-                className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none bg-white appearance-none cursor-pointer"
+                aria-invalid={Boolean(errors.id_gedung)}
+                aria-describedby={errors.id_gedung ? "gedung-error" : undefined}
+                className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all outline-none bg-white appearance-none cursor-pointer ${
+                  errors.id_gedung ? "border-red-300" : "border-slate-200"
+                }`}
                 required
               >
                 <option value="" disabled>Pilih Gedung</option>
@@ -276,6 +315,11 @@ export default function FacilityModal({
                   </option>
                 ))}
               </select>
+              {errors.id_gedung && (
+                <p id="gedung-error" className="text-xs text-red-500 mt-1">
+                  {errors.id_gedung}
+                </p>
+              )}
             </div>
           </div>
 

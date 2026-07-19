@@ -43,6 +43,10 @@ interface FormState {
   akreditasi: string;
 }
 
+type ProgramFormErrors = Partial<
+  Record<"nama_prodi" | "jenjang" | "id_fakultas", string>
+>;
+
 const INITIAL_FORM: FormState = {
   nama_prodi: "",
   jenjang: "Sarjana",
@@ -57,6 +61,7 @@ export default function ProgramModal({
   program,
 }: ProgramModalProps) {
   const [formData, setFormData] = useState<FormState>({ ...INITIAL_FORM });
+  const [errors, setErrors] = useState<ProgramFormErrors>({});
   const [loading, setLoading] = useState(false);
   const [faculties, setFaculties] = useState<FacultyRow[]>([]);
   const formRef = useRef<HTMLFormElement>(null);
@@ -118,14 +123,25 @@ export default function ProgramModal({
       setFormData({ ...INITIAL_FORM });
     }
 
+    setErrors({});
     setLoading(false);
   }, [program, isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.nama_prodi.trim()) return;
-    if (!formData.id_fakultas) return;
+    const newErrors: ProgramFormErrors = {};
+    if (!formData.nama_prodi.trim()) {
+      newErrors.nama_prodi = "Nama program studi wajib diisi";
+    }
+    if (!formData.id_fakultas) {
+      newErrors.id_fakultas = "Fakultas wajib dipilih";
+    }
+    if (!formData.jenjang) {
+      newErrors.jenjang = "Jenjang wajib dipilih";
+    }
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
 
     setLoading(true);
     try {
@@ -154,6 +170,12 @@ export default function ProgramModal({
     value: FormState[K]
   ) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
+    setErrors((prev) => {
+      if (!prev[key as keyof ProgramFormErrors]) return prev;
+      const next = { ...prev };
+      delete next[key as keyof ProgramFormErrors];
+      return next;
+    });
   };
 
   if (!isOpen) return null;
@@ -207,35 +229,51 @@ export default function ProgramModal({
         <form
           ref={formRef}
           onSubmit={handleSubmit}
+          noValidate
           className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5"
         >
           {/* Nama Program Studi */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+            <label htmlFor="nama-prodi" className="block text-sm font-semibold text-slate-700 mb-1.5">
               Nama Program Studi <span className="text-red-500">*</span>
             </label>
             <input
+              id="nama-prodi"
               type="text"
               required
               value={formData.nama_prodi}
               onChange={(e) => updateField("nama_prodi", e.target.value)}
-              className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none bg-white placeholder:text-slate-300"
+              aria-invalid={Boolean(errors.nama_prodi)}
+              aria-describedby={errors.nama_prodi ? "nama-prodi-error" : undefined}
+              className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none bg-white placeholder:text-slate-300 ${
+                errors.nama_prodi ? "border-red-300" : "border-slate-200"
+              }`}
               placeholder="cth. Teknik Informatika"
             />
+            {errors.nama_prodi && (
+              <p id="nama-prodi-error" className="text-xs text-red-500 mt-1">
+                {errors.nama_prodi}
+              </p>
+            )}
           </div>
 
           {/* Fakultas */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+            <label htmlFor="fakultas-prodi" className="block text-sm font-semibold text-slate-700 mb-1.5">
               Fakultas <span className="text-red-500">*</span>
             </label>
             <select
+              id="fakultas-prodi"
               required
               value={formData.id_fakultas}
               onChange={(e) =>
                 updateField("id_fakultas", parseInt(e.target.value) || 0)
               }
-              className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none bg-white appearance-none cursor-pointer"
+              aria-invalid={Boolean(errors.id_fakultas)}
+              aria-describedby={errors.id_fakultas ? "fakultas-error" : undefined}
+              className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none bg-white appearance-none cursor-pointer ${
+                errors.id_fakultas ? "border-red-300" : "border-slate-200"
+              }`}
             >
               <option value={0}>Pilih Fakultas</option>
               {faculties.map((fac) => (
@@ -244,19 +282,29 @@ export default function ProgramModal({
                 </option>
               ))}
             </select>
+            {errors.id_fakultas && (
+              <p id="fakultas-error" className="text-xs text-red-500 mt-1">
+                {errors.id_fakultas}
+              </p>
+            )}
           </div>
 
           {/* Row: Jenjang + Akreditasi */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+              <label htmlFor="jenjang-prodi" className="block text-sm font-semibold text-slate-700 mb-1.5">
                 Jenjang <span className="text-red-500">*</span>
               </label>
               <select
+                id="jenjang-prodi"
                 required
                 value={formData.jenjang}
                 onChange={(e) => updateField("jenjang", e.target.value)}
-                className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none bg-white appearance-none cursor-pointer"
+                aria-invalid={Boolean(errors.jenjang)}
+                aria-describedby={errors.jenjang ? "jenjang-error" : undefined}
+                className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none bg-white appearance-none cursor-pointer ${
+                  errors.jenjang ? "border-red-300" : "border-slate-200"
+                }`}
               >
                 {JENJANG_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -264,6 +312,11 @@ export default function ProgramModal({
                   </option>
                 ))}
               </select>
+              {errors.jenjang && (
+                <p id="jenjang-error" className="text-xs text-red-500 mt-1">
+                  {errors.jenjang}
+                </p>
+              )}
             </div>
 
             <div>

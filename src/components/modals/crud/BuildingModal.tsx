@@ -75,6 +75,16 @@ export default function BuildingModal({
     }
   };
 
+  const updateField = <K extends keyof Gedung>(key: K, value: Gedung[K]) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
+    setErrors((prev) => {
+      if (!prev[key]) return prev;
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -112,20 +122,25 @@ export default function BuildingModal({
           <form onSubmit={handleSubmit} className="flex-1 min-h-0 p-4 sm:p-6 space-y-4 overflow-y-auto">
             {/* Nama Gedung */}
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+              <label htmlFor="nama-gedung" className="block text-sm font-semibold text-slate-700 mb-1.5">
                 Nama Gedung <span className="text-red-500">*</span>
               </label>
               <input
+                id="nama-gedung"
                 type="text"
                 value={form.nama_gedung}
-                onChange={(e) => setForm({ ...form, nama_gedung: e.target.value })}
+                onChange={(e) => updateField("nama_gedung", e.target.value)}
+                aria-invalid={Boolean(errors.nama_gedung)}
+                aria-describedby={errors.nama_gedung ? "nama-gedung-error" : undefined}
                 className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent ${
                   errors.nama_gedung ? "border-red-300" : "border-slate-200"
                 }`}
                 placeholder="Gedung Jenderal Sudirman"
               />
               {errors.nama_gedung && (
-                <p className="text-xs text-red-500 mt-1">{errors.nama_gedung}</p>
+                <p id="nama-gedung-error" className="text-xs text-red-500 mt-1">
+                  {errors.nama_gedung}
+                </p>
               )}
             </div>
 
