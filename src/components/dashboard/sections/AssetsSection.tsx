@@ -83,7 +83,7 @@ const AssetsSection: React.FC = () => {
             olahraga:      ["olahraga", "sport"],
             ibadah:        ["ibadah", "masjid", "musholla"],
             kantin:        ["kantin", "food"],
-            administrasi:  ["administrasi", "sekretariat", "layanan", "dosen", "umum", "mahasiswa"],
+            administrasi:  ["administrasi", "sekretariat", "layanan", "dosen", "umum"],
           };
 
           const counts: Record<string, number> = {};
