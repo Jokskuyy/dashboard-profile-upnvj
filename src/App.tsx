@@ -49,7 +49,7 @@ function App() {
                   path="/"
                   element={
                     <DashboardProvider>
-                      <div className="min-h-screen bg-gray-50 overflow-x-hidden">
+                      <div className="min-h-screen min-h-[100dvh] bg-gray-50 overflow-x-hidden">
                         <Header />
                         <main className="pb-16">
                           <Suspense fallback={<PageLoader />}>

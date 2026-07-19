@@ -106,7 +106,7 @@ const TrafficOverview: React.FC = () => {
   });
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+    <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-8">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-2xl font-bold text-[#2C5F2D]">{t.title}</h2>
@@ -144,11 +144,11 @@ const TrafficOverview: React.FC = () => {
           {/* Stats Cards - Solid color design */}
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5 mb-6 sm:mb-8">
             {/* Total Visitors */}
-            <div className="rounded-xl p-5 bg-[#2C5F2D] text-white">
-              <p className="text-sm opacity-80 font-medium">
+            <div className="rounded-xl p-3.5 sm:p-5 bg-[#2C5F2D] text-white">
+              <p className="text-xs sm:text-sm opacity-80 font-medium">
                 {language === "id" ? "Total Pengunjung" : "Total Visitors"}
               </p>
-              <h3 className="text-3xl font-bold mt-2">
+              <h3 className="text-2xl sm:text-3xl font-bold mt-2">
                 {totalVisitors.toLocaleString()}
               </h3>
               <div className="mt-3 flex items-center gap-1 text-xs opacity-70">
@@ -157,11 +157,11 @@ const TrafficOverview: React.FC = () => {
             </div>
 
             {/* Total Page Views */}
-            <div className="rounded-xl p-5 bg-[#1B4332] text-white">
-              <p className="text-sm opacity-80 font-medium">
+            <div className="rounded-xl p-3.5 sm:p-5 bg-[#1B4332] text-white">
+              <p className="text-xs sm:text-sm opacity-80 font-medium">
                 {language === "id" ? "Total Web Views" : "Total Web Views"}
               </p>
-              <h3 className="text-3xl font-bold mt-2">
+              <h3 className="text-2xl sm:text-3xl font-bold mt-2">
                 {totalPageViews.toLocaleString()}
               </h3>
               <div className="mt-3 flex items-center gap-1 text-xs opacity-70">
@@ -170,11 +170,11 @@ const TrafficOverview: React.FC = () => {
             </div>
 
             {/* Average Visitors */}
-            <div className="rounded-xl p-5 bg-slate-700 text-white">
-              <p className="text-sm opacity-80 font-medium">
+            <div className="rounded-xl p-3.5 sm:p-5 bg-slate-700 text-white">
+              <p className="text-xs sm:text-sm opacity-80 font-medium">
                 {language === "id" ? "Rata-rata Pengunjung" : "Avg Visitors"}
               </p>
-              <h3 className="text-3xl font-bold mt-2">
+              <h3 className="text-2xl sm:text-3xl font-bold mt-2">
                 {avgVisitors.toLocaleString()}
               </h3>
               <div className="mt-3 flex items-center gap-1 text-xs opacity-70">
@@ -183,11 +183,11 @@ const TrafficOverview: React.FC = () => {
             </div>
 
             {/* Average Page Views */}
-            <div className="rounded-xl p-5 bg-slate-800 text-white">
-              <p className="text-sm opacity-80 font-medium">
+            <div className="rounded-xl p-3.5 sm:p-5 bg-slate-800 text-white">
+              <p className="text-xs sm:text-sm opacity-80 font-medium">
                 {language === "id" ? "Rata-rata Views" : "Avg Page Views"}
               </p>
-              <h3 className="text-3xl font-bold mt-2">
+              <h3 className="text-2xl sm:text-3xl font-bold mt-2">
                 {avgPageViews.toLocaleString()}
               </h3>
               <div className="mt-3 flex items-center gap-1 text-xs opacity-70">

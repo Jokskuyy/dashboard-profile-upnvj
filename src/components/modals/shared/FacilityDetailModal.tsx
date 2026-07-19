@@ -49,15 +49,15 @@ const FacilityDetailModal: React.FC<FacilityDetailModalProps> = ({
 
       {/* Modal */}
       <div
-        className="fixed inset-0 flex items-center justify-center p-4"
+        className="viewport-modal-shell fixed inset-0 flex items-center justify-center"
         style={{ zIndex: 10003 }}
       >
         <div
-          className="w-full max-w-lg max-h-[85vh] flex flex-col bg-white rounded-xl shadow-xl overflow-hidden"
+          className="viewport-modal-panel w-full max-w-lg flex flex-col bg-white rounded-xl shadow-xl overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="bg-[#2C5F2D] text-white px-6 py-4 flex justify-between items-start shrink-0">
+          <div className="bg-[#2C5F2D] text-white px-4 sm:px-6 py-4 flex justify-between items-start shrink-0">
             <div className="flex-1 min-w-0 pr-4">
               <span className="inline-block px-2 py-0.5 bg-white/15 text-white/90 text-[10px] font-medium rounded mb-2">
                 {facility.tipe_fasilitas}
@@ -75,7 +75,7 @@ const FacilityDetailModal: React.FC<FacilityDetailModalProps> = ({
           </div>
 
           {/* Body */}
-          <div className="flex-1 overflow-y-auto p-6">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6">
             {/* Facility Image */}
             {facility.foto_url && (
               <div className="rounded-lg overflow-hidden mb-5 border border-gray-200">
@@ -146,7 +146,7 @@ const FacilityDetailModal: React.FC<FacilityDetailModalProps> = ({
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-3 border-t border-gray-100 bg-white shrink-0">
+          <div className="px-4 sm:px-6 py-3 border-t border-gray-100 bg-white shrink-0">
             <button
               onClick={onClose}
               className="w-full py-2.5 rounded-lg bg-[#2C5F2D] hover:bg-[#234d24] text-white font-medium transition-colors text-sm"

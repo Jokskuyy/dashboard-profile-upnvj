@@ -133,7 +133,7 @@ export function useBuildingSearch() {
     if (!query.trim()) return [];
     
     // Hapus karakter non-alfanumerik/spasi/dash untuk sanitasi
-    let q = query.toLowerCase().replace(/[^\w\s-]/g, "").trim();
+    const q = query.toLowerCase().replace(/[^\w\s-]/g, "").trim();
     
     // Gunakan extended search format: "'word1 'word2" (artinya includes word1 AND includes word2)
     const words = q.split(/\s+/).filter(w => w.length > 0);

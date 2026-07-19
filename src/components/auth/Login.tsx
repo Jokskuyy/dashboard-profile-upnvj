@@ -60,12 +60,12 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-full relative flex items-center justify-center overflow-hidden">
+    <div className="login-page min-h-screen min-h-[100dvh] w-full relative flex items-center justify-center overflow-x-hidden overflow-y-auto px-4 py-6 sm:py-8">
       {/* Full-screen background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: "url('/hero1.jpg')",
+          backgroundImage: "url('/hero1.webp')",
         }}
       />
       {/* Dark overlay */}
@@ -75,12 +75,12 @@ const Login: React.FC = () => {
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#2C5F2D] via-[#4a9e4c] to-[#2C5F2D]" />
 
       {/* Main Content */}
-      <div className="relative z-10 w-full max-w-md mx-4">
+      <div className="relative z-10 w-full max-w-md">
         {/* Back Button */}
         <button
           type="button"
           onClick={() => navigate("/")}
-          className="flex items-center gap-2 text-white/60 hover:text-white transition-colors mb-8 group"
+          className="flex min-h-11 items-center gap-2 text-white/60 hover:text-white transition-colors mb-4 sm:mb-8 group"
         >
           <span className="material-icons-round text-lg group-hover:-translate-x-1 transition-transform">
             arrow_back
@@ -91,11 +91,11 @@ const Login: React.FC = () => {
         {/* Card */}
         <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl shadow-black/20 overflow-hidden">
           {/* Card Header */}
-          <div className="px-8 pt-8 pb-0 flex flex-col items-center">
+          <div className="px-5 sm:px-8 pt-5 sm:pt-8 pb-0 flex flex-col items-center">
             <img
               src="/logoupnvj.webp"
               alt="Logo UPNVJ"
-              className="w-16 h-16 object-contain mb-4"
+              className="w-14 h-14 sm:w-16 sm:h-16 object-contain mb-3 sm:mb-4"
             />
             <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
               {t.title}
@@ -104,10 +104,10 @@ const Login: React.FC = () => {
           </div>
 
           {/* Divider */}
-          <div className="mx-8 h-px bg-gray-200" />
+          <div className="mx-5 sm:mx-8 h-px bg-gray-200" />
 
           {/* Form */}
-          <form className="px-8 pt-6 pb-8 space-y-5" onSubmit={handleSubmit}>
+          <form className="px-5 sm:px-8 pt-5 sm:pt-6 pb-5 sm:pb-8 space-y-4 sm:space-y-5" onSubmit={handleSubmit}>
             {/* Error */}
             {error && (
               <div className="flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">

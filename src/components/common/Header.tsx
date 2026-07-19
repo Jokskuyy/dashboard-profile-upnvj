@@ -64,7 +64,8 @@ const Header: React.FC = () => {
       } else {
         const element = document.getElementById(sectionId);
         if (element) {
-          const headerOffset = 80; // fixed header height + breathing room
+          const headerOffset =
+            document.querySelector("header")?.getBoundingClientRect().height ?? 80;
           const elementPosition = element.getBoundingClientRect().top + window.scrollY;
           window.scrollTo({
             top: elementPosition - headerOffset,
@@ -80,11 +81,11 @@ const Header: React.FC = () => {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-[#2C5F2D] ${
+        className={`site-header fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-[#2C5F2D] ${
           isScrolled ? "shadow-lg" : "shadow-md"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="site-header__container max-w-7xl mx-auto px-3 min-[360px]:px-4 sm:px-6 lg:px-8">
           <div
             className={`flex justify-between items-center transition-all duration-300 ${
               isScrolled ? "py-3" : "py-4"
@@ -97,13 +98,13 @@ const Header: React.FC = () => {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="flex items-center group"
+              className="flex min-w-0 items-center group"
             >
               <img
                 src={logoUpnvjText}
                 alt="UPN Veteran Jakarta"
-                className={`object-contain transition-all duration-300 group-hover:brightness-110 ${
-                  isScrolled ? "h-12" : "h-14"
+                className={`site-header__logo max-w-full object-contain transition-all duration-300 group-hover:brightness-110 ${
+                  isScrolled ? "h-10 min-[360px]:h-11 sm:h-12" : "h-10 min-[360px]:h-12 sm:h-14"
                 }`}
               />
             </a>
@@ -130,7 +131,7 @@ const Header: React.FC = () => {
             </nav>
 
             {/* Right Section */}
-            <div className="flex items-center space-x-3">
+            <div className="flex shrink-0 items-center gap-1.5 min-[360px]:gap-2 sm:gap-3">
               {/* Admin Login Link (desktop) */}
               <Link
                 to="/login"
@@ -146,7 +147,7 @@ const Header: React.FC = () => {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden p-2 rounded-xl text-white hover:bg-white/10 transition-all duration-300"
+                className="lg:hidden min-h-11 min-w-11 p-2 rounded-xl text-white hover:bg-white/10 transition-all duration-300"
                 aria-label="Toggle menu"
               >
                 {isMobileMenuOpen ? (
@@ -174,7 +175,7 @@ const Header: React.FC = () => {
 
         {/* Slide-in Panel */}
         <div
-          className={`absolute top-0 right-0 w-[280px] h-full bg-[#2C5F2D] shadow-2xl transform transition-transform duration-300 ease-out flex flex-col ${
+          className={`mobile-nav-drawer absolute top-0 right-0 w-[min(280px,calc(100vw-24px))] h-full bg-[#2C5F2D] shadow-2xl transform transition-transform duration-300 ease-out flex flex-col ${
             isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >

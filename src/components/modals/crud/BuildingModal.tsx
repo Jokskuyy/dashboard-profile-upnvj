@@ -88,11 +88,11 @@ export default function BuildingModal({
 
       {/* Modal */}
       <div
-        className="fixed inset-0 flex items-center justify-center p-4"
+        className="viewport-modal-shell fixed inset-0 flex items-center justify-center overflow-y-auto"
         style={{ zIndex: 10001 }}
       >
         <div
-          className="w-full max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden"
+          className="viewport-modal-panel w-full max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
@@ -109,7 +109,7 @@ export default function BuildingModal({
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
+          <form onSubmit={handleSubmit} className="flex-1 min-h-0 p-4 sm:p-6 space-y-4 overflow-y-auto">
             {/* Nama Gedung */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1.5">
@@ -224,7 +224,7 @@ export default function BuildingModal({
           </form>
 
           {/* Footer */}
-          <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-200 bg-slate-50">
+          <div className="shrink-0 flex items-center justify-end gap-3 px-4 sm:px-6 py-4 border-t border-slate-200 bg-slate-50">
             <button
               type="button"
               onClick={onClose}

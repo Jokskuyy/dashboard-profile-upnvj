@@ -108,15 +108,15 @@ const BuildingsModal: React.FC<BuildingsModalProps> = ({ isOpen, onClose }) => {
 
       {/* Modal */}
       <div
-        className="fixed inset-0 flex items-center justify-center p-4 lg:p-8"
+        className="viewport-modal-shell fixed inset-0 flex items-center justify-center lg:p-8"
         style={{ zIndex: 10001 }}
       >
         <div
-          className="w-full max-w-3xl max-h-[85vh] flex flex-col bg-white rounded-xl shadow-xl overflow-hidden"
+          className="viewport-modal-panel w-full max-w-3xl flex flex-col bg-white rounded-xl shadow-xl overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="bg-[#2C5F2D] text-white px-6 py-4 flex justify-between items-center shrink-0">
+          <div className="bg-[#2C5F2D] text-white px-4 sm:px-6 py-4 flex justify-between items-center shrink-0">
             <div className="flex items-center gap-3 min-w-0">
               {selectedBuilding && (
                 <button
@@ -340,7 +340,7 @@ const BuildingsModal: React.FC<BuildingsModalProps> = ({ isOpen, onClose }) => {
           </div>
 
           {/* Footer */}
-          <div className="bg-white border-t border-gray-200 px-6 py-3 flex justify-end shrink-0">
+          <div className="bg-white border-t border-gray-200 px-4 sm:px-6 py-3 flex justify-end shrink-0">
             <button
               onClick={() => {
                 if (selectedBuilding) {

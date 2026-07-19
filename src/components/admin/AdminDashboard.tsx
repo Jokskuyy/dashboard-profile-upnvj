@@ -306,7 +306,7 @@ export default function AdminDashboard() {
 
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30">
         {/* ─── Navbar ───────────────────────────────── */}
-        <nav className="admin-nav fixed top-0 left-0 w-full z-50">
+        <nav className="site-header admin-nav fixed top-0 left-0 w-full z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               {/* Logo */}
@@ -356,6 +356,7 @@ export default function AdminDashboard() {
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg"
+                aria-label={mobileMenuOpen ? "Tutup menu admin" : "Buka menu admin"}
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -393,7 +394,7 @@ export default function AdminDashboard() {
         </nav>
 
         {/* ─── Main Content ─────────────────────────── */}
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+        <main className="admin-main max-w-7xl mx-auto px-3 min-[360px]:px-4 sm:px-6 lg:px-8 pt-24 pb-12">
           {/* Welcome */}
           <div className="mb-6">
             <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">

@@ -338,7 +338,7 @@ const AssetsSection: React.FC = () => {
 
       {/* University Assets Section */}
       <section>
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 mb-6">
           <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
             {t("assetsTitle")}
           </h2>
@@ -347,7 +347,7 @@ const AssetsSection: React.FC = () => {
 
         {/* Facility Search */}
         <FacilitySearch />
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 min-[360px]:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
           {assets.map((asset) => (
             <div
               key={asset.id}

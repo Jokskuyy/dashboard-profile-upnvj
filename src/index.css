@@ -27,11 +27,26 @@
 body {
   margin: 0;
   min-height: 100vh;
+  min-height: 100dvh;
   background-color: #f8fafc;
   color: #1e293b;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+}
+
+@supports (overflow: clip) {
+  html,
+  body {
+    overflow-x: clip;
+  }
 }
 
 /* Touch optimization for mobile */
@@ -47,6 +62,127 @@ html {
   -moz-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   text-size-adjust: 100%;
+}
+
+/* iPhone notch / home-indicator safe areas */
+.site-header {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.site-header__container {
+  padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
+  padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
+}
+
+.site-header__logo {
+  max-width: clamp(132px, 46vw, 200px);
+}
+
+.mobile-nav-drawer {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.site-footer {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.login-page {
+  padding-top: max(1.5rem, env(safe-area-inset-top, 0px));
+  padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+  padding-left: max(1rem, env(safe-area-inset-left, 0px));
+}
+
+.admin-main {
+  padding-top: calc(6rem + env(safe-area-inset-top, 0px));
+  padding-bottom: max(3rem, env(safe-area-inset-bottom, 0px));
+}
+
+.viewport-modal-shell {
+  padding-top: max(1rem, env(safe-area-inset-top, 0px));
+  padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+  padding-left: max(1rem, env(safe-area-inset-left, 0px));
+}
+
+.viewport-modal-panel {
+  max-height: calc(
+    100dvh - 2rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+  );
+}
+
+.unity-minimize-button {
+  top: max(1rem, env(safe-area-inset-top, 0px));
+  right: max(1rem, env(safe-area-inset-right, 0px));
+}
+
+.unity-help-button {
+  top: max(5rem, calc(env(safe-area-inset-top, 0px) + 4rem));
+  left: max(1rem, env(safe-area-inset-left, 0px));
+}
+
+/* Hero uses stable mobile viewport units and compresses on short landscape screens. */
+.hero-section {
+  height: 92vh;
+  height: 92svh;
+  min-height: 560px;
+}
+
+.hero-content {
+  padding-top: max(4rem, calc(env(safe-area-inset-top, 0px) + 3rem));
+}
+
+@media (orientation: landscape) and (max-height: 500px) and (max-width: 900px) {
+  .hero-section {
+    height: 100vh;
+    height: 100svh;
+    min-height: 0;
+  }
+
+  .hero-content {
+    align-items: flex-start;
+    padding-top: max(5.25rem, calc(env(safe-area-inset-top, 0px) + 4.5rem));
+    padding-bottom: 3rem;
+  }
+
+  .hero-title {
+    max-width: 36rem;
+    margin-bottom: 0.5rem;
+    font-size: clamp(1.65rem, 5vw, 2.2rem);
+    line-height: 1.05;
+  }
+
+  .hero-accent {
+    margin-bottom: 0.65rem;
+  }
+
+  .hero-subtitle {
+    display: -webkit-box;
+    max-width: 36rem;
+    margin-bottom: 0.85rem;
+    overflow: hidden;
+    font-size: 0.8rem;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .hero-actions {
+    flex-direction: row;
+    gap: 0.65rem;
+  }
+
+  .hero-actions > button {
+    min-height: 42px;
+    padding: 0.65rem 1.25rem;
+  }
+
+  .login-page {
+    align-items: flex-start;
+    padding-top: max(0.75rem, env(safe-area-inset-top, 0px));
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+  }
 }
 
 /* Custom animations */
@@ -355,10 +491,12 @@ html {
 /* ─── Search Overlay (Campus Map) ─── */
 .search-overlay {
   position: absolute;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(480px, calc(100% - 32px));
+  top: max(16px, env(safe-area-inset-top, 0px));
+  right: max(16px, env(safe-area-inset-right, 0px));
+  left: max(16px, env(safe-area-inset-left, 0px));
+  width: auto;
+  max-width: 480px;
+  margin-inline: auto;
   z-index: 30;
   font-family: inherit;
 }

@@ -139,13 +139,13 @@ const CampusMapSection: React.FC = () => {
           </div>
 
           {!isFullscreen && (
-            <div className="p-4 border-t bg-gray-50 flex justify-between items-center shrink-0">
-              <div className="text-sm text-gray-600">
+            <div className="p-4 border-t bg-gray-50 flex flex-col sm:flex-row justify-between sm:items-center gap-3 shrink-0">
+              <div className="text-xs sm:text-sm text-gray-600">
                 {t("unity3DInteractiveCampusMap")} — {t("useMouseToNavigate")}
               </div>
               <button
                 onClick={() => setShowViewer(false)}
-                className="px-4 py-2 text-sm bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors"
+                className="w-full sm:w-auto px-4 py-2.5 text-sm bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors"
               >
                 {t("closeMap")}
               </button>
@@ -155,7 +155,7 @@ const CampusMapSection: React.FC = () => {
       ) : (
         <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-100 bg-white">
           {/* Card Header — green accent bar */}
-          <div className="bg-gradient-to-r from-[#2C5F2D] to-[#3d7a3e] px-6 sm:px-8 py-5">
+          <div className="bg-gradient-to-r from-[#2C5F2D] to-[#3d7a3e] px-4 min-[360px]:px-6 sm:px-8 py-5">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/20">
                 <MapPin className="w-5 h-5 text-white" />
@@ -170,7 +170,7 @@ const CampusMapSection: React.FC = () => {
           </div>
 
           {/* Card Body */}
-          <div className="p-6 sm:p-8">
+          <div className="p-4 min-[360px]:p-6 sm:p-8">
             {/* Feature Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-8">
               {features.map((f, i) => (
@@ -196,7 +196,7 @@ const CampusMapSection: React.FC = () => {
                 onMouseEnter={handleButtonHover}
                 onFocus={handleButtonHover}
                 disabled={isGitHubPages}
-                className={`group inline-flex items-center gap-2 px-6 py-3 font-semibold rounded-xl transition-all duration-200 shadow-md ${
+                className={`group inline-flex w-full sm:w-auto items-center justify-center gap-2 px-6 py-3 font-semibold rounded-xl transition-all duration-200 shadow-md ${
                   isGitHubPages
                     ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                     : "bg-[#2C5F2D] text-white hover:bg-[#245025] hover:shadow-lg hover:shadow-green-900/15 hover:scale-[1.02] active:scale-[0.98]"

@@ -23,7 +23,7 @@ const LanguageToggle: React.FC = () => {
   return (
     <button
       onClick={handleToggle}
-      className="group relative w-16 h-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-200 hover:scale-105 overflow-hidden border border-gray-200"
+      className="group relative w-14 sm:w-16 h-8 shrink-0 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-200 hover:scale-105 overflow-hidden border border-gray-200"
       aria-label={`Switch to ${language === "id" ? "English" : "Indonesian"}`}
     >
       {/* Default background to prevent white */}
@@ -62,7 +62,7 @@ const LanguageToggle: React.FC = () => {
       {/* Sliding flag emoji indicator */}
       <div
         className={`absolute top-0.5 w-7 h-7 rounded-full bg-white shadow-xl transition-all duration-300 ease-in-out flex items-center justify-center text-base transform z-20 ${
-          language === "id" ? "left-0.5" : "left-8"
+          language === "id" ? "left-0.5" : "left-7 sm:left-8"
         } ${isAnimating ? "scale-110 rotate-180" : ""}`}
       >
         <span

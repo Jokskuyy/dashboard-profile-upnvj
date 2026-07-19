@@ -36,7 +36,8 @@ const Dashboard: React.FC = () => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const headerOffset = 80;
+      const headerOffset =
+        document.querySelector("header")?.getBoundingClientRect().height ?? 80;
       const elementPosition =
         element.getBoundingClientRect().top + window.scrollY;
       window.scrollTo({
@@ -70,7 +71,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="overflow-x-hidden">
       {/* ─── Hero Section ─── */}
-      <div className="relative overflow-hidden h-[92vh] min-h-[560px] w-full">
+      <div className="hero-section relative overflow-hidden w-full">
         {/* Image Carousel with subtle zoom */}
         {heroImages.map((image, index) => (
           <div
@@ -97,13 +98,13 @@ const Dashboard: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent z-[1]" />
 
         {/* Hero Content */}
-        <div className="relative z-10 h-full flex items-center pt-16">
+        <div className="hero-content relative z-10 h-full flex items-center pt-16">
           <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-16 w-full">
-            <div className="max-w-2xl">
+            <div className="hero-copy max-w-2xl">
 
               {/* Main Headline */}
               <h1
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-extrabold text-white leading-[1.1] mb-4 hero-fade-up"
+                className="hero-title text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-extrabold text-white leading-[1.1] mb-4 hero-fade-up"
                 style={{ animationDelay: "120ms" }}
               >
                 {t("universityName")}
@@ -111,7 +112,7 @@ const Dashboard: React.FC = () => {
 
               {/* Accent Line */}
               <div
-                className="mb-5 hero-fade-up"
+                className="hero-accent mb-5 hero-fade-up"
                 style={{ animationDelay: "200ms" }}
               >
                 <div className="h-1 w-16 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full" />
@@ -119,7 +120,7 @@ const Dashboard: React.FC = () => {
 
               {/* Subtitle */}
               <p
-                className="text-white/75 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl hero-fade-up"
+                className="hero-subtitle text-white/75 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl hero-fade-up"
                 style={{ animationDelay: "300ms" }}
               >
                 {t("universityMission").length > 140
@@ -129,7 +130,7 @@ const Dashboard: React.FC = () => {
 
               {/* CTA Buttons */}
               <div
-                className="flex flex-col sm:flex-row gap-3 hero-fade-up"
+                className="hero-actions flex flex-col sm:flex-row gap-3 hero-fade-up"
                 style={{ animationDelay: "420ms" }}
               >
                 <button

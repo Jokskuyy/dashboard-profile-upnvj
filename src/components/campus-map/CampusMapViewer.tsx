@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "../../contexts/LanguageContext";
 import {
   MapPin,
@@ -113,7 +113,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   }, [isMobileDevice]);
 
   /** Estimate download time based on connection speed and return hint string */
-  function getDownloadHint(): string {
+  const getDownloadHint = useCallback((): string => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const connection = (navigator as any).connection;
     if (connection?.downlink) {
@@ -125,7 +125,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       return `~${Math.round(estimatedSeconds / 60)} ${t("campusMapMinutes")}`;
     }
     return "";
-  }
+  }, [t]);
 
   // Exit mobile fullscreen
   const exitMobileFullscreen = async () => {
@@ -208,10 +208,19 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
     let msg15s: NodeJS.Timeout | undefined;
     let msg45s: NodeJS.Timeout | undefined;
     let msg90s: NodeJS.Timeout | undefined;
-    let fakeProgressInterval: NodeJS.Timeout | undefined;
+    let fakeProgressInterval: ReturnType<typeof setInterval> | undefined;
+
+    const updateCanvasSize = () => {
+      const canvas = canvasRef.current;
+      const container = containerRef.current;
+      if (!canvas || !container) return;
+      canvas.width = container.clientWidth || 960;
+      canvas.height = container.clientHeight || 600;
+    };
 
     const loadUnityBuild = async () => {
-      if (!canvasRef.current || !containerRef.current) return;
+      const canvas = canvasRef.current;
+      if (!canvas || !containerRef.current) return;
 
       if (!checkWebGLSupport()) {
         if (isMounted) {
@@ -221,16 +230,6 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         }
         return;
       }
-
-      let fakeProgressInterval: ReturnType<typeof setInterval>;
-
-      const updateCanvasSize = () => {
-        const canvas = canvasRef.current;
-        const container = containerRef.current;
-        if (!canvas || !container) return;
-        canvas.width = container.clientWidth || 960;
-        canvas.height = container.clientHeight || 600;
-      };
 
       // Dynamically import keyboard patch here (not at module top-level)
       // This avoids monkey-patching EventTarget.prototype on initial page load
@@ -331,7 +330,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         clearTimeout(msg15s);
         clearTimeout(msg45s);
         clearTimeout(msg90s);
-        clearInterval(fakeProgressInterval);
+        if (fakeProgressInterval) clearInterval(fakeProgressInterval);
         
         setLoadingProgress(100);
         setLoadingMessage(t("campusMapReady"));
@@ -355,7 +354,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         clearTimeout(msg15s);
         clearTimeout(msg45s);
         clearTimeout(msg90s);
-        clearInterval(fakeProgressInterval);
+        if (fakeProgressInterval) clearInterval(fakeProgressInterval);
 
         let errorMessage = "Failed to load campus map";
         if (err instanceof Error) {
@@ -381,7 +380,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
       clearTimeout(msg15s);
       clearTimeout(msg45s);
       clearTimeout(msg90s);
-      clearInterval(fakeProgressInterval);
+      if (fakeProgressInterval) clearInterval(fakeProgressInterval);
       
       if (unityInstanceRef.current) {
         try {
@@ -393,8 +392,6 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         }
       }
       
-      // Attempt to clean up the resize listener (by redefining or just ignoring it if it's hoisted)
-      // Actually, since updateCanvasSize is scoped to the effect, we can remove it directly because it's in the same scope!
       window.removeEventListener("resize", updateCanvasSize);
       try {
         (screen.orientation as ScreenOrientation & { unlock?: () => void }).unlock?.();
@@ -402,7 +399,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         // ignore
       }
     };
-  }, [basePath, unityConfig]);
+  }, [basePath, getDownloadHint, t, unityConfig]);
 
   if (error) {
     return (
@@ -497,7 +494,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
                 <img src={`${basePath}logoupnvj.webp`} alt="UPNVJ Logo" className="w-16 h-16 object-contain animate-pulse" />
               </div>
               <p className="text-gray-800 font-semibold text-base mb-1">{loadingMessage}</p>
-              <div className="w-64 h-3 bg-gray-200 rounded-full mx-auto mt-4 overflow-hidden">
+              <div className="w-full max-w-64 h-3 bg-gray-200 rounded-full mx-auto mt-4 overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-[#2C5F2D] to-emerald-500 rounded-full transition-[width] duration-75 ease-out"
                   style={{ width: `${loadingProgress}%` }}
@@ -541,7 +538,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
               <div className="w-full h-full flex flex-row relative">
                 {/* Title */}
                 <div className="absolute top-[15%] left-0 right-0 flex justify-center w-full z-20">
-                  <h3 className="text-xl md:text-2xl font-bold text-white drop-shadow-lg tracking-wide animate-pulse bg-black/40 px-6 py-2 rounded-full border border-white/20">
+                    <h3 className="mx-3 text-center text-base min-[390px]:text-xl md:text-2xl font-bold text-white drop-shadow-lg tracking-wide animate-pulse bg-black/40 px-4 min-[390px]:px-6 py-2 rounded-full border border-white/20">
                     {t("campusMapTouchToStart")}
                   </h3>
                 </div>
@@ -628,11 +625,11 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
                 onToggleFullscreen();
               }
             }}
-            className="absolute top-4 right-4 z-20 flex items-center gap-2 px-4 py-2.5 bg-black/70 hover:bg-black/90 backdrop-blur-sm rounded-xl transition-all duration-200 shadow-lg border border-white/10"
+            className="unity-minimize-button absolute z-20 flex items-center gap-2 px-3 min-[390px]:px-4 py-2.5 bg-black/70 hover:bg-black/90 backdrop-blur-sm rounded-xl transition-all duration-200 shadow-lg border border-white/10"
             title={t("exitFullscreen")}
           >
             <Minimize2 className="w-4 h-4 text-white" />
-            <span className="text-white text-sm font-medium">Minimize</span>
+              <span className="hidden min-[390px]:inline text-white text-sm font-medium">Minimize</span>
           </button>
         )}
 
@@ -640,11 +637,11 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
         {!isLoading && !error && (
           <button
             onClick={() => setShowHelpModal(true)}
-            className="absolute top-20 md:top-24 left-4 md:left-6 z-[30] flex items-center gap-2.5 px-4 py-2.5 lg:px-5 lg:py-3 bg-white hover:bg-gray-50 text-[#2C5F2D] rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all hover:scale-105 border border-gray-100 group"
+            className="unity-help-button absolute z-[30] flex items-center gap-2.5 px-3 min-[390px]:px-4 py-2.5 lg:px-5 lg:py-3 bg-white hover:bg-gray-50 text-[#2C5F2D] rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all hover:scale-105 border border-gray-100 group"
             title="Bantuan & Kontak Darurat"
           >
             <Headset className="w-5 h-5 lg:w-6 lg:h-6" />
-            <span className="font-bold text-sm lg:text-base pr-1">Butuh Bantuan?</span>
+            <span className="hidden min-[390px]:inline font-bold text-sm lg:text-base pr-1">Butuh Bantuan?</span>
           </button>
         )}
       </div>
