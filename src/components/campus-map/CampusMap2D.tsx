@@ -136,7 +136,16 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
     setStatus("Pilih gedung awal, lalu cari ruangan atau gedung tujuan.");
   }, []);
 
-  const mapImageUrl = mapData?.map.imageUrl || `${import.meta.env.BASE_URL}maps/denah-2d.png`;
+  const configuredImageUrl = mapData?.map.imageUrl;
+  const preferredImageUrl =
+    !configuredImageUrl ||
+    configuredImageUrl === "/maps/denah-2d.png" ||
+    configuredImageUrl === "/maps/denah-2d-grass.png"
+      ? "/maps/denah-2d-grass-bright.png"
+      : configuredImageUrl;
+  const mapImageUrl = preferredImageUrl.startsWith("/maps/")
+    ? `${import.meta.env.BASE_URL}${preferredImageUrl.slice(1)}`
+    : preferredImageUrl;
   const viewBoxWidth = mapData?.map.imageWidth || CAMPUS_MAP_WIDTH;
   const viewBoxHeight = mapData?.map.imageHeight || CAMPUS_MAP_HEIGHT;
   const routePoints = routeNodes
@@ -145,7 +154,7 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
 
   return (
     <div
-      className={`relative overflow-hidden bg-[#07131d] ${
+      className={`relative overflow-hidden bg-[#315f35] ${
         isFullscreen ? "w-full h-full" : "rounded-xl shadow-lg"
       }`}
     >
@@ -287,7 +296,7 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
         )}
 
         {loading && (
-          <div className="absolute inset-0 z-30 flex items-center justify-center bg-[#07131d] text-white">
+          <div className="absolute inset-0 z-30 flex items-center justify-center bg-[#315f35] text-white">
             <div className="text-center">
               <MapPin className="mx-auto mb-3 h-8 w-8 animate-bounce text-green-400" />
               <p className="text-sm">Memuat denah 2D...</p>

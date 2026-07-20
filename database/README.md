@@ -36,6 +36,13 @@ database/004_campus_map_config_seed.sql
 - Jalankan setelah master gedung dari `002_seed_data.sql` tersedia
 - Idempotent: hanya konfigurasi map `pondok-labu-2d` yang diganti
 
+### 5. Update Background Denah (Database Lama)
+```
+database/005_update_campus_map_background.sql
+```
+- Diperlukan hanya untuk database yang sudah menjalankan migrasi denah sebelumnya
+- Mengarahkan map aktif ke aset background rumput tanpa mengubah koordinat navigasi
+
 ---
 
 ## RLS Policy Design

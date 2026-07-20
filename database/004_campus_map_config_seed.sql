@@ -19,7 +19,7 @@ VALUES ($campus_config$
   "map": {
     "nama": "Kampus Pondok Labu",
     "slug": "pondok-labu-2d",
-    "image_url": "/maps/denah-2d.png",
+    "image_url": "/maps/denah-2d-grass-bright.png",
     "image_width": 1662,
     "image_height": 946
   },

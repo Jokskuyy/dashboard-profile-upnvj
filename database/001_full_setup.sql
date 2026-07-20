@@ -397,7 +397,7 @@ GRANT EXECUTE ON FUNCTION public.verify_admin_login(TEXT, TEXT) TO anon, authent
 INSERT INTO public.campus_maps (
     slug, nama, image_url, image_width, image_height, is_active
 ) VALUES (
-    'pondok-labu-2d', 'Kampus Pondok Labu', '/maps/denah-2d.png', 1662, 946, TRUE
+    'pondok-labu-2d', 'Kampus Pondok Labu', '/maps/denah-2d-grass-bright.png', 1662, 946, TRUE
 );
 
 -- Cek RLS status

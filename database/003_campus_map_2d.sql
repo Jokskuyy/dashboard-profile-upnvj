@@ -103,7 +103,7 @@ INSERT INTO public.campus_maps (
 ) VALUES (
     'pondok-labu-2d',
     'Kampus Pondok Labu',
-    '/maps/denah-2d.png',
+    '/maps/denah-2d-grass-bright.png',
     1662,
     946,
     TRUE
