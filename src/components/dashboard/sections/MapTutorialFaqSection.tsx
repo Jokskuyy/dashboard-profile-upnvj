@@ -16,6 +16,7 @@ import {
   Search,
   Smartphone,
 } from "lucide-react";
+import { useLanguage } from "../../../contexts/LanguageContext";
 
 type MapMode = "2d" | "3d";
 type DeviceMode = "desktop" | "mobile";
@@ -31,7 +32,7 @@ interface FaqItem {
   answer: string;
 }
 
-const TUTORIALS: Record<MapMode, Record<DeviceMode, TutorialStep[]>> = {
+const TUTORIALS_ID: Record<MapMode, Record<DeviceMode, TutorialStep[]>> = {
   "2d": {
     desktop: [
       {
@@ -142,7 +143,7 @@ const TUTORIALS: Record<MapMode, Record<DeviceMode, TutorialStep[]>> = {
   },
 };
 
-const FAQS: Record<MapMode, FaqItem[]> = {
+const FAQS_ID: Record<MapMode, FaqItem[]> = {
   "2d": [
     {
       question: "Mengapa pencarian ruangan mengarah ke gedung?",
@@ -189,6 +190,164 @@ const FAQS: Record<MapMode, FaqItem[]> = {
   ],
 };
 
+const TUTORIALS_EN: Record<MapMode, Record<DeviceMode, TutorialStep[]>> = {
+  "2d": {
+    desktop: [
+      {
+        title: "Choose a starting building",
+        description:
+          "After opening the 2D Map, select the building you are currently in and click Use as starting point.",
+        icon: MapPin,
+      },
+      {
+        title: "Search for a destination",
+        description:
+          "Click the search field, enter a building, room, or facility name, then choose the matching result.",
+        icon: Search,
+      },
+      {
+        title: "Follow the route line",
+        description:
+          "The dashed green line shows the shortest route from the starting building entrance to the destination building.",
+        icon: Route,
+      },
+      {
+        title: "Change your journey",
+        description:
+          "Use the bottom-left panel to change the starting building or cancel navigation and choose another destination.",
+        icon: Navigation,
+      },
+    ],
+    mobile: [
+      {
+        title: "Open the 2D Map",
+        description:
+          "Use landscape or fullscreen mode so building labels and routes are easier to read.",
+        icon: Maximize2,
+      },
+      {
+        title: "Choose your position",
+        description:
+          "In the dialog, tap the building list, select your starting location, then tap the confirmation button.",
+        icon: MapPin,
+      },
+      {
+        title: "Tap the search field",
+        description:
+          "Enter a room or facility name and tap a search result to generate a route.",
+        icon: Search,
+      },
+      {
+        title: "View and change the route",
+        description:
+          "Follow the green line. Scroll or use the bottom panel to change your starting point and destination.",
+        icon: Route,
+      },
+    ],
+  },
+  "3d": {
+    desktop: [
+      {
+        title: "Load the 3D experience",
+        description:
+          "Choose the 3D Map and wait for Unity WebGL to load. Future visits are faster because the files are cached.",
+        icon: Box,
+      },
+      {
+        title: "Enable the controls",
+        description:
+          "Click the game area. Use W, A, S, D to move, Shift to run, and Space to jump.",
+        icon: Keyboard,
+      },
+      {
+        title: "Control the camera",
+        description:
+          "Move the mouse to look around. Press ESC whenever you need to release the cursor from the game.",
+        icon: MousePointer2,
+      },
+      {
+        title: "Search and follow directions",
+        description:
+          "Find a room or facility using the field at the top, then follow the directions in the 3D environment.",
+        icon: Search,
+      },
+    ],
+    mobile: [
+      {
+        title: "Use landscape orientation",
+        description:
+          "Rotate your device and enable fullscreen so the joystick, camera area, and search field do not overlap.",
+        icon: Maximize2,
+      },
+      {
+        title: "Tap to start",
+        description:
+          "Once Unity finishes loading, tap the game area to enable the on-screen controls.",
+        icon: Gamepad2,
+      },
+      {
+        title: "Move and look around",
+        description:
+          "Use the left joystick to walk and swipe the right side of the screen to control the camera.",
+        icon: Hand,
+      },
+      {
+        title: "Search for a location",
+        description:
+          "Tap the search field, choose a room or facility, then follow the 3D navigation directions.",
+        icon: Search,
+      },
+    ],
+  },
+};
+
+const FAQS_EN: Record<MapMode, FaqItem[]> = {
+  "2d": [
+    {
+      question: "Why does a room search lead to a building?",
+      answer:
+        "The 2D map provides building-level navigation. Rooms and facilities are mapped to their parent building, so the route ends at that building's entrance.",
+    },
+    {
+      question: "Why has the route line not appeared?",
+      answer:
+        "Make sure you have selected both a starting building and a search result. Both buildings must also have entrance points connected to the route network.",
+    },
+    {
+      question: "Are the available walking paths intentionally hidden?",
+      answer:
+        "Yes. The internal route graph is hidden from visitors. Only the selected route appears after navigation starts.",
+    },
+    {
+      question: "How do I change my starting position?",
+      answer:
+        "After opening the map, use the Start from building dropdown in the bottom-left panel. The route will be recalculated automatically.",
+    },
+  ],
+  "3d": [
+    {
+      question: "Why does the 3D Map take time to load?",
+      answer:
+        "Unity WebGL must download approximately 39 MB on the first visit. The files are cached so subsequent loads are faster.",
+    },
+    {
+      question: "The mouse cursor is locked in the game. How do I release it?",
+      answer:
+        "Press ESC on desktop. On mobile, use the exit-fullscreen control or your device's back button.",
+    },
+    {
+      question: "What are the main 3D Map controls?",
+      answer:
+        "Desktop uses WASD, the mouse, Shift, and Space. Mobile uses the left joystick and swipe gestures on the right side of the screen.",
+    },
+    {
+      question: "What should I do if the 3D Map fails to load?",
+      answer:
+        "Check your connection, disable script blocking for this site, and reload the page. The lightweight 2D Map remains available as an alternative.",
+    },
+  ],
+};
+
 function useDetectedDevice(): DeviceMode {
   const [device, setDevice] = useState<DeviceMode>(() =>
     typeof window !== "undefined" &&
@@ -216,12 +375,16 @@ function useDetectedDevice(): DeviceMode {
 }
 
 const MapTutorialFaqSection: React.FC = () => {
+  const { language } = useLanguage();
+  const isIndonesian = language === "id";
   const detectedDevice = useDetectedDevice();
   const [mode, setMode] = useState<MapMode>("2d");
   const [deviceOverride, setDeviceOverride] = useState<DeviceMode | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const device = deviceOverride ?? detectedDevice;
-  const steps = useMemo(() => TUTORIALS[mode][device], [device, mode]);
+  const tutorials = isIndonesian ? TUTORIALS_ID : TUTORIALS_EN;
+  const faqs = isIndonesian ? FAQS_ID : FAQS_EN;
+  const steps = useMemo(() => tutorials[mode][device], [device, mode, tutorials]);
 
   useEffect(() => {
     setOpenFaq(0);
@@ -237,9 +400,13 @@ const MapTutorialFaqSection: React.FC = () => {
           <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl border border-white/20 bg-white/15">
             <CircleHelp className="h-5 w-5" />
           </div>
-          <h2 className="text-2xl font-extrabold sm:text-3xl">Tutorial & FAQ Denah Kampus</h2>
+          <h2 className="text-2xl font-extrabold sm:text-3xl">
+            {isIndonesian ? "Tutorial & FAQ Denah Kampus" : "Campus Map Tutorial & FAQ"}
+          </h2>
           <p className="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-green-50/80 sm:text-base">
-            Pilih jenis denah. Panduan kontrol akan menyesuaikan perangkat yang sedang Anda gunakan.
+            {isIndonesian
+              ? "Pilih jenis denah. Panduan kontrol akan menyesuaikan perangkat yang sedang Anda gunakan."
+              : "Choose a map type. The control guide will adapt to the device you are using."}
           </p>
 
           <div className="mx-auto mt-6 grid max-w-md grid-cols-2 rounded-xl border border-white/20 bg-black/15 p-1.5">
@@ -257,7 +424,7 @@ const MapTutorialFaqSection: React.FC = () => {
                       : "text-white/75 hover:bg-white/10 hover:text-white"
                   }`}
                 >
-                  <Icon className="h-4 w-4" /> Denah {item.toUpperCase()}
+                  <Icon className="h-4 w-4" /> {isIndonesian ? "Denah" : "Map"} {item.toUpperCase()}
                 </button>
               );
             })}
@@ -273,7 +440,10 @@ const MapTutorialFaqSection: React.FC = () => {
             ) : (
               <Monitor className="h-4 w-4 text-[#2C5F2D]" />
             )}
-            Terdeteksi: <span className="font-bold text-slate-800">{detectedDevice === "mobile" ? "Mobile" : "Desktop"}</span>
+            {isIndonesian ? "Terdeteksi:" : "Detected:"}{" "}
+            <span className="font-bold text-slate-800">
+              {detectedDevice === "mobile" ? "Mobile" : "Desktop"}
+            </span>
           </div>
 
           <div className="grid grid-cols-2 rounded-lg border border-slate-200 bg-white p-1">
@@ -303,60 +473,81 @@ const MapTutorialFaqSection: React.FC = () => {
               <>
                 <img
                   src={`${import.meta.env.BASE_URL}maps/denah-2d-grass-bright.png`}
-                  alt="Pratinjau tutorial denah 2D"
+                  alt={isIndonesian ? "Pratinjau tutorial denah 2D" : "2D map tutorial preview"}
                   className="absolute inset-0 h-full w-full object-cover opacity-75"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/15 to-transparent" />
                 <div className="absolute left-4 top-4 rounded-lg border border-white/20 bg-black/65 px-3 py-2 text-xs font-bold text-white backdrop-blur-sm">
-                  1. Pilih gedung awal
+                  {isIndonesian ? "1. Pilih gedung awal" : "1. Choose a starting building"}
                 </div>
                 <div className="absolute right-4 top-16 rounded-lg border border-white/20 bg-white/90 px-3 py-2 text-xs font-bold text-[#2C5F2D] shadow-lg">
-                  2. Cari tujuan
+                  {isIndonesian ? "2. Cari tujuan" : "2. Search for a destination"}
                 </div>
                 <div className="absolute bottom-5 left-5 right-5 text-white">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-green-300">Denah 2D</p>
-                  <h3 className="mt-1 text-xl font-extrabold">Pilih asal, cari tujuan, ikuti rute</h3>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-green-300">
+                    {isIndonesian ? "Denah 2D" : "2D Map"}
+                  </p>
+                  <h3 className="mt-1 text-xl font-extrabold">
+                    {isIndonesian
+                      ? "Pilih asal, cari tujuan, ikuti rute"
+                      : "Choose a start, find a destination, follow the route"}
+                  </h3>
                 </div>
               </>
             ) : device === "desktop" ? (
               <>
                 <img
                   src={`${import.meta.env.BASE_URL}maps/tutorial-3d-gameplay.png`}
-                  alt="Gameplay Denah 3D di depan Gedung Jenderal Sudirman"
+                  alt={
+                    isIndonesian
+                      ? "Gameplay Denah 3D di depan Gedung Jenderal Sudirman"
+                      : "3D Map gameplay in front of the Jenderal Sudirman Building"
+                  }
                   className="absolute inset-0 h-full w-full object-cover"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/5 to-slate-950/15" />
                 <div className="absolute left-4 top-4 flex items-center gap-2 rounded-lg border border-white/20 bg-black/65 px-3 py-2 text-xs font-bold text-white backdrop-blur-sm">
-                  <Keyboard className="h-3.5 w-3.5" /> WASD untuk bergerak
+                  <Keyboard className="h-3.5 w-3.5" />
+                  {isIndonesian ? "WASD untuk bergerak" : "Use WASD to move"}
                 </div>
                 <div className="absolute bottom-5 left-5 right-5 text-white">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-green-300">Gameplay Denah 3D</p>
-                  <h3 className="mt-1 text-xl font-extrabold">Jelajahi kampus secara langsung</h3>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-green-300">
+                    {isIndonesian ? "Gameplay Denah 3D" : "3D Map Gameplay"}
+                  </p>
+                  <h3 className="mt-1 text-xl font-extrabold">
+                    {isIndonesian ? "Jelajahi kampus secara langsung" : "Explore the campus directly"}
+                  </h3>
                 </div>
               </>
             ) : (
               <div className="absolute inset-0 flex flex-col bg-[radial-gradient(circle_at_top,#326b3b_0%,#112918_45%,#07130b_100%)] p-5 text-white">
                 <div className="flex items-center justify-between">
                   <span className="rounded-lg border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-bold">Unity WebGL</span>
-                  <span className="text-xs text-white/60">Panduan Mobile</span>
+                  <span className="text-xs text-white/60">
+                    {isIndonesian ? "Panduan Mobile" : "Mobile Guide"}
+                  </span>
                 </div>
                 <div className="flex flex-1 items-center justify-center">
                   <div className="grid w-full max-w-sm grid-cols-2 gap-4">
                     <div className="rounded-2xl border border-white/15 bg-white/10 p-5 text-center">
                       <Gamepad2 className="mx-auto mb-3 h-12 w-12" />
-                      <p className="text-sm font-bold">Joystick kiri</p>
+                      <p className="text-sm font-bold">{isIndonesian ? "Joystick kiri" : "Left joystick"}</p>
                     </div>
                     <div className="rounded-2xl border border-white/15 bg-white/10 p-5 text-center">
                       <Hand className="mx-auto mb-3 h-12 w-12" />
-                      <p className="text-sm font-bold">Geser kanan</p>
+                      <p className="text-sm font-bold">{isIndonesian ? "Geser kanan" : "Swipe right side"}</p>
                     </div>
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-green-300">Denah 3D</p>
-                  <h3 className="mt-1 text-xl font-extrabold">Jelajahi kampus secara langsung</h3>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-green-300">
+                    {isIndonesian ? "Denah 3D" : "3D Map"}
+                  </p>
+                  <h3 className="mt-1 text-xl font-extrabold">
+                    {isIndonesian ? "Jelajahi kampus secara langsung" : "Explore the campus directly"}
+                  </h3>
                 </div>
               </div>
             )}
@@ -369,7 +560,9 @@ const MapTutorialFaqSection: React.FC = () => {
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-green-50 text-[#2C5F2D]">
                     <step.icon className="h-4.5 w-4.5" />
                   </div>
-                  <span className="text-xs font-extrabold uppercase tracking-wider text-green-700">Langkah {index + 1}</span>
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-green-700">
+                    {isIndonesian ? "Langkah" : "Step"} {index + 1}
+                  </span>
                 </div>
                 <h3 className="font-bold text-slate-900">{step.title}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{step.description}</p>
@@ -380,12 +573,16 @@ const MapTutorialFaqSection: React.FC = () => {
 
         <div className="mt-9 border-t border-slate-200 pt-7">
           <div className="mb-4">
-            <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-green-700">Bantuan cepat</p>
-            <h3 className="mt-1 text-xl font-extrabold text-slate-900">FAQ Denah {mode.toUpperCase()}</h3>
+            <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-green-700">
+              {isIndonesian ? "Bantuan cepat" : "Quick help"}
+            </p>
+            <h3 className="mt-1 text-xl font-extrabold text-slate-900">
+              FAQ {isIndonesian ? "Denah" : "Map"} {mode.toUpperCase()}
+            </h3>
           </div>
 
           <div className="space-y-2">
-            {FAQS[mode].map((faq, index) => {
+            {faqs[mode].map((faq, index) => {
               const isOpen = openFaq === index;
               return (
                 <div key={faq.question} className="overflow-hidden rounded-xl border border-slate-200">

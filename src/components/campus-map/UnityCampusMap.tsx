@@ -59,7 +59,8 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
   isFullscreen = false,
   onToggleFullscreen,
 }) => {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const isIndonesian = language === "id";
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -225,7 +226,11 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
       if (!checkWebGLSupport()) {
         if (isMounted) {
           setWebglSupported(false);
-          setError("WebGL is not supported on this device. Please use a modern browser with WebGL enabled.");
+          setError(
+            isIndonesian
+              ? "WebGL tidak didukung pada perangkat ini. Gunakan browser modern dengan WebGL yang aktif."
+              : "WebGL is not supported on this device. Please use a modern browser with WebGL enabled.",
+          );
           setIsLoading(false);
         }
         return;
@@ -356,12 +361,16 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
         clearTimeout(msg90s);
         if (fakeProgressInterval) clearInterval(fakeProgressInterval);
 
-        let errorMessage = "Failed to load campus map";
+        let errorMessage = isIndonesian ? "Gagal memuat denah kampus" : "Failed to load campus map";
         if (err instanceof Error) {
           if (err.message.includes("memory")) {
-            errorMessage = "Not enough memory to load the map. Please close other tabs and try again.";
+            errorMessage = isIndonesian
+              ? "Memori tidak cukup untuk memuat denah. Tutup tab lain lalu coba lagi."
+              : "Not enough memory to load the map. Please close other tabs and try again.";
           } else if (err.message.includes("network") || err.message.includes("Failed to fetch")) {
-            errorMessage = "Network error. Please check your internet connection and try again.";
+            errorMessage = isIndonesian
+              ? "Terjadi kesalahan jaringan. Periksa koneksi internet lalu coba lagi."
+              : "Network error. Please check your internet connection and try again.";
           } else {
             errorMessage = err.message;
           }
@@ -399,7 +408,7 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
         // ignore
       }
     };
-  }, [basePath, getDownloadHint, t, unityConfig]);
+  }, [basePath, getDownloadHint, isIndonesian, t, unityConfig]);
 
   if (error) {
     return (
@@ -413,24 +422,32 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
 
           {!webglSupported && (
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-              <h4 className="font-medium text-yellow-800 mb-2">⚠️ WebGL Not Supported</h4>
-              <p className="text-sm text-yellow-700">Your browser or device doesn't support WebGL. Try:</p>
+              <h4 className="font-medium text-yellow-800 mb-2">
+                ⚠️ {isIndonesian ? "WebGL Tidak Didukung" : "WebGL Not Supported"}
+              </h4>
+              <p className="text-sm text-yellow-700">
+                {isIndonesian
+                  ? "Browser atau perangkat Anda tidak mendukung WebGL. Coba:"
+                  : "Your browser or device doesn't support WebGL. Try:"}
+              </p>
               <ul className="text-sm text-yellow-700 space-y-1 text-left mt-2 ml-4 list-disc">
-                <li>Update your browser to the latest version</li>
-                <li>Enable hardware acceleration in browser settings</li>
-                <li>Use Chrome, Firefox, or Edge browser</li>
-                <li>Check if your GPU drivers are up to date</li>
+                <li>{isIndonesian ? "Perbarui browser ke versi terbaru" : "Update your browser to the latest version"}</li>
+                <li>{isIndonesian ? "Aktifkan akselerasi hardware di pengaturan browser" : "Enable hardware acceleration in browser settings"}</li>
+                <li>{isIndonesian ? "Gunakan Chrome, Firefox, atau Edge" : "Use Chrome, Firefox, or Edge browser"}</li>
+                <li>{isIndonesian ? "Pastikan driver GPU sudah diperbarui" : "Check if your GPU drivers are up to date"}</li>
               </ul>
             </div>
           )}
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="font-medium text-blue-800 mb-2">💡 Troubleshooting Tips:</h4>
+            <h4 className="font-medium text-blue-800 mb-2">
+              💡 {isIndonesian ? "Tips Penyelesaian Masalah:" : "Troubleshooting Tips:"}
+            </h4>
             <ul className="text-sm text-blue-700 space-y-1 text-left ml-4 list-disc">
-              <li>Ensure you have a stable internet connection (80+ MB download)</li>
-              <li>Close other tabs to free up memory</li>
-              <li>Try using a desktop browser instead of mobile</li>
-              <li>Clear browser cache and reload the page</li>
+              <li>{isIndonesian ? "Pastikan koneksi internet stabil" : "Ensure you have a stable internet connection"}</li>
+              <li>{isIndonesian ? "Tutup tab lain untuk mengosongkan memori" : "Close other tabs to free up memory"}</li>
+              <li>{isIndonesian ? "Coba gunakan browser desktop" : "Try using a desktop browser instead of mobile"}</li>
+              <li>{isIndonesian ? "Hapus cache browser dan muat ulang halaman" : "Clear browser cache and reload the page"}</li>
             </ul>
           </div>
 
@@ -438,7 +455,7 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
             onClick={() => window.location.reload()}
             className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
-            🔄 Retry Loading
+            🔄 {isIndonesian ? "Coba Muat Lagi" : "Retry Loading"}
           </button>
         </div>
       </div>
@@ -586,7 +603,9 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
                           <kbd className="w-10 h-10 flex items-center justify-center bg-white/10 border-b-4 border-white/30 rounded-lg text-white font-mono font-bold text-base shadow-sm">D</kbd>
                         </div>
                       </div>
-                      <span className="text-white/80 text-xs mt-4 font-bold uppercase tracking-widest">Bergerak</span>
+                      <span className="text-white/80 text-xs mt-4 font-bold uppercase tracking-widest">
+                        {isIndonesian ? "Bergerak" : "Move"}
+                      </span>
                     </div>
 
                     {/* Jump */}
@@ -594,7 +613,9 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
                       <div className="h-[86px] flex items-end">
                         <kbd className="w-40 h-10 flex items-center justify-center bg-white/10 border-b-4 border-white/30 rounded-lg text-white font-mono font-bold text-base shadow-sm px-4">Space</kbd>
                       </div>
-                      <span className="text-white/80 text-xs mt-4 font-bold uppercase tracking-widest">Lompat</span>
+                      <span className="text-white/80 text-xs mt-4 font-bold uppercase tracking-widest">
+                        {isIndonesian ? "Lompat" : "Jump"}
+                      </span>
                     </div>
 
                     {/* Run */}
@@ -602,7 +623,9 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
                       <div className="h-[86px] flex items-end">
                         <kbd className="w-24 h-10 flex items-center justify-center bg-white/10 border-b-4 border-white/30 rounded-lg text-white font-mono font-bold text-base shadow-sm px-4">Shift</kbd>
                       </div>
-                      <span className="text-white/80 text-xs mt-4 font-bold uppercase tracking-widest">Lari</span>
+                      <span className="text-white/80 text-xs mt-4 font-bold uppercase tracking-widest">
+                        {isIndonesian ? "Lari" : "Run"}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -629,7 +652,9 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
             title={t("exitFullscreen")}
           >
             <Minimize2 className="w-4 h-4 text-white" />
-              <span className="hidden min-[390px]:inline text-white text-sm font-medium">Minimize</span>
+              <span className="hidden min-[390px]:inline text-white text-sm font-medium">
+                {isIndonesian ? "Perkecil" : "Minimize"}
+              </span>
           </button>
         )}
 
@@ -638,10 +663,12 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
           <button
             onClick={() => setShowHelpModal(true)}
             className="unity-help-button absolute z-[30] flex items-center gap-2.5 px-3 min-[390px]:px-4 py-2.5 lg:px-5 lg:py-3 bg-white hover:bg-gray-50 text-[#2C5F2D] rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all hover:scale-105 border border-gray-100 group"
-            title="Bantuan & Kontak Darurat"
+            title={isIndonesian ? "Bantuan & Kontak Darurat" : "Help & Emergency Contacts"}
           >
             <Headset className="w-5 h-5 lg:w-6 lg:h-6" />
-            <span className="hidden min-[390px]:inline font-bold text-sm lg:text-base pr-1">Butuh Bantuan?</span>
+            <span className="hidden min-[390px]:inline font-bold text-sm lg:text-base pr-1">
+              {isIndonesian ? "Butuh Bantuan?" : "Need Help?"}
+            </span>
           </button>
         )}
       </div>
@@ -677,7 +704,9 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
                 <div className="bg-white/20 p-2.5 rounded-xl backdrop-blur-md">
                   <Headset className="w-5 h-5 text-white" />
                 </div>
-                <h3 className="text-lg font-bold text-white tracking-wide">Bantuan & Kontak</h3>
+                <h3 className="text-lg font-bold text-white tracking-wide">
+                  {isIndonesian ? "Bantuan & Kontak" : "Help & Contacts"}
+                </h3>
               </div>
               <button
                 onClick={() => setShowHelpModal(false)}
@@ -691,29 +720,50 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
               <div className="mb-6">
                 <h4 className="font-bold text-gray-800 mb-2 flex items-center">
                   <span className="w-1.5 h-1.5 bg-[#2C5F2D] rounded-full mr-2"></span>
-                  Panduan Navigasi
+                  {isIndonesian ? "Panduan Navigasi" : "Navigation Guide"}
                 </h4>
                 <p className="text-sm text-gray-600 mb-3 leading-relaxed">
-                  Gunakan <strong className="text-gray-800">Kotak Pencarian</strong> di bagian atas untuk menemukan ruangan atau fasilitas.
-                  Setelah memilih, ikuti garis putus-putus di lantai.
+                  {isIndonesian ? (
+                    <>
+                      Gunakan <strong className="text-gray-800">Kotak Pencarian</strong> di bagian atas untuk menemukan ruangan atau fasilitas.
+                      Setelah memilih, ikuti garis putus-putus di lantai.
+                    </>
+                  ) : (
+                    <>
+                      Use the <strong className="text-gray-800">Search Field</strong> at the top to find a room or facility.
+                      After selecting it, follow the dashed line on the ground.
+                    </>
+                  )}
                 </p>
                 <p className="text-sm text-gray-600 leading-relaxed">
-                  Untuk memutar kamera, <strong className="text-gray-800">klik kiri & tahan</strong> mouse Anda, atau geser layar pada perangkat mobile. Tekan <strong className="text-gray-800 bg-gray-100 px-1 rounded">ESC</strong> untuk melepas kursor.
+                  {isIndonesian ? (
+                    <>
+                      Untuk memutar kamera, <strong className="text-gray-800">klik kiri & tahan</strong> mouse Anda, atau geser layar pada perangkat mobile. Tekan <strong className="text-gray-800 bg-gray-100 px-1 rounded">ESC</strong> untuk melepas kursor.
+                    </>
+                  ) : (
+                    <>
+                      To rotate the camera, <strong className="text-gray-800">left-click and hold</strong>, or swipe on a mobile device. Press <strong className="text-gray-800 bg-gray-100 px-1 rounded">ESC</strong> to release the cursor.
+                    </>
+                  )}
                 </p>
               </div>
 
               <div className="bg-gray-50 border border-gray-100 rounded-xl p-5">
                 <h4 className="font-bold text-gray-800 mb-3 flex items-center">
                   <Phone className="w-4 h-4 mr-2 text-green-600" />
-                  Kontak Darurat Kampus
+                  {isIndonesian ? "Kontak Darurat Kampus" : "Campus Emergency Contacts"}
                 </h4>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between bg-white p-3.5 rounded-xl shadow-sm border border-gray-100 hover:border-green-200 hover:shadow-md transition-all group">
-                    <span className="text-sm font-semibold text-gray-700">Pelayanan Kampus</span>
+                    <span className="text-sm font-semibold text-gray-700">
+                      {isIndonesian ? "Pelayanan Kampus" : "Campus Services"}
+                    </span>
                     <a href="tel:0217699431" className="text-sm font-bold text-[#2C5F2D] group-hover:text-green-600 transition-colors bg-green-50 px-3 py-1 rounded-lg">021-7699431</a>
                   </div>
                   <div className="flex items-center justify-between bg-white p-3.5 rounded-xl shadow-sm border border-gray-100 hover:border-green-200 hover:shadow-md transition-all group">
-                    <span className="text-sm font-semibold text-gray-700">Pelayanan Kampus</span>
+                    <span className="text-sm font-semibold text-gray-700">
+                      {isIndonesian ? "Pelayanan Kampus" : "Campus Services"}
+                    </span>
                     <a href="tel:0217656971" className="text-sm font-bold text-[#2C5F2D] group-hover:text-green-600 transition-colors bg-green-50 px-3 py-1 rounded-lg">021-7656971</a>
                   </div>
                 </div>

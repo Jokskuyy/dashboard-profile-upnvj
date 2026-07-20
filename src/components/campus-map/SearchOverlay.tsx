@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Search, X, Navigation, Building2, LayoutGrid, StopCircle, CornerDownLeft, CheckCircle2 } from "lucide-react";
 import { useBuildingSearch, type SearchResult } from "../../hooks/useBuildingSearch";
+import { useLanguage } from "../../contexts/LanguageContext";
 
 interface SearchOverlayProps {
   isUnityLoaded: boolean;
@@ -13,6 +14,8 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
   onNavigate,
   onCancelNavigation,
 }) => {
+  const { language } = useLanguage();
+  const isIndonesian = language === "id";
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -184,8 +187,12 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
   if (!isUnityLoaded) return null;
 
   const placeholder = dataLoading
-    ? "Memuat data gedung..."
-    : "Cari gedung atau fasilitas... (Enter)";
+    ? isIndonesian
+      ? "Memuat data gedung..."
+      : "Loading building data..."
+    : isIndonesian
+      ? "Cari gedung atau fasilitas... (Enter)"
+      : "Search buildings or facilities... (Enter)";
 
   // ── NAVIGATING STATE ──
   // Show a navigation status bar instead of the search input
@@ -200,8 +207,12 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
                 <CheckCircle2 size={24} />
               </div>
               <div>
-                <h4 className="text-green-800 font-bold text-sm md:text-base">Tiba di Tujuan</h4>
-                <p className="text-gray-600 text-xs md:text-sm font-medium">Anda telah sampai di {selectedItem.label}</p>
+                <h4 className="text-green-800 font-bold text-sm md:text-base">
+                  {isIndonesian ? "Tiba di Tujuan" : "Destination Reached"}
+                </h4>
+                <p className="text-gray-600 text-xs md:text-sm font-medium">
+                  {isIndonesian ? "Anda telah sampai di" : "You have arrived at"} {selectedItem.label}
+                </p>
               </div>
             </div>
           </div>
@@ -214,7 +225,9 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
               <Navigation size={14} className="search-overlay__nav-bar-icon" />
             </div>
             <div className="search-overlay__nav-bar-text">
-              <span className="search-overlay__nav-bar-label">Navigasi ke</span>
+              <span className="search-overlay__nav-bar-label">
+                {isIndonesian ? "Navigasi ke" : "Navigating to"}
+              </span>
               <span className="search-overlay__nav-bar-dest">
                 {selectedItem.label}
                 {selectedItem.type === "fasilitas" && selectedItem.sublabel && (
@@ -228,18 +241,18 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
           <button
             onClick={handleCancelNavigation}
             className="search-overlay__nav-cancel"
-            aria-label="Batalkan navigasi"
+            aria-label={isIndonesian ? "Batalkan navigasi" : "Cancel navigation"}
             id="cancel-navigation-btn"
           >
             <StopCircle size={14} />
-            <span>Batalkan</span>
+            <span>{isIndonesian ? "Batalkan" : "Cancel"}</span>
           </button>
         </div>
 
         {/* Keyboard shortcut hint */}
         <div className="search-overlay__nav-hint">
           <CornerDownLeft size={10} />
-          <span>Tekan Esc untuk berhenti</span>
+          <span>{isIndonesian ? "Tekan Esc untuk berhenti" : "Press Esc to stop"}</span>
         </div>
       </div>
     );
@@ -276,7 +289,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
           <button
             onClick={handleClearSearch}
             className="search-overlay__clear-btn"
-            aria-label="Hapus pencarian"
+            aria-label={isIndonesian ? "Hapus pencarian" : "Clear search"}
           >
             <X size={14} />
           </button>
@@ -318,7 +331,9 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
             ))
           ) : (
             <li className="search-overlay__item search-overlay__item--empty">
-              <span>"{query}" tidak ditemukan</span>
+              <span>
+                {isIndonesian ? `"${query}" tidak ditemukan` : `No results found for "${query}"`}
+              </span>
             </li>
           )}
         </ul>

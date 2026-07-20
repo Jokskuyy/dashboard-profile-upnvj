@@ -10,7 +10,8 @@ import {
 } from "../../../utils/unityPreloader";
 
 const CampusMapSection: React.FC = () => {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const isIndonesian = language === "id";
   const [showViewer, setShowViewer] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [_cacheStatus, setCacheStatus] = useState<PreloadStatus>(
@@ -93,7 +94,9 @@ const CampusMapSection: React.FC = () => {
       bg: "bg-emerald-50",
       border: "border-emerald-100",
       title: t("interactiveNavigation"),
-      desc: "Pilih gedung awal lalu tampilkan jalur menuju gedung tujuan.",
+      desc: isIndonesian
+        ? "Pilih gedung awal lalu tampilkan jalur menuju gedung tujuan."
+        : "Choose a starting building and display the route to your destination.",
     },
     {
       icon: Building,
@@ -101,15 +104,19 @@ const CampusMapSection: React.FC = () => {
       bg: "bg-green-50",
       border: "border-green-100",
       title: t("buildingInformation"),
-      desc: "Cari ruangan atau fasilitas berdasarkan gedungnya.",
+      desc: isIndonesian
+        ? "Cari ruangan atau fasilitas berdasarkan gedungnya."
+        : "Find rooms or facilities by their building.",
     },
     {
       icon: Compass,
       color: "text-teal-600",
       bg: "bg-teal-50",
       border: "border-teal-100",
-      title: "Mode 2D & 3D",
-      desc: "Gunakan denah cepat atau pengalaman Unity WebGL.",
+      title: isIndonesian ? "Mode 2D & 3D" : "2D & 3D Modes",
+      desc: isIndonesian
+        ? "Gunakan denah cepat atau pengalaman Unity WebGL."
+        : "Use the quick map or the Unity WebGL experience.",
     },
   ];
 
@@ -136,7 +143,9 @@ const CampusMapSection: React.FC = () => {
           {!isFullscreen && (
             <div className="p-4 border-t bg-gray-50 flex flex-col sm:flex-row justify-between sm:items-center gap-3 shrink-0">
               <div className="text-xs sm:text-sm text-gray-600">
-                Denah kampus interaktif — pilih mode 2D atau 3D
+                {isIndonesian
+                  ? "Denah kampus interaktif — pilih mode 2D atau 3D"
+                  : "Interactive campus map — choose 2D or 3D mode"}
               </div>
               <button
                 onClick={() => setShowViewer(false)}
@@ -160,7 +169,9 @@ const CampusMapSection: React.FC = () => {
                   {t("campusMapTitle")}
                 </h3>
                 <p className="text-sm text-white/70">
-                  Cari lokasi dan rute melalui denah 2D atau 3D
+                  {isIndonesian
+                    ? "Cari lokasi dan rute melalui denah 2D atau 3D"
+                    : "Find locations and routes using the 2D or 3D map"}
                 </p>
               </div>
             </div>
@@ -193,19 +204,27 @@ const CampusMapSection: React.FC = () => {
                 className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 px-6 py-3 font-semibold rounded-xl transition-all duration-200 shadow-md bg-[#2C5F2D] text-white hover:bg-[#245025] hover:shadow-lg hover:shadow-green-900/15 hover:scale-[1.02] active:scale-[0.98]"
               >
                 <ExternalLink className="w-[18px] h-[18px]" />
-                Buka Denah Kampus
+                {isIndonesian ? "Buka Denah Kampus" : "Open Campus Map"}
               </button>
 
               <div className="flex flex-col gap-1">
-                <span className="text-xs text-gray-400">Denah 2D + Unity WebGL 3D</span>
+                <span className="text-xs text-gray-400">
+                  {isIndonesian ? "Denah 2D + Unity WebGL 3D" : "2D Map + Unity WebGL 3D"}
+                </span>
                 {_cacheStatus === "cached" && (
                   <span className="flex items-center gap-1 text-xs text-green-600 font-medium">
                     <CheckCircle className="w-3 h-3" />
-                    File 3D tersimpan di cache — loading lebih cepat
+                    {isIndonesian
+                      ? "File 3D tersimpan di cache — loading lebih cepat"
+                      : "3D files are cached — faster loading"}
                   </span>
                 )}
                 {_cacheStatus === "loading" && (
-                  <span className="text-xs text-blue-500">Mengunduh ke cache background...</span>
+                  <span className="text-xs text-blue-500">
+                    {isIndonesian
+                      ? "Mengunduh ke cache di latar belakang..."
+                      : "Downloading to cache in the background..."}
+                  </span>
                 )}
               </div>
             </div>
@@ -213,8 +232,9 @@ const CampusMapSection: React.FC = () => {
             {isGitHubPages && (
               <div className="mt-5 p-3 bg-amber-50 border border-amber-200 rounded-xl">
                 <p className="text-xs text-amber-700">
-                  Mode 3D tidak tersedia pada GitHub Pages karena batasan kompresi
-                  Brotli. Denah 2D tetap dapat digunakan.
+                  {isIndonesian
+                    ? "Mode 3D tidak tersedia pada GitHub Pages karena batasan kompresi Brotli. Denah 2D tetap dapat digunakan."
+                    : "3D mode is unavailable on GitHub Pages due to Brotli compression limitations. The 2D map remains available."}
                 </p>
               </div>
             )}

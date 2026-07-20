@@ -12,12 +12,15 @@ import type { SearchResult } from "../../hooks/useBuildingSearch";
 import type { CampusMapData } from "../../types/campusMap";
 import { CAMPUS_MAP_HEIGHT, CAMPUS_MAP_WIDTH } from "../../types/campusMap";
 import { findCampusRoute } from "../../utils/campusMapRouting";
+import { useLanguage } from "../../contexts/LanguageContext";
 import SearchOverlay from "./SearchOverlay";
 
 interface CampusMap2DProps {
   isFullscreen?: boolean;
   onToggleFullscreen?: () => void;
 }
+
+type MapLoadError = "notConfigured" | "loadFailed";
 
 const getBuildingLabelLines = (buildingName: string): string[] => {
   const label = buildingName
@@ -48,13 +51,46 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
   isFullscreen = false,
   onToggleFullscreen,
 }) => {
+  const { language } = useLanguage();
+  const isIndonesian = language === "id";
+  const copy = useMemo(
+    () =>
+      isIndonesian
+        ? {
+            initialStatus: "Pilih gedung awal, lalu cari ruangan atau gedung tujuan.",
+            notConfigured:
+              "Titik denah belum dikonfigurasi. Admin perlu menjalankan migrasi dan menandai gedung.",
+            loadFailed: "Gagal memuat konfigurasi jalur denah 2D.",
+            chooseStartFirst: "Pilih gedung awal terlebih dahulu.",
+            entranceMissing: (name: string) => `Pintu masuk ${name} belum ditandai oleh admin.`,
+            alreadyThere: (name: string) => `Anda sudah berada di ${name}.`,
+            routeMissing: (name: string) => `Belum ada jalur yang tersambung menuju ${name}.`,
+            routeFromTo: (from: string, to: string) => `Rute dari ${from} menuju ${to}.`,
+            noMapPosition: (name: string) => `${name} belum memiliki posisi pada denah 2D.`,
+            startPosition: (name: string) => `Posisi awal: ${name}. Cari lokasi tujuan.`,
+          }
+        : {
+            initialStatus: "Choose a starting building, then search for a room or destination building.",
+            notConfigured:
+              "Map points have not been configured. An admin must run the migration and mark the buildings.",
+            loadFailed: "Failed to load the 2D map route configuration.",
+            chooseStartFirst: "Choose a starting building first.",
+            entranceMissing: (name: string) => `The entrance to ${name} has not been marked by an admin.`,
+            alreadyThere: (name: string) => `You are already at ${name}.`,
+            routeMissing: (name: string) => `No connected route to ${name} is available yet.`,
+            routeFromTo: (from: string, to: string) => `Route from ${from} to ${to}.`,
+            noMapPosition: (name: string) => `${name} does not have a position on the 2D map yet.`,
+            startPosition: (name: string) => `Starting position: ${name}. Search for a destination.`,
+          },
+    [isIndonesian],
+  );
   const [mapData, setMapData] = useState<CampusMapData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<MapLoadError | null>(null);
   const [spawnBuildingId, setSpawnBuildingId] = useState<number | null>(null);
   const [pendingSpawnBuildingId, setPendingSpawnBuildingId] = useState<number | null>(null);
   const [destinationBuildingId, setDestinationBuildingId] = useState<number | null>(null);
-  const [status, setStatus] = useState("Pilih gedung awal, lalu cari ruangan atau gedung tujuan.");
+  const [status, setStatus] = useState(copy.initialStatus);
 
   useEffect(() => {
     let active = true;
@@ -63,14 +99,14 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
         if (!active) return;
         setMapData(data);
         if (!data) {
-          setLoadError("Titik denah belum dikonfigurasi. Admin perlu menjalankan migrasi dan menandai gedung.");
+          setLoadError("notConfigured");
           return;
         }
       })
       .catch((error: unknown) => {
         if (!active) return;
         console.error("[CampusMap2D] Gagal memuat denah:", error);
-        setLoadError("Gagal memuat konfigurasi jalur denah 2D.");
+        setLoadError("loadFailed");
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -101,19 +137,22 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
   }, [destination, mapData, spawn]);
 
   useEffect(() => {
-    if (!destination) return;
-    if (!spawn) {
-      setStatus("Pilih gedung awal terlebih dahulu.");
-    } else if (!destination.entranceNodeId) {
-      setStatus(`Pintu masuk ${destination.buildingName} belum ditandai oleh admin.`);
-    } else if (spawn.buildingId === destination.buildingId) {
-      setStatus(`Anda sudah berada di ${destination.buildingName}.`);
-    } else if (routeNodes.length === 0) {
-      setStatus(`Belum ada jalur yang tersambung menuju ${destination.buildingName}.`);
-    } else {
-      setStatus(`Rute dari ${spawn.buildingName} menuju ${destination.buildingName}.`);
+    if (!destination) {
+      setStatus(spawn ? copy.startPosition(spawn.buildingName) : copy.initialStatus);
+      return;
     }
-  }, [destination, routeNodes.length, spawn]);
+    if (!spawn) {
+      setStatus(copy.chooseStartFirst);
+    } else if (!destination.entranceNodeId) {
+      setStatus(copy.entranceMissing(destination.buildingName));
+    } else if (spawn.buildingId === destination.buildingId) {
+      setStatus(copy.alreadyThere(destination.buildingName));
+    } else if (routeNodes.length === 0) {
+      setStatus(copy.routeMissing(destination.buildingName));
+    } else {
+      setStatus(copy.routeFromTo(spawn.buildingName, destination.buildingName));
+    }
+  }, [copy, destination, routeNodes.length, spawn]);
 
   const handleNavigate = useCallback(
     (result: SearchResult) => {
@@ -122,20 +161,18 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
       );
       if (!target) {
         setDestinationBuildingId(null);
-        setStatus(
-          `${result.sublabel || result.label} belum memiliki posisi pada denah 2D.`,
-        );
+        setStatus(copy.noMapPosition(result.sublabel || result.label));
         return;
       }
       setDestinationBuildingId(target.buildingId);
     },
-    [mapData],
+    [copy, mapData],
   );
 
   const clearRoute = useCallback(() => {
     setDestinationBuildingId(null);
-    setStatus("Pilih gedung awal, lalu cari ruangan atau gedung tujuan.");
-  }, []);
+    setStatus(spawn ? copy.startPosition(spawn.buildingName) : copy.initialStatus);
+  }, [copy, spawn]);
 
   const confirmInitialSpawn = useCallback(() => {
     if (!pendingSpawnBuildingId) return;
@@ -144,9 +181,11 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
     );
     setSpawnBuildingId(pendingSpawnBuildingId);
     setStatus(
-      `Posisi awal: ${selectedBuilding?.buildingName ?? "gedung terpilih"}. Cari lokasi tujuan.`,
+      copy.startPosition(
+        selectedBuilding?.buildingName ?? (isIndonesian ? "gedung terpilih" : "selected building"),
+      ),
     );
-  }, [pendingSpawnBuildingId, spawnOptions]);
+  }, [copy, isIndonesian, pendingSpawnBuildingId, spawnOptions]);
 
   const configuredImageUrl = mapData?.map.imageUrl;
   const preferredImageUrl =
@@ -176,7 +215,7 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
           viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
           preserveAspectRatio="xMidYMid meet"
           role="img"
-          aria-label="Denah 2D kampus UPN Veteran Jakarta"
+          aria-label={isIndonesian ? "Denah 2D kampus UPN Veteran Jakarta" : "UPN Veteran Jakarta 2D campus map"}
         >
           <image href={mapImageUrl} width={viewBoxWidth} height={viewBoxHeight} />
 
@@ -293,10 +332,12 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
                   </div>
                   <div>
                     <h3 id="initial-spawn-title" className="text-xl font-bold text-slate-900">
-                      Pilih titik awal
+                      {isIndonesian ? "Pilih titik awal" : "Choose a starting point"}
                     </h3>
                     <p className="mt-1 text-sm leading-relaxed text-slate-600">
-                      Tentukan gedung tempat Anda berada. Posisi ini menjadi titik awal pencarian rute.
+                      {isIndonesian
+                        ? "Tentukan gedung tempat Anda berada. Posisi ini menjadi titik awal pencarian rute."
+                        : "Select the building you are currently in. This will be the starting point for directions."}
                     </p>
                   </div>
                 </div>
@@ -305,7 +346,7 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
                   htmlFor="initial-spawn-building"
                   className="mb-1.5 block text-sm font-semibold text-slate-700"
                 >
-                  Saya berada di
+                  {isIndonesian ? "Saya berada di" : "I am at"}
                 </label>
                 <select
                   id="initial-spawn-building"
@@ -316,7 +357,9 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
                   className="w-full rounded-xl border border-slate-300 bg-white px-3 py-3 text-sm text-slate-900 outline-none focus:border-green-600 focus:ring-2 focus:ring-green-100"
                   autoFocus
                 >
-                  <option value="">Pilih gedung tempat mulai</option>
+                  <option value="">
+                    {isIndonesian ? "Pilih gedung tempat mulai" : "Choose your starting building"}
+                  </option>
                   {spawnOptions.map((building) => (
                     <option key={building.id} value={building.buildingId}>
                       {building.buildingName}
@@ -331,7 +374,7 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
                   className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#2C5F2D] px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-[#234d24] disabled:cursor-not-allowed disabled:bg-slate-300"
                 >
                   <MapPin className="h-4 w-4" />
-                  Gunakan sebagai titik awal
+                  {isIndonesian ? "Gunakan sebagai titik awal" : "Use as starting point"}
                 </button>
               </div>
             </div>
@@ -341,7 +384,7 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
           <div className="rounded-xl border border-white/15 bg-black/75 p-3 text-white shadow-xl backdrop-blur-md">
             <label htmlFor="campus-spawn-building" className="mb-1.5 flex items-center gap-2 text-xs font-semibold">
               <LocateFixed className="h-4 w-4 text-green-400" />
-              Mulai dari gedung
+              {isIndonesian ? "Mulai dari gedung" : "Start from building"}
             </label>
             <select
               id="campus-spawn-building"
@@ -354,7 +397,7 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
               className="w-full rounded-lg border border-white/20 bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:ring-2 focus:ring-green-400"
               disabled={spawnOptions.length === 0}
             >
-              <option value="">Pilih posisi awal</option>
+              <option value="">{isIndonesian ? "Pilih posisi awal" : "Choose starting position"}</option>
               {spawnOptions.map((building) => (
                 <option key={building.id} value={building.buildingId}>
                   {building.buildingName}
@@ -363,7 +406,7 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
             </select>
             <div className="mt-2 flex items-start gap-2 text-xs text-white/80">
               <Route className="mt-0.5 h-3.5 w-3.5 shrink-0 text-green-400" />
-              <span>{loadError || status}</span>
+              <span>{loadError ? copy[loadError] : status}</span>
             </div>
           </div>
         </div>
@@ -372,7 +415,15 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
           <button
             onClick={onToggleFullscreen}
             className="absolute bottom-4 right-4 z-20 rounded-xl border border-white/15 bg-black/70 p-3 text-white shadow-lg backdrop-blur-sm transition-colors hover:bg-black/90"
-            aria-label={isFullscreen ? "Keluar dari layar penuh" : "Buka layar penuh"}
+            aria-label={
+              isFullscreen
+                ? isIndonesian
+                  ? "Keluar dari layar penuh"
+                  : "Exit fullscreen"
+                : isIndonesian
+                  ? "Buka layar penuh"
+                  : "Enter fullscreen"
+            }
           >
             {isFullscreen ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
           </button>
@@ -382,7 +433,7 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
           <div className="absolute inset-0 z-30 flex items-center justify-center bg-[#315f35] text-white">
             <div className="text-center">
               <MapPin className="mx-auto mb-3 h-8 w-8 animate-bounce text-green-400" />
-              <p className="text-sm">Memuat denah 2D...</p>
+              <p className="text-sm">{isIndonesian ? "Memuat denah 2D..." : "Loading 2D map..."}</p>
             </div>
           </div>
         )}
@@ -391,7 +442,9 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
       {!isFullscreen && (
         <div className="flex items-center gap-2 border-t border-gray-200 bg-white px-4 py-3 text-sm text-gray-600">
           <Building2 className="h-4 w-4 text-[#2C5F2D]" />
-          Pilih gedung awal, lalu gunakan pencarian untuk menampilkan rute.
+          {isIndonesian
+            ? "Pilih gedung awal, lalu gunakan pencarian untuk menampilkan rute."
+            : "Choose a starting building, then use search to display a route."}
         </div>
       )}
     </div>
