@@ -19,6 +19,31 @@ interface CampusMap2DProps {
   onToggleFullscreen?: () => void;
 }
 
+const getBuildingLabelLines = (buildingName: string): string[] => {
+  const label = buildingName
+    .replace(/^Gedung\s+/i, "")
+    .replace(/\s*\([^)]*\)\s*$/, "")
+    .trim();
+
+  if (label.length <= 22) return [label];
+
+  const words = label.split(/\s+/);
+  let splitAt = 1;
+  let smallestDifference = Number.POSITIVE_INFINITY;
+
+  for (let index = 1; index < words.length; index += 1) {
+    const firstLength = words.slice(0, index).join(" ").length;
+    const secondLength = words.slice(index).join(" ").length;
+    const difference = Math.abs(firstLength - secondLength);
+    if (difference < smallestDifference) {
+      smallestDifference = difference;
+      splitAt = index;
+    }
+  }
+
+  return [words.slice(0, splitAt).join(" "), words.slice(splitAt).join(" ")];
+};
+
 const CampusMap2D: React.FC<CampusMap2DProps> = ({
   isFullscreen = false,
   onToggleFullscreen,
@@ -161,6 +186,13 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
           {mapData?.buildings.map((building) => {
             const selected = building.buildingId === destinationBuildingId;
             const isSpawn = building.buildingId === spawnBuildingId;
+            const labelLines = getBuildingLabelLines(building.buildingName);
+            const labelWidth = Math.min(
+              270,
+              Math.max(100, Math.max(...labelLines.map((line) => line.length)) * 10 + 24),
+            );
+            const labelHeight = labelLines.length * 20 + 10;
+            const labelTop = -28 - labelHeight;
             return (
               <g
                 key={building.id}
@@ -176,6 +208,39 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
                   vectorEffect="non-scaling-stroke"
                 />
                 <circle r="4" fill="#07131d" />
+                <rect
+                  x={-labelWidth / 2}
+                  y={labelTop}
+                  width={labelWidth}
+                  height={labelHeight}
+                  rx="8"
+                  fill={
+                    selected
+                      ? "rgba(153, 27, 27, 0.94)"
+                      : isSpawn
+                        ? "rgba(20, 83, 45, 0.94)"
+                        : "rgba(7, 19, 29, 0.9)"
+                  }
+                  stroke="rgba(255,255,255,0.75)"
+                  strokeWidth="1.5"
+                  vectorEffect="non-scaling-stroke"
+                  pointerEvents="none"
+                />
+                <text
+                  x="0"
+                  y={labelTop + 19}
+                  fill="#ffffff"
+                  fontSize="17"
+                  fontWeight="700"
+                  textAnchor="middle"
+                  pointerEvents="none"
+                >
+                  {labelLines.map((line, index) => (
+                    <tspan key={`${index}-${line}`} x="0" dy={index === 0 ? 0 : 20}>
+                      {line}
+                    </tspan>
+                  ))}
+                </text>
                 <title>{building.buildingName}</title>
               </g>
             );
