@@ -40,8 +40,6 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
           setLoadError("Titik denah belum dikonfigurasi. Admin perlu menjalankan migrasi dan menandai gedung.");
           return;
         }
-        const firstSpawn = data.buildings.find((building) => building.entranceNodeId !== null);
-        if (firstSpawn) setSpawnBuildingId(firstSpawn.buildingId);
       })
       .catch((error: unknown) => {
         if (!active) return;
@@ -135,24 +133,6 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
           aria-label="Denah 2D kampus UPN Veteran Jakarta"
         >
           <image href={mapImageUrl} width={viewBoxWidth} height={viewBoxHeight} />
-
-          {mapData?.edges.map((edge) => {
-            const from = mapData.nodes.find((node) => node.id === edge.fromNodeId);
-            const to = mapData.nodes.find((node) => node.id === edge.toNodeId);
-            if (!from || !to) return null;
-            return (
-              <line
-                key={edge.id}
-                x1={from.x * viewBoxWidth}
-                y1={from.y * viewBoxHeight}
-                x2={to.x * viewBoxWidth}
-                y2={to.y * viewBoxHeight}
-                stroke="rgba(255,255,255,0.12)"
-                strokeWidth="3"
-                vectorEffect="non-scaling-stroke"
-              />
-            );
-          })}
 
           {routePoints && (
             <>
