@@ -4,9 +4,15 @@ import { useBuildingSearch, type SearchResult } from "../../hooks/useBuildingSea
 
 interface SearchOverlayProps {
   isUnityLoaded: boolean;
+  onNavigate?: (item: SearchResult) => void;
+  onCancelNavigation?: () => void;
 }
 
-const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
+const SearchOverlay: React.FC<SearchOverlayProps> = ({
+  isUnityLoaded,
+  onNavigate,
+  onCancelNavigation,
+}) => {
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -42,10 +48,12 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
     setResults([]);
     unlockUnityInput();
 
-    if (window.unityInstance) {
+    if (onCancelNavigation) {
+      onCancelNavigation();
+    } else if (window.unityInstance) {
       window.unityInstance.SendMessage("NavigationReceiver", "StopNavigation", "");
     }
-  }, [unlockUnityInput]);
+  }, [onCancelNavigation, unlockUnityInput]);
 
   // Global shortcut: Enter → fokus ke search bar + lock Unity input
   useEffect(() => {
@@ -131,7 +139,9 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
       inputRef.current?.blur();
       unlockUnityInput();
 
-      if (window.unityInstance) {
+      if (onNavigate) {
+        onNavigate(item);
+      } else if (window.unityInstance) {
         window.unityInstance.SendMessage(
           "NavigationReceiver",
           "NavigateTo",
@@ -139,7 +149,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isUnityLoaded }) => {
         );
       }
     },
-    [unlockUnityInput]
+    [onNavigate, unlockUnityInput]
   );
 
   const handleClearSearch = useCallback(() => {

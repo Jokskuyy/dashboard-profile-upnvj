@@ -28,13 +28,6 @@ const CampusMapSection: React.FC = () => {
   }, []);
 
   const handleOpenCampusMap = async () => {
-    if (isGitHubPages) {
-      alert(
-        "Unity WebGL campus map is not available on GitHub Pages due to Brotli compression limitations.",
-      );
-      return;
-    }
-    
     // Auto-fullscreen trigger directly on user interaction (fixes iOS Safari issue)
     const isMobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
     
@@ -100,7 +93,7 @@ const CampusMapSection: React.FC = () => {
       bg: "bg-emerald-50",
       border: "border-emerald-100",
       title: t("interactiveNavigation"),
-      desc: t("navigateThroughCampus3D"),
+      desc: "Pilih gedung awal lalu tampilkan jalur menuju gedung tujuan.",
     },
     {
       icon: Building,
@@ -108,15 +101,15 @@ const CampusMapSection: React.FC = () => {
       bg: "bg-green-50",
       border: "border-green-100",
       title: t("buildingInformation"),
-      desc: t("detailedFacilityInfo"),
+      desc: "Cari ruangan atau fasilitas berdasarkan gedungnya.",
     },
     {
       icon: Compass,
       color: "text-teal-600",
       bg: "bg-teal-50",
       border: "border-teal-100",
-      title: t("unityWebGL"),
-      desc: t("highQuality3DRendering"),
+      title: "Mode 2D & 3D",
+      desc: "Gunakan denah cepat atau pengalaman Unity WebGL.",
     },
   ];
 
@@ -130,6 +123,8 @@ const CampusMapSection: React.FC = () => {
           <div className="flex-1 relative min-h-0">
             <CampusMapViewer
               isFullscreen={isFullscreen}
+              allow3D={!isGitHubPages}
+              onPreload3D={handleButtonHover}
               onToggleFullscreen={toggleFullscreen}
               onClose={() => {
                 setShowViewer(false);
@@ -141,7 +136,7 @@ const CampusMapSection: React.FC = () => {
           {!isFullscreen && (
             <div className="p-4 border-t bg-gray-50 flex flex-col sm:flex-row justify-between sm:items-center gap-3 shrink-0">
               <div className="text-xs sm:text-sm text-gray-600">
-                {t("unity3DInteractiveCampusMap")} — {t("useMouseToNavigate")}
+                Denah kampus interaktif — pilih mode 2D atau 3D
               </div>
               <button
                 onClick={() => setShowViewer(false)}
@@ -164,7 +159,9 @@ const CampusMapSection: React.FC = () => {
                 <h3 className="text-lg sm:text-xl font-bold text-white">
                   {t("campusMapTitle")}
                 </h3>
-                <p className="text-sm text-white/70">{t("campusMapSubtitle")}</p>
+                <p className="text-sm text-white/70">
+                  Cari lokasi dan rute melalui denah 2D atau 3D
+                </p>
               </div>
             </div>
           </div>
@@ -193,25 +190,18 @@ const CampusMapSection: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <button
                 onClick={handleOpenCampusMap}
-                onMouseEnter={handleButtonHover}
-                onFocus={handleButtonHover}
-                disabled={isGitHubPages}
-                className={`group inline-flex w-full sm:w-auto items-center justify-center gap-2 px-6 py-3 font-semibold rounded-xl transition-all duration-200 shadow-md ${
-                  isGitHubPages
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-[#2C5F2D] text-white hover:bg-[#245025] hover:shadow-lg hover:shadow-green-900/15 hover:scale-[1.02] active:scale-[0.98]"
-                }`}
+                className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 px-6 py-3 font-semibold rounded-xl transition-all duration-200 shadow-md bg-[#2C5F2D] text-white hover:bg-[#245025] hover:shadow-lg hover:shadow-green-900/15 hover:scale-[1.02] active:scale-[0.98]"
               >
                 <ExternalLink className="w-[18px] h-[18px]" />
-                {t("launchUnityMap")}
+                Buka Denah Kampus
               </button>
 
               <div className="flex flex-col gap-1">
-                <span className="text-xs text-gray-400">{t("unityWebGLBuild")} • ~39 MB</span>
+                <span className="text-xs text-gray-400">Denah 2D + Unity WebGL 3D</span>
                 {_cacheStatus === "cached" && (
                   <span className="flex items-center gap-1 text-xs text-green-600 font-medium">
                     <CheckCircle className="w-3 h-3" />
-                    File tersimpan di cache — loading lebih cepat
+                    File 3D tersimpan di cache — loading lebih cepat
                   </span>
                 )}
                 {_cacheStatus === "loading" && (
@@ -223,8 +213,8 @@ const CampusMapSection: React.FC = () => {
             {isGitHubPages && (
               <div className="mt-5 p-3 bg-amber-50 border border-amber-200 rounded-xl">
                 <p className="text-xs text-amber-700">
-                  ⚠️ Unity WebGL is not available on GitHub Pages due to Brotli
-                  compression limitations.
+                  Mode 3D tidak tersedia pada GitHub Pages karena batasan kompresi
+                  Brotli. Denah 2D tetap dapat digunakan.
                 </p>
               </div>
             )}

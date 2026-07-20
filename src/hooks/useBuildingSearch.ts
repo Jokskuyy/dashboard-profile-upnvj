@@ -24,6 +24,8 @@ export interface SearchResult {
   sublabel?: string;
   /** Nama unik yang dikirim ke Unity via SendMessage */
   unityObjectName: string;
+  /** Gedung tujuan untuk navigasi denah 2D */
+  buildingId: number;
   /** Tipe hasil untuk ikon dan styling */
   type: "gedung" | "fasilitas";
   /** Gabungan teks untuk pencarian fuzzy yang lebih optimal */
@@ -54,6 +56,7 @@ export function useBuildingSearch() {
         const { data, error: fetchError } = await supabase
           .from("gedung")
           .select(`
+            id,
             nama_gedung,
             deskripsi_gedung,
             lokasi,
@@ -93,6 +96,7 @@ export function useBuildingSearch() {
               label: gedung.nama_gedung,
               type: "gedung",
               unityObjectName: gedung.unity_object_name,
+              buildingId: gedung.id,
               searchText: enrichSearchText(baseSearch),
             });
           }
@@ -108,6 +112,7 @@ export function useBuildingSearch() {
                 sublabel: gedung.nama_gedung,
                 type: "fasilitas",
                 unityObjectName: targetName,
+                buildingId: gedung.id,
                 searchText: enrichSearchText(baseSearch),
               });
             }

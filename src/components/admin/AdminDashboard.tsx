@@ -10,6 +10,7 @@ import {
   X,
   Menu,
   ClipboardList,
+  Map,
 } from "lucide-react";
 import {
   fetchDashboardData,
@@ -39,10 +40,11 @@ import BuildingsTable from "./tables/BuildingsTable";
 import FacilitiesTable from "./tables/FacilitiesTable";
 import ProgramsTable from "./tables/ProgramsTable";
 import AuditLogTable from "./tables/AuditLogTable";
+import CampusMapEditor from "./CampusMapEditor";
 import { useAuth } from "../../contexts/AuthContext";
 import "./admin.css";
 
-type TabType = "buildings" | "assets" | "programs" | "analytics" | "audit";
+type TabType = "buildings" | "assets" | "programs" | "campus-map" | "analytics" | "audit";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -225,6 +227,7 @@ export default function AdminDashboard() {
     { id: "buildings" as const, label: "Gedung", icon: Building2 },
     { id: "assets" as const, label: "Fasilitas", icon: Package, count: data?.assets.length },
     { id: "programs" as const, label: "Program Studi", icon: BookOpen, count: data?.programs.length },
+    { id: "campus-map" as const, label: "Denah 2D", icon: Map },
     { id: "analytics" as const, label: "Analytics", icon: TrendingUp },
     { id: "audit" as const, label: "Audit Log", icon: ClipboardList },
   ];
@@ -486,6 +489,7 @@ export default function AdminDashboard() {
                 />
               )}
               {activeTab === "analytics" && <Suspense fallback={<div className="p-8 text-center text-gray-500">Loading analytics...</div>}><AdminTrafficAnalytics /></Suspense>}
+              {activeTab === "campus-map" && <CampusMapEditor />}
               {activeTab === "audit" && <AuditLogTable />}
             </div>
           </div>
