@@ -21,6 +21,21 @@ database/002_seed_data.sql
 - Data kampus UPNVJ Pondok Labu (gedung, fakultas, prodi, fasilitas)
 - Jalankan hanya jika ingin data sample
 
+### 3. Schema Denah 2D
+```
+database/003_campus_map_2d.sql
+```
+- Membuat tabel map, node, edge, dan pointer gedung
+- Aman dijalankan ulang tanpa menghapus konfigurasi yang sudah ada
+
+### 4. Seed Konfigurasi Denah 2D
+```
+database/004_campus_map_config_seed.sql
+```
+- Memuat 63 node, 96 edge, dan 18 posisi gedung hasil editor
+- Jalankan setelah master gedung dari `002_seed_data.sql` tersedia
+- Idempotent: hanya konfigurasi map `pondok-labu-2d` yang diganti
+
 ---
 
 ## RLS Policy Design
