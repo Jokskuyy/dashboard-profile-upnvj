@@ -851,6 +851,60 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 
 -- Gedung 6: Gedung Ki Hadjar Dewantara
 (
+    'Ruang Koordinator Program Studi D3 Sistem Informasi',
+    $$Ruang kerja Koordinator Program Studi D3 Sistem Informasi untuk pengelolaan,$$,
+    'Pelayanan & Administrasi',
+    1,
+    ' ',
+    6,
+    'khd_kaprodi_d3_si'
+),
+(
+    'Ruang Koordinator Program Studi S1 Informatika',
+    $$Ruang kerja Koordinator Program Studi S1 Informatika untuk pengelolaan,$$,
+    'Pelayanan & Administrasi',
+    1,
+    ' ',
+    6,
+    'khd_kaprodi_s1_informatika'
+),
+(
+    'Ruang Koordinator Program Studi S1 Sistem Informasi',
+    $$Ruang kerja Koordinator Program Studi S1 Sistem Informasi untuk pengelolaan,$$,
+    'Pelayanan & Administrasi',
+    1,
+    ' ',
+    6,
+    'khd_kaprodi_s1_si'
+),
+(
+    'Ruang Kepala Jurusan FIK',
+    $$Ruang kerja Kepala Jurusan Fakultas Ilmu Komputer untuk pengelolaan (Kajur),$$,
+    'Pelayanan & Administrasi',
+    1,
+    ' ',
+    6,
+    'khd_kajur_fik'
+),
+(
+    'Ruang Koordinator Program Studi S1 Data Science',
+    $$Ruang kerja Koordinator Program Studi S1 Data Science untuk pengelolaan,$$,
+    'Pelayanan & Administrasi',
+    1,
+    ' ',
+    6,
+    'khd_kaprodi_s1_data_science'
+),
+(
+    'Ruang Koordinator Program Studi D3 Sistem Informasi',
+    $$Ruang kerja Koordinator Program Studi D3 Sistem Informasi untuk pengelolaan,$$,
+    'Pelayanan & Administrasi',
+    1,
+    ' ',
+    6,
+    'khd_kaprodi_d3_si'
+),
+(
     'Digital Library',
     $$Perpustakaan digital Fakultas Ilmu Komputer yang menyimpan koleksi buku, jurnal, artikel, dan sumber informasi lainnya dalam bentuk digital.$$,
     'Perpustakaan & Ruang Baca',
@@ -1144,6 +1198,13 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 
 
 -- Gedung 10: Gedung RA Kartini
+('Ruang BMN', $$Ruang BMN (Barang Milik Negara) pada lantai 1 Gedung RA Kartini untuk penyimpanan dan pengelolaan aset milik negara di lingkungan kampus.$$,
+    'Administrasi & Layanan',
+    1,
+    NULL,
+    10,
+    'rak_bmn'
+),
 (
     'Ruang Dosen dan Staff Administrasi Doktor (S3) Hukum',
     $$Ruang dosen dan staff administrasi Program Doktor (S3) Hukum pada lantai 1 Gedung RA Kartini.$$,
@@ -1619,7 +1680,8 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 ('Ruang UKM Tae Kwon Do', 'Ruang sekretariat Unit Kegiatan Mahasiswa Tae Kwon Do pada lantai 2 area Ekstension Gedung Soetomo.', 'Ruang Kegiatan Mahasiswa', 2, 17, 'stm_ukm_taekwondo'),
 ('Ruang UKM KSR PMI', 'Ruang sekretariat Unit Kegiatan Mahasiswa Korps Sukarela Palang Merah Indonesia (KSR PMI) pada lantai 2 area Ekstension Gedung Soetomo.', 'Ruang Kegiatan Mahasiswa', 2, 17, 'stm_ukm_ksr_pmi'),
 ('Ruang UKM Bulutangkis', 'Ruang sekretariat Unit Kegiatan Mahasiswa Bulutangkis pada lantai 2 area Ekstension Gedung Soetomo. Berbeda dari Ruang UKM Bulu Tangkis di Gedung Dewi Sartika.', 'Ruang Kegiatan Mahasiswa', 2, 17, 'stm_ukm_bulutangkis'),
-('Perpustakaan Utama Kampus', 'Perpustakaan utama kampus pada lantai 3 Gedung Soetomo. Mencakup area: Pojok Bela Negara, Kazakhstan Corner, German Corner, Ruang Selasar, Ruang Komputer, Komputer E-paper, Ruang Diskusi, dan Rak Koleksi. Seluruh area ini merupakan bagian integral dari satu fasilitas perpustakaan.', 'Perpustakaan & Ruang Baca', 3, 17, 'stm_perpustakaan_utama')
+('Perpustakaan Utama Kampus', 'Perpustakaan utama kampus pada lantai 3 Gedung Soetomo. Mencakup area: Pojok Bela Negara, Kazakhstan Corner, German Corner, Ruang Selasar, Ruang Komputer, Komputer E-paper, Ruang Diskusi, dan Rak Koleksi. Seluruh area ini merupakan bagian integral dari satu fasilitas perpustakaan.', 'Perpustakaan & Ruang Baca', 3, 17, 'stm_perpustakaan_utama'),
+('Ruang Ujian Doktor Hukum', 'Ruang ujian tugas akhir', 'Ruang Kegiatan Mahasiswa',1, 17, 'stm_ruang_ujian_doktor_hukum')
 -- ,('Perpustakaan Lantai 4', 'Area perpustakaan yang menempati keseluruhan lantai 4 Gedung Soetomo.', 'Perpustakaan & Ruang Baca', 4, 17, 'stm_perpustakaan_l4')
 ;
 -- =============================================================================
