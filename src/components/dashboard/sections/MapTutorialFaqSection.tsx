@@ -128,9 +128,9 @@ const TUTORIALS_ID: Record<MapMode, Record<DeviceMode, TutorialStep[]>> = {
         icon: Gamepad2,
       },
       {
-        title: "Bergerak dan melihat",
+        title: "Bergerak, sprint, dan melompat",
         description:
-          "Gunakan joystick sebelah kiri untuk berjalan dan geser area kanan untuk mengarahkan kamera.",
+          "Gunakan joystick kiri untuk berjalan, geser area kanan untuk mengarahkan kamera, serta tombol kanan untuk sprint dan melompat.",
         icon: Hand,
       },
       {
@@ -286,9 +286,9 @@ const TUTORIALS_EN: Record<MapMode, Record<DeviceMode, TutorialStep[]>> = {
         icon: Gamepad2,
       },
       {
-        title: "Move and look around",
+        title: "Move, sprint, and jump",
         description:
-          "Use the left joystick to walk and swipe the right side of the screen to control the camera.",
+          "Use the left joystick to walk, swipe the right side to control the camera, and use the right-side buttons to sprint and jump.",
         icon: Hand,
       },
       {
@@ -478,11 +478,13 @@ const MapTutorialFaqSection: React.FC = () => {
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/15 to-transparent" />
-                <div className="absolute left-4 top-4 rounded-lg border border-white/20 bg-black/65 px-3 py-2 text-xs font-bold text-white backdrop-blur-sm">
-                  {isIndonesian ? "1. Pilih gedung awal" : "1. Choose a starting building"}
-                </div>
-                <div className="absolute right-4 top-16 rounded-lg border border-white/20 bg-white/90 px-3 py-2 text-xs font-bold text-[#2C5F2D] shadow-lg">
-                  {isIndonesian ? "2. Cari tujuan" : "2. Search for a destination"}
+                <div className="absolute inset-x-4 top-4 grid grid-cols-2 gap-2">
+                  <div className="rounded-lg border border-white/20 bg-black/70 px-3 py-2 text-center text-xs font-semibold text-white backdrop-blur-sm">
+                    {isIndonesian ? "1. Pilih gedung awal" : "1. Choose a starting building"}
+                  </div>
+                  <div className="rounded-lg border border-white/20 bg-white/90 px-3 py-2 text-center text-xs font-semibold text-[#2C5F2D] shadow-lg">
+                    {isIndonesian ? "2. Cari tujuan" : "2. Search for a destination"}
+                  </div>
                 </div>
                 <div className="absolute bottom-5 left-5 right-5 text-white">
                   <p className="text-xs font-semibold uppercase tracking-wider text-green-300">
@@ -522,34 +524,32 @@ const MapTutorialFaqSection: React.FC = () => {
                 </div>
               </>
             ) : (
-              <div className="absolute inset-0 flex flex-col bg-[radial-gradient(circle_at_top,#326b3b_0%,#112918_45%,#07130b_100%)] p-5 text-white">
-                <div className="flex items-center justify-between">
-                  <span className="rounded-lg border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-bold">Unity WebGL</span>
-                  <span className="text-xs text-white/60">
-                    {isIndonesian ? "Panduan Mobile" : "Mobile Guide"}
-                  </span>
+              <>
+                <img
+                  src={`${import.meta.env.BASE_URL}maps/tutorial-3d-mobile-placeholder.jpg`}
+                  alt={
+                    isIndonesian
+                      ? "Kontrol mobile Denah 3D dengan joystick, sprint, dan lompat"
+                      : "3D Map mobile controls with joystick, sprint, and jump"
+                  }
+                  className="absolute inset-0 h-full w-full bg-slate-950 object-contain"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/20" />
+                <div className="absolute left-4 top-4 rounded-lg border border-white/20 bg-black/70 px-3 py-2 text-xs font-semibold text-white backdrop-blur-sm">
+                  {isIndonesian ? "Placeholder kontrol mobile" : "Mobile controls placeholder"}
                 </div>
-                <div className="flex flex-1 items-center justify-center">
-                  <div className="grid w-full max-w-sm grid-cols-2 gap-4">
-                    <div className="rounded-2xl border border-white/15 bg-white/10 p-5 text-center">
-                      <Gamepad2 className="mx-auto mb-3 h-12 w-12" />
-                      <p className="text-sm font-bold">{isIndonesian ? "Joystick kiri" : "Left joystick"}</p>
-                    </div>
-                    <div className="rounded-2xl border border-white/15 bg-white/10 p-5 text-center">
-                      <Hand className="mx-auto mb-3 h-12 w-12" />
-                      <p className="text-sm font-bold">{isIndonesian ? "Geser kanan" : "Swipe right side"}</p>
-                    </div>
-                  </div>
-                </div>
-                <div>
+                <div className="absolute bottom-5 left-5 right-5 text-white">
                   <p className="text-xs font-semibold uppercase tracking-wider text-green-300">
-                    {isIndonesian ? "Denah 3D" : "3D Map"}
+                    {isIndonesian ? "Denah 3D Mobile" : "Mobile 3D Map"}
                   </p>
                   <h3 className="mt-1 text-xl font-bold">
-                    {isIndonesian ? "Jelajahi kampus secara langsung" : "Explore the campus directly"}
+                    {isIndonesian
+                      ? "Joystick, sprint, dan lompat"
+                      : "Joystick, sprint, and jump"}
                   </h3>
                 </div>
-              </div>
+              </>
             )}
           </div>
 
