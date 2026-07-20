@@ -91,8 +91,16 @@ export async function fetchActiveCampusMap(): Promise<CampusMapData | null> {
     supabase.from("gedung").select("id,nama_gedung"),
   ]);
 
-  const firstError = nodesResult.error || edgesResult.error || pointsResult.error || buildingsResult.error;
-  if (firstError) throw firstError;
+  const failedQuery = [
+    ["campus_map_nodes", nodesResult.error],
+    ["campus_map_edges", edgesResult.error],
+    ["campus_map_building_points", pointsResult.error],
+    ["gedung", buildingsResult.error],
+  ].find(([, error]) => error);
+  if (failedQuery) {
+    const [table, error] = failedQuery;
+    throw new Error(`${table}: ${(error as { message: string }).message}`);
+  }
 
   const buildingNameById = new Map(
     (buildingsResult.data ?? []).map((building) => [building.id, building.nama_gedung]),
@@ -128,7 +136,7 @@ export async function fetchCampusBuildingOptions(): Promise<CampusBuildingOption
     .from("gedung")
     .select("id,nama_gedung")
     .order("nama_gedung");
-  if (error) throw error;
+  if (error) throw new Error(`gedung: ${error.message}`);
   return (data ?? []).map((building) => ({ id: building.id, name: building.nama_gedung }));
 }
 

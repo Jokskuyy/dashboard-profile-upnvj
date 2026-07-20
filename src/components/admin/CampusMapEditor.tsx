@@ -27,6 +27,9 @@ import type {
 
 type EditorTool = "marker" | "entrance" | "path" | "connect" | "delete";
 
+const errorMessage = (value: unknown) =>
+  value instanceof Error ? value.message : "Error Supabase tidak diketahui";
+
 const TOOL_HELP: Record<EditorTool, string> = {
   marker: "Pilih gedung lalu klik bagian tengah atap untuk meletakkan pointer.",
   entrance: "Pilih gedung lalu klik pintu masuk yang tersambung ke jalur pejalan kaki.",
@@ -62,7 +65,7 @@ export default function CampusMapEditor() {
       }
     } catch (loadError) {
       console.error(loadError);
-      setError("Gagal memuat editor denah. Pastikan migrasi database sudah dijalankan.");
+      setError(`Gagal memuat editor denah: ${errorMessage(loadError)}`);
     } finally {
       setLoading(false);
     }
@@ -90,7 +93,7 @@ export default function CampusMapEditor() {
       await loadData();
     } catch (saveError) {
       console.error(saveError);
-      setError("Perubahan gagal disimpan. Periksa koneksi dan kebijakan Supabase.");
+      setError(`Perubahan gagal disimpan: ${errorMessage(saveError)}`);
     } finally {
       setSaving(false);
     }
