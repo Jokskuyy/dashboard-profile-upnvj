@@ -14,6 +14,7 @@ import { trackClick, trackCarousel } from "../analytics/trackingHelpers";
 const AssetsSection = lazy(() => import("./sections/AssetsSection"));
 const TrafficOverview = lazy(() => import("../analytics/TrafficOverview"));
 const CampusMapSection = lazy(() => import("./sections/CampusMapSection"));
+const MapTutorialFaqSection = lazy(() => import("./sections/MapTutorialFaqSection"));
 
 const Dashboard: React.FC = () => {
   const { t } = useLanguage();
@@ -254,6 +255,9 @@ const Dashboard: React.FC = () => {
                 <CampusMapSection />
               </Suspense>
             </div>
+            <Suspense fallback={<SectionSkeleton items={4} />}>
+              <MapTutorialFaqSection />
+            </Suspense>
           </div>
         )}
       </div>
