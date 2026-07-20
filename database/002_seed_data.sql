@@ -179,15 +179,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'wsh_stem_cell'
 ),
 (
-    'Ruang Akreditasi FK UPNVJ',
-    $$Ruang pengelolaan administrasi dan dokumen akreditasi Fakultas Kedokteran.$$,
-    'Lainnya',
-    1,
-    NULL,
-    3,
-    NULL
-),
-(
     'Ruang BEM FK UPNVJ',
     $$Ruang organisasi Badan Eksekutif Mahasiswa (BEM) Fakultas Kedokteran UPNVJ di lantai 1 Gedung Dr. Wahidin Sudiro Husodo.$$,
     'Ruang Kegiatan Mahasiswa',
@@ -215,33 +206,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'wsh_program_studi_spesialis'
 ),
 (
-    'Medical Assessment Unit (MAU)',
-    $$Unit Medical Assessment Unit (MAU) untuk evaluasi dan asesmen pendidikan medis Fakultas Kedokteran UPNVJ di lantai 2 Gedung Dr. Wahidin Sudiro Husodo.$$,
-    'Lainnya',
-    2,
-    NULL,
-    3,
-    NULL
-),
-(
-    'Medical Education Unit (MEU)',
-    $$Unit Medical Education Unit (MEU) untuk pengembangan pendidikan kedokteran di lantai 2 Gedung Dr. Wahidin Sudiro Husodo.$$,
-    'Lainnya',
-    2,
-    NULL,
-    3,
-    NULL
-),
-(
-    'Medical Research Unit (MRU)',
-    $$Unit Medical Research Unit (MRU) untuk kegiatan penelitian medis Fakultas Kedokteran UPNVJ di lantai 2 Gedung Dr. Wahidin Sudiro Husodo.$$,
-    'Lainnya',
-    2,
-    NULL,
-    3,
-    NULL
-),
-(
     'Musala FK UPNVJ',
     $$Fasilitas ibadah Fakultas Kedokteran UPNVJ di lantai 2 Gedung Dr. Wahidin Sudiro Husodo.$$,
     'Fasilitas Ibadah',
@@ -249,15 +213,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL,
     3,
     'wsh_musholla'
-),
-(
-    'Ruang Administrasi Keuangan FK UPNVJ',
-    $$Ruang administrasi keuangan Fakultas Kedokteran.$$,
-    'Administrasi & Layanan',
-    2,
-    NULL,
-    3,
-    NULL
 ),
 (
     'Ruang Dekan FK UPNVJ',
@@ -341,15 +296,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'wsh_wadek_kemahasiswaan'
 ),
 (
-    'Ruang Wakil Dekan Bidang Umum dan Keuangan',
-    $$Ruang kerja Wakil Dekan Bidang Umum dan Keuangan Fakultas Kedokteran UPNVJ. Jabatan Wakil Dekan juga dikenal sebagai Wadek.$$,
-    'Lainnya',
-    2,
-    NULL,
-    3,
-    NULL
-),
-(
     'Auditorium Fakultas Kedokteran',
     $$Auditorium dengan kapasitas sekitar 200 orang.$$,
     'Auditorium & Aula',
@@ -357,15 +303,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL,
     3,
     'wsh_auditorium'
-),
-(
-    'Laboratorium Biokimia',
-    $$Laboratorium untuk kegiatan praktikum biokimia.$$,
-    'Laboratorium',
-    3,
-    NULL,
-    3,
-    NULL
 ),
 (
     'Laboratorium Biologi Molekuler',
@@ -377,15 +314,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'wsh_lab_biologi_molekuler'
 ),
 (
-    'Laboratorium IKK/IKM',
-    $$Laboratorium Ilmu Kesehatan Komunitas dan Ilmu Kesehatan Masyarakat.$$,
-    'Laboratorium',
-    3,
-    NULL,
-    3,
-    NULL
-),
-(
     'Laboratorium Patologi Klinik',
     $$Laboratorium untuk kegiatan patologi klinik.$$,
     'Laboratorium',
@@ -393,15 +321,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL,
     3,
     'wsh_lab_patologi_klinik'
-),
-(
-    'Ruang Diskusi FK',
-    $$Ruang diskusi akademik mahasiswa dan dosen.$$,
-    'Lainnya',
-    3,
-    NULL,
-    3,
-    NULL
 ),
 (
     'Ruang Dosen Patologi Klinik',
@@ -767,33 +686,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'ars_ruang_kelas_f307'
 ),
 (
-    'Ruang Tutorial Gedung Abdul Rahman Saleh',
-    $$Tiga ruang tutorial untuk diskusi akademik mahasiswa.$$,
-    'Lainnya',
-    3,
-    NULL,
-    5,
-    NULL
-),
-(
-    'Pusat Objective Structured Clinical Examination (OSCE) FK UPNVJ',
-    $$Pusat Objective Structured Clinical Examination (OSCE) Fakultas Kedokteran UPNVJ di lantai 4 Gedung Abdul Rahman Saleh untuk pelaksanaan ujian keterampilan klinis.$$,
-    'Lainnya',
-    4,
-    NULL,
-    5,
-    NULL
-),
-(
-    'Ruang Alumni I',
-    $$Ruang kegiatan alumni Fakultas Kedokteran.$$,
-    'Lainnya',
-    4,
-    NULL,
-    5,
-    NULL
-),
-(
     'Ruang Kelas F.401',
     $$Ruang perkuliahan teori F.401 untuk kegiatan belajar mengajar, dilengkapi kursi kuliah, papan tulis, dan proyektor.$$,
     'Ruang Kuliah',
@@ -828,24 +720,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     NULL,
     5,
     'ars_ruang_kelas_f404'
-),
-(
-    'Ruang Komisi Etik',
-    $$Ruang kegiatan komisi etik Fakultas Kedokteran.$$,
-    'Lainnya',
-    4,
-    NULL,
-    5,
-    NULL
-),
-(
-    'Ruang Peserta Alumni FK UPNVJ',
-    $$Ruang peserta alumni Fakultas Kedokteran UPNVJ.$$,
-    'Lainnya',
-    4,
-    NULL,
-    5,
-    NULL
 ),
 
 
@@ -1086,115 +960,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 ),
 
 
--- Gedung 9: Gedung Yos Sudarso
-(
-    'Ruang Administrasi',
-    $$Ruang administrasi pada Gedung Yos Sudarso.$$,
-    'Administrasi & Layanan',
-    1,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_administrasi_yos_sudarso.png',
-    9,
-    NULL
-),
-(
-    'Ruang Dosen Lantai 1',
-    $$Ruang dosen pada lantai 1 Gedung Yos Sudarso.$$,
-    'Administrasi & Layanan',
-    1,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_dosen_yos_sudarso_lantai_1.png',
-    9,
-    NULL
-),
-(
-    'Selasar Kanan',
-    $$Selasar kanan pada lantai 1 Gedung Yos Sudarso.$$,
-    'Lainnya',
-    1,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/selasar_kanan_yos_sudarso.jpg',
-    9,
-    NULL
-),
-(
-    'Selasar Kiri',
-    $$Selasar kiri pada lantai 1 Gedung Yos Sudarso.$$,
-    'Lainnya',
-    1,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/selasar_kiri_yos_sudarso.jpg',
-    9,
-    NULL
-),
-(
-    'Laboratorium Perancangan Kontrak',
-    $$Laboratorium Perancangan Kontrak pada lantai 2 Gedung Yos Sudarso. Sering disebut Lab Perancangan Kontrak.$$,
-    'Laboratorium',
-    2,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/lab_perancangan_kontrak.jpg',
-    9,
-    NULL
-),
-(
-    'Ruang Dosen Lantai 2',
-    $$Ruang dosen pada lantai 2 Gedung Yos Sudarso.$$,
-    'Administrasi & Layanan',
-    2,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_dosen_yos_sudarso_lantai_2.png',
-    9,
-    NULL
-),
-(
-    'Ruang Rapat Lantai 2',
-    $$Ruang rapat pada lantai 2 Gedung Yos Sudarso.$$,
-    'Lainnya',
-    2,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_rapat_yos_sudarso_lantai_2.jpg',
-    9,
-    NULL
-),
-(
-    'Ruang Kelas Cerdas Lantai 2',
-    $$Ruang kelas cerdas pada lantai 2 Gedung Yos Sudarso. Dikenal juga sebagai smart class atau smartclass.$$,
-    'Lainnya',
-    2,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/smartclass_yos_sudarso_lantai_3.jpg',
-    9,
-    NULL
-),
-(
-    'Ruang Baca',
-    $$Ruang baca pada lantai 3 Gedung Yos Sudarso.$$,
-    'Perpustakaan & Ruang Baca',
-    3,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_baca_yos_sudarso.jpg',
-    9,
-    NULL
-),
-(
-    'Ruang Kelas Cerdas Lantai 3',
-    $$Ruang kelas cerdas pada lantai 3 Gedung Yos Sudarso. Dikenal juga sebagai smart class atau smartclass.$$,
-    'Lainnya',
-    3,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/smartclass_yos_sudarso_lantai_3.jpg',
-    9,
-    NULL
-),
-(
-    'Ruang Podcast',
-    $$Ruang podcast pada lantai 4 Gedung Yos Sudarso.$$,
-    'Laboratorium',
-    4,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_praktik_peradilan_semu.png',
-    9,
-    NULL
-),
-(
-    'Ruang Praktik Peradilan Semu',
-    $$Ruang praktik peradilan semu pada lantai 4 Gedung Yos Sudarso.$$,
-    'Lainnya',
-    4,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_praktik_peradilan_semu.png',
-    9,
-    NULL
-),
 
 
 -- Gedung 10: Gedung RA Kartini
@@ -1415,15 +1180,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
 ),
 
 -- Gedung 13: Gedung Dewi Sartika
-(
-    'Lapangan dan Alat Olahraga FIK',
-    $$Fasilitas Olahraga yang terletak di depan Gedung Dewi Sartika lantai 1.$$,
-    'Fasilitas Olahraga',
-    1,
-    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/dewi%20sartika/lapangan_dan_alat_olahraga_fik.jpg',
-    13,
-    NULL
-),
 (
     'Ruang BEM FIK',
     $$Ruang sekretariat Badan Eksekutif Mahasiswa (BEM) FIK di Gedung Dewi Sartika, sebagai pusat koordinasi program kerja dan kegiatan kemahasiswaan.$$,
