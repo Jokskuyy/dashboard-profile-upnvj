@@ -250,14 +250,14 @@ const Dashboard: React.FC = () => {
         {/* Sections — show when data is loaded */}
         {!loading && (
           <div className="space-y-8">
+            <Suspense fallback={<SectionSkeleton items={4} />}>
+              <MapTutorialFaqSection />
+            </Suspense>
             <div id="campus-map-section">
               <Suspense fallback={<SectionSkeleton items={2} />}>
                 <CampusMapSection />
               </Suspense>
             </div>
-            <Suspense fallback={<SectionSkeleton items={4} />}>
-              <MapTutorialFaqSection />
-            </Suspense>
           </div>
         )}
       </div>

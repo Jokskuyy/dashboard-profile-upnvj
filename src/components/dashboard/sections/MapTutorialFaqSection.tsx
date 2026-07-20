@@ -400,7 +400,7 @@ const MapTutorialFaqSection: React.FC = () => {
           <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl border border-white/20 bg-white/15">
             <CircleHelp className="h-5 w-5" />
           </div>
-          <h2 className="text-2xl font-extrabold sm:text-3xl">
+          <h2 className="text-2xl font-bold">
             {isIndonesian ? "Tutorial & FAQ Denah Kampus" : "Campus Map Tutorial & FAQ"}
           </h2>
           <p className="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-green-50/80 sm:text-base">
@@ -418,7 +418,7 @@ const MapTutorialFaqSection: React.FC = () => {
                   type="button"
                   onClick={() => setMode(item)}
                   aria-pressed={mode === item}
-                  className={`flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition-all ${
+                  className={`flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-all ${
                     mode === item
                       ? "bg-white text-[#2C5F2D] shadow-lg"
                       : "text-white/75 hover:bg-white/10 hover:text-white"
@@ -485,10 +485,10 @@ const MapTutorialFaqSection: React.FC = () => {
                   {isIndonesian ? "2. Cari tujuan" : "2. Search for a destination"}
                 </div>
                 <div className="absolute bottom-5 left-5 right-5 text-white">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-green-300">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-green-300">
                     {isIndonesian ? "Denah 2D" : "2D Map"}
                   </p>
-                  <h3 className="mt-1 text-xl font-extrabold">
+                  <h3 className="mt-1 text-xl font-bold">
                     {isIndonesian
                       ? "Pilih asal, cari tujuan, ikuti rute"
                       : "Choose a start, find a destination, follow the route"}
@@ -513,10 +513,10 @@ const MapTutorialFaqSection: React.FC = () => {
                   {isIndonesian ? "WASD untuk bergerak" : "Use WASD to move"}
                 </div>
                 <div className="absolute bottom-5 left-5 right-5 text-white">
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-green-300">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-green-300">
                     {isIndonesian ? "Gameplay Denah 3D" : "3D Map Gameplay"}
                   </p>
-                  <h3 className="mt-1 text-xl font-extrabold">
+                  <h3 className="mt-1 text-xl font-bold">
                     {isIndonesian ? "Jelajahi kampus secara langsung" : "Explore the campus directly"}
                   </h3>
                 </div>
@@ -542,10 +542,10 @@ const MapTutorialFaqSection: React.FC = () => {
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-green-300">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-green-300">
                     {isIndonesian ? "Denah 3D" : "3D Map"}
                   </p>
-                  <h3 className="mt-1 text-xl font-extrabold">
+                  <h3 className="mt-1 text-xl font-bold">
                     {isIndonesian ? "Jelajahi kampus secara langsung" : "Explore the campus directly"}
                   </h3>
                 </div>
@@ -560,11 +560,11 @@ const MapTutorialFaqSection: React.FC = () => {
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-green-50 text-[#2C5F2D]">
                     <step.icon className="h-4.5 w-4.5" />
                   </div>
-                  <span className="text-xs font-extrabold uppercase tracking-wider text-green-700">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-green-700">
                     {isIndonesian ? "Langkah" : "Step"} {index + 1}
                   </span>
                 </div>
-                <h3 className="font-bold text-slate-900">{step.title}</h3>
+                <h3 className="font-semibold text-slate-900">{step.title}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{step.description}</p>
               </article>
             ))}
@@ -573,10 +573,10 @@ const MapTutorialFaqSection: React.FC = () => {
 
         <div className="mt-9 border-t border-slate-200 pt-7">
           <div className="mb-4">
-            <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-green-700">
+            <p className="text-xs font-semibold uppercase tracking-wide text-green-700">
               {isIndonesian ? "Bantuan cepat" : "Quick help"}
             </p>
-            <h3 className="mt-1 text-xl font-extrabold text-slate-900">
+            <h3 className="mt-1 text-xl font-bold text-slate-900">
               FAQ {isIndonesian ? "Denah" : "Map"} {mode.toUpperCase()}
             </h3>
           </div>
@@ -590,7 +590,7 @@ const MapTutorialFaqSection: React.FC = () => {
                     type="button"
                     onClick={() => setOpenFaq(isOpen ? null : index)}
                     aria-expanded={isOpen}
-                    className="flex w-full items-center justify-between gap-4 bg-white px-4 py-4 text-left text-sm font-bold text-slate-800 hover:bg-slate-50 sm:px-5"
+                    className="flex w-full items-center justify-between gap-4 bg-white px-4 py-4 text-left text-sm font-semibold text-slate-800 hover:bg-slate-50 sm:px-5"
                   >
                     {faq.question}
                     <ChevronDown className={`h-4 w-4 shrink-0 text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
