@@ -36,9 +36,9 @@ DROP TABLE IF EXISTS public.web_analytics_log CASCADE;
 DROP TABLE IF EXISTS public.program_studi CASCADE;
 DROP TABLE IF EXISTS public.fasilitas CASCADE;
 DROP TABLE IF EXISTS public.fakultas CASCADE;
-DROP TABLE IF EXISTS public.map_building_points CASCADE;
-DROP TABLE IF EXISTS public.map_edges CASCADE;
-DROP TABLE IF EXISTS public.map_nodes CASCADE;
+DROP TABLE IF EXISTS public.campus_map_building_points CASCADE;
+DROP TABLE IF EXISTS public.campus_map_edges CASCADE;
+DROP TABLE IF EXISTS public.campus_map_nodes CASCADE;
 DROP TABLE IF EXISTS public.campus_maps CASCADE;
 DROP TABLE IF EXISTS public.gedung CASCADE;
 DROP TABLE IF EXISTS public.admin_users CASCADE;
@@ -112,7 +112,7 @@ CREATE UNIQUE INDEX idx_campus_maps_single_active
     ON public.campus_maps (is_active)
     WHERE is_active = TRUE;
 
-CREATE TABLE public.map_nodes (
+CREATE TABLE public.campus_map_nodes (
     id BIGSERIAL PRIMARY KEY,
     map_id BIGINT NOT NULL REFERENCES public.campus_maps(id) ON DELETE CASCADE,
     label TEXT,
@@ -122,11 +122,11 @@ CREATE TABLE public.map_nodes (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE public.map_edges (
+CREATE TABLE public.campus_map_edges (
     id BIGSERIAL PRIMARY KEY,
     map_id BIGINT NOT NULL REFERENCES public.campus_maps(id) ON DELETE CASCADE,
-    from_node_id BIGINT NOT NULL REFERENCES public.map_nodes(id) ON DELETE CASCADE,
-    to_node_id BIGINT NOT NULL REFERENCES public.map_nodes(id) ON DELETE CASCADE,
+    from_node_id BIGINT NOT NULL REFERENCES public.campus_map_nodes(id) ON DELETE CASCADE,
+    to_node_id BIGINT NOT NULL REFERENCES public.campus_map_nodes(id) ON DELETE CASCADE,
     bidirectional BOOLEAN NOT NULL DEFAULT TRUE,
     accessible BOOLEAN NOT NULL DEFAULT TRUE,
     weight DOUBLE PRECISION CHECK (weight IS NULL OR weight > 0),
@@ -134,22 +134,22 @@ CREATE TABLE public.map_edges (
     UNIQUE (map_id, from_node_id, to_node_id)
 );
 
-CREATE TABLE public.map_building_points (
+CREATE TABLE public.campus_map_building_points (
     id BIGSERIAL PRIMARY KEY,
     map_id BIGINT NOT NULL REFERENCES public.campus_maps(id) ON DELETE CASCADE,
     gedung_id INT NOT NULL REFERENCES public.gedung(id) ON DELETE CASCADE,
     marker_x DOUBLE PRECISION NOT NULL CHECK (marker_x BETWEEN 0 AND 1),
     marker_y DOUBLE PRECISION NOT NULL CHECK (marker_y BETWEEN 0 AND 1),
-    entrance_node_id BIGINT REFERENCES public.map_nodes(id) ON DELETE SET NULL,
+    entrance_node_id BIGINT REFERENCES public.campus_map_nodes(id) ON DELETE SET NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     UNIQUE (map_id, gedung_id)
 );
 
 COMMENT ON TABLE public.campus_maps IS 'Master gambar denah kampus 2D';
-COMMENT ON TABLE public.map_nodes IS 'Titik belokan, persimpangan, gerbang, dan pintu gedung';
-COMMENT ON TABLE public.map_edges IS 'Jalur yang dapat dilewati di antara dua node denah';
-COMMENT ON TABLE public.map_building_points IS 'Posisi pointer dan pintu masuk gedung pada denah';
+COMMENT ON TABLE public.campus_map_nodes IS 'Titik belokan, persimpangan, gerbang, dan pintu gedung';
+COMMENT ON TABLE public.campus_map_edges IS 'Jalur yang dapat dilewati di antara dua node denah';
+COMMENT ON TABLE public.campus_map_building_points IS 'Posisi pointer dan pintu masuk gedung pada denah';
 
 CREATE TABLE public.program_studi (
     id SERIAL PRIMARY KEY,
@@ -202,12 +202,12 @@ CREATE INDEX idx_fasilitas_tipe ON public.fasilitas(tipe_fasilitas);
 CREATE INDEX idx_fasilitas_lantai ON public.fasilitas(lantai);
 
 -- Denah kampus 2D
-CREATE INDEX idx_map_nodes_map ON public.map_nodes(map_id);
-CREATE INDEX idx_map_edges_map ON public.map_edges(map_id);
-CREATE INDEX idx_map_edges_from ON public.map_edges(from_node_id);
-CREATE INDEX idx_map_edges_to ON public.map_edges(to_node_id);
-CREATE INDEX idx_map_buildings_map ON public.map_building_points(map_id);
-CREATE INDEX idx_map_buildings_gedung ON public.map_building_points(gedung_id);
+CREATE INDEX idx_campus_map_nodes_map ON public.campus_map_nodes(map_id);
+CREATE INDEX idx_campus_map_edges_map ON public.campus_map_edges(map_id);
+CREATE INDEX idx_campus_map_edges_from ON public.campus_map_edges(from_node_id);
+CREATE INDEX idx_campus_map_edges_to ON public.campus_map_edges(to_node_id);
+CREATE INDEX idx_campus_map_buildings_map ON public.campus_map_building_points(map_id);
+CREATE INDEX idx_campus_map_buildings_gedung ON public.campus_map_building_points(gedung_id);
 
 -- Analytics (legacy)
 CREATE INDEX idx_analytics_visitor ON public.web_analytics_log(visitor_hash);
@@ -234,9 +234,9 @@ ALTER TABLE public.program_studi ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.web_analytics_log ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.campus_maps ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.map_nodes ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.map_edges ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.map_building_points ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.campus_map_nodes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.campus_map_edges ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.campus_map_building_points ENABLE ROW LEVEL SECURITY;
 
 
 -- ==================================================
@@ -286,17 +286,17 @@ CREATE POLICY campus_maps_public_select ON public.campus_maps
     FOR SELECT TO anon, authenticated USING (true);
 CREATE POLICY campus_maps_auth_all ON public.campus_maps
     FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY map_nodes_public_select ON public.map_nodes
+CREATE POLICY campus_map_nodes_public_select ON public.campus_map_nodes
     FOR SELECT TO anon, authenticated USING (true);
-CREATE POLICY map_nodes_auth_all ON public.map_nodes
+CREATE POLICY campus_map_nodes_auth_all ON public.campus_map_nodes
     FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY map_edges_public_select ON public.map_edges
+CREATE POLICY campus_map_edges_public_select ON public.campus_map_edges
     FOR SELECT TO anon, authenticated USING (true);
-CREATE POLICY map_edges_auth_all ON public.map_edges
+CREATE POLICY campus_map_edges_auth_all ON public.campus_map_edges
     FOR ALL TO authenticated USING (true) WITH CHECK (true);
-CREATE POLICY map_building_points_public_select ON public.map_building_points
+CREATE POLICY campus_map_building_points_public_select ON public.campus_map_building_points
     FOR SELECT TO anon, authenticated USING (true);
-CREATE POLICY map_building_points_auth_all ON public.map_building_points
+CREATE POLICY campus_map_building_points_auth_all ON public.campus_map_building_points
     FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
 -- === PROGRAM STUDI ===

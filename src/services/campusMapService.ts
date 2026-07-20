@@ -79,13 +79,13 @@ export async function fetchActiveCampusMap(): Promise<CampusMapData | null> {
 
   const map = mapRow as RawCampusMap;
   const [nodesResult, edgesResult, pointsResult, buildingsResult] = await Promise.all([
-    supabase.from("map_nodes").select("id,map_id,label,node_type,x,y").eq("map_id", map.id),
+    supabase.from("campus_map_nodes").select("id,map_id,label,node_type,x,y").eq("map_id", map.id),
     supabase
-      .from("map_edges")
+      .from("campus_map_edges")
       .select("id,map_id,from_node_id,to_node_id,bidirectional,accessible,weight")
       .eq("map_id", map.id),
     supabase
-      .from("map_building_points")
+      .from("campus_map_building_points")
       .select("id,map_id,gedung_id,marker_x,marker_y,entrance_node_id")
       .eq("map_id", map.id),
     supabase.from("gedung").select("id,nama_gedung"),
@@ -138,7 +138,7 @@ export async function upsertBuildingMarker(
   x: number,
   y: number,
 ): Promise<void> {
-  const { error } = await supabase.from("map_building_points").upsert(
+  const { error } = await supabase.from("campus_map_building_points").upsert(
     { map_id: mapId, gedung_id: buildingId, marker_x: x, marker_y: y },
     { onConflict: "map_id,gedung_id" },
   );
@@ -153,7 +153,7 @@ export async function addCampusMapNode(
   label?: string,
 ): Promise<number> {
   const { data, error } = await supabase
-    .from("map_nodes")
+    .from("campus_map_nodes")
     .insert({ map_id: mapId, node_type: type, x, y, label: label || null })
     .select("id")
     .single();
@@ -168,7 +168,7 @@ export async function setBuildingEntrance(
   fallbackX: number,
   fallbackY: number,
 ): Promise<void> {
-  const { error } = await supabase.from("map_building_points").upsert(
+  const { error } = await supabase.from("campus_map_building_points").upsert(
     {
       map_id: mapId,
       gedung_id: buildingId,
@@ -186,7 +186,7 @@ export async function addCampusMapEdge(
   fromNodeId: number,
   toNodeId: number,
 ): Promise<void> {
-  const { error } = await supabase.from("map_edges").upsert(
+  const { error } = await supabase.from("campus_map_edges").upsert(
     {
       map_id: mapId,
       from_node_id: fromNodeId,
@@ -200,11 +200,11 @@ export async function addCampusMapEdge(
 }
 
 export async function deleteCampusMapNode(nodeId: number): Promise<void> {
-  const { error } = await supabase.from("map_nodes").delete().eq("id", nodeId);
+  const { error } = await supabase.from("campus_map_nodes").delete().eq("id", nodeId);
   if (error) throw error;
 }
 
 export async function deleteCampusMapEdge(edgeId: number): Promise<void> {
-  const { error } = await supabase.from("map_edges").delete().eq("id", edgeId);
+  const { error } = await supabase.from("campus_map_edges").delete().eq("id", edgeId);
   if (error) throw error;
 }
