@@ -31,6 +31,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const arrivalTimeoutRef = useRef<number | null>(null);
+  const activeNavigationRef = useRef<SearchResult | null>(null);
 
   // Fetch data dari Supabase
   const { search, loading: dataLoading } = useBuildingSearch();
@@ -54,22 +55,28 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
     }
   }, []);
 
-  const handleCancelNavigation = useCallback(() => {
+  const resetNavigationUi = useCallback(() => {
     clearArrivalTimeout();
+    activeNavigationRef.current = null;
     setQuery("");
+    setDebouncedQuery("");
     setSelectedItem(null);
     setIsOpen(false);
     setIsNavigating(false);
     setHasReachedDestination(false);
     setResults([]);
+    setHighlightedIndex(-1);
     unlockUnityInput();
+  }, [clearArrivalTimeout, unlockUnityInput]);
 
+  const handleCancelNavigation = useCallback(() => {
+    resetNavigationUi();
     if (onCancelNavigation) {
       onCancelNavigation();
     } else if (window.unityInstance) {
       window.unityInstance.SendMessage("NavigationReceiver", "StopNavigation", "");
     }
-  }, [clearArrivalTimeout, onCancelNavigation, unlockUnityInput]);
+  }, [onCancelNavigation, resetNavigationUi]);
 
   // Global shortcut: Enter → fokus ke search bar + lock Unity input
   useEffect(() => {
@@ -117,17 +124,20 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
         typeof payload?.unity_object_name === "string"
           ? payload.unity_object_name.trim().toLowerCase()
           : "";
-      const selectedKey = selectedItem?.unityObjectName.trim().toLowerCase() ?? "";
+      const activeItem = activeNavigationRef.current;
+      const selectedKey = activeItem?.unityObjectName.trim().toLowerCase() ?? "";
 
-      if (!isNavigating || !completedKey || !selectedKey || completedKey !== selectedKey) {
+      if (!activeItem || !completedKey || !selectedKey || completedKey !== selectedKey) {
         return;
       }
 
+      setSelectedItem(activeItem);
+      setIsNavigating(true);
       setHasReachedDestination(true);
       clearArrivalTimeout();
       arrivalTimeoutRef.current = window.setTimeout(() => {
         arrivalTimeoutRef.current = null;
-        handleCancelNavigation();
+        resetNavigationUi();
       }, 4000);
     };
 
@@ -143,7 +153,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
       );
       clearArrivalTimeout();
     };
-  }, [clearArrivalTimeout, handleCancelNavigation, isNavigating, selectedItem]);
+  }, [clearArrivalTimeout, resetNavigationUi]);
 
   // Debounce query — delay search by 300ms to avoid searching every keystroke
   useEffect(() => {
@@ -183,6 +193,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
   const handleSelect = useCallback(
     (item: SearchResult) => {
       clearArrivalTimeout();
+      activeNavigationRef.current = item;
       setQuery(item.label);
       setSelectedItem(item);
       setIsOpen(false);

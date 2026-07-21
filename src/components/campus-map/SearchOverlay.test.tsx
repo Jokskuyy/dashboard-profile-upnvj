@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import React from "react";
 import { afterEach, describe, expect, test, vi } from "vitest";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import SearchOverlay from "./SearchOverlay";
 
 vi.mock("../../contexts/LanguageContext", () => ({
@@ -34,6 +34,7 @@ vi.mock("../../hooks/useBuildingSearch", () => ({
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
+  vi.useRealTimers();
 });
 
 async function selectDestination(onCancelNavigation = vi.fn()) {
@@ -131,6 +132,45 @@ describe("SearchOverlay navigation completion contract", () => {
     dispatchCompletion(JSON.stringify({ unity_object_name: "yos_sudarso" }));
 
     expect(screen.getByText("Tiba di Tujuan")).toBeDefined();
+  });
+
+  test("tidak kehilangan completion yang datang langsung setelah SendMessage", async () => {
+    const onNavigate = vi.fn(() => {
+      dispatchCompletion(JSON.stringify({ unity_object_name: "yos_sudarso" }));
+    });
+
+    render(
+      <SearchOverlay
+        isUnityLoaded
+        onNavigate={onNavigate}
+        onCancelNavigation={vi.fn()}
+      />,
+    );
+
+    fireEvent.change(screen.getByRole("textbox"), {
+      target: { value: "Yos Sudarso" },
+    });
+    fireEvent.mouseDown(await screen.findByText("Gedung Yos Sudarso"));
+
+    expect(onNavigate).toHaveBeenCalledTimes(1);
+    expect(screen.getByText("Tiba di Tujuan")).toBeDefined();
+  });
+
+  test("mereset search setelah notifikasi tanpa mengirim cancel ke Unity", async () => {
+    const onCancelNavigation = vi.fn();
+    await selectDestination(onCancelNavigation);
+    vi.useFakeTimers();
+
+    dispatchCompletion(JSON.stringify({ unity_object_name: "yos_sudarso" }));
+    expect(screen.getByText("Tiba di Tujuan")).toBeDefined();
+
+    await act(async () => {
+      vi.advanceTimersByTime(4000);
+    });
+
+    const input = screen.getByRole("textbox") as HTMLInputElement;
+    expect(input.value).toBe("");
+    expect(onCancelNavigation).not.toHaveBeenCalled();
   });
 
   test("melepas seluruh listener completion ketika Strict Mode component di-unmount", () => {
