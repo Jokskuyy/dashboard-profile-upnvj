@@ -103,6 +103,8 @@ const Header: React.FC = () => {
               <img
                 src={logoUpnvjText}
                 alt="UPN Veteran Jakarta"
+                width={286}
+                height={80}
                 className={`site-header__logo max-w-full object-contain transition-all duration-300 group-hover:brightness-110 ${
                   isScrolled ? "h-10 min-[360px]:h-11 sm:h-12" : "h-10 min-[360px]:h-12 sm:h-14"
                 }`}
@@ -192,6 +194,8 @@ const Header: React.FC = () => {
               <img
                 src={logoUpnvjText}
                 alt="UPNVJ"
+                width={286}
+                height={80}
                 className="h-11 object-contain"
               />
             </a>

@@ -1,152 +1,230 @@
-import { spawn, execSync } from "child_process";
+import { spawn } from "child_process";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const rootDir = path.resolve(__dirname, "..");
-const reportBase = path.join(rootDir, "lighthouse-report");
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+const rootDir = path.resolve(scriptDir, "..");
+const reportDir = path.join(rootDir, "reports", "lighthouse");
+const summaryPath = path.join(reportDir, "latest-summary.md");
+const previewPort = 4173;
+const previewUrl = `http://127.0.0.1:${previewPort}/`;
+const viteCli = path.join(rootDir, "node_modules", "vite", "bin", "vite.js");
+const lighthouseCli = path.join(
+  rootDir,
+  "node_modules",
+  "lighthouse",
+  "cli",
+  "index.js",
+);
 
-// Load environment variables from .env file
 dotenv.config({ path: path.join(rootDir, ".env") });
 
-console.log("🚀 Starting automated Lighthouse audit...");
+const requestedMode = process.argv
+  .find((argument) => argument.startsWith("--mode="))
+  ?.split("=")[1];
+const modes = requestedMode ? [requestedMode] : ["mobile", "desktop"];
+const skipBuild = process.argv.includes("--skip-build");
 
-// 1. Build the production site
-console.log("📦 Building production bundle (npm run build)...");
-try {
-  execSync("npm run build", { cwd: rootDir, stdio: "inherit" });
-  console.log("✅ Production build succeeded.");
-} catch (error) {
-  console.error("❌ Build failed:", error.message);
+if (modes.some((mode) => !["mobile", "desktop"].includes(mode))) {
+  console.error("Invalid --mode. Use --mode=mobile or --mode=desktop.");
   process.exit(1);
 }
 
-// 2. Start the Vite preview server in the background
-console.log("🌐 Starting Vite preview server...");
-const previewPort = 4173;
-const previewProcess = spawn("npx", ["vite", "preview", "--port", String(previewPort)], {
-  cwd: rootDir,
-  shell: true,
-});
+if (!fs.existsSync(lighthouseCli)) {
+  console.error("Lighthouse is not installed. Run: npm install");
+  process.exit(1);
+}
 
-let serverStarted = false;
+fs.mkdirSync(reportDir, { recursive: true });
 
-// Helper to kill server and exit
-const cleanupAndExit = (code = 0) => {
-  console.log("🧹 Stopping preview server...");
-  previewProcess.kill("SIGTERM");
-  process.exit(code);
+let previewProcess;
+
+const runCommand = (command, args, options = {}) =>
+  new Promise((resolve, reject) => {
+    const child = spawn(command, args, {
+      cwd: rootDir,
+      stdio: "inherit",
+      ...options,
+    });
+
+    child.on("error", reject);
+    child.on("close", (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(`${path.basename(command)} exited with code ${code}`));
+    });
+  });
+
+const waitForPreview = async () => {
+  const deadline = Date.now() + 30_000;
+  while (Date.now() < deadline) {
+    try {
+      const response = await fetch(previewUrl);
+      if (response.ok) return;
+    } catch {
+      // Preview is still starting.
+    }
+    await new Promise((resolve) => setTimeout(resolve, 250));
+  }
+  throw new Error(`Preview server did not become ready at ${previewUrl}`);
 };
 
-// Monitor server output to wait for it to be ready
-previewProcess.stdout.on("data", (data) => {
-  const output = data.toString();
-  console.log(`[Vite Preview] ${output.trim()}`);
-  
-  if (output.includes("http://localhost:") && !serverStarted) {
-    serverStarted = true;
-    runLighthouse();
+const stopPreview = async () => {
+  if (!previewProcess || previewProcess.exitCode !== null) return;
+  previewProcess.kill("SIGTERM");
+  await Promise.race([
+    new Promise((resolve) => previewProcess.once("close", resolve)),
+    new Promise((resolve) => setTimeout(resolve, 2_000)),
+  ]);
+};
+
+const normalizeReportFiles = (reportBase) => {
+  for (const extension of ["html", "json"]) {
+    const target = `${reportBase}.${extension}`;
+    const generated = [`${reportBase}.report.${extension}`, target].find((candidate) =>
+      fs.existsSync(candidate),
+    );
+
+    if (!generated) {
+      throw new Error(`Expected Lighthouse ${extension.toUpperCase()} report was not created.`);
+    }
+    if (generated !== target) {
+      fs.rmSync(target, { force: true });
+      fs.renameSync(generated, target);
+    }
   }
-});
+};
 
-previewProcess.stderr.on("data", (data) => {
-  console.error(`[Vite Preview Error] ${data}`);
-});
-
-previewProcess.on("close", (code) => {
-  if (!serverStarted) {
-    console.error(`❌ Preview server closed prematurely with code ${code}`);
-    process.exit(1);
-  }
-});
-
-// Set a timeout of 10s to start server in case stdout match is missed
-setTimeout(() => {
-  if (!serverStarted) {
-    console.log("⚠️ Preview server startup log not captured, proceeding with Lighthouse run anyway...");
-    serverStarted = true;
-    runLighthouse();
-  }
-}, 6000);
-
-// 3. Run Lighthouse CLI
-function runLighthouse() {
-  console.log(`🔍 Running Lighthouse audit against http://localhost:${previewPort}...`);
-  
-  // Create output dir if needed
-  const reportDir = path.dirname(reportBase);
-  if (!fs.existsSync(reportDir)) {
-    fs.mkdirSync(reportDir, { recursive: true });
-  }
-
-  // Define outputs
-  const htmlPath = `${reportBase}.html`;
-  const jsonPath = `${reportBase}.json`;
-
-  // Use npx lighthouse to run the audit
-  const lhci = spawn("npx", [
-    "lighthouse",
-    `http://localhost:${previewPort}`,
-    "--output", "html",
-    "--output", "json",
-    "--output-path", reportBase,
+const runAudit = async (mode) => {
+  const reportBase = path.join(reportDir, `latest-${mode}`);
+  const args = [
+    lighthouseCli,
+    previewUrl,
+    "--quiet",
+    "--only-categories=performance,accessibility,best-practices,seo",
+    "--output=html",
+    "--output=json",
+    `--output-path=${reportBase}`,
     "--chrome-flags=--headless --no-sandbox --disable-gpu",
-  ], {
-    cwd: rootDir,
-    shell: true,
-  });
+  ];
 
-  lhci.stdout.on("data", (data) => {
-    console.log(`[Lighthouse Stdout] ${data.toString().trim()}`);
-  });
+  if (mode === "desktop") args.push("--preset=desktop");
 
-  lhci.stderr.on("data", (data) => {
-    console.error(`[Lighthouse Stderr] ${data.toString().trim()}`);
-  });
+  console.log(`Running Lighthouse (${mode})...`);
+  await runCommand(process.execPath, args);
+  normalizeReportFiles(reportBase);
 
-  lhci.on("close", (code) => {
-    if (code !== 0) {
-      console.error(`❌ Lighthouse exited with code ${code}`);
-      cleanupAndExit(1);
-      return;
-    }
+  const report = JSON.parse(fs.readFileSync(`${reportBase}.json`, "utf8"));
+  return { mode, report };
+};
 
-    console.log("✅ Lighthouse audit completed.");
-    
-    // 4. Parse scores from JSON report
-    try {
-      const resolvedHtmlPath = fs.existsSync(`${reportBase}.report.html`) ? `${reportBase}.report.html` : htmlPath;
-      const resolvedJsonPath = fs.existsSync(`${reportBase}.report.json`) ? `${reportBase}.report.json` : jsonPath;
+const score = (report, category) =>
+  Math.round((report.categories[category]?.score ?? 0) * 100);
 
-      if (fs.existsSync(resolvedJsonPath)) {
-        const rawJson = fs.readFileSync(resolvedJsonPath, "utf8");
-        const report = JSON.parse(rawJson);
-        
-        const categories = report.categories || {};
-        const perf = Math.round((categories.performance?.score || 0) * 100);
-        const a11y = Math.round((categories.accessibility?.score || 0) * 100);
-        const bp = Math.round((categories["best-practices"]?.score || 0) * 100);
-        const seo = Math.round((categories.seo?.score || 0) * 100);
-        
-        console.log("\n📊 ==================================");
-        console.log("📊     LIGHTHOUSE AUDIT SCORES     ");
-        console.log("📊 ==================================");
-        console.log(`📊 Performance:      ${perf}/100`);
-        console.log(`📊 Accessibility:    ${a11y}/100`);
-        console.log(`📊 Best Practices:  ${bp}/100`);
-        console.log(`📊 SEO:             ${seo}/100`);
-        console.log("📊 ==================================\n");
-        console.log(`📁 Report HTML saved to: ${resolvedHtmlPath}`);
-        console.log(`📁 Report JSON saved to: ${resolvedJsonPath}`);
-      } else {
-        console.error("❌ Lighthouse JSON report file not found at:", resolvedJsonPath);
+const cleanDisplayValue = (value) => value?.replaceAll("\u00a0", " ") ?? "n/a";
+
+const metric = (report, auditId) =>
+  cleanDisplayValue(report.audits[auditId]?.displayValue);
+
+const topOpportunities = (report) =>
+  Object.values(report.audits)
+    .filter(
+      (audit) =>
+        audit.details?.overallSavingsMs > 0 || audit.details?.overallSavingsBytes > 0,
+    )
+    .sort((left, right) => {
+      const leftSaving =
+        (left.details?.overallSavingsMs ?? 0) +
+        (left.details?.overallSavingsBytes ?? 0) / 1024;
+      const rightSaving =
+        (right.details?.overallSavingsMs ?? 0) +
+        (right.details?.overallSavingsBytes ?? 0) / 1024;
+      return rightSaving - leftSaving;
+    })
+    .slice(0, 5);
+
+const writeSummary = (results) => {
+  const generatedAt = new Date().toISOString();
+  const lines = [
+    "# Latest Lighthouse results",
+    "",
+    `Generated: ${generatedAt}`,
+    "",
+    "| Mode | Performance | Accessibility | Best Practices | SEO | FCP | LCP | TBT | CLS |",
+    "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+  ];
+
+  for (const { mode, report } of results) {
+    lines.push(
+      `| ${mode} | ${score(report, "performance")} | ${score(report, "accessibility")} | ${score(report, "best-practices")} | ${score(report, "seo")} | ${metric(report, "first-contentful-paint")} | ${metric(report, "largest-contentful-paint")} | ${metric(report, "total-blocking-time")} | ${metric(report, "cumulative-layout-shift")} |`,
+    );
+  }
+
+  for (const { mode, report } of results) {
+    lines.push("", `## ${mode[0].toUpperCase()}${mode.slice(1)}`, "");
+    lines.push(`- [Open the full ${mode} HTML report](./latest-${mode}.html)`);
+    lines.push(`- JSON: \`latest-${mode}.json\``);
+    const opportunities = topOpportunities(report);
+    if (opportunities.length) {
+      lines.push("- Largest remaining opportunities:");
+      for (const audit of opportunities) {
+        lines.push(`  - ${audit.title}: ${cleanDisplayValue(audit.displayValue)}`);
       }
-    } catch (err) {
-      console.error("❌ Failed to parse Lighthouse report json:", err.message);
     }
-    
-    cleanupAndExit(0);
-  });
+  }
+
+  lines.push(
+    "",
+    "## Re-run",
+    "",
+    "```bash",
+    "npm run lighthouse",
+    "```",
+    "",
+  );
+  fs.writeFileSync(summaryPath, lines.join("\n"), "utf8");
+};
+
+const main = async () => {
+  if (!skipBuild) {
+    console.log("Building production bundle...");
+    const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
+    await runCommand(npmCommand, ["run", "build"], {
+      shell: process.platform === "win32",
+    });
+  }
+
+  console.log(`Starting preview server at ${previewUrl}`);
+  previewProcess = spawn(
+    process.execPath,
+    [viteCli, "preview", "--host", "127.0.0.1", "--port", String(previewPort), "--strictPort"],
+    { cwd: rootDir, stdio: "ignore" },
+  );
+  await waitForPreview();
+
+  const results = [];
+  for (const mode of modes) results.push(await runAudit(mode));
+  writeSummary(results);
+
+  console.log(`Summary: ${summaryPath}`);
+  for (const { mode, report } of results) {
+    console.log(
+      `${mode}: performance ${score(report, "performance")}, accessibility ${score(report, "accessibility")}, best-practices ${score(report, "best-practices")}, SEO ${score(report, "seo")}`,
+    );
+  }
+};
+
+process.on("SIGINT", async () => {
+  await stopPreview();
+  process.exit(130);
+});
+
+try {
+  await main();
+  await stopPreview();
+} catch (error) {
+  console.error(error instanceof Error ? error.message : error);
+  await stopPreview();
+  process.exit(1);
 }

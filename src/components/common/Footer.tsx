@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "../../contexts/LanguageContext";
 import logoUpnvjText from "../../assets/images/logo-upnvj-text.webp";
+import DeferredSection from "./DeferredSection";
 
 const Footer: React.FC = () => {
   const { t } = useLanguage();
@@ -98,6 +99,8 @@ const Footer: React.FC = () => {
               <img
                 src={logoUpnvjText}
                 alt="UPN Veteran Jakarta"
+                width={286}
+                height={80}
                 className="h-14 object-contain"
               />
             </a>
@@ -141,6 +144,7 @@ const Footer: React.FC = () => {
                 href="https://www.instagram.com/fikupnvj/"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Instagram FIK UPNVJ"
                 className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center border border-white/15 text-white/70 hover:text-yellow-300 hover:bg-white/20 transition-all duration-200"
               >
                 <Instagram className="w-4 h-4" />
@@ -149,6 +153,7 @@ const Footer: React.FC = () => {
                 href="https://www.youtube.com/@fikupnvj"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="YouTube FIK UPNVJ"
                 className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center border border-white/15 text-white/70 hover:text-yellow-300 hover:bg-white/20 transition-all duration-200"
               >
                 <Youtube className="w-4 h-4" />
@@ -157,10 +162,10 @@ const Footer: React.FC = () => {
 
             {/* Operational Hours */}
             <div>
-              <h3 className="text-sm font-semibold text-white mb-2 flex items-center gap-1.5">
+              <h2 className="text-sm font-semibold text-white mb-2 flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5 text-yellow-300" />
                 {lang === "id" ? "Waktu Operasional" : "Operating Hours"}
-              </h3>
+              </h2>
               <div className="text-[11px] text-white/70 space-y-1 leading-relaxed">
                 <p className="font-semibold text-white/90">
                   {lang === "id"
@@ -188,9 +193,9 @@ const Footer: React.FC = () => {
 
           {/* ─── Column 2: Mahasiswa + Dosen ─── */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">
+            <h2 className="text-sm font-semibold text-white mb-4">
               {lang === "id" ? "Mahasiswa" : "Students"}
-            </h3>
+            </h2>
             <div className="space-y-2 mb-6">
               {studentLinks.map((link, i) => (
                 <a
@@ -207,9 +212,9 @@ const Footer: React.FC = () => {
               ))}
             </div>
 
-            <h3 className="text-sm font-semibold text-white mb-4">
+            <h2 className="text-sm font-semibold text-white mb-4">
               {lang === "id" ? "Dosen" : "Lecturers"}
-            </h3>
+            </h2>
             <div className="space-y-2">
               {lecturerLinks.map((link, i) => (
                 <a
@@ -229,9 +234,9 @@ const Footer: React.FC = () => {
 
           {/* ─── Column 3: Fasilitas + Institusi ─── */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">
+            <h2 className="text-sm font-semibold text-white mb-4">
               {lang === "id" ? "Fasilitas" : "Facilities"}
-            </h3>
+            </h2>
             <div className="space-y-2 mb-6">
               {facilityLinks.map((link, i) => (
                 <a
@@ -248,9 +253,9 @@ const Footer: React.FC = () => {
               ))}
             </div>
 
-            <h3 className="text-sm font-semibold text-white mb-4">
+            <h2 className="text-sm font-semibold text-white mb-4">
               {lang === "id" ? "Institusi" : "Institution"}
-            </h3>
+            </h2>
             <div className="space-y-2">
               {institutionLinks.map((link, i) => (
                 <a
@@ -270,26 +275,37 @@ const Footer: React.FC = () => {
 
           {/* ─── Column 4: Google Maps ─── */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">Maps</h3>
+            <h2 className="text-sm font-semibold text-white mb-4">Maps</h2>
             <div className="rounded-xl overflow-hidden border border-white/15">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.6005846073967!2d106.79277181476974!3d-6.3160819954289575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ee229acb972d%3A0x2e74d2fa25f612e2!2sFaculty%20of%20Computer%20Sciance%20-%20Pembangunan%20Nasional%20%22Veteran%22%20Jakarta%20University!5e0!3m2!1sen!2sid!4v1616120323035!5m2!1sen!2sid"
-                width="100%"
-                height="260"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="FIK UPNVJ Location"
-                className="w-full"
-              />
+              <DeferredSection
+                rootMargin="200px 0px"
+                fallback={
+                  <div className="flex h-[260px] items-center justify-center bg-white/10 px-6 text-center text-xs text-white/90">
+                    {lang === "id"
+                      ? "Peta lokasi dimuat saat bagian ini terlihat"
+                      : "The location map loads when this section becomes visible"}
+                  </div>
+                }
+              >
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.6005846073967!2d106.79277181476974!3d-6.3160819954289575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ee229acb972d%3A0x2e74d2fa25f612e2!2sFaculty%20of%20Computer%20Sciance%20-%20Pembangunan%20Nasional%20%22Veteran%22%20Jakarta%20University!5e0!3m2!1sen!2sid!4v1616120323035!5m2!1sen!2sid"
+                  width="100%"
+                  height="260"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="FIK UPNVJ Location"
+                  className="w-full"
+                />
+              </DeferredSection>
             </div>
           </div>
         </div>
 
         {/* ─── Bottom Section ─── */}
         <div className="border-t border-white/20 mt-12 md:mt-16 pt-6 md:pt-8">
-          <p className="text-center text-white/60 text-xs">
+          <p className="text-center text-white/80 text-xs">
             Copyright ©{new Date().getFullYear()} Fakultas Ilmu Komputer UPN
             Veteran Jakarta
           </p>

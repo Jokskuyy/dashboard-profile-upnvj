@@ -381,7 +381,7 @@ const AssetsSection: React.FC = () => {
                   <span className="text-2xl font-bold text-gray-900">
                     {asset.count === "0" ? "—" : asset.count}
                   </span>
-                  <span className="text-xs text-gray-400">{asset.unit}</span>
+                  <span className="text-xs text-gray-600">{asset.unit}</span>
                 </div>
               </div>
               {asset.clickable && (

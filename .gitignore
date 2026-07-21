@@ -62,6 +62,8 @@ umami-db-data/
 # Lighthouse reports and temp files
 lighthouse-*
 lh-*
+reports/lighthouse/*.html
+reports/lighthouse/*.json
 
 # Tool outputs / transient artifacts
 report.md

@@ -14,9 +14,9 @@
     />
     <link rel="apple-touch-icon" sizes="512x512" href="/logoupnvj.png" />
 
-    <!-- Preconnect to Supabase to reduce connection latency -->
-    <link rel="preconnect" href="https://supabase.co" crossorigin />
-    <link rel="dns-prefetch" href="https://supabase.co" />
+    <!-- Preconnect to the active Supabase project to reduce API latency -->
+    <link rel="preconnect" href="%VITE_SUPABASE_URL%" crossorigin />
+    <link rel="dns-prefetch" href="%VITE_SUPABASE_URL%" />
     <!-- Preconnect for Umami analytics (self-hosted) -->
     <link rel="dns-prefetch" href="https://analytics.upnvj.ac.id" />
 
@@ -71,7 +71,15 @@
     <!-- Configuration: VITE_UMAMI_URL and VITE_UMAMI_WEBSITE_ID in .env -->
 
     <!-- Preload LCP image (first hero carousel slide) -->
-    <link rel="preload" as="image" href="/hero1.webp" type="image/webp" fetchpriority="high" />
+    <link
+      rel="preload"
+      as="image"
+      href="/hero1.webp"
+      type="image/webp"
+      imagesrcset="/hero1-mobile.webp 768w, /hero1.webp 1023w"
+      imagesizes="100vw"
+      fetchpriority="high"
+    />
 
     <title>
       Dashboard Profile UPNVJ | Universitas Pembangunan Nasional Veteran Jakarta

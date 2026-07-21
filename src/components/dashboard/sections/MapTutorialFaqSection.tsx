@@ -472,8 +472,10 @@ const MapTutorialFaqSection: React.FC = () => {
             {mode === "2d" ? (
               <>
                 <img
-                  src={`${import.meta.env.BASE_URL}maps/denah-2d-grass-bright.png`}
+                  src={`${import.meta.env.BASE_URL}maps/denah-2d-tutorial.webp`}
                   alt={isIndonesian ? "Pratinjau tutorial denah 2D" : "2D map tutorial preview"}
+                  width={640}
+                  height={360}
                   className="absolute inset-0 h-full w-full object-cover opacity-75"
                   loading="lazy"
                 />

@@ -208,7 +208,7 @@ const CampusMapSection: React.FC = () => {
               </button>
 
               <div className="flex flex-col gap-1">
-                <span className="text-xs text-gray-400">
+                <span className="text-xs text-gray-600">
                   {isIndonesian ? "Denah 2D + Unity WebGL 3D" : "2D Map + Unity WebGL 3D"}
                 </span>
                 {_cacheStatus === "cached" && (

@@ -4,6 +4,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { KPICardSkeleton, SectionSkeleton } from "../common/SkeletonLoader";
+import DeferredSection from "../common/DeferredSection";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useDashboard } from "../../contexts/DashboardContext";
 import { trackClick, trackCarousel } from "../analytics/trackingHelpers";
@@ -26,9 +27,19 @@ const Dashboard: React.FC = () => {
   const basePath = import.meta.env.BASE_URL;
   const heroImages = useMemo(
     () => [
-      `${basePath}hero1.webp`,
-      `${basePath}hero2.webp`,
-      `${basePath}hero3.webp`,
+      {
+        src: `${basePath}hero1.webp`,
+        mobileSrc: `${basePath}hero1-mobile.webp`,
+        width: 1023,
+        height: 682,
+      },
+      {
+        src: `${basePath}hero2.webp`,
+        mobileSrc: `${basePath}hero2-mobile.webp`,
+        width: 1600,
+        height: 1031,
+      },
+      { src: `${basePath}hero3.webp`, width: 720, height: 388 },
     ],
     [basePath],
   );
@@ -52,7 +63,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
-    }, 5000);
+    }, 8000);
     return () => clearInterval(timer);
   }, [heroImages.length]);
 
@@ -84,8 +95,16 @@ const Dashboard: React.FC = () => {
             }`}
           >
             <img
-              src={image}
+              src={image.src}
+              srcSet={
+                "mobileSrc" in image
+                  ? `${image.mobileSrc} 768w, ${image.src} ${image.width}w`
+                  : undefined
+              }
+              sizes="100vw"
               alt={`UPNVJ Campus ${index + 1}`}
+              width={image.width}
+              height={image.height}
               className="w-full h-full object-cover"
               loading={index === 0 ? "eager" : "lazy"}
               fetchPriority={index === 0 ? "high" : "auto"}
@@ -195,13 +214,17 @@ const Dashboard: React.FC = () => {
                 setCurrentSlide(index);
                 trackCarousel("indicator", index);
               }}
-              className={`rounded-full transition-all duration-500 ${
-                index === currentSlide
-                  ? "w-8 h-2 bg-white"
-                  : "w-2 h-2 bg-white/40 hover:bg-white/60"
-              }`}
+              className="flex h-6 min-w-6 items-center justify-center rounded-full"
               aria-label={`Slide ${index + 1}`}
-            />
+            >
+              <span
+                className={`h-2 rounded-full transition-all duration-500 ${
+                  index === currentSlide
+                    ? "w-8 bg-white"
+                    : "w-2 bg-white/40 hover:bg-white/60"
+                }`}
+              />
+            </button>
           ))}
         </div>
       </div>
@@ -212,16 +235,20 @@ const Dashboard: React.FC = () => {
       {/* ─── Content Container ─── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Traffic Overview */}
-        <Suspense fallback={null}>
-          <TrafficOverview />
-        </Suspense>
+        <DeferredSection className="min-h-[680px]" threshold={0.1} rootMargin="0px">
+          <Suspense fallback={<SectionSkeleton items={3} />}>
+            <TrafficOverview />
+          </Suspense>
+        </DeferredSection>
 
         {/* Assets Section */}
         {!loading && (
-          <div id="assets-section" className="mb-8">
-            <Suspense fallback={<SectionSkeleton items={4} />}>
-              <AssetsSection />
-            </Suspense>
+          <div id="assets-section" className="mb-8 min-h-[760px]">
+            <DeferredSection fallback={<SectionSkeleton items={4} />}>
+              <Suspense fallback={<SectionSkeleton items={4} />}>
+                <AssetsSection />
+              </Suspense>
+            </DeferredSection>
           </div>
         )}
 
@@ -250,13 +277,20 @@ const Dashboard: React.FC = () => {
         {/* Sections — show when data is loaded */}
         {!loading && (
           <div className="space-y-8">
-            <Suspense fallback={<SectionSkeleton items={4} />}>
-              <MapTutorialFaqSection />
-            </Suspense>
-            <div id="campus-map-section">
-              <Suspense fallback={<SectionSkeleton items={2} />}>
-                <CampusMapSection />
+            <DeferredSection
+              className="min-h-[1200px]"
+              fallback={<SectionSkeleton items={4} />}
+            >
+              <Suspense fallback={<SectionSkeleton items={4} />}>
+                <MapTutorialFaqSection />
               </Suspense>
+            </DeferredSection>
+            <div id="campus-map-section" className="min-h-[680px]">
+              <DeferredSection fallback={<SectionSkeleton items={2} />}>
+                <Suspense fallback={<SectionSkeleton items={2} />}>
+                  <CampusMapSection />
+                </Suspense>
+              </DeferredSection>
             </div>
           </div>
         )}
