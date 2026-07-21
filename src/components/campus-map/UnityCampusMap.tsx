@@ -36,7 +36,7 @@ interface UnityConfig {
   companyName: string;
   productName: string;
   productVersion: string;
-  matchWebGLToBrowser?: boolean;
+  matchWebGLToCanvasSize?: boolean;
   devicePixelRatio?: number;
   showBanner?: (msg: string, type: string) => void;
 }
@@ -163,7 +163,9 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
       companyName: "DefaultCompany",
       productName: "T_A",
       productVersion: "v0.8.0",
-      matchWebGLToBrowser: true,
+      // Keep Unity's render target synchronized with the CSS canvas size and DPR.
+      // Manually assigning canvas.width/height causes partial rendering on HiDPI displays.
+      matchWebGLToCanvasSize: true,
       devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
       showBanner: unityShowBanner,
     }),
@@ -207,14 +209,6 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
     let msg45s: NodeJS.Timeout | undefined;
     let msg90s: NodeJS.Timeout | undefined;
     let fakeProgressInterval: ReturnType<typeof setInterval> | undefined;
-
-    const updateCanvasSize = () => {
-      const canvas = canvasRef.current;
-      const container = containerRef.current;
-      if (!canvas || !container) return;
-      canvas.width = container.clientWidth || 960;
-      canvas.height = container.clientHeight || 600;
-    };
 
     const loadUnityBuild = async () => {
       const canvas = canvasRef.current;
@@ -272,9 +266,6 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
             return prev + 1; // 1% every 30ms (~2.7s to 90%)
           });
         }, 30);
-
-        updateCanvasSize();
-        window.addEventListener("resize", updateCanvasSize);
 
         // First, dynamically load the Unity loader script - use BASE_URL for GitHub Pages
         const loaderUrl = `${basePath}unity-builds/v0.8.0/Build/v0.8.0.loader.js`;
@@ -397,8 +388,6 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
           console.error("Error cleaning up Unity instance:", err);
         }
       }
-
-      window.removeEventListener("resize", updateCanvasSize);
       try {
         (screen.orientation as ScreenOrientation & { unlock?: () => void }).unlock?.();
       } catch {
