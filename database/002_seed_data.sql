@@ -770,15 +770,6 @@ INSERT INTO public.fasilitas (nama_fasilitas, deskripsi_fasilitas, tipe_fasilita
     'khd_kaprodi_s1_data_science'
 ),
 (
-    'Ruang Koordinator Program Studi D3 Sistem Informasi',
-    $$Ruang kerja Koordinator Program Studi D3 Sistem Informasi untuk pengelolaan akademik program studi. Koordinator Program Studi dikenal juga sebagai Korprodi atau Koorprodi.$$,
-    'Pelayanan & Administrasi',
-    1,
-    ' ',
-    6,
-    'khd_kaprodi_d3_si'
-),
-(
     'Digital Library',
     $$Perpustakaan digital Fakultas Ilmu Komputer yang menyimpan koleksi buku, jurnal, artikel, dan sumber informasi lainnya dalam bentuk digital.$$,
     'Perpustakaan & Ruang Baca',
