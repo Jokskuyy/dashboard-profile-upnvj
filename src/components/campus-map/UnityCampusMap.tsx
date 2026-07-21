@@ -4,8 +4,6 @@ import {
   MapPin,
   Maximize2,
   Minimize2,
-  Mouse,
-  MousePointerClick,
   Headset,
   Phone,
   X,
@@ -560,25 +558,6 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
           </button>
         )}
       </div>
-
-      {/* Info Panel */}
-      {!isLoading && !error && !isMobileLandscape && (
-        <div className="bg-gray-50 p-4 border-t">
-          <div className="flex items-center justify-between text-sm text-gray-600">
-            <div className="flex items-center space-x-6">
-              <div className="flex items-center space-x-2">
-                <MousePointerClick className="w-4 h-4 text-gray-500" />
-                <span>{t("clickAndDragToMove")}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Mouse className="w-4 h-4 text-gray-500" />
-                <span>{t("scrollToZoom")}</span>
-              </div>
-            </div>
-            <div className="text-xs text-gray-500">{t("unityWebGLBuild")}</div>
-          </div>
-        </div>
-      )}
 
       {/* Help & Support Modal */}
       {showHelpModal && (
