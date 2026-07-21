@@ -9,6 +9,10 @@ interface SearchOverlayProps {
   onCancelNavigation?: () => void;
 }
 
+type NavigationCompletedPayload = {
+  unity_object_name: string;
+};
+
 const SearchOverlay: React.FC<SearchOverlayProps> = ({
   isUnityLoaded,
   onNavigate,
@@ -26,6 +30,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
   const [hasReachedDestination, setHasReachedDestination] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const arrivalTimeoutRef = useRef<number | null>(null);
 
   // Fetch data dari Supabase
   const { search, loading: dataLoading } = useBuildingSearch();
@@ -42,7 +47,15 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
     if (canvas) canvas.style.pointerEvents = "auto";
   }, []);
 
+  const clearArrivalTimeout = useCallback(() => {
+    if (arrivalTimeoutRef.current !== null) {
+      window.clearTimeout(arrivalTimeoutRef.current);
+      arrivalTimeoutRef.current = null;
+    }
+  }, []);
+
   const handleCancelNavigation = useCallback(() => {
+    clearArrivalTimeout();
     setQuery("");
     setSelectedItem(null);
     setIsOpen(false);
@@ -56,7 +69,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
     } else if (window.unityInstance) {
       window.unityInstance.SendMessage("NavigationReceiver", "StopNavigation", "");
     }
-  }, [onCancelNavigation, unlockUnityInput]);
+  }, [clearArrivalTimeout, onCancelNavigation, unlockUnityInput]);
 
   // Global shortcut: Enter → fokus ke search bar + lock Unity input
   useEffect(() => {
@@ -80,22 +93,57 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
       }
     };
 
-    const handleNavigationCompleted = () => {
-      console.log("[SearchOverlay] Navigation completed event received from Unity");
+    window.addEventListener("keydown", handler, true);
+
+    return () => {
+      window.removeEventListener("keydown", handler, true);
+    };
+  }, [lockUnityInput, isNavigating, handleCancelNavigation]);
+
+  useEffect(() => {
+    const handleNavigationCompleted = (event: Event) => {
+      const detail = (event as CustomEvent<unknown>).detail;
+      if (typeof detail !== "string" || !detail.trim()) return;
+
+      let payload: NavigationCompletedPayload;
+      try {
+        payload = JSON.parse(detail) as NavigationCompletedPayload;
+      } catch {
+        console.warn("[SearchOverlay] Payload OnNavigationCompleted tidak valid.");
+        return;
+      }
+
+      const completedKey =
+        typeof payload?.unity_object_name === "string"
+          ? payload.unity_object_name.trim().toLowerCase()
+          : "";
+      const selectedKey = selectedItem?.unityObjectName.trim().toLowerCase() ?? "";
+
+      if (!isNavigating || !completedKey || !selectedKey || completedKey !== selectedKey) {
+        return;
+      }
+
       setHasReachedDestination(true);
-      setTimeout(() => {
+      clearArrivalTimeout();
+      arrivalTimeoutRef.current = window.setTimeout(() => {
+        arrivalTimeoutRef.current = null;
         handleCancelNavigation();
       }, 4000);
     };
 
-    window.addEventListener("keydown", handler, true);
-    window.addEventListener("OnNavigationCompleted", handleNavigationCompleted as EventListener);
-    
+    window.addEventListener(
+      "OnNavigationCompleted",
+      handleNavigationCompleted as EventListener,
+    );
+
     return () => {
-      window.removeEventListener("keydown", handler, true);
-      window.removeEventListener("OnNavigationCompleted", handleNavigationCompleted as EventListener);
+      window.removeEventListener(
+        "OnNavigationCompleted",
+        handleNavigationCompleted as EventListener,
+      );
+      clearArrivalTimeout();
     };
-  }, [lockUnityInput, isNavigating, handleCancelNavigation]);
+  }, [clearArrivalTimeout, handleCancelNavigation, isNavigating, selectedItem]);
 
   // Debounce query — delay search by 300ms to avoid searching every keystroke
   useEffect(() => {
@@ -134,10 +182,12 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
 
   const handleSelect = useCallback(
     (item: SearchResult) => {
+      clearArrivalTimeout();
       setQuery(item.label);
       setSelectedItem(item);
       setIsOpen(false);
       setIsNavigating(true);
+      setHasReachedDestination(false);
       setResults([]);
       inputRef.current?.blur();
       unlockUnityInput();
@@ -152,7 +202,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
         );
       }
     },
-    [onNavigate, unlockUnityInput]
+    [clearArrivalTimeout, onNavigate, unlockUnityInput]
   );
 
   const handleClearSearch = useCallback(() => {

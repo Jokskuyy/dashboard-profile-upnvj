@@ -338,7 +338,15 @@ public void NavigateTo(string unityObjectName)
 }
 ```
 
-Unity dapat mengirim event kembali ke React melalui plugin `ReactBridge.jslib`. `NavigationGuide.StopNavigation()` memanggil `DispatchReactEvent("OnNavigationCompleted", "")` hanya pada WebGL production. Saat ini `SearchOverlay` belum memasang listener event tersebut, jadi status UI terutama dikontrol dari klik pengguna/stop manual; jangan mengasumsikan callback completion sudah sepenuhnya diintegrasikan.
+Unity dapat mengirim event kembali ke React melalui plugin `ReactBridge.jslib`. Kontrak completion terbaru memakai event `OnNavigationCompleted` dengan `CustomEvent.detail` berupa string JSON:
+
+```json
+{"unity_object_name":"yos_sudarso"}
+```
+
+`SearchOverlay` memasang listener dengan cleanup, mem-parse payload, lalu menormalisasi `payload.unity_object_name` dan `selectedItem.unityObjectName` menggunakan `trim().toLowerCase()`. Popup kedatangan hanya ditampilkan ketika navigasi masih aktif dan kedua key sama. Payload kosong/rusak, target berbeda, state tanpa selected item, serta event setelah cancel diabaikan. Unity wajib mengirim event hanya dari completion normal; cancel, pergantian spawn, dan target yang tidak ditemukan tidak boleh mengirim completion event.
+
+Detail implementasi dan checklist integrasi tersedia di `docs/handoff-navigation-completion-event.md`.
 
 ### 7.5 Endpoint Vercel yang tersedia
 
