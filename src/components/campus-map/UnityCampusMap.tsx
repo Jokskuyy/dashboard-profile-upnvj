@@ -156,13 +156,13 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
   const basePath = import.meta.env.BASE_URL;
   const unityConfig = useMemo(
     () => ({
-      dataUrl: `${basePath}unity-builds/v0.8.0/Build/v0.8.0.data.unityweb`,
-      frameworkUrl: `${basePath}unity-builds/v0.8.0/Build/v0.8.0.framework.js.unityweb`,
-      codeUrl: `${basePath}unity-builds/v0.8.0/Build/v0.8.0.wasm.unityweb`,
+      dataUrl: `${basePath}unity-builds/v0.8.6/Build/v0.8.6.data.unityweb`,
+      frameworkUrl: `${basePath}unity-builds/v0.8.6/Build/v0.8.6.framework.js.unityweb`,
+      codeUrl: `${basePath}unity-builds/v0.8.6/Build/v0.8.6.wasm.unityweb`,
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "T_A",
-      productVersion: "v0.8.0",
+      productVersion: "v0.8.6",
       // Keep Unity's render target synchronized with the CSS canvas size and DPR.
       // Manually assigning canvas.width/height causes partial rendering on HiDPI displays.
       matchWebGLToCanvasSize: true,
@@ -268,7 +268,7 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
         }, 30);
 
         // First, dynamically load the Unity loader script - use BASE_URL for GitHub Pages
-        const loaderUrl = `${basePath}unity-builds/v0.8.0/Build/v0.8.0.loader.js`;
+        const loaderUrl = `${basePath}unity-builds/v0.8.6/Build/v0.8.6.loader.js`;
         if (!window.createUnityInstance) {
           console.log("Loading Unity WebGL loader...");
           await new Promise<void>((resolve, reject) => {
