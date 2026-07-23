@@ -1683,3 +1683,386 @@ SET tipe_fasilitas = CASE
 END
 WHERE id_gedung = (SELECT id FROM public.gedung WHERE nama_gedung ILIKE '%Cipto%' LIMIT 1)
   AND tipe_fasilitas IS NULL;
+
+-- =============================================================================
+-- RESTORE FASILITAS DENGAN UNITY OBJECT NAME DARI RIWAYAT SEED
+-- =============================================================================
+-- Baris berikut pernah ada di seed dan mempunyai target GameObject Unity, tetapi
+-- terhapus saat pembersihan/penyusunan ulang data. Alias lama untuk fasilitas
+-- yang masih ada dengan nama canonical baru sengaja tidak diduplikasi.
+INSERT INTO public.fasilitas (
+    nama_fasilitas,
+    deskripsi_fasilitas,
+    tipe_fasilitas,
+    lantai,
+    foto_url,
+    id_gedung,
+    unity_object_name
+) VALUES
+-- Gedung 6: Gedung Ki Hadjar Dewantara
+(
+    'Ruang Rapat Lantai 1 FIK',
+    'Ruang rapat Fakultas Ilmu Komputer di lantai 1 Gedung Ki Hadjar Dewantara.',
+    'Administrasi & Layanan',
+    1,
+    NULL,
+    6,
+    'khd_ruang_rapat'
+),
+
+-- Gedung 7: Gedung Muh. Husni Thamrin
+(
+    'Ruang Kelas 201',
+    'Ruang perkuliahan untuk kegiatan belajar mengajar mahasiswa Fakultas Ekonomi dan Bisnis, dilengkapi kursi kuliah, papan tulis, proyektor, dan pendingin ruangan.',
+    'Ruang Kuliah',
+    2,
+    NULL,
+    7,
+    'mht_201'
+),
+(
+    'Ruang Kelas 202',
+    'Ruang perkuliahan untuk kegiatan belajar mengajar mahasiswa Fakultas Ekonomi dan Bisnis, dilengkapi kursi kuliah, papan tulis, proyektor, dan pendingin ruangan.',
+    'Ruang Kuliah',
+    2,
+    NULL,
+    7,
+    'mht_202'
+),
+(
+    'Ruang Kelas 203',
+    'Ruang perkuliahan untuk kegiatan belajar mengajar mahasiswa Fakultas Ekonomi dan Bisnis, dilengkapi kursi kuliah, papan tulis, proyektor, dan pendingin ruangan.',
+    'Ruang Kuliah',
+    2,
+    NULL,
+    7,
+    'mht_203'
+),
+(
+    'Ruang Kelas 204',
+    'Ruang perkuliahan untuk kegiatan belajar mengajar mahasiswa Fakultas Ekonomi dan Bisnis, dilengkapi kursi kuliah, papan tulis, proyektor, dan pendingin ruangan.',
+    'Ruang Kuliah',
+    2,
+    NULL,
+    7,
+    'mht_204'
+),
+(
+    'Ruang Kelas 301',
+    'Ruang perkuliahan untuk kegiatan belajar mengajar mahasiswa Fakultas Ekonomi dan Bisnis, dilengkapi kursi kuliah, papan tulis, proyektor, dan pendingin ruangan.',
+    'Ruang Kuliah',
+    3,
+    NULL,
+    7,
+    'mht_301'
+),
+
+-- Gedung 9: Gedung Yos Sudarso
+(
+    'Ruang Pelayanan Mahasiswa FH',
+    'Ruang pelayanan dan administrasi mahasiswa Fakultas Hukum di lantai 1 Gedung Yos Sudarso.',
+    'Administrasi & Layanan',
+    1,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_administrasi_yos_sudarso.png',
+    9,
+    'yos_ruang_pelayanan_mahasiswa_fh'
+),
+(
+    'Ruang Transit Dosen FH',
+    'Ruang tunggu dan transit bagi dosen Fakultas Hukum.',
+    'Administrasi & Layanan',
+    1,
+    NULL,
+    9,
+    'yos_ruang_transit_dosen'
+),
+(
+    'Lobby Yos Sudarso',
+    'Area penerimaan tamu dan lobby utama Gedung Yos Sudarso.',
+    'Lainnya',
+    1,
+    NULL,
+    9,
+    'yos_lobby'
+),
+(
+    'Ruang BEM dan Senat FH',
+    'Ruang sekretariat Badan Eksekutif Mahasiswa dan Senat Mahasiswa Fakultas Hukum.',
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    9,
+    'yos_ruang_bem_dan_senat_fh'
+),
+(
+    'Ruang Dosen Pidana',
+    'Ruang kerja khusus dosen hukum pidana.',
+    'Administrasi & Layanan',
+    1,
+    NULL,
+    9,
+    'yos_ruang_dosen_pidana'
+),
+(
+    'Ruang Dosen FH (Pintu 1)',
+    'Ruang dosen Fakultas Hukum dengan akses melalui pintu utama.',
+    'Administrasi & Layanan',
+    1,
+    NULL,
+    9,
+    'yos_ruang_dosen_1'
+),
+(
+    'Ruang Dosen FH (Pintu 2)',
+    'Ruang dosen Fakultas Hukum dengan akses melalui pintu alternatif.',
+    'Administrasi & Layanan',
+    1,
+    NULL,
+    9,
+    'yos_ruang_dosen_2'
+),
+(
+    'Selasar Fakultas Hukum',
+    'Area selasar dan lorong utama Fakultas Hukum.',
+    'Lainnya',
+    1,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/selasar_kanan_yos_sudarso.jpg',
+    9,
+    'yos_selasar'
+),
+(
+    'Laboratorium Perancangan Kontrak',
+    'Laboratorium Perancangan Kontrak pada lantai 2 Gedung Yos Sudarso.',
+    'Laboratorium',
+    2,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/lab_perancangan_kontrak.jpg',
+    9,
+    'yos_ruang_perancangan_kontrak'
+),
+(
+    'Ruang Dosen Perdata dan Bisnis',
+    'Ruang kerja khusus dosen hukum perdata dan hukum bisnis.',
+    'Administrasi & Layanan',
+    2,
+    NULL,
+    9,
+    'yos_ruang_dosen_perdata_dan_bisnis'
+),
+(
+    'Ruang Forum Riset & Debat Mahasiswa',
+    'Ruangan untuk kegiatan riset dan latihan debat hukum mahasiswa.',
+    'Ruang Kegiatan Mahasiswa',
+    2,
+    NULL,
+    9,
+    'yos_ruang_forum_riset_dan_debat_mahasiswa'
+),
+(
+    'Ruang Kelas 201',
+    'Ruang kelas teori 201 Gedung Yos Sudarso.',
+    'Ruang Kuliah',
+    2,
+    NULL,
+    9,
+    'yos_kelas_201'
+),
+(
+    'Ruang Kelas 202',
+    'Ruang kelas teori 202 Gedung Yos Sudarso.',
+    'Ruang Kuliah',
+    2,
+    NULL,
+    9,
+    'yos_kelas_202'
+),
+(
+    'Ruang Kelas 203',
+    'Ruang kelas teori 203 Gedung Yos Sudarso.',
+    'Ruang Kuliah',
+    2,
+    NULL,
+    9,
+    'yos_kelas_203'
+),
+(
+    'Ruang Kelas 204',
+    'Ruang kelas teori 204 Gedung Yos Sudarso.',
+    'Ruang Kuliah',
+    2,
+    NULL,
+    9,
+    'yos_kelas_204'
+),
+(
+    'Ruang Kelas 205',
+    'Ruang kelas teori 205 Gedung Yos Sudarso.',
+    'Ruang Kuliah',
+    2,
+    NULL,
+    9,
+    'yos_kelas_205'
+),
+(
+    'Perpustakaan Fakultas Hukum',
+    'Fasilitas perpustakaan dan ruang baca Fakultas Hukum di lantai 3 Gedung Yos Sudarso.',
+    'Perpustakaan & Ruang Baca',
+    3,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_baca_yos_sudarso.jpg',
+    9,
+    'yos_perpustakaan_fh'
+),
+(
+    'Ruang Asosiasi Mahasiswa Hukum Internasional',
+    'Ruang sekretariat Asosiasi Mahasiswa Hukum Internasional.',
+    'Ruang Kegiatan Mahasiswa',
+    3,
+    NULL,
+    9,
+    'yos_ruang_asosiasi_mahasiswa_hukum_internasional'
+),
+(
+    'Ruang Kelas 301',
+    'Ruang kelas teori 301 Gedung Yos Sudarso.',
+    'Ruang Kuliah',
+    3,
+    NULL,
+    9,
+    'yos_kelas_301'
+),
+(
+    'Ruang Kelas 302',
+    'Ruang kelas teori 302 Gedung Yos Sudarso.',
+    'Ruang Kuliah',
+    3,
+    NULL,
+    9,
+    'yos_kelas_302'
+),
+(
+    'Ruang Kelas 303',
+    'Ruang kelas teori 303 Gedung Yos Sudarso.',
+    'Ruang Kuliah',
+    3,
+    NULL,
+    9,
+    'yos_kelas_303'
+),
+(
+    'Ruang Kelas 304',
+    'Ruang kelas teori 304 Gedung Yos Sudarso.',
+    'Ruang Kuliah',
+    3,
+    NULL,
+    9,
+    'yos_kelas_304'
+),
+(
+    'Ruang Kelas 305',
+    'Ruang kelas teori 305 Gedung Yos Sudarso.',
+    'Ruang Kuliah',
+    3,
+    NULL,
+    9,
+    'yos_kelas_305'
+),
+(
+    'Ruang Kelas 306',
+    'Ruang kelas teori 306 Gedung Yos Sudarso.',
+    'Ruang Kuliah',
+    3,
+    NULL,
+    9,
+    'yos_kelas_306'
+),
+(
+    'Ruang Kelas 307',
+    'Ruang kelas teori 307 Gedung Yos Sudarso.',
+    'Ruang Kuliah',
+    3,
+    NULL,
+    9,
+    'yos_kelas_307'
+),
+(
+    'Ruang Podcast Yos Sudarso',
+    'Ruang podcast Fakultas Hukum pada lantai 4 Gedung Yos Sudarso.',
+    'Laboratorium',
+    4,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_praktik_peradilan_semu.png',
+    9,
+    'yos_podcast'
+),
+(
+    'Ruang Praktik Peradilan Semu 1',
+    'Ruang sidang untuk praktik peradilan semu Fakultas Hukum.',
+    'Lainnya',
+    4,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/yos%20sudarso/ruang_praktik_peradilan_semu.png',
+    9,
+    'yos_praktek_peradilan_semu_1'
+),
+(
+    'Unit Peradilan Semu',
+    'Ruangan administrasi dan persiapan Unit Peradilan Semu Fakultas Hukum.',
+    'Administrasi & Layanan',
+    4,
+    NULL,
+    9,
+    'yos_unit_peradilan_semu'
+),
+(
+    'Ruang Praktik Peradilan Semu 2',
+    'Ruang sidang untuk praktik peradilan semu Fakultas Hukum.',
+    'Lainnya',
+    4,
+    NULL,
+    9,
+    'yos_praktek_peradilan_semu_2'
+),
+
+-- Gedung 13: Gedung Dewi Sartika
+(
+    'Lapangan dan Alat Olahraga FIK',
+    'Fasilitas olahraga yang terletak di depan Gedung Dewi Sartika.',
+    'Fasilitas Olahraga',
+    1,
+    'https://aaysacqsibquiulpdzwz.supabase.co/storage/v1/object/public/Gambar%20Gedung%20dan%20Fasilitas/fasilitas/dewi%20sartika/lapangan_dan_alat_olahraga_fik.jpg',
+    13,
+    'ds_lapangan'
+),
+(
+    'Ruang UKM Sepak Bola',
+    'Ruang sekretariat dan kegiatan UKM Sepak Bola di Gedung Dewi Sartika.',
+    'Ruang Kegiatan Mahasiswa',
+    1,
+    NULL,
+    13,
+    'ds_ukm_sepak_bola'
+),
+(
+    'Ruang Kuliah 204',
+    'Ruang perkuliahan di lantai 2 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer.',
+    'Ruang Kuliah',
+    2,
+    NULL,
+    13,
+    'ds_204'
+),
+(
+    'Ruang Kuliah 304',
+    'Ruang perkuliahan di lantai 3 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer.',
+    'Ruang Kuliah',
+    3,
+    NULL,
+    13,
+    'ds_304'
+),
+(
+    'Ruang Kuliah 404',
+    'Ruang perkuliahan di lantai 4 Gedung Dewi Sartika untuk kegiatan belajar mengajar mahasiswa Fakultas Ilmu Komputer.',
+    'Ruang Kuliah',
+    4,
+    NULL,
+    13,
+    'ds_404'
+);
