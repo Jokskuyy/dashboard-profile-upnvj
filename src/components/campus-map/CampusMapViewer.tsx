@@ -99,7 +99,7 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
   }
 
   return (
-    <div className={`relative ${isFullscreen ? "h-full w-full" : ""}`}>
+    <div className={`relative min-h-0 ${isFullscreen ? "h-full w-full overflow-hidden" : ""}`}>
       {mode === "2d" ? (
         <CampusMap2D isFullscreen={isFullscreen} onToggleFullscreen={onToggleFullscreen} />
       ) : (
@@ -112,10 +112,10 @@ const CampusMapViewer: React.FC<CampusMapViewerProps> = ({
 
       <button
         onClick={() => setMode(null)}
-        className="absolute left-3 top-3 z-[55] flex items-center gap-2 rounded-lg border border-white/15 bg-black/70 px-3 py-2 text-xs font-semibold text-white shadow-lg backdrop-blur-sm transition-colors hover:bg-black/90"
+        className="map-mode-button absolute left-3 top-3 z-[55] flex items-center gap-2 rounded-lg border border-white/15 bg-black/70 px-3 py-2 text-xs font-semibold text-white shadow-lg backdrop-blur-sm transition-colors hover:bg-black/90"
       >
         <RotateCcw className="h-3.5 w-3.5" />
-        {isIndonesian ? "Ganti mode" : "Change mode"}
+        <span>{isIndonesian ? "Ganti mode" : "Change mode"}</span>
       </button>
     </div>
   );

@@ -123,11 +123,13 @@ const CampusMapSection: React.FC = () => {
   return (
     <div 
       ref={sectionRef} 
-      className={showViewer && isFullscreen ? "fixed inset-0 z-50 w-full h-[100dvh] bg-white flex flex-col" : ""}
+      className={showViewer && isFullscreen
+        ? "fixed inset-0 z-50 w-full h-[100dvh] max-h-[100dvh] min-h-0 overflow-hidden bg-white flex flex-col"
+        : ""}
     >
       {showViewer ? (
-        <div className={`flex-1 flex flex-col ${!isFullscreen ? "bg-white rounded-2xl shadow-lg overflow-hidden" : ""}`}>
-          <div className="flex-1 relative min-h-0">
+        <div className={`flex-1 min-h-0 flex flex-col ${!isFullscreen ? "bg-white rounded-2xl shadow-lg overflow-hidden" : ""}`}>
+          <div className="flex-1 relative min-h-0 overflow-hidden">
             <CampusMapViewer
               isFullscreen={isFullscreen}
               allow3D={!isGitHubPages}

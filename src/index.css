@@ -122,6 +122,12 @@ html {
   left: max(1rem, env(safe-area-inset-left, 0px));
 }
 
+#unity-container {
+  --unity-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --unity-safe-area-right: env(safe-area-inset-right, 0px);
+  min-height: 0;
+}
+
 /* Hero uses stable mobile viewport units and compresses on short landscape screens. */
 .hero-section {
   height: 92vh;
@@ -501,6 +507,10 @@ html {
   font-family: inherit;
 }
 
+.search-overlay--viewport-pinned {
+  position: fixed;
+}
+
 .search-overlay__input-wrapper {
   display: flex;
   align-items: center;
@@ -676,6 +686,38 @@ html {
   color: rgba(255, 255, 255, 0.55);
   pointer-events: none;
   animation: search-fade-in 0.4s ease-out 0.15s both;
+}
+
+@media (max-width: 767px) {
+  .search-overlay--viewport-pinned {
+    top: max(12px, env(safe-area-inset-top, 0px));
+    right: max(80px, calc(env(safe-area-inset-right, 0px) + 72px));
+    left: max(56px, calc(env(safe-area-inset-left, 0px) + 48px));
+  }
+
+  .search-overlay__nav-bar {
+    gap: 8px;
+    padding: 8px 9px 8px 10px;
+  }
+
+  .search-overlay__nav-bar-pulse {
+    width: 26px;
+    height: 26px;
+  }
+
+  .search-overlay__nav-cancel {
+    min-width: 34px;
+    min-height: 34px;
+    justify-content: center;
+    padding: 6px;
+  }
+
+  .search-overlay__nav-cancel span,
+  .search-overlay__nav-hint,
+  .map-mode-button span,
+  .unity-minimize-button span {
+    display: none;
+  }
 }
 
 /* Dropdown */

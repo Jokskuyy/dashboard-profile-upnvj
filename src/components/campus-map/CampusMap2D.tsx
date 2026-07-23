@@ -312,6 +312,7 @@ const CampusMap2D: React.FC<CampusMap2DProps> = ({
             isUnityLoaded
             onNavigate={handleNavigate}
             onCancelNavigation={clearRoute}
+            pinToViewport={isFullscreen}
           />
         )}
 

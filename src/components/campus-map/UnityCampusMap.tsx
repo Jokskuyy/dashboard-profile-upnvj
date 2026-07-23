@@ -69,9 +69,60 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
   const [isMobileDevice, setIsMobileDevice] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
 
+  const sendViewportMetrics = useCallback((instance?: UnityInstance | null) => {
+    const unityInstance = instance ?? unityInstanceRef.current;
+    const canvas = canvasRef.current;
+    const container = containerRef.current;
+    if (!unityInstance || !canvas || !container) return;
+
+    const canvasRect = canvas.getBoundingClientRect();
+    const renderScale = canvasRect.width > 0 && canvas.width > 0
+      ? canvas.width / canvasRect.width
+      : Math.min(window.devicePixelRatio || 1, 2);
+    const containerStyle = window.getComputedStyle(container);
+    const safeBottom = Number.parseFloat(
+      containerStyle.getPropertyValue("--unity-safe-area-bottom"),
+    ) || 0;
+    const safeRight = Number.parseFloat(
+      containerStyle.getPropertyValue("--unity-safe-area-right"),
+    ) || 0;
+    const bottomPaddingCss = 40 + safeBottom;
+    const rightPaddingCss = 24 + safeRight;
+    const payload = [renderScale, bottomPaddingCss, rightPaddingCss]
+      .map((value) => value.toFixed(3))
+      .join("|");
+
+    try {
+      unityInstance.SendMessage("WebPlatformSync", "SetViewportMetrics", payload);
+    } catch (metricsError) {
+      console.warn("Could not sync Unity viewport metrics", metricsError);
+    }
+  }, []);
+
   useEffect(() => {
     setIsMobileDevice(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || ('ontouchstart' in window) || window.innerWidth <= 768);
   }, []);
+
+  useEffect(() => {
+    let animationFrame = 0;
+    const syncAfterLayout = () => {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = window.requestAnimationFrame(() => sendViewportMetrics());
+    };
+    const observer = new ResizeObserver(syncAfterLayout);
+    if (containerRef.current) observer.observe(containerRef.current);
+    window.addEventListener("resize", syncAfterLayout);
+    window.addEventListener("orientationchange", syncAfterLayout);
+    window.visualViewport?.addEventListener("resize", syncAfterLayout);
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      observer.disconnect();
+      window.removeEventListener("resize", syncAfterLayout);
+      window.removeEventListener("orientationchange", syncAfterLayout);
+      window.visualViewport?.removeEventListener("resize", syncAfterLayout);
+    };
+  }, [sendViewportMetrics]);
 
   // Prevent Unity WebGL canvas from resizing when virtual keyboard opens on mobile
   // (Resizing the canvas causes Unity to reallocate render buffers, resulting in a black screen flash)
@@ -154,13 +205,13 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
   const basePath = import.meta.env.BASE_URL;
   const unityConfig = useMemo(
     () => ({
-      dataUrl: `${basePath}unity-builds/v0.8.7/Build/v0.8.7.data.unityweb`,
-      frameworkUrl: `${basePath}unity-builds/v0.8.7/Build/v0.8.7.framework.js.unityweb`,
-      codeUrl: `${basePath}unity-builds/v0.8.7/Build/v0.8.7.wasm.unityweb`,
+      dataUrl: `${basePath}unity-builds/v0.8.9/Build/v0.8.9.data.unityweb`,
+      frameworkUrl: `${basePath}unity-builds/v0.8.9/Build/v0.8.9.framework.js.unityweb`,
+      codeUrl: `${basePath}unity-builds/v0.8.9/Build/v0.8.9.wasm.unityweb`,
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "T_A",
-      productVersion: "v0.8.7",
+      productVersion: "v0.8.9",
       // Keep Unity's render target synchronized with the CSS canvas size and DPR.
       // Manually assigning canvas.width/height causes partial rendering on HiDPI displays.
       matchWebGLToCanvasSize: true,
@@ -266,7 +317,7 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
         }, 30);
 
         // First, dynamically load the Unity loader script - use BASE_URL for GitHub Pages
-        const loaderUrl = `${basePath}unity-builds/v0.8.7/Build/v0.8.7.loader.js`;
+        const loaderUrl = `${basePath}unity-builds/v0.8.9/Build/v0.8.9.loader.js`;
         if (!window.createUnityInstance) {
           console.log("Loading Unity WebGL loader...");
           await new Promise<void>((resolve, reject) => {
@@ -332,6 +383,7 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
         try {
           instance.SendMessage("WebPlatformSync", "SetDevice", isMobile ? "mobile" : "desktop");
+          window.requestAnimationFrame(() => sendViewportMetrics(instance));
         } catch (e) {
           console.warn("Could not send SetDevice message to Unity, maybe GameObject 'WebPlatformSync' doesn't exist yet", e);
         }
@@ -392,7 +444,7 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
         // ignore
       }
     };
-  }, [basePath, getDownloadHint, isIndonesian, t, unityConfig]);
+  }, [basePath, getDownloadHint, isIndonesian, sendViewportMetrics, t, unityConfig]);
 
   if (error) {
     return (
@@ -450,7 +502,7 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
     <div
       ref={containerRef}
       className={`bg-white overflow-hidden ${
-        isFullscreen || isMobileLandscape ? "w-full h-full flex flex-col rounded-none" : "rounded-xl shadow-lg"
+        isFullscreen || isMobileLandscape ? "w-full h-full min-h-0 flex flex-col rounded-none" : "rounded-xl shadow-lg"
       }`}
     >
       {/* Header - hidden in fullscreen */}
@@ -482,7 +534,7 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
       {/* Unity WebGL Canvas Container */}
       <div
         id="unity-container"
-        className={`relative ${isFullscreen || isMobileLandscape ? "flex-1 w-full min-h-0" : "h-96 lg:h-[500px]"}`}
+        className={`relative ${isFullscreen || isMobileLandscape ? "flex-1 w-full min-h-0 h-auto overflow-hidden" : "h-96 lg:h-[500px]"}`}
       >
         {isLoading && (
           <div className="absolute inset-0 bg-white flex items-center justify-center z-10">
@@ -512,7 +564,7 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
         <canvas
           ref={canvasRef}
           id="unity-canvas"
-          className={`w-full h-full touch-none cursor-grab active:cursor-grabbing ${isLoading ? "opacity-0" : "opacity-100"} transition-opacity duration-500`}
+          className={`w-full h-full min-h-0 touch-none cursor-grab active:cursor-grabbing ${isLoading ? "opacity-0" : "opacity-100"} transition-opacity duration-500`}
           style={{
             display: "block",
             background: "linear-gradient(135deg, #2C5F2D 0%, #3d7a3e 100%)",
@@ -521,7 +573,10 @@ const UnityCampusMap: React.FC<CampusMapViewerProps> = ({
         />
 
         {/* Search overlay */}
-        <SearchOverlay isUnityLoaded={!isLoading && !error} />
+        <SearchOverlay
+          isUnityLoaded={!isLoading && !error}
+          pinToViewport={isFullscreen || isMobileLandscape}
+        />
 
         {/* Floating minimize button in fullscreen */}
         {(isFullscreen || isMobileLandscape) && !isLoading && (

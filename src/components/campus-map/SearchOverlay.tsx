@@ -7,6 +7,7 @@ interface SearchOverlayProps {
   isUnityLoaded: boolean;
   onNavigate?: (item: SearchResult) => void;
   onCancelNavigation?: () => void;
+  pinToViewport?: boolean;
 }
 
 type NavigationCompletedPayload = {
@@ -17,6 +18,7 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
   isUnityLoaded,
   onNavigate,
   onCancelNavigation,
+  pinToViewport = false,
 }) => {
   const { language } = useLanguage();
   const isIndonesian = language === "id";
@@ -259,7 +261,10 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
   // Show a navigation status bar instead of the search input
   if (isNavigating && selectedItem) {
     return (
-      <div ref={wrapperRef} className="search-overlay">
+      <div
+        ref={wrapperRef}
+        className={`search-overlay search-overlay--navigating${pinToViewport ? " search-overlay--viewport-pinned" : ""}`}
+      >
         {/* DESTINATION REACHED TOAST */}
         {hasReachedDestination && (
           <div className="fixed top-20 md:top-24 left-1/2 -translate-x-1/2 z-[60] animate-[bounce_0.5s_ease-out]">
@@ -321,7 +326,10 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
 
   // ── SEARCH STATE ──
   return (
-    <div ref={wrapperRef} className="search-overlay">
+    <div
+      ref={wrapperRef}
+      className={`search-overlay${pinToViewport ? " search-overlay--viewport-pinned" : ""}`}
+    >
       {/* Search input */}
       <div className="search-overlay__input-wrapper">
         <Search size={16} className="search-overlay__icon" />
