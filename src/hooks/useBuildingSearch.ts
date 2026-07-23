@@ -2,20 +2,107 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 import Fuse from "fuse.js";
 
-const ABBREVIATIONS: Record<string, string> = {
-  fik: "fakultas ilmu komputer",
-  feb: "fakultas ekonomi dan bisnis",
-  fisip: "fakultas ilmu sosial dan ilmu politik",
-  fh: "fakultas hukum",
-  fk: "fakultas kedokteran",
-  ft: "fakultas teknik",
-  fikes: "fakultas ilmu kesehatan",
-  faperta: "fakultas pertanian",
-  rektorat: "gedung rektorat",
-  perpus: "perpustakaan",
-  ruang: "ruangan",
-  rektor: "rektorat",
-};
+export const SEARCH_ALIAS_GROUPS = [
+  ["fik", "fakultas ilmu komputer"],
+  ["feb", "fakultas ekonomi dan bisnis"],
+  ["fisip", "fakultas ilmu sosial dan ilmu politik"],
+  ["fh", "fakultas hukum"],
+  ["fk", "fakultas kedokteran"],
+  ["ft", "fakultas teknik"],
+  ["fikes", "fakultas ilmu kesehatan"],
+  ["faperta", "fakultas pertanian"],
+  ["rektor", "rektorat", "gedung rektorat"],
+  ["ruang", "ruangan"],
+  ["perpus", "perpustakaan", "library"],
+  ["lab", "laboratorium"],
+  ["kelas", "ruang kelas", "ruang kuliah"],
+  ["aula", "auditorium"],
+  ["lobi", "lobby"],
+  ["musala", "mushola", "musolla"],
+  [
+    "kajur",
+    "kepala jurusan",
+    "ketua jurusan",
+    "kaprodi",
+    "kepala prodi",
+    "kepala program studi",
+    "korprodi",
+    "koorprodi",
+    "koordinator prodi",
+    "koordinator program studi",
+  ],
+  ["kadep", "kepala departemen", "departemen"],
+  ["sekjur", "sekretaris jurusan", "sekretariat jurusan"],
+  ["sekprodi", "sekretaris program studi", "sekretariat program studi"],
+  ["kabag", "kepala bagian"],
+  ["kasubag", "kepala subbagian"],
+  ["wadek", "wakil dekan"],
+  ["warek", "wakil rektor"],
+  ["kalab", "kepala laboratorium"],
+  ["dekanat", "ruang dekan", "dekan"],
+  ["dosen", "staf", "staff", "ruang dosen", "ruang staf"],
+  [
+    "tu",
+    "tata usaha",
+    "pelayanan mahasiswa",
+    "layanan mahasiswa",
+    "layanan akademik",
+    "administrasi mahasiswa",
+  ],
+  ["prodi", "program studi"],
+  ["bem", "badan eksekutif mahasiswa"],
+  ["sema", "senat mahasiswa"],
+  ["hima", "himpunan mahasiswa"],
+  ["hmj", "himpunan mahasiswa jurusan"],
+  ["ukm", "unit kegiatan mahasiswa"],
+  ["gkm", "gugus kendali mutu"],
+  ["kui", "kantor urusan internasional", "international office"],
+  ["humas", "hubungan masyarakat", "public relations"],
+  ["akpk", "akademik kemahasiswaan perencanaan dan kerja sama"],
+  ["lppm", "lembaga penelitian dan pengabdian kepada masyarakat"],
+  ["lpmpp", "lembaga penjaminan mutu dan pengembangan pembelajaran"],
+  ["mkwk", "mata kuliah wajib kurikulum"],
+  ["mkwu", "mata kuliah wajib umum"],
+  ["tik", "teknologi informasi dan komunikasi"],
+  ["lsp", "lembaga sertifikasi profesi"],
+  ["luk", "lembaga uji kompetensi"],
+  ["bmn", "barang milik negara"],
+  ["upa", "unit penunjang akademik", "unit pelaksana akademik"],
+  ["upt", "unit pengembangan karir", "unit pelaksana teknis"],
+  ["cbt", "computer based test", "computer-based test"],
+  ["osce", "objective structured clinical examination"],
+  ["ai", "artificial intelligence", "kecerdasan buatan"],
+  ["iot", "internet of things"],
+  ["mqa", "medical quality assurance"],
+  ["meu", "medical education unit"],
+  ["kspm", "kelompok studi pasar modal"],
+  ["pbu", "pusat bimbingan ujian", "administrasi terpadu"],
+  ["mpm", "majelis permusyawaratan mahasiswa"],
+  ["bpm", "badan perwakilan mahasiswa"],
+  ["pmi", "palang merah indonesia"],
+  [
+    "mitek",
+    "medical information and technology education and communication",
+  ],
+  ["rapat", "ruang rapat", "meeting room"],
+  ["selasar", "koridor", "corridor"],
+  ["lounge", "ruang tunggu", "ruang santai"],
+] as const;
+
+const escapeRegExp = (value: string) =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const containsAlias = (text: string, alias: string) =>
+  new RegExp(`\\b${escapeRegExp(alias)}\\b`, "i").test(text);
+
+export function enrichBuildingSearchText(baseText: string) {
+  const normalizedText = baseText.toLowerCase();
+  const aliases = SEARCH_ALIAS_GROUPS.flatMap((group) =>
+    group.some((alias) => containsAlias(normalizedText, alias)) ? group : [],
+  );
+
+  return [...new Set([normalizedText, ...aliases])].join(" ");
+}
 
 export interface SearchResult {
   /** Label yang ditampilkan di dropdown */
@@ -72,22 +159,6 @@ export function useBuildingSearch() {
 
         const results: SearchResult[] = [];
 
-        // Fungsi bantu untuk memperkaya searchText dengan singkatan dan kepanjangannya
-        const enrichSearchText = (baseText: string) => {
-          let text = baseText.toLowerCase();
-          Object.entries(ABBREVIATIONS).forEach(([abbr, full]) => {
-            // Jika teks mengandung singkatan, tambahkan kepanjangannya
-            if (new RegExp(`\\b${abbr}\\b`, 'i').test(text)) {
-              text += ` ${full}`;
-            }
-            // Jika teks mengandung kepanjangannya, tambahkan singkatannya
-            else if (text.includes(full)) {
-              text += ` ${abbr}`;
-            }
-          });
-          return text;
-        };
-
         for (const gedung of data || []) {
           // Tambah gedung sebagai hasil JIKA terdaftar di Unity
           if (gedung.unity_object_name) {
@@ -97,7 +168,7 @@ export function useBuildingSearch() {
               type: "gedung",
               unityObjectName: gedung.unity_object_name,
               buildingId: gedung.id,
-              searchText: enrichSearchText(baseSearch),
+              searchText: enrichBuildingSearchText(baseSearch),
             });
           }
 
@@ -113,7 +184,7 @@ export function useBuildingSearch() {
                 type: "fasilitas",
                 unityObjectName: targetName,
                 buildingId: gedung.id,
-                searchText: enrichSearchText(baseSearch),
+                searchText: enrichBuildingSearchText(baseSearch),
               });
             }
           }
