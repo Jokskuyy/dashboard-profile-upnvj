@@ -1,29 +1,47 @@
-import { defineConfig } from 'vite'
+import { defineConfig, type Connect } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import path from 'path'
+
+const unityBrotliHeaders: Connect.NextHandleFunction = (req, res, next) => {
+  const requestPath = req.url?.split('?', 1)[0]
+
+  if (
+    requestPath?.includes('/unity-builds/') &&
+    (requestPath.endsWith('.unityweb') || requestPath.endsWith('.brbin'))
+  ) {
+    res.setHeader('Content-Encoding', 'br')
+
+    if (
+      requestPath.endsWith('.wasm.unityweb') ||
+      requestPath.endsWith('.wasm.brbin')
+    ) {
+      res.setHeader('Content-Type', 'application/wasm')
+    } else if (
+      requestPath.endsWith('.framework.js.unityweb') ||
+      requestPath.endsWith('.framework.js.brbin')
+    ) {
+      res.setHeader('Content-Type', 'application/javascript')
+    } else {
+      res.setHeader('Content-Type', 'application/octet-stream')
+    }
+  }
+
+  next()
+}
 
 // https://vite.dev/config/
 export default defineConfig(() => ({
   plugins: [
     react(),
-    // Middleware: serve Unity Brotli files with correct headers in dev mode
+    // Serve pre-compressed Unity files with the headers browsers need to
+    // decompress them in both development and local preview mode.
     {
       name: 'unity-brotli-headers',
       configureServer(server) {
-        server.middlewares.use((req, res, next) => {
-          if (!req.url) return next();
-          if (req.url.includes('/unity-builds/') && req.url.endsWith('.brbin')) {
-            res.setHeader('Content-Encoding', 'br');
-            if (req.url.endsWith('.wasm.brbin')) {
-              res.setHeader('Content-Type', 'application/wasm');
-            } else if (req.url.endsWith('.framework.js.brbin')) {
-              res.setHeader('Content-Type', 'application/javascript');
-            } else {
-              res.setHeader('Content-Type', 'application/octet-stream');
-            }
-          }
-          next();
-        });
+        server.middlewares.use(unityBrotliHeaders)
+      },
+      configurePreviewServer(server) {
+        server.middlewares.use(unityBrotliHeaders)
       },
     },
   ],
