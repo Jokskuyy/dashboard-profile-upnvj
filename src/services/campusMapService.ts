@@ -7,6 +7,7 @@ import type {
   CampusMapNode,
   CampusMapNodeType,
 } from "../types/campusMap";
+import { deriveCampusBuildingPoints } from "../utils/campusMapBuildingPoints";
 
 interface RawCampusMap {
   id: number;
@@ -42,6 +43,11 @@ interface RawBuildingPoint {
   marker_x: number;
   marker_y: number;
   entrance_node_id: number | null;
+}
+
+interface RawBuilding {
+  id: number;
+  nama_gedung: string;
 }
 
 const toNode = (node: RawNode): CampusMapNode => ({
@@ -102,10 +108,23 @@ export async function fetchActiveCampusMap(): Promise<CampusMapData | null> {
     throw new Error(`${table}: ${(error as { message: string }).message}`);
   }
 
+  const buildingRows = (buildingsResult.data ?? []) as RawBuilding[];
   const buildingNameById = new Map(
-    (buildingsResult.data ?? []).map((building) => [building.id, building.nama_gedung]),
+    buildingRows.map((building) => [building.id, building.nama_gedung]),
   );
-  const buildingPoints: CampusBuildingPoint[] = (
+  const nodes = ((nodesResult.data ?? []) as RawNode[]).map(toNode);
+  const derivedPoints = deriveCampusBuildingPoints(
+    map.id,
+    nodes,
+    buildingRows.map((building) => ({
+      id: building.id,
+      name: building.nama_gedung,
+    })),
+  );
+  const derivedPointByBuildingId = new Map(
+    derivedPoints.map((point) => [point.buildingId, point]),
+  );
+  const storedBuildingPoints: CampusBuildingPoint[] = (
     (pointsResult.data ?? []) as RawBuildingPoint[]
   ).map((point) => ({
     id: point.id,
@@ -114,8 +133,18 @@ export async function fetchActiveCampusMap(): Promise<CampusMapData | null> {
     buildingName: buildingNameById.get(point.gedung_id) ?? `Gedung #${point.gedung_id}`,
     markerX: Number(point.marker_x),
     markerY: Number(point.marker_y),
-    entranceNodeId: point.entrance_node_id,
+    entranceNodeId:
+      point.entrance_node_id ??
+      derivedPointByBuildingId.get(point.gedung_id)?.entranceNodeId ??
+      null,
   }));
+  const storedBuildingIds = new Set(
+    storedBuildingPoints.map((point) => point.buildingId),
+  );
+  const buildingPoints = [
+    ...storedBuildingPoints,
+    ...derivedPoints.filter((point) => !storedBuildingIds.has(point.buildingId)),
+  ].sort((a, b) => a.buildingId - b.buildingId);
 
   return {
     map: {
@@ -125,7 +154,7 @@ export async function fetchActiveCampusMap(): Promise<CampusMapData | null> {
       imageWidth: map.image_width,
       imageHeight: map.image_height,
     },
-    nodes: ((nodesResult.data ?? []) as RawNode[]).map(toNode),
+    nodes,
     edges: ((edgesResult.data ?? []) as RawEdge[]).map(toEdge),
     buildings: buildingPoints,
   };
