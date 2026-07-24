@@ -54,12 +54,12 @@ function shouldSkipPreload(opts: {
 // ── Helper: simulate file download priority order ─────────────────────────
 
 function getUnityFileUrls(basePath = '/'): string[] {
-  const buildPath = `${basePath}unity-builds/v0.8.9/Build`;
+  const buildPath = `${basePath}unity-builds/v0.9.0/Build`;
   return [
-    `${buildPath}/v0.8.9.loader.js`,
-    `${buildPath}/v0.8.9.framework.js.unityweb`,
-    `${buildPath}/v0.8.9.wasm.unityweb`,
-    `${buildPath}/v0.8.9.data.unityweb`,
+    `${buildPath}/v0.9.0.loader.js`,
+    `${buildPath}/v0.9.0.framework.js.unityweb`,
+    `${buildPath}/v0.9.0.wasm.unityweb`,
+    `${buildPath}/v0.9.0.data.unityweb`,
   ];
 }
 
@@ -149,10 +149,10 @@ describe('UnityPreloader — download priority order (behavior)', () => {
     expect(urls).toHaveLength(4);
   });
 
-  it('all URLs reference v0.8.9 build', () => {
+  it('all URLs reference v0.9.0 build', () => {
     const urls = getUnityFileUrls();
     urls.forEach(url => {
-      expect(url).toContain('v0.8.9');
+      expect(url).toContain('v0.9.0');
     });
   });
 });
